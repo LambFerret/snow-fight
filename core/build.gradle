@@ -6,4 +6,8 @@ dependencies {
   api "com.badlogicgames.box2dlights:box2dlights:$box2dlightsVersion"
   api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "com.github.crykn:libgdx-screenmanager:0.6.8"
+  implementation "org.apache.logging.log4j:log4j-api:2.19.0"
+  implementation "org.apache.logging.log4j:log4j-core:2.19.0"
+  implementation "org.apache.logging.log4j:log4j-slf4j-impl:2.19.0"
 }

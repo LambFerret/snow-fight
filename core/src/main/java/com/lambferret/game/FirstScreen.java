@@ -1,11 +1,22 @@
 package com.lambferret.game;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class FirstScreen extends BaseScreen implements  InputProcessor {
+public class FirstScreen extends AbstractScreen implements InputProcessor {
 
-    final SnowFight game;
+    SnowFight game;
+
+
+    private static final Logger logger = LogManager.getLogger(FirstScreen.class.getName());
+
+    private static final int BUTTON_WIDTH = 330;
+    private static final int BUTTON_HEIGHT = 660;
 
     Texture newGameButtonActive;
     Texture loadGameButtonActive;
@@ -21,17 +32,31 @@ public class FirstScreen extends BaseScreen implements  InputProcessor {
         newGameButtonInactive = new Texture("./sprite/load.png");
         loadGameButtonInactive = new Texture("./sprite/start.png");
     }
+
+
     @Override
     public void render(float delta) {
-        debug();
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
 
         game.batch.begin();
 
         game.batch.draw(background, 0, 0);
-        game.batch.draw(newGameButtonActive, 5, 50);
-        game.batch.draw(loadGameButtonActive, 5, 100);
+        game.batch.draw(newGameButtonActive, 5, game.width/2);
+        game.batch.draw(loadGameButtonActive, 5, game.height/2 + 100);
 
         game.batch.end();
+    }
+
+    // 전체화면 관련
+    private void switchFullScreen() {
+        if (Gdx.graphics.isFullscreen()) {
+            Gdx.graphics.setWindowedMode(game.width, game.height);
+        } else {
+            Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
+            Gdx.graphics.setFullscreenMode(mode);
+        }
     }
 
     @Override
