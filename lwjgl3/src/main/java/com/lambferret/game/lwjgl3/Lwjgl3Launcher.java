@@ -17,7 +17,7 @@ public class Lwjgl3Launcher {
     }
 
     private static void createApplication() {
-        new Lwjgl3Application(new SnowFight(SCREEN_WIDTH, SCREEN_HEIGHT), getDefaultConfiguration());
+        new Lwjgl3Application(new SnowFight(), getDefaultConfiguration());
     }
 
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {

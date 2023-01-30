@@ -1,10 +1,11 @@
 package com.lambferret.game;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.screen.main.MainMenuScreen;
+import com.lambferret.game.screen.main.SubScreen;
+import com.lambferret.game.util.MainScreenInputProcessor;
 import de.eskalon.commons.core.ManagedGame;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -20,19 +21,16 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     private static final Logger logger = LogManager.getLogger(SnowFight.class.getName());
     public static final String MAIN_SCREEN = "First";
+    public static final String SUB_SCREEN = "sub";
     public SpriteBatch batch;
     OrthographicCamera camera;
-    int width;
-    int height;
-    public SnowFight(final int SCREEN_WIDTH, final int SCREEN_HEIGHT) {
-        this.width = SCREEN_WIDTH;
-        this.height = SCREEN_HEIGHT;
-    }
+
     @Override
     public void create() {
         super.create();
 
-        logger.info("create | IN_THE");
+
+        Gdx.input.setInputProcessor(new MainScreenInputProcessor());
         cameraConfig();
         screenConfig();
 
@@ -41,31 +39,22 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     @Override
     public void render() {
         super.render();
-        debug();
     }
 
     private void cameraConfig() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, width, height);
+        camera.setToOrtho(false, 800, 600);
     }
 
-    private void debug() {
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F12)) {
-            if (Gdx.app.getLogLevel() == Application.LOG_NONE) {
-                Gdx.app.setLogLevel(Application.LOG_DEBUG);
-            } else {
-                Gdx.app.setLogLevel(Application.LOG_NONE);
-            }
-        }
-    }
 
     private void screenConfig() {
+        var startTime = System.currentTimeMillis();
 
         batch = new SpriteBatch();
-
         // add screens
-        screenManager.addScreen(MAIN_SCREEN, new FirstScreen(this));
+        screenManager.addScreen(MAIN_SCREEN, new MainMenuScreen(this));
+        screenManager.addScreen(SUB_SCREEN, new SubScreen(this));
+
 
         // config transition
         var shader = new ShaderTransition(0.1f);
@@ -76,6 +65,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         // show first screen
         screenManager.pushScreen(MAIN_SCREEN, null);
 
+        logger.info("screenConfig | time : " + (System.currentTimeMillis() -startTime));
     }
 
 }

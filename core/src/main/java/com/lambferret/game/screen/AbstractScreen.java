@@ -1,4 +1,4 @@
-package com.lambferret.game;
+package com.lambferret.game.screen;
 
 import de.eskalon.commons.screen.ManagedScreen;
 
@@ -27,5 +27,12 @@ public abstract class AbstractScreen extends ManagedScreen {
     public void dispose() {
 
     }
+
+    @Override
+    public void render(float delta) {
+        update(delta);
+    }
+
+    protected abstract void update(float delta);
 
 }
