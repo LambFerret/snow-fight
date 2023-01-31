@@ -5,18 +5,20 @@ import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.lambferret.game.Hitbox;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
-import com.lambferret.game.util.MainScreenInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
 
 public class MainMenuScreen extends AbstractScreen {
 
 
     SnowFight game;
-    MainScreenInputProcessor inputProcessor;
 
     public static int WINDOW_WIDTH;
     public static int WINDOW_HEIGHT;
@@ -30,8 +32,13 @@ public class MainMenuScreen extends AbstractScreen {
     TextButton exitButton;
     BitmapFont font;
     TextButton.TextButtonStyle textButtonStyle;
+    Hitbox startHitbox;
+    Hitbox exitHitbox;
+    SpriteBatch batch;
+    ArrayList<MainMenuButton> buttons;
 
     public MainMenuScreen(final SnowFight game) {
+        batch = new SpriteBatch();
         this.game = game;
         WINDOW_WIDTH = game.getWidth();
         WINDOW_HEIGHT = game.getHeight();
@@ -43,16 +50,21 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void create() {
-        logger.info("show | IN ACTION");
         startButton = new TextButton("start", textButtonStyle);
         loadButton = new TextButton("load", textButtonStyle);
         optionButton = new TextButton("option", textButtonStyle);
         exitButton = new TextButton("exit", textButtonStyle);
 
-        startButton.setPosition(game.getWidth()/2, 50);
-        loadButton.setPosition(game.getWidth()/2, 150);
-        optionButton.setPosition(game.getWidth()/2, 200);
-        exitButton.setPosition(game.getWidth()/2, 100);
+        startButton.setPosition(400, 50);
+        startButton.setSize(50, 50);
+        startHitbox = new Hitbox(400, 50, 50 ,50);
+        loadButton.setPosition(400, 150);
+        optionButton.setPosition(400, 200);
+        exitButton.setPosition(400, 100);
+        exitButton.setSize(50, 50);
+        exitHitbox = new Hitbox(400, 100, 50 ,50);
+
+
     }
 
 
@@ -62,6 +74,10 @@ public class MainMenuScreen extends AbstractScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
+        batch.begin();
+        startButton.draw(batch, 1);
+        exitButton.draw(batch, 1);
+        batch.end();
 
 
         update(delta);
@@ -69,7 +85,19 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     protected void update(float delta) {
-        addInputProcessor(new MainScreenInputProcessor());
+        startHitbox.update();
+        exitHitbox.update();
+
+
+
+
+        if (startHitbox.isHovered)
+        logger.info("update | starthovered??" + startHitbox.isHovered);
+        if (startHitbox.isClicked)
+        logger.info("update | startHitted?" + startHitbox.isClicked);
+
+        if (exitHitbox.isClicked) Gdx.app.exit();
+
 
     }
 

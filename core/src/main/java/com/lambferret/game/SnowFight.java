@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.main.MainMenuScreen;
 import com.lambferret.game.screen.main.SubScreen;
-import com.lambferret.game.util.MainScreenInputProcessor;
+import com.lambferret.game.util.CustomInputProcessor;
 import de.eskalon.commons.core.ManagedGame;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -29,8 +29,8 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     public void create() {
         super.create();
 
-
-        Gdx.input.setInputProcessor(new MainScreenInputProcessor());
+        globalGameConfig();
+        inputConfig();
         cameraConfig();
         screenConfig();
 
@@ -41,9 +41,18 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         super.render();
     }
 
+    private void globalGameConfig() {
+        GlobalSettings.init();
+    }
+
+    private void inputConfig() {
+        Gdx.input.setInputProcessor(new CustomInputProcessor());
+
+    }
+
     private void cameraConfig() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 600);
+        camera.setToOrtho(false, GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
     }
 
 
@@ -65,7 +74,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         // show first screen
         screenManager.pushScreen(MAIN_SCREEN, null);
 
-        logger.info("screenConfig | time : " + (System.currentTimeMillis() -startTime));
+        logger.info("screenConfig | time : " + (System.currentTimeMillis() - startTime));
     }
 
 }
