@@ -6,7 +6,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class GsonDateFormatAdapter  implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
+public class GsonDateFormatAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     @Override

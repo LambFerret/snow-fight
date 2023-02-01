@@ -14,10 +14,11 @@ import java.time.LocalDateTime;
 public class Setting {
     private static final Logger logger = LogManager.getLogger(Setting.class.getName());
 
-    private static final int DEFAULT_WIDTH = 1280;
-    private static final int DEFAULT_HEIGHT = 720;
-    private static final int DEFAULT_FPS = 60;
-    private static final boolean DEFAULT_VSYNC = true;
+
+    public static final int DEFAULT_WIDTH = 1280;
+    public static final int DEFAULT_HEIGHT = 720;
+    public static final int DEFAULT_FPS = 60;
+    public static final boolean DEFAULT_VSYNC = true;
     private static final boolean FULLSCREEN = false;
     public static final float DEFAULT_MASTER_VOLUME = 0.5F;
     public static final float DEFAULT_BGM_VOLUME = 0.5F;
@@ -35,6 +36,24 @@ public class Setting {
         this.gameplay = new Gameplay();
     }
 
+    /**
+     * the ratio by resolution that common in monitor
+     * <p>
+     * 4:3 Aspect Ratio:
+     * 800 x 600
+     * 1024 x 768
+     * 1152 x 864
+     * <p>
+     * 16:9 Aspect Ratio:
+     * 1280 x 720 (720p) -> default of this game
+     * 1920 x 1080 (1080p)
+     * 2560 x 1440 (1440p)
+     * <p>
+     * additional ratio for mobile -> it will gonna have Letterbox
+     * 2160 x 1080
+     * 3120 x 1440
+     * 2340 x 1080
+     */
     @Getter
     @Setter
     public static class Display {
@@ -61,10 +80,11 @@ public class Setting {
         private float masterVolume;
         private float bgmVolume;
         private float effectVolume;
+
         public Volume() {
 
             this.masterVolume = DEFAULT_MASTER_VOLUME;
-                this.bgmVolume = DEFAULT_MASTER_VOLUME;
+            this.bgmVolume = DEFAULT_MASTER_VOLUME;
             this.effectVolume = DEFAULT_MASTER_VOLUME;
         }
     }
@@ -81,9 +101,11 @@ public class Setting {
         }
 
     }
+
     public enum Difficulty {
         EASY, NORMAL, HARD
     }
+
     public enum Language {
         KO,
         EN,

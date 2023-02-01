@@ -15,6 +15,7 @@ public class SubScreen extends AbstractScreen {
     SnowFight game;
     BitmapFont font;
     Stage stage;
+
     public SubScreen(SnowFight game) {
         this.game = game;
     }

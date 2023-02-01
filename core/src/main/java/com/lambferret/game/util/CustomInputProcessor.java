@@ -16,6 +16,7 @@ public class CustomInputProcessor implements InputProcessor {
     public static int pressedKeyUp;
     /**
      * 왼쪽 : 0, 오른쪽 : 1, 스크롤 : 2, ...마우스버튼
+     * {@link Input.Buttons}
      */
     public static int mouseButton;
     /**
@@ -23,12 +24,6 @@ public class CustomInputProcessor implements InputProcessor {
      */
     public static int mousePointer;
     public static float scrolledAmount;
-
-
-    public CustomInputProcessor() {
-
-    }
-
 
     @Override
     public boolean keyDown(int keycode) {
@@ -58,15 +53,15 @@ public class CustomInputProcessor implements InputProcessor {
         mousePointer = pointer;
         mouseButton = button;
 
-        logger.info("touchDown | (x,y)"+ screenX+", " +screenY);
+        logger.info("touchDown | (x,y)" + screenX + ", " + screenY);
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        isTouched  = false;
+        isTouched = false;
         x = screenX;
-        y = screenY;
+        y = Gdx.graphics.getHeight() - screenY;
         mousePointer = pointer;
         mouseButton = button;
         return true;
@@ -76,7 +71,7 @@ public class CustomInputProcessor implements InputProcessor {
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         isTouched = true;
         x = screenX;
-        y = screenY;
+        y = Gdx.graphics.getHeight() - screenY;
         mousePointer = pointer;
         return true;
     }

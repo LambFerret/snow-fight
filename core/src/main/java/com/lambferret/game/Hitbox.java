@@ -1,5 +1,8 @@
 package com.lambferret.game;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +24,19 @@ public class Hitbox {
         this.height = height;
         this.isHovered = false;
         this.isClicked = false;
+    }
+
+    public void render(SpriteBatch batch) {
+        if (GlobalSettings.isDev) {
+            if (this.isClicked) {
+                batch.setColor(Color.GREEN);
+            } else {
+                batch.setColor(Color.RED);
+            }
+            Texture texture = new Texture("./sprite/yellow.png");
+            batch.draw(texture, this.x, this.y, this.width, this.height);
+
+        }
     }
 
     public void update() {

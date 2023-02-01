@@ -23,7 +23,7 @@ public class Lwjgl3Launcher {
         configuration.setTitle("snow-fight");
         configuration.useVsync(true);
         configuration.setForegroundFPS(Lwjgl3ApplicationConfiguration.getDisplayMode().refreshRate);
-        configuration.setResizable(false);
+        configuration.setResizable(true);
         configuration.setWindowIcon("libgdx128.png", "libgdx64.png", "libgdx32.png", "libgdx16.png");
         return configuration;
     }

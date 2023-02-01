@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.main.MainMenuScreen;
 import com.lambferret.game.screen.main.SubScreen;
+import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.util.CustomInputProcessor;
 import de.eskalon.commons.core.ManagedGame;
 import de.eskalon.commons.screen.ManagedScreen;
@@ -29,9 +30,11 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     public void create() {
         super.create();
 
+        // NEVER SCRAMBLE THIS INIT CONFIG'S ORDER !!
         globalGameConfig();
         inputConfig();
         cameraConfig();
+        LocalizeConfig.init();
         screenConfig();
 
     }
@@ -58,12 +61,12 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     private void screenConfig() {
         var startTime = System.currentTimeMillis();
+        logger.info("switchFullScreen |  🐳 scccc | " + Gdx.graphics.getHeight());
+        logger.info("switchFullScreen |  🐳 scccc | " + Gdx.graphics.getWidth());
 
-        batch = new SpriteBatch();
         // add screens
-        screenManager.addScreen(MAIN_SCREEN, new MainMenuScreen(this));
+        screenManager.addScreen(MAIN_SCREEN, new MainMenuScreen());
         screenManager.addScreen(SUB_SCREEN, new SubScreen(this));
-
 
         // config transition
         var shader = new ShaderTransition(0.1f);

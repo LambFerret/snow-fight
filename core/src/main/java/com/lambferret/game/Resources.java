@@ -9,6 +9,7 @@ public class Resources {
     public Sprite factoryP1 = atlas.createSprite("factoryP1");
 
     public static Resources instance;
+
     public static Resources getInstance() {
         if (instance == null) {
             instance = new Resources();
