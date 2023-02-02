@@ -1,4 +1,4 @@
-package com.lambferret.game.screen.setting;
+package com.lambferret.game.setting;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;

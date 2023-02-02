@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.GlobalSettings;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,6 +34,7 @@ public class MainMenuScreen extends AbstractScreen {
         this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.CREDIT, index++));
         this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.OPTION, index++));
         this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.LOAD, index++));
+        this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.CONTINUE, index++));
         this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.NEW, index++));
     }
 
@@ -48,6 +50,7 @@ public class MainMenuScreen extends AbstractScreen {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
         batch.begin();
+        batch.setProjectionMatrix(SnowFight.camera.combined);
         for (MainMenuButton button : buttons) {
             button.render(batch);
         }

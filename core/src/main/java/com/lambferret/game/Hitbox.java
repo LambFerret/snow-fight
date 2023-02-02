@@ -28,14 +28,15 @@ public class Hitbox {
 
     public void render(SpriteBatch batch) {
         if (GlobalSettings.isDev) {
-            if (this.isClicked) {
+            if (this.isHovered) {
                 batch.setColor(Color.GREEN);
+            } else if (this.isClicked) {
+                batch.setColor(Color.BLUE);
             } else {
                 batch.setColor(Color.RED);
             }
             Texture texture = new Texture("./sprite/yellow.png");
             batch.draw(texture, this.x, this.y, this.width, this.height);
-
         }
     }
 
@@ -45,8 +46,8 @@ public class Hitbox {
     }
 
     private void isHovered() {
-        this.isHovered = CustomInputProcessor.x > x && CustomInputProcessor.x < x + width
-            && CustomInputProcessor.y > y && CustomInputProcessor.y < y + height;
+        this.isHovered = CustomInputProcessor.x > this.x && CustomInputProcessor.x < this.x + this.width
+            && CustomInputProcessor.y > this.y && CustomInputProcessor.y < this.y + this.height;
     }
 
     private void isClicked() {

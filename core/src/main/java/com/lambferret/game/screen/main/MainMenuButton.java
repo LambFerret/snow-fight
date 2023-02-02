@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.GlobalSettings;
 import com.lambferret.game.Hitbox;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.MainMenuText;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +30,7 @@ public class MainMenuButton {
 
     public void render(SpriteBatch batch) {
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        batch.setColor(new Color(1, 1, 1, 1));
+        batch.setColor(Color.BLACK);
         this.box.render(batch);
     }
 
@@ -42,6 +43,7 @@ public class MainMenuButton {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
                 logger.info("update | NEW");
+                SnowFight.changeScreen = SnowFight.AddedScreen.SUB_SCREEN;
             }
             case LOAD -> {
                 logger.info("update | LOAD");

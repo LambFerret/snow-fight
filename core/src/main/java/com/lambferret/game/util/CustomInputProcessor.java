@@ -78,7 +78,9 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+        x = screenX;
+        y = Gdx.graphics.getHeight() - screenY;
+        return true;
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.lambferret.game;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.lambferret.game.screen.setting.Setting;
+import com.lambferret.game.setting.Setting;
 import com.lambferret.game.util.GsonDateFormatAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -88,52 +87,53 @@ public class GlobalSettings {
 
         float ratio = (float) WIDTH / (float) HEIGHT;
         boolean isUltrawide = false;
-        isLetterbox = ratio > 2.34F || ratio < 1.3332F;
-        if (ratio > 1.32F && ratio < 1.34F) {
-            is4v3 = true;
-        } else if (ratio > 1.59F && ratio < 1.61F) {
-            is16v10 = true;
-        } else if (ratio > 1.78F) {
-            isUltrawide = true;
-        }
+//        isLetterbox = ratio > 2.34F || ratio < 1.3332F;
+//        if (ratio > 1.32F && ratio < 1.34F) {
+//            is4v3 = true;
+//        } else if (ratio > 1.59F && ratio < 1.61F) {
+//            is16v10 = true;
+//        } else if (ratio > 1.78F) {
+//            isUltrawide = true;
+//        }
+//
+//        if (isLetterbox) {
+//            if (ratio < 1.333F) {
+//                HEIGHT = MathUtils.round((float) WIDTH * 0.75F);
+//                scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
+//                xScale = scale;
+//                renderScale = scale;
+//                yScale = (float) HEIGHT / Setting.DEFAULT_HEIGHT;
+//                is4v3 = true;
+//
+//            } else if (ratio > 2.34F) {
+//                WIDTH = MathUtils.round((float) HEIGHT * 2.3333F);
+//                scale = (float) ((int) ((float) HEIGHT * 1.77778F)) / Setting.DEFAULT_WIDTH;
+//                xScale = (float) WIDTH / Setting.DEFAULT_WIDTH;
+//                renderScale = xScale;
+//                yScale = scale;
+//                setXOffset();
+//            }
+//        } else if (is4v3) {
+//            scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
+//            xScale = scale;
+//            yScale = (float) HEIGHT / Setting.DEFAULT_WIDTH;
+//            renderScale = yScale;
+//
+//        } else if (isUltrawide) {
+//            scale = (float) ((int) ((float) HEIGHT * 1.77778F)) / Setting.DEFAULT_WIDTH;
+//            xScale = (float) WIDTH / Setting.DEFAULT_WIDTH;
+//            renderScale = xScale;
+//            yScale = scale;
+//            setXOffset();
+//            isLetterbox = true;
+//        } else {
+//            scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
+//            xScale = scale;
+//            yScale = scale;
+//            renderScale = scale;
+//        }
 
-        if (isLetterbox) {
-            if (ratio < 1.333F) {
-                HEIGHT = MathUtils.round((float) WIDTH * 0.75F);
-                scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-                xScale = scale;
-                renderScale = scale;
-                yScale = (float) HEIGHT / Setting.DEFAULT_HEIGHT;
-                is4v3 = true;
-
-            } else if (ratio > 2.34F) {
-                WIDTH = MathUtils.round((float) HEIGHT * 2.3333F);
-                scale = (float) ((int) ((float) HEIGHT * 1.77778F)) / Setting.DEFAULT_WIDTH;
-                xScale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-                renderScale = xScale;
-                yScale = scale;
-                setXOffset();
-            }
-        } else if (is4v3) {
-            scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-            xScale = scale;
-            yScale = (float) HEIGHT / Setting.DEFAULT_WIDTH;
-            renderScale = yScale;
-
-        } else if (isUltrawide) {
-            scale = (float) ((int) ((float) HEIGHT * 1.77778F)) / Setting.DEFAULT_WIDTH;
-            xScale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-            renderScale = xScale;
-            yScale = scale;
-            setXOffset();
-            isLetterbox = true;
-        } else {
-            scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-            xScale = scale;
-            yScale = scale;
-            renderScale = scale;
-        }
-
+        scale = ratio;
         SCROLL_SPEED = 75.0F * scale;
 
 
