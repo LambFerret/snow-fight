@@ -1,4 +1,4 @@
-package com.lambferret.game;
+package com.lambferret.game.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;

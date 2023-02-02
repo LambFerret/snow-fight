@@ -1,11 +1,11 @@
-package com.lambferret.game.screen.main;
+package com.lambferret.game.screen.title;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.GlobalSettings;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
 import org.apache.logging.log4j.LogManager;
@@ -13,29 +13,29 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
-public class MainMenuScreen extends AbstractScreen {
+public class TitleMenuScreen extends AbstractScreen {
 
 
-    private static final Logger logger = LogManager.getLogger(MainMenuScreen.class.getName());
+    private static final Logger logger = LogManager.getLogger(TitleMenuScreen.class.getName());
 
     SpriteBatch batch;
-    ArrayList<MainMenuButton> buttons;
+    ArrayList<TitleMenuButton> buttons;
 
-    public MainMenuScreen() {
+    public TitleMenuScreen() {
         this.buttons = new ArrayList<>();
         batch = new SpriteBatch();
-        addMainMenuButtons();
+        addTitleMenuButtons();
     }
 
-    private void addMainMenuButtons() {
+    private void addTitleMenuButtons() {
         int index = 1;
         this.buttons.clear();
-        this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.EXIT, index++));
-        this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.CREDIT, index++));
-        this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.OPTION, index++));
-        this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.LOAD, index++));
-        this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.CONTINUE, index++));
-        this.buttons.add(new MainMenuButton(MainMenuButton.ButtonAction.NEW, index++));
+        this.buttons.add(new TitleMenuButton(TitleMenuButton.TitleMenuButtonAction.EXIT, index++));
+        this.buttons.add(new TitleMenuButton(TitleMenuButton.TitleMenuButtonAction.CREDIT, index++));
+        this.buttons.add(new TitleMenuButton(TitleMenuButton.TitleMenuButtonAction.OPTION, index++));
+        this.buttons.add(new TitleMenuButton(TitleMenuButton.TitleMenuButtonAction.LOAD, index++));
+        this.buttons.add(new TitleMenuButton(TitleMenuButton.TitleMenuButtonAction.CONTINUE, index++));
+        this.buttons.add(new TitleMenuButton(TitleMenuButton.TitleMenuButtonAction.NEW, index++));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class MainMenuScreen extends AbstractScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
         batch.begin();
         batch.setProjectionMatrix(SnowFight.camera.combined);
-        for (MainMenuButton button : buttons) {
+        for (TitleMenuButton button : buttons) {
             button.render(batch);
         }
 
@@ -62,14 +62,13 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     protected void update(float delta) {
-        for (MainMenuButton b : buttons) {
+        for (TitleMenuButton b : buttons) {
             b.update();
         }
     }
 
     // 전체화면 관련
     private void switchFullScreen() {
-        logger.info("switchFullScreen |  🐳 screensize | " + Gdx.graphics.getHeight());
         if (Gdx.graphics.isFullscreen()) {
             Gdx.graphics.setWindowedMode(GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
         } else {

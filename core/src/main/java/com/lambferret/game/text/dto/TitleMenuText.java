@@ -1,11 +1,11 @@
-package com.lambferret.game.text;
+package com.lambferret.game.text.dto;
 
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-public class MainMenuText {
+public class TitleMenuText {
     private String NEW_GAME;
     private String CONTINUE;
     private String LOAD_GAME;

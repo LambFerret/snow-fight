@@ -1,24 +1,15 @@
-package com.lambferret.game.screen.main;
+package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
 
-public class SubScreen extends AbstractScreen {
-
-    Skin skin;
+public class TrainingGroundScreen extends AbstractScreen {
     TextButton.TextButtonStyle style;
     TextButton textButton;
-    SnowFight game;
     BitmapFont font;
     Stage stage;
-
-    public SubScreen(SnowFight game) {
-        this.game = game;
-    }
 
     @Override
     public void show() {
@@ -26,7 +17,7 @@ public class SubScreen extends AbstractScreen {
         font = new BitmapFont();
         style = new TextButton.TextButtonStyle();
         style.font = font;
-        textButton = new TextButton("SUB", style);
+        textButton = new TextButton("TrainGround", style);
         stage.addActor(textButton);
 
     }

@@ -1,1 +1,13 @@
-{"mainMenuText":{"NEW_GAME":"NEW_GAME","CONTINUE":"CONTINUE","LOAD_GAME":"LOAD_GAME","CREDIT":"CREDIT","OPTION":"OPTION","EXIT":"EXIT"}}
+{
+  "titleMenuText": {
+    "NEW_GAME": "NEW_GAME",
+    "CONTINUE": "CONTINUE",
+    "LOAD_GAME": "LOAD_GAME",
+    "CREDIT": "CREDIT",
+    "OPTION": "OPTION",
+    "EXIT": "EXIT"
+  },
+  "menuBarText": {
+    "TEST": "test_test"
+  }
+}

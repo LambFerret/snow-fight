@@ -3,7 +3,8 @@ package com.lambferret.game.text;
 import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.lambferret.game.GlobalSettings;
+import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.text.dto.UIText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,9 +21,8 @@ public class LocalizeConfig {
     private static final Gson gson = new GsonBuilder().create();
 
     public static void init() {
-//        uiText = gson.fromJson(getTextFromJSON(Context.OPTION), UIText.class);
+        uiText = gson.fromJson(getTextFromJSON(Context.OPTION), UIText.class);
         uiText = gson.fromJson(getTextFromJSON(Context.UI), UIText.class);
-
     }
 
     private static String getTextFromJSON(Context content) {

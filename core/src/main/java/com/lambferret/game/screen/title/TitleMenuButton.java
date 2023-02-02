@@ -1,28 +1,29 @@
-package com.lambferret.game.screen.main;
+package com.lambferret.game.screen.title;
+
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.GlobalSettings;
-import com.lambferret.game.Hitbox;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.screen.component.Hitbox;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
-import com.lambferret.game.text.MainMenuText;
+import com.lambferret.game.text.dto.TitleMenuText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MainMenuButton {
+public class TitleMenuButton {
 
-    private static final Logger logger = LogManager.getLogger(MainMenuButton.class.getName());
-    public static MainMenuText text;
-    public Hitbox box;
-    public String name;
-    public ButtonAction action;
+    private static final Logger logger = LogManager.getLogger(TitleMenuButton.class.getName());
+    private static TitleMenuText text;
+    private Hitbox box;
+    private String name;
+    private TitleMenuButtonAction action;
     private static final float s = GlobalSettings.scale;
 
-    public MainMenuButton(ButtonAction action, int index) {
-        text = LocalizeConfig.uiText.getMainMenuText();
+    public TitleMenuButton(TitleMenuButtonAction action, int index) {
+        text = LocalizeConfig.uiText.getTitleMenuText();
         this.action = action;
         this.name = setName(action);
         this.box = new Hitbox(100 * s, 50.0F * s * (index + 1), 50 * s, 25 * s);
@@ -43,7 +44,7 @@ public class MainMenuButton {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
                 logger.info("update | NEW");
-                SnowFight.changeScreen = SnowFight.AddedScreen.SUB_SCREEN;
+                SnowFight.changeScreen = SnowFight.AddedScreen.STAGE_SCREEN;
             }
             case LOAD -> {
                 logger.info("update | LOAD");
@@ -61,7 +62,7 @@ public class MainMenuButton {
         }
     }
 
-    private String setName(ButtonAction action) {
+    private String setName(TitleMenuButtonAction action) {
         return switch (action) {
             case NEW -> text.getNEW_GAME();
             case CONTINUE -> text.getCONTINUE();
@@ -72,7 +73,7 @@ public class MainMenuButton {
         };
     }
 
-    enum ButtonAction {
+    enum TitleMenuButtonAction {
         NEW,
         CONTINUE,
         LOAD,

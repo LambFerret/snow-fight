@@ -4,8 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.lambferret.game.screen.main.MainMenuScreen;
-import com.lambferret.game.screen.main.SubScreen;
+import com.lambferret.game.screen.stage.StageScreen;
+import com.lambferret.game.screen.title.TitleMenuScreen;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.util.CustomInputProcessor;
 import de.eskalon.commons.core.ManagedGame;
@@ -74,19 +75,17 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     private void screenConfig() {
         var startTime = System.currentTimeMillis();
-        logger.info("switchFullScreen |  🐳 scccc | " + Gdx.graphics.getHeight());
-        logger.info("switchFullScreen |  🐳 scccc | " + Gdx.graphics.getWidth());
 
         Gdx.graphics.setWindowedMode(GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
 
         // add screens
-        screenManager.addScreen(AddedScreen.MAIN_SCREEN.name(), new MainMenuScreen());
-        screenManager.addScreen(AddedScreen.SUB_SCREEN.name(), new SubScreen(this));
+        screenManager.addScreen(AddedScreen.MAIN_SCREEN.name(), new TitleMenuScreen());
+        screenManager.addScreen(AddedScreen.STAGE_SCREEN.name(), new StageScreen());
 
         // config transition 자세한 설정은 나중에 할것 투두
         // 근데 blending 아니고서야 진짜 개구리다 ㅋㅋ
         SpriteBatch batch = new SpriteBatch();
-        var blending = new BlendingTransition(batch, 1.5F);
+        var blending = new BlendingTransition(batch, 0.5F);
         var slidingIn = new SlidingInTransition(batch, SlidingDirection.DOWN, 1.5F);
         var slidingOut = new SlidingOutTransition(batch, SlidingDirection.DOWN, 1.5F);
         var push = new PushTransition(batch, SlidingDirection.DOWN, 1.5F);
@@ -121,7 +120,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     public enum AddedScreen {
         MAIN_SCREEN,
-        SUB_SCREEN;
+        STAGE_SCREEN;
     }
 
     public enum TransitionEffect {

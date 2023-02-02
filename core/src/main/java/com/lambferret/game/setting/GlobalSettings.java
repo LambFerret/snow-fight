@@ -1,8 +1,7 @@
-package com.lambferret.game;
+package com.lambferret.game.setting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.lambferret.game.setting.Setting;
 import com.lambferret.game.util.GsonDateFormatAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
