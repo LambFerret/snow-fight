@@ -1,6 +1,7 @@
 package com.lambferret.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -43,6 +44,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         globalGameConfig();
         inputConfig();
         cameraConfig();
+        assetConfig();
         LocalizeConfig.init();
         screenConfig();
 
@@ -51,7 +53,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     @Override
     public void render() {
         super.render();
-        screenChanger(TransitionEffect.PUSH);
+        screenChanger(TransitionEffect.NULL);
     }
 
     private void globalGameConfig() {
@@ -113,6 +115,13 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
 
         logger.info("screenConfig | time : " + (System.currentTimeMillis() - startTime));
+    }
+
+    private void assetConfig() {
+        AssetManager assetManager = new AssetManager();
+//        assetManager.load("./ui/", Texture.class);
+
+        assetManager.finishLoading();
     }
 
     public void screenChanger(TransitionEffect effect) {
