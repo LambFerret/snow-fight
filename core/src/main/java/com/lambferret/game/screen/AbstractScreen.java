@@ -1,5 +1,7 @@
 package com.lambferret.game.screen;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import de.eskalon.commons.screen.ManagedScreen;
 
 public abstract class AbstractScreen extends ManagedScreen {
@@ -30,6 +32,8 @@ public abstract class AbstractScreen extends ManagedScreen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.update();
     }
 

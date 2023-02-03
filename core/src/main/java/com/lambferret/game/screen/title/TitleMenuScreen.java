@@ -3,11 +3,9 @@ package com.lambferret.game.screen.title;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
+import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,20 +42,16 @@ public class TitleMenuScreen extends AbstractScreen {
 
 
     public void render(float delta) {
-
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        super.render(delta);
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
         batch.begin();
-        batch.setProjectionMatrix(SnowFight.camera.combined);
         for (TitleMenuButton button : buttons) {
             button.render(batch);
         }
 
         batch.end();
 
-        this.update();
     }
 
     public void update() {

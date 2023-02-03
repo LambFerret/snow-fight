@@ -2,6 +2,7 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.component.Hitbox;
+import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +12,7 @@ public class Overlay {
     private OverlayComponent overlayComponent;
     private Hitbox box;
     public Overlay(OverlayComponent overlayComponent) {
+
         this.overlayComponent = overlayComponent;
         switch (this.overlayComponent) {
             case SCORE -> makeScoreOverlay();
@@ -29,11 +31,11 @@ public class Overlay {
 
 
     private void makeScoreOverlay() {
-        this.box = new Hitbox(0.0F, 0.0F, 50.0F, 50.0F);
+        this.box = new Hitbox(0.0F, (float) GlobalSettings.HEIGHT - 100.0F, 50.0F, 50.0F);
     }
 
     private void makeBarOverlay() {
-        this.box = new Hitbox(0.0F, 0.0F, 50.0F, 50.0F);
+        this.box = new Hitbox(0.0F, (float) GlobalSettings.HEIGHT - 50.0F, GlobalSettings.WIDTH, 50.0F);
 
     }
 

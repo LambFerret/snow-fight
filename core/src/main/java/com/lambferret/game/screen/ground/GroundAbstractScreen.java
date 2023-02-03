@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
@@ -20,7 +21,11 @@ public abstract class GroundAbstractScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-
+        var a = new SpriteBatch();
+        a.begin();
+        bar.render(a);
+        score.render(a);
+        a.end();
         switch (CustomInputProcessor.pressedKey) {
             case Input.Keys.NUM_1 -> {
                 SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT;
