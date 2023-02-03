@@ -13,22 +13,22 @@ public class OverlayButton {
     private Hitbox box;
     private String name;
     private String description;
-    private MenuBarButtonAction action;
+    private OverlayButtonAction action;
     private static final float s = GlobalSettings.scale;
 
-    public OverlayButton(MenuBarButtonAction action, int index) {
+    public OverlayButton(OverlayButtonAction action, int index) {
         text = LocalizeConfig.uiText.getOverlayText();
         this.action = action;
         this.name = setName(action);
         this.box = new Hitbox(500 * s* (index + 1), 50.0F * s , 30 * s, 30 * s);
 
     }
-    private String setName(MenuBarButtonAction action) {
+    private String setName(OverlayButtonAction action) {
         return switch (action) {
             case TEST -> text.getTEST();
         };
     }
-    enum MenuBarButtonAction {
+    enum OverlayButtonAction {
             TEST
     }
 }

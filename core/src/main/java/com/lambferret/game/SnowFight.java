@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.lambferret.game.screen.ground.RecruitScreen;
+import com.lambferret.game.screen.ground.ShopScreen;
+import com.lambferret.game.screen.ground.TrainingGroundScreen;
 import com.lambferret.game.screen.stage.StageScreen;
 import com.lambferret.game.screen.title.TitleMenuScreen;
 import com.lambferret.game.setting.GlobalSettings;
@@ -29,7 +32,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 //    private static ScreenManager<ManagedScreen, ScreenTransition> screenManager;
 
     static {
-//        screenManager = SnowFight
+//        screenManager = getScreen
     }
 
     @Override
@@ -79,8 +82,11 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         Gdx.graphics.setWindowedMode(GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
 
         // add screens
-        screenManager.addScreen(AddedScreen.MAIN_SCREEN.name(), new TitleMenuScreen());
+        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), new TitleMenuScreen());
         screenManager.addScreen(AddedScreen.STAGE_SCREEN.name(), new StageScreen());
+        screenManager.addScreen(AddedScreen.TRAINING_GROUND_SCREEN.name(), new TrainingGroundScreen());
+        screenManager.addScreen(AddedScreen.RECRUIT.name(), new RecruitScreen());
+        screenManager.addScreen(AddedScreen.SHOP.name(), new ShopScreen());
 
         // config transition 자세한 설정은 나중에 할것 투두
         // 근데 blending 아니고서야 진짜 개구리다 ㅋㅋ
@@ -103,7 +109,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 //        screenManager.addScreenTransition(TransitionEffect.SHADER.name(), shader);
 
         // show first screen
-        screenManager.pushScreen(AddedScreen.MAIN_SCREEN.name(), TransitionEffect.BLENDING.name());
+        screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), TransitionEffect.BLENDING.name());
 
 
         logger.info("screenConfig | time : " + (System.currentTimeMillis() - startTime));
@@ -111,16 +117,20 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     public void screenChanger(TransitionEffect effect) {
         if (currentScreen == changeScreen) return;
+        logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
         String te = effect.name();
         if (effect == TransitionEffect.NULL) te = null;
         screenManager.pushScreen(changeScreen.name(), te);
         currentScreen = changeScreen;
     }
 
-
     public enum AddedScreen {
-        MAIN_SCREEN,
-        STAGE_SCREEN;
+        TITLE_SCREEN,
+        STAGE_SCREEN,
+        TRAINING_GROUND_SCREEN,
+        RECRUIT,
+        SHOP,
+        ;
     }
 
     public enum TransitionEffect {

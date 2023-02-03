@@ -7,7 +7,7 @@
     "OPTION": "OPTION",
     "EXIT": "EXIT"
   },
-  "menuBarText": {
+  "overlayText": {
     "TEST": "test_test"
   }
 }

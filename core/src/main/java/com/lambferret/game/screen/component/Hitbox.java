@@ -11,10 +11,10 @@ import org.apache.logging.log4j.Logger;
 public class Hitbox {
     private static final Logger logger = LogManager.getLogger(Hitbox.class.getName());
 
-    public float x;
-    public float y;
-    public float width;
-    public float height;
+    private float x;
+    private float y;
+    private float width;
+    private float height;
     public boolean isHovered;
     public boolean isClicked;
 
@@ -25,6 +25,11 @@ public class Hitbox {
         this.height = height;
         this.isHovered = false;
         this.isClicked = false;
+    }
+
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
     public void render(SpriteBatch batch) {

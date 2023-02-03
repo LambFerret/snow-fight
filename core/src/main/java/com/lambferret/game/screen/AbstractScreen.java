@@ -30,9 +30,8 @@ public abstract class AbstractScreen extends ManagedScreen {
 
     @Override
     public void render(float delta) {
-        update(delta);
+        this.update();
     }
 
-    protected abstract void update(float delta);
-
+    public abstract void update();
 }

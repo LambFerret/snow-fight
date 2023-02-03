@@ -3,9 +3,12 @@ package com.lambferret.game.screen.ground;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.lambferret.game.screen.AbstractScreen;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class RecruitScreen extends AbstractScreen {
+public class RecruitScreen extends GroundAbstractScreen {
+    private static final Logger logger = LogManager.getLogger(RecruitScreen.class.getName());
+
     TextButton.TextButtonStyle style;
     TextButton textButton;
     BitmapFont font;
@@ -24,13 +27,11 @@ public class RecruitScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-
+        super.render(delta);
         stage.act();
         stage.draw();
     }
 
-
-    protected void update(float delta) {
-
+    public void update() {
     }
 }

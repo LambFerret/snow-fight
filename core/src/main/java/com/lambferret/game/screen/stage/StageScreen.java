@@ -30,7 +30,6 @@ public class StageScreen extends AbstractScreen {
     }
 
 
-    protected void update(float delta) {
-
+    public void update() {
     }
 }

@@ -46,10 +46,16 @@ public class TitleMenuButton {
                 logger.info("update | NEW");
                 SnowFight.changeScreen = SnowFight.AddedScreen.STAGE_SCREEN;
             }
+            case CONTINUE -> {
+                logger.info("update | CONTINUE");
+                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP;
+            }
             case LOAD -> {
+                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT;
                 logger.info("update | LOAD");
             }
             case OPTION -> {
+                SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
                 logger.info("update | OPTION");
             }
             case CREDIT -> {

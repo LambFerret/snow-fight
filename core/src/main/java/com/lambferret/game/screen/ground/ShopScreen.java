@@ -3,9 +3,8 @@ package com.lambferret.game.screen.ground;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.lambferret.game.screen.AbstractScreen;
 
-public class ShopScreen extends AbstractScreen {
+public class ShopScreen extends GroundAbstractScreen {
     TextButton.TextButtonStyle style;
     TextButton textButton;
     BitmapFont font;
@@ -24,13 +23,12 @@ public class ShopScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        super.render(delta);
 
         stage.act();
         stage.draw();
     }
 
-
-    protected void update(float delta) {
-
+    public void update() {
     }
 }

@@ -57,11 +57,10 @@ public class TitleMenuScreen extends AbstractScreen {
 
         batch.end();
 
-        update(delta);
-
+        this.update();
     }
 
-    protected void update(float delta) {
+    public void update() {
         for (TitleMenuButton b : buttons) {
             b.update();
         }

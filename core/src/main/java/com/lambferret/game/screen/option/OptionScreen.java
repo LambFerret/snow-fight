@@ -5,8 +5,7 @@ import com.lambferret.game.screen.AbstractScreen;
 public class OptionScreen extends AbstractScreen {
     public static boolean isTitle;
 
-    @Override
-    protected void update(float delta) {
+    public void update() {
     }
 
     @Override
