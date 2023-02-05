@@ -24,16 +24,21 @@ public class CustomInputProcessor implements InputProcessor {
      */
     public static int mousePointer;
     public static float scrolledAmount;
+    public static boolean isESCPressed = false;
 
     @Override
     public boolean keyDown(int keycode) {
         pressedKey = keycode;
+        if (pressedKey == Input.Keys.ESCAPE) {
+            isESCPressed = true;
+        };
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         pressedKeyUp = keycode;
+
         return true;
     }
 

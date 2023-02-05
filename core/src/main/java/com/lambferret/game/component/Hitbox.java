@@ -1,8 +1,9 @@
-package com.lambferret.game.screen.component;
+package com.lambferret.game.component;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
@@ -17,6 +18,10 @@ public class Hitbox {
     private float height;
     public boolean isHovered;
     public boolean isClicked;
+
+    public Hitbox(float width, float height) {
+        this(-10000.0F, -10000.0F, width, height);
+    }
 
     public Hitbox(float x, float y, float width, float height) {
         this.x = x;
@@ -41,8 +46,8 @@ public class Hitbox {
             } else {
                 batch.setColor(Color.RED);
             }
-            Texture texture = new Texture("./sprite/yellow.png");
-            batch.draw(texture, this.x, this.y, this.width, this.height);
+            Texture tex = SnowFight.assetManager.get("texture/yellow.png", Texture.class);
+            batch.draw(tex, this.x, this.y, this.width, this.height);
         }
     }
 

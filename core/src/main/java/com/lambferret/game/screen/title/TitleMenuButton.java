@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.screen.component.Hitbox;
+import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.TitleMenuText;
@@ -70,12 +70,12 @@ public class TitleMenuButton {
 
     private String setName(TitleMenuButtonAction action) {
         return switch (action) {
-            case NEW -> text.getNEW_GAME();
-            case CONTINUE -> text.getCONTINUE();
-            case LOAD -> text.getLOAD_GAME();
-            case OPTION -> text.getOPTION();
-            case CREDIT -> text.getCREDIT();
-            case EXIT -> text.getEXIT();
+            case NEW -> text.getNewGame();
+            case CONTINUE -> text.getContinueGame();
+            case LOAD -> text.getLoadGame();
+            case OPTION -> text.getOption();
+            case CREDIT -> text.getCredit();
+            case EXIT -> text.getExit();
         };
     }
 

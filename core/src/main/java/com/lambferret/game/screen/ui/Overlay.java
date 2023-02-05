@@ -1,7 +1,7 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.screen.component.Hitbox;
+import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

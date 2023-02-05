@@ -6,10 +6,10 @@ import lombok.ToString;
 @Getter
 @ToString
 public class TitleMenuText {
-    private String NEW_GAME;
-    private String CONTINUE;
-    private String LOAD_GAME;
-    private String CREDIT;
-    private String OPTION;
-    private String EXIT;
+    private String newGame;
+    private String continueGame;
+    private String loadGame;
+    private String credit;
+    private String option;
+    private String exit;
 }

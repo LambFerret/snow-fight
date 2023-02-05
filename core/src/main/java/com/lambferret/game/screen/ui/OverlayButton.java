@@ -1,6 +1,6 @@
 package com.lambferret.game.screen.ui;
 
-import com.lambferret.game.screen.component.Hitbox;
+import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.OverlayText;

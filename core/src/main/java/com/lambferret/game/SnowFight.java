@@ -2,9 +2,13 @@ package com.lambferret.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.Array;
 import com.lambferret.game.screen.ground.RecruitScreen;
 import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.ground.TrainingGroundScreen;
@@ -12,6 +16,7 @@ import com.lambferret.game.screen.stage.StageScreen;
 import com.lambferret.game.screen.title.TitleMenuScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.CustomInputProcessor;
 import de.eskalon.commons.core.ManagedGame;
 import de.eskalon.commons.screen.ManagedScreen;
@@ -30,6 +35,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     public static OrthographicCamera camera;
     private static AddedScreen currentScreen;
     public static AddedScreen changeScreen;
+    public static AssetManager assetManager;
 //    private static ScreenManager<ManagedScreen, ScreenTransition> screenManager;
 
     static {
@@ -118,13 +124,19 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     }
 
     private void assetConfig() {
-        AssetManager assetManager = new AssetManager();
-//        assetManager.load("./ui/", Texture.class);
-
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        assetManager = new AssetManager();
+        AssetFinder assetFinder = new AssetFinder(assetManager, resolver);
+        assetFinder.load();
         assetManager.finishLoading();
+
+        var a = assetManager.getAssetNames();
+        var b = assetManager.getAll(Texture.class, new Array<>());
+        logger.info("assetConfig |  🐳 aaa | " + b);
     }
 
-    public void screenChanger(TransitionEffect effect) {
+
+    private void screenChanger(TransitionEffect effect) {
         if (currentScreen == changeScreen) return;
         logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
         String te = effect.name();

@@ -6,6 +6,7 @@ import lombok.Getter;
 public class UIText {
     private TitleMenuText titleMenuText;
     private OverlayText overlayText;
+    private GroundText groundText;
 }
 
 
