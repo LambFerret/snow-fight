@@ -32,7 +32,7 @@ public class TitleMenuButton {
     public void render(SpriteBatch batch) {
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batch.setColor(Color.BLACK);
-        this.box.render(batch);
+        this.box.render();
     }
 
     public void update() {

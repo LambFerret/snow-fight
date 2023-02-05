@@ -31,13 +31,6 @@ public class GlobalSettings {
     public static float scale;
 
     public static Setting settings;
-    private static boolean isLetterbox;
-    private static boolean is4v3;
-    private static boolean is16v10;
-    private static float xScale;
-    private static float renderScale;
-    private static float yScale;
-    private static float SCROLL_SPEED;
     public static Setting.Language language;
 
 
@@ -78,71 +71,26 @@ public class GlobalSettings {
 
     public static void loadDisplayConfig() {
 
-        WIDTH = settings.getDisplay().getWidth();
-        HEIGHT = settings.getDisplay().getHeight();
-        FPS = settings.getDisplay().getFps();
-        IS_FULLSCREEN = settings.getDisplay().isFullScreen();
-        IS_VSYNC = settings.getDisplay().isVsync();
+        var display = settings.getDisplay();
+
+        WIDTH = display.getWidth();
+        HEIGHT = display.getHeight();
+        FPS = display.getFps();
+        IS_FULLSCREEN = display.isFullScreen();
+        IS_VSYNC = display.isVsync();
 
         float ratio = (float) WIDTH / (float) HEIGHT;
-        boolean isUltrawide = false;
-//        isLetterbox = ratio > 2.34F || ratio < 1.3332F;
-//        if (ratio > 1.32F && ratio < 1.34F) {
-//            is4v3 = true;
-//        } else if (ratio > 1.59F && ratio < 1.61F) {
-//            is16v10 = true;
-//        } else if (ratio > 1.78F) {
-//            isUltrawide = true;
-//        }
-//
-//        if (isLetterbox) {
-//            if (ratio < 1.333F) {
-//                HEIGHT = MathUtils.round((float) WIDTH * 0.75F);
-//                scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-//                xScale = scale;
-//                renderScale = scale;
-//                yScale = (float) HEIGHT / Setting.DEFAULT_HEIGHT;
-//                is4v3 = true;
-//
-//            } else if (ratio > 2.34F) {
-//                WIDTH = MathUtils.round((float) HEIGHT * 2.3333F);
-//                scale = (float) ((int) ((float) HEIGHT * 1.77778F)) / Setting.DEFAULT_WIDTH;
-//                xScale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-//                renderScale = xScale;
-//                yScale = scale;
-//                setXOffset();
-//            }
-//        } else if (is4v3) {
-//            scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-//            xScale = scale;
-//            yScale = (float) HEIGHT / Setting.DEFAULT_WIDTH;
-//            renderScale = yScale;
-//
-//        } else if (isUltrawide) {
-//            scale = (float) ((int) ((float) HEIGHT * 1.77778F)) / Setting.DEFAULT_WIDTH;
-//            xScale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-//            renderScale = xScale;
-//            yScale = scale;
-//            setXOffset();
-//            isLetterbox = true;
-//        } else {
-//            scale = (float) WIDTH / Setting.DEFAULT_WIDTH;
-//            xScale = scale;
-//            yScale = scale;
-//            renderScale = scale;
-//        }
-
-        scale = ratio;
-        SCROLL_SPEED = 75.0F * scale;
-
-
-    }
-
-    private static void setXOffset() {
-        if (scale == 1.0F) {
-
+        if (1.3F < ratio && ratio < 1.4F) {
+            //xScale, yScale of 4:3
+        } else if (1.77777F < ratio && ratio < 1.8F) {
+            scale = (float)  Setting.DEFAULT_WIDTH / (float) WIDTH;
+        } else {
+            // have LetterBox
         }
+
+
     }
+
 
     public static void loadSoundConfig() {
         MASTER_VOLUME = settings.getVolume().getMasterVolume();

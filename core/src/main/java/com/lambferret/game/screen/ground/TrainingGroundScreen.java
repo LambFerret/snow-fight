@@ -31,5 +31,7 @@ public class TrainingGroundScreen extends GroundAbstractScreen {
 
 
     public void update() {
+        super.update();
+
     }
 }

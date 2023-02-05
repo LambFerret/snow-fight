@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
+import com.lambferret.game.screen.ui.MapOverlay;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,13 @@ public abstract class GroundAbstractScreen extends AbstractScreen {
 
     public static Overlay bar;
     public static Overlay score;
+    public static MapOverlay map;
 
+    @Override
+    protected void create() {
+        super.create();
+        map.create();
+    }
 
     @Override
     public void render(float delta) {
@@ -24,6 +31,7 @@ public abstract class GroundAbstractScreen extends AbstractScreen {
         var batch = new SpriteBatch();
         batch.begin();
         bar.render(batch);
+        map.render(batch);
         score.render(batch);
         batch.end();
         switch (CustomInputProcessor.pressedKey) {
@@ -39,9 +47,15 @@ public abstract class GroundAbstractScreen extends AbstractScreen {
         }
     }
 
+    public void update() {
+        bar.update();
+        score.update();
+    }
+
 
     static {
         bar = new Overlay(OverlayComponent.BAR);
         score = new Overlay(OverlayComponent.SCORE);
+        map = new MapOverlay();
     }
 }

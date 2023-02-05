@@ -58,7 +58,7 @@ public class CustomInputProcessor implements InputProcessor {
         mousePointer = pointer;
         mouseButton = button;
 
-        logger.info("touchDown | (x,y)" + screenX + ", " + screenY);
+        logger.info("touchDown | (x,y)" + x + ", " + y);
         return true;
     }
 

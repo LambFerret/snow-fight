@@ -33,5 +33,6 @@ public class RecruitScreen extends GroundAbstractScreen {
     }
 
     public void update() {
+        super.update();
     }
 }

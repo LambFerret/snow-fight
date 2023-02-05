@@ -30,5 +30,7 @@ public class ShopScreen extends GroundAbstractScreen {
     }
 
     public void update() {
+        super.update();
+
     }
 }

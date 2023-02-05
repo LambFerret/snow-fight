@@ -1,10 +1,9 @@
 package com.lambferret.game.component;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.util.AssetPath;
 import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +17,10 @@ public class Hitbox {
     private float height;
     public boolean isHovered;
     public boolean isClicked;
+
+    public Hitbox() {
+        this(1, 1);
+    }
 
     public Hitbox(float width, float height) {
         this(-10000.0F, -10000.0F, width, height);
@@ -37,18 +40,26 @@ public class Hitbox {
         this.y = y;
     }
 
-    public void render(SpriteBatch batch) {
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void render() {
+        var debugBatch = new SpriteBatch();
+        debugBatch.begin();
         if (GlobalSettings.isDev) {
             if (this.isHovered) {
-                batch.setColor(Color.GREEN);
+                debugBatch.setColor(0, 255, 0, 0.5F);
             } else if (this.isClicked) {
-                batch.setColor(Color.BLUE);
+                debugBatch.setColor(0, 0, 255, 0.5F);
             } else {
-                batch.setColor(Color.RED);
+                debugBatch.setColor(255, 0, 0, 0.1F);
             }
-            Texture tex = SnowFight.assetManager.get("texture/yellow.png", Texture.class);
-            batch.draw(tex, this.x, this.y, this.width, this.height);
+            Texture tex = AssetPath.getTexture("yellow");
+            debugBatch.draw(tex, this.x, this.y, this.width, this.height);
         }
+        debugBatch.end();
     }
 
     public void update() {
