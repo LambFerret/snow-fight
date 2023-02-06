@@ -13,6 +13,7 @@
   "groundText": {
     "recruit" : "RECRUIT",
     "shop" : "SHOP",
-    "trainingGround" :  "TRAINING_GROUND"
+    "trainingGround" :  "TRAINING_GROUND",
+    "stage": "STAGE"
   }
 }

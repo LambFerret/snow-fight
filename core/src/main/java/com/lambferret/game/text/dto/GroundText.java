@@ -7,4 +7,5 @@ public class GroundText {
     private String recruit;
     private String shop;
     private String trainingGround;
+    private String stage;
 }

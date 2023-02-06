@@ -48,10 +48,10 @@ public class TitleMenuButton {
             }
             case CONTINUE -> {
                 logger.info("update | CONTINUE");
-                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP;
+                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;
             }
             case LOAD -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT;
+                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT_SCREEN;
                 logger.info("update | LOAD");
             }
             case OPTION -> {

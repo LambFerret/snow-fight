@@ -21,20 +21,20 @@ public abstract class GroundAbstractScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        var a = new SpriteBatch();
-        a.begin();
-        bar.render(a);
-        score.render(a);
-        a.end();
+        var batch = new SpriteBatch();
+        batch.begin();
+        bar.render(batch);
+        score.render(batch);
+        batch.end();
         switch (CustomInputProcessor.pressedKey) {
             case Input.Keys.NUM_1 -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT;
+                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT_SCREEN;
             }
             case Input.Keys.NUM_2 -> {
                 SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
             }
             case Input.Keys.NUM_3 -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP;
+                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;
             }
         }
     }
