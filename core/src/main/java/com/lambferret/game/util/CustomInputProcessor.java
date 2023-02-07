@@ -31,7 +31,7 @@ public class CustomInputProcessor implements InputProcessor {
         pressedKey = keycode;
         if (pressedKey == Input.Keys.ESCAPE) {
             isESCPressed = true;
-        };
+        }
         return true;
     }
 

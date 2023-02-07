@@ -83,7 +83,7 @@ public class GlobalSettings {
         if (1.3F < ratio && ratio < 1.4F) {
             //xScale, yScale of 4:3
         } else if (1.77777F < ratio && ratio < 1.8F) {
-            scale = (float)  Setting.DEFAULT_WIDTH / (float) WIDTH;
+            scale = (float) Setting.DEFAULT_WIDTH / (float) WIDTH;
         } else {
             // have LetterBox
         }

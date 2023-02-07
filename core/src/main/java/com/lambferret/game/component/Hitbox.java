@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Hitbox {
+
     private static final Logger logger = LogManager.getLogger(Hitbox.class.getName());
 
     private float x;
@@ -35,12 +36,28 @@ public class Hitbox {
         this.isClicked = false;
     }
 
-    public void setPosition(float x, float y) {
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void move(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    public void setSize(float width, float height) {
+    public void resize(float width, float height) {
         this.width = width;
         this.height = height;
     }

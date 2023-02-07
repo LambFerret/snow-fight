@@ -1,36 +1,42 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.component.Plate;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
 import com.lambferret.game.util.AssetPath;
-import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MapButton {
     private static final Logger logger = LogManager.getLogger(MapButton.class.getName());
     private static final float s = GlobalSettings.scale;
+    private static final float zoomScale = 2.5F;
     private static int total;
     private static GroundText text;
     private int index;
-    private Hitbox box;
+    public Hitbox box;
     private String nameString;
     private GroundButtonAction action;
-    private Plate plate;
-    private boolean isJustHovered = false;
-    private boolean isHovered = true;
+    private Hitbox plate;
+    private boolean initSize = false;
+    public boolean isPreviousZoomed = false;
+    public ZoomMode zoomMode = ZoomMode.N;
     private Texture texture;
     private float x;
     private float y;
     private float width;
     private float height;
+    private float initX;
+    private float initY;
+    private float initWidth;
+    private float initHeight;
+    private float bigW;
+    private float bigX;
+    private float smallW;
 
     public MapButton(GroundButtonAction action, int index) {
         this.index = index;
@@ -40,37 +46,33 @@ public class MapButton {
         setProperty();
     }
 
-    public void create() {
-        x = plate.getX() + plate.getWidth() * ((float) index / (float) total);
-        y = plate.getY();
-        width = plate.getWidth() * ((float) (index + 1) / (float) total);
-        height = plate.getHeight();
-        logger.info("create |  🐳 sadfasdf   adf | " + x +" "+y+" "+width+" "+height+" ");
-        initializeSize();
-    }
-
     public void render() {
         this.box.render();
     }
 
-    public void render(Plate plate, SpriteBatch batch) {
+    public void render(Hitbox plate, SpriteBatch batch) {
 
-        batch.draw(texture, this.x, this.y, this.width, this.height);
-        if (CustomInputProcessor.pressedKey == Input.Keys.Y) {
-            isJustHovered = true;
-        } else if (CustomInputProcessor.pressedKey == Input.Keys.N) {
-            isJustHovered = false;
-        }
-        if (isHovered != isJustHovered) {
+        if (!initSize) {
             this.plate = plate;
-            if (isJustHovered) {
-                logger.info("render |  🐳 HOVERED! | " + isJustHovered);
-            } else {
-                initializeSize();
+            setInitSize();
+            resetSize();
+            initSize = !initSize;
+        }
+        switch (this.zoomMode) {
+            case N -> {
+                resetSize();
             }
-            isHovered = isJustHovered;
+            case IN -> {
+                setZoomInSize();
+            }
+            case OUT -> {
+                setZoomOutSize();
+            }
         }
 
+        box.move(x, y);
+        box.resize(width, height);
+        batch.draw(texture, this.x, this.y, this.width, this.height);
         this.box.render();
     }
 
@@ -79,11 +81,37 @@ public class MapButton {
         setAction();
     }
 
-    private void initializeSize() {
-        box.setPosition(x, y);
-        box.setSize(width, height);
+    private void setInitSize() {
+        initWidth = plate.getWidth() / (float) total;
+        initHeight = plate.getHeight();
+        initX = plate.getX() + initWidth * (float) index;
+        initY = plate.getY();
+
+        bigW = initWidth * zoomScale;
+        smallW = (plate.getWidth() - initWidth * zoomScale) / (total - 1);
+        bigX = index * smallW + plate.getX();
     }
 
+    private void resetSize() {
+        x = initX;
+        y = initY;
+        width = initWidth;
+        height = initHeight;
+    }
+
+    private void setZoomInSize() {
+        width = bigW;
+        x = bigX;
+    }
+
+    private void setZoomOutSize() {
+        width = smallW;
+        if (!isPreviousZoomed) {
+            x = index * smallW + plate.getX();
+        } else {
+            x = plate.getX() + bigW + (index - 1) * smallW;
+        }
+    }
 
     private void setProperty() {
         switch (this.action) {
@@ -127,6 +155,10 @@ public class MapButton {
         MapButton.total = total;
     }
 
+    public enum ZoomMode {
+        N, IN, OUT
+    }
+
     public enum GroundButtonAction {
         RECRUIT,
         SHOP,
@@ -134,6 +166,5 @@ public class MapButton {
         STAGE,
         ;
     }
-
 
 }

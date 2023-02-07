@@ -1,28 +1,30 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
+import com.lambferret.game.screen.ui.BarOverlay;
 import com.lambferret.game.screen.ui.MapOverlay;
 import com.lambferret.game.screen.ui.Overlay;
-import com.lambferret.game.util.CustomInputProcessor;
+import com.lambferret.game.screen.ui.ScoreOverlay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.lambferret.game.screen.ui.Overlay.OverlayComponent;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public abstract class GroundAbstractScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(GroundAbstractScreen.class.getName());
 
-    public static Overlay bar;
-    public static Overlay score;
-    public static MapOverlay map;
+    public static Overlay map = new MapOverlay();
+    public static Overlay bar = new BarOverlay();
+    public static Overlay score = new ScoreOverlay();
+    public static List<Overlay> lists = new ArrayList<>();
 
-    @Override
-    protected void create() {
-        super.create();
-        map.create();
+    static {
+        lists.add(map);
+        lists.add(bar);
+        lists.add(score);
     }
 
     @Override
@@ -30,32 +32,20 @@ public abstract class GroundAbstractScreen extends AbstractScreen {
         super.render(delta);
         var batch = new SpriteBatch();
         batch.begin();
-        bar.render(batch);
-        map.render(batch);
-        score.render(batch);
+
+        for (Overlay overlay : lists) {
+            overlay.render(batch);
+        }
+
         batch.end();
-        switch (CustomInputProcessor.pressedKey) {
-            case Input.Keys.NUM_1 -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT_SCREEN;
-            }
-            case Input.Keys.NUM_2 -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
-            }
-            case Input.Keys.NUM_3 -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;
-            }
+    }
+
+    @Override
+    public void update() {
+        for (Overlay overlay : lists) {
+            overlay.update();
         }
     }
 
-    public void update() {
-        bar.update();
-        score.update();
-    }
 
-
-    static {
-        bar = new Overlay(OverlayComponent.BAR);
-        score = new Overlay(OverlayComponent.SCORE);
-        map = new MapOverlay();
-    }
 }

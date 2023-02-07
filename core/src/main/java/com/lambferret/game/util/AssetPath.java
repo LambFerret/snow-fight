@@ -38,37 +38,47 @@ public class AssetPath {
     }
 
     public static Music getMusic(String name) {
-        return manager.get(MUSIC + name , Music.class);
+        return manager.get(MUSIC + name, Music.class);
     }
+
     public static Sound getSound(String name) {
-        return manager.get(SOUND + name , Sound.class);
+        return manager.get(SOUND + name, Sound.class);
     }
+
     public static Skin getSkin(String name) {
-        return manager.get(SKIN + name , Skin.class);
+        return manager.get(SKIN + name, Skin.class);
     }
+
     public static Texture getTexture(String name) {
         return manager.get(TEXTURE + name + ".png", Texture.class);
     }
+
     public static TextureAtlas getAtlas(String name) {
-        return manager.get(ATLAS + name , TextureAtlas.class);
+        return manager.get(ATLAS + name, TextureAtlas.class);
     }
+
     public static BitmapFont getFont(String name) {
-        return manager.get(FONT + name , BitmapFont.class);
+        return manager.get(FONT + name, BitmapFont.class);
     }
+
     public static ParticleEffect getEffect(String name) {
-        return manager.get(EFFECT + name , ParticleEffect.class);
+        return manager.get(EFFECT + name, ParticleEffect.class);
     }
+
     public static Pixmap getPixmap(String name) {
-        return manager.get(PIXMAP + name , Pixmap.class);
+        return manager.get(PIXMAP + name, Pixmap.class);
     }
+
     public static PolygonRegion getRegion(String name) {
-        return manager.get(REGION + name , PolygonRegion.class);
+        return manager.get(REGION + name, PolygonRegion.class);
     }
+
     public static Model getModel(String name) {
-        return manager.get(MODEL + name , Model.class);
+        return manager.get(MODEL + name, Model.class);
     }
+
     public static TiledMap getLevel(String name) {
-        return manager.get(LEVEL + name , TiledMap.class);
+        return manager.get(LEVEL + name, TiledMap.class);
     }
 
     private enum Type {
