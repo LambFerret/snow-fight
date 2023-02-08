@@ -48,24 +48,21 @@ public class MapOverlay implements Overlay {
         plate.render();
         boolean isPrevious = false;
 
-        for (MapButton b : buttons) {
+        for (MapButton button : buttons) {
             if (!plate.isHovered) {
-                b.zoomMode = MapButton.ZoomMode.N;
+                button.zoomMode = MapButton.ZoomMode.N;
             } else {
-                b.zoomMode = MapButton.ZoomMode.OUT;
-                if (b.box.isHovered) {
-                    b.isPreviousZoomed = isPrevious;
+                button.zoomMode = MapButton.ZoomMode.OUT;
+                if (button.box.isHovered) {
+                    button.isPreviousZoomed = isPrevious;
                     isPrevious = !isPrevious;
-                    b.zoomMode = MapButton.ZoomMode.IN;
+                    button.zoomMode = MapButton.ZoomMode.IN;
                 } else {
-                    b.isPreviousZoomed = isPrevious;
+                    button.isPreviousZoomed = isPrevious;
                 }
             }
+            button.render(batch, plate);
         }
-        for (MapButton button : buttons) {
-            button.render(plate, batch);
-        }
-
     }
 
     @Override
@@ -80,8 +77,8 @@ public class MapOverlay implements Overlay {
 
     @Override
     public void update(float delta) {
-        for (MapButton b : buttons) {
-            b.update(delta);
+        for (MapButton button : buttons) {
+            button.update(delta);
         }
         plate.update(delta);
 
