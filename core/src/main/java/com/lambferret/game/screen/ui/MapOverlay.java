@@ -79,11 +79,11 @@ public class MapOverlay implements Overlay {
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
         for (MapButton b : buttons) {
-            b.update();
+            b.update(delta);
         }
-        plate.update();
+        plate.update(delta);
 
     }
 }

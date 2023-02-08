@@ -11,7 +11,7 @@ public class ScoreOverlay implements Overlay {
         this.box = new Hitbox(0.0F, (float) GlobalSettings.HEIGHT - 100.0F, 50.0F, 50.0F);
     }
     @Override
-    public void update() {
+    public void update(float delta) {
 
     }
 

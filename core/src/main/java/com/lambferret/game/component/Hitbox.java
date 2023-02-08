@@ -79,7 +79,7 @@ public class Hitbox {
         debugBatch.end();
     }
 
-    public void update() {
+    public void update(float delta) {
         isHovered();
         isClicked();
     }

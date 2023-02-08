@@ -2,6 +2,7 @@ package com.lambferret.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.eskalon.commons.screen.ManagedScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,8 +39,14 @@ public abstract class AbstractScreen extends ManagedScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.update();
+        SpriteBatch batch = new SpriteBatch();
+        batch.begin();
+        this.render(batch);
+        batch.end();
+        this.update(delta);
     }
 
-    public abstract void update();
+    public abstract void render(SpriteBatch batch);
+
+    public abstract void update(float delta);
 }

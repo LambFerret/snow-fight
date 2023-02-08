@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public interface Overlay {
 
-    void update();
+    void update(float delta);
 
     void render(SpriteBatch batch);
 

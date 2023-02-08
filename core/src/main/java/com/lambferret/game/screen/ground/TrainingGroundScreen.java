@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
@@ -22,16 +23,16 @@ public class TrainingGroundScreen extends GroundAbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
+    public void render(SpriteBatch batch) {
+        super.render(batch);
 
         stage.act();
         stage.draw();
     }
 
 
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
 
     }
 }

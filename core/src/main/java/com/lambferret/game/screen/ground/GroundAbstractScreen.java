@@ -28,24 +28,16 @@ public abstract class GroundAbstractScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
-        super.render(delta);
-        var batch = new SpriteBatch();
-        batch.begin();
-
+    public void render(SpriteBatch batch) {
         for (Overlay overlay : lists) {
             overlay.render(batch);
         }
-
-        batch.end();
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
         for (Overlay overlay : lists) {
-            overlay.update();
+            overlay.update(delta);
         }
     }
-
-
 }

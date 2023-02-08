@@ -41,22 +41,16 @@ public class TitleMenuScreen extends AbstractScreen {
     }
 
 
-    public void render(float delta) {
-        super.render(delta);
-
+    public void render(SpriteBatch batch) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
-        batch.begin();
         for (TitleMenuButton button : buttons) {
             button.render(batch);
         }
-
-        batch.end();
-
     }
 
-    public void update() {
+    public void update(float delta) {
         for (TitleMenuButton b : buttons) {
-            b.update();
+            b.update(delta);
         }
     }
 

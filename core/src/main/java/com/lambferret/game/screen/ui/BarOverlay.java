@@ -12,7 +12,7 @@ public class BarOverlay implements Overlay {
     }
 
     @Override
-    public void update() {
+    public void update(float delta) {
     }
 
     @Override

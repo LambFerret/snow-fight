@@ -35,8 +35,8 @@ public class TitleMenuButton {
         this.box.render();
     }
 
-    public void update() {
-        this.box.update();
+    public void update(float delta) {
+        this.box.update(delta);
         setAction();
     }
 

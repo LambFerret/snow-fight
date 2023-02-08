@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.stage;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.screen.AbstractScreen;
@@ -23,13 +24,13 @@ public class StageScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(float delta) {
+    public void render(SpriteBatch batch) {
 
         stage.act();
         stage.draw();
     }
 
 
-    public void update() {
+    public void update(float delta) {
     }
 }
