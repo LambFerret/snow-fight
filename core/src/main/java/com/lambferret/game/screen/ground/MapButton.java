@@ -2,6 +2,7 @@ package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Interpolation;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
@@ -12,9 +13,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class MapButton {
+    public static final Interpolation INTER = Interpolation.pow5;
     private static final Logger logger = LogManager.getLogger(MapButton.class.getName());
     private static final float s = GlobalSettings.scale;
     private static final float zoomScale = 2.5F;
+    private static final float speed = 30F;
+
     private static int total;
     private static GroundText text;
     private int index;
@@ -27,16 +31,14 @@ public class MapButton {
     public ZoomMode zoomMode = ZoomMode.N;
     private Texture texture;
     private float x;
-    private float y;
     private float width;
-    private float height;
     private float initX;
-    private float initY;
     private float initWidth;
-    private float initHeight;
     private float bigW;
     private float bigX;
     private float smallW;
+    private float drawX;
+    private float drawW;
 
     public MapButton(GroundButtonAction action, int index) {
         this.index = index;
@@ -44,13 +46,10 @@ public class MapButton {
         this.box = new Hitbox();
         text = LocalizeConfig.uiText.getGroundText();
         setProperty();
+
     }
 
-    public void render() {
-        this.box.render();
-    }
-
-    public void render(Hitbox plate, SpriteBatch batch) {
+    public void render(SpriteBatch batch, Hitbox plate) {
 
         if (!initSize) {
             this.plate = plate;
@@ -70,33 +69,41 @@ public class MapButton {
             }
         }
 
-        box.move(x, y);
-        box.resize(width, height);
-        batch.draw(texture, this.x, this.y, this.width, this.height);
+        box.move(this.drawX, plate.getY());
+        box.resize(this.drawW, plate.getHeight());
+        batch.draw(texture, this.drawX, plate.getY(), this.drawW, plate.getHeight());
         this.box.render();
     }
 
+
     public void update(float delta) {
-        this.box.update(delta);
         setAction();
+        this.box.update(delta);
+        sizeWithLerp(delta);
+
     }
 
     private void setInitSize() {
         initWidth = plate.getWidth() / (float) total;
-        initHeight = plate.getHeight();
         initX = plate.getX() + initWidth * (float) index;
-        initY = plate.getY();
+
+        this.drawW = initWidth;
+        this.drawX = initX;
 
         bigW = initWidth * zoomScale;
+        logger.info("setInitSize |  🐳 big | " + bigW);
         smallW = (plate.getWidth() - initWidth * zoomScale) / (total - 1);
         bigX = index * smallW + plate.getX();
     }
 
+    private void sizeWithLerp(float delta) {
+        this.drawX = INTER.apply(this.drawX, x, delta * speed);
+        this.drawW = INTER.apply(this.drawW, width, delta * speed);
+    }
+
     private void resetSize() {
         x = initX;
-        y = initY;
         width = initWidth;
-        height = initHeight;
     }
 
     private void setZoomInSize() {
