@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RecruitScreen extends GroundAbstractScreen {
+public class RecruitScreen extends GroundUIScreen {
     private static final Logger logger = LogManager.getLogger(RecruitScreen.class.getName());
 
     TextButton.TextButtonStyle style;

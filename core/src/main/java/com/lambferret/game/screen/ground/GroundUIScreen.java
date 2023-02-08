@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class GroundAbstractScreen extends AbstractScreen {
-    private static final Logger logger = LogManager.getLogger(GroundAbstractScreen.class.getName());
+public abstract class GroundUIScreen extends AbstractScreen {
+    private static final Logger logger = LogManager.getLogger(GroundUIScreen.class.getName());
 
     public static Overlay map = new MapOverlay();
     public static Overlay bar = new BarOverlay();

@@ -61,7 +61,7 @@ public class MapOverlay implements Overlay {
                     button.isPreviousZoomed = isPrevious;
                 }
             }
-            button.render(batch,  plate);
+            button.render(batch, plate);
         }
     }
 

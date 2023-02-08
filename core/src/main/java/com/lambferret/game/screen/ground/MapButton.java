@@ -71,6 +71,7 @@ public class MapButton {
 
         box.move(this.drawX, plate.getY());
         box.resize(this.drawW, plate.getHeight());
+        batch.setColor(1, 1, 1, 1);
         batch.draw(texture, this.drawX, plate.getY(), this.drawW, plate.getHeight());
         this.box.render(batch);
     }

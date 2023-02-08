@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
-public class ShopScreen extends GroundAbstractScreen {
+public class ShopScreen extends GroundUIScreen {
     TextButton.TextButtonStyle style;
     TextButton textButton;
     BitmapFont font;
