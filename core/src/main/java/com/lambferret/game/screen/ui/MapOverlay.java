@@ -45,7 +45,7 @@ public class MapOverlay implements Overlay {
 
     @Override
     public void render(SpriteBatch batch) {
-        plate.render();
+        plate.render(batch);
         boolean isPrevious = false;
 
         for (MapButton button : buttons) {
@@ -61,7 +61,7 @@ public class MapOverlay implements Overlay {
                     button.isPreviousZoomed = isPrevious;
                 }
             }
-            button.render(batch, plate);
+            button.render(batch,  plate);
         }
     }
 
@@ -81,6 +81,5 @@ public class MapOverlay implements Overlay {
             button.update(delta);
         }
         plate.update(delta);
-
     }
 }

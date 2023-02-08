@@ -17,7 +17,7 @@ public class ScoreOverlay implements Overlay {
 
     @Override
     public void render(SpriteBatch batch) {
-        this.box.render();
+        this.box.render(batch);
     }
 
     @Override

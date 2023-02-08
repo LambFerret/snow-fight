@@ -62,9 +62,7 @@ public class Hitbox {
         this.height = height;
     }
 
-    public void render() {
-        var debugBatch = new SpriteBatch();
-        debugBatch.begin();
+    public void render(SpriteBatch debugBatch) {
         if (GlobalSettings.isDev) {
             if (this.isHovered) {
                 debugBatch.setColor(0, 255, 0, 0.5F);
@@ -76,7 +74,6 @@ public class Hitbox {
             Texture tex = AssetPath.getTexture("yellow");
             debugBatch.draw(tex, this.x, this.y, this.width, this.height);
         }
-        debugBatch.end();
     }
 
     public void update(float delta) {

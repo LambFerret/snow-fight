@@ -16,12 +16,10 @@ public class TitleMenuScreen extends AbstractScreen {
 
     private static final Logger logger = LogManager.getLogger(TitleMenuScreen.class.getName());
 
-    SpriteBatch batch;
     ArrayList<TitleMenuButton> buttons;
 
     public TitleMenuScreen() {
         this.buttons = new ArrayList<>();
-        batch = new SpriteBatch();
         addTitleMenuButtons();
     }
 

@@ -23,8 +23,6 @@ import de.eskalon.commons.screen.transition.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-
 
 /**
  * 스크린 관리, 스크린 전환 등 게임 전반에 걸친 설정을 하는 곳
@@ -36,11 +34,6 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     private static AddedScreen currentScreen;
     public static AddedScreen changeScreen;
     public static AssetManager assetManager;
-//    private static ScreenManager<ManagedScreen, ScreenTransition> screenManager;
-
-    static {
-//        screenManager = getScreen
-    }
 
     @Override
     public void create() {
@@ -53,17 +46,6 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         assetConfig();
         LocalizeConfig.init();
         screenConfig();
-
-        //if you wanna test something, in here plz
-        if (GlobalSettings.isDev) {
-            testPlzMethod();
-        }
-    }
-
-    public void testPlzMethod() {
-        var a = File.listRoots();
-        for (File file : a) {
-        }
 
     }
 

@@ -72,7 +72,7 @@ public class MapButton {
         box.move(this.drawX, plate.getY());
         box.resize(this.drawW, plate.getHeight());
         batch.draw(texture, this.drawX, plate.getY(), this.drawW, plate.getHeight());
-        this.box.render();
+        this.box.render(batch);
     }
 
 
