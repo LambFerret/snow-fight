@@ -118,7 +118,7 @@ public class Hitbox {
             } else if (this.isClicked) {
                 debugBatch.setColor(0, 0, 255, 0.5F);
             } else {
-                debugBatch.setColor(255, 0, 0, 0.1F);
+                debugBatch.setColor(255, 0, 0, 0.5F);
             }
             Texture tex = AssetPath.getTexture("yellow");
             debugBatch.draw(tex, this.x, this.y, this.width, this.height);

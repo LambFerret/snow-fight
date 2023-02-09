@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.util.AssetPath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,6 +42,9 @@ public class TitleMenuScreen extends AbstractScreen {
 
     public void render(SpriteBatch batch) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
+        batch.setColor(1,1,1,1);
+        batch.draw(AssetPath.getTexture("titleBackground"),
+            0, 0, GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
         for (TitleMenuButton button : buttons) {
             button.render(batch);
         }
