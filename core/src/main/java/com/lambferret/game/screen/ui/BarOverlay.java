@@ -23,9 +23,11 @@ public class BarOverlay extends Overlay {
 
     @Override
     public void hide() {
+        box.hide(Hitbox.Direction.UP);
     }
 
     @Override
     public void show() {
+        box.show();
     }
 }

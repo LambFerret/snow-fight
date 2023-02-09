@@ -14,7 +14,7 @@ public class ScoreOverlay extends Overlay {
 
     @Override
     public void update(float delta) {
-
+        this.box.update(delta);
     }
 
     @Override
@@ -24,10 +24,11 @@ public class ScoreOverlay extends Overlay {
 
     @Override
     public void hide() {
+        this.box.hide(Hitbox.Direction.LEFT);
     }
 
     @Override
     public void show() {
-
+        this.box.show();
     }
 }
