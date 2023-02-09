@@ -21,7 +21,7 @@ public class MapButton {
 
     private static int total;
     private static GroundText text;
-    private int index;
+    private final int index;
     public Hitbox box;
     private String nameString;
     private GroundButtonAction action;
@@ -32,11 +32,6 @@ public class MapButton {
     private Texture texture;
     private float x;
     private float width;
-    private float initX;
-    private float initWidth;
-    private float bigW;
-    private float bigX;
-    private float smallW;
     private float drawX;
     private float drawW;
 
@@ -81,20 +76,11 @@ public class MapButton {
         setAction();
         this.box.update(delta);
         sizeWithLerp(delta);
-
     }
 
     private void setInitSize() {
-        initWidth = plate.getWidth() / (float) total;
-        initX = plate.getX() + initWidth * (float) index;
-
-        this.drawW = initWidth;
-        this.drawX = initX;
-
-        bigW = initWidth * zoomScale;
-        logger.info("setInitSize |  🐳 big | " + bigW);
-        smallW = (plate.getWidth() - initWidth * zoomScale) / (total - 1);
-        bigX = index * smallW + plate.getX();
+        this.drawW = plate.getWidth() / (float) total;
+        this.drawX = plate.getX() + plate.getWidth() / (float) total * (float) index;
     }
 
     private void sizeWithLerp(float delta) {
@@ -103,21 +89,24 @@ public class MapButton {
     }
 
     private void resetSize() {
-        x = initX;
-        width = initWidth;
+        x = plate.getX() + plate.getWidth() / (float) total * (float) index;
+        width = plate.getWidth() / (float) total;
     }
 
     private void setZoomInSize() {
-        width = bigW;
-        x = bigX;
+        width = plate.getWidth() / (float) total * zoomScale;
+        x = index * (plate.getWidth() - plate.getWidth() /
+            (float) total * zoomScale) / (total - 1) + plate.getX();
     }
 
     private void setZoomOutSize() {
-        width = smallW;
+        width = (plate.getWidth() - plate.getWidth() / (float) total * zoomScale) / (total - 1);
         if (!isPreviousZoomed) {
-            x = index * smallW + plate.getX();
+            x = index * (plate.getWidth() - plate.getWidth() /
+                (float) total * zoomScale) / (total - 1) + plate.getX();
         } else {
-            x = plate.getX() + bigW + (index - 1) * smallW;
+            x = plate.getX() + plate.getWidth() / (float) total * zoomScale + (index - 1) *
+                (plate.getWidth() - plate.getWidth() / (float) total * zoomScale) / (total - 1);
         }
     }
 

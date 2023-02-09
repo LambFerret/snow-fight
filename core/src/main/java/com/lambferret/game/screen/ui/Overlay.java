@@ -1,14 +1,17 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public interface Overlay {
+public abstract class Overlay {
+    public static final Logger logger = LogManager.getLogger(Overlay.class.getName());
 
-    void update(float delta);
+    public abstract void update(float delta);
 
-    void render(SpriteBatch batch);
+    public abstract void render(SpriteBatch batch);
 
-    void hide();
+    public abstract void hide();
 
-    void destroy();
+    public abstract void show();
 }

@@ -4,11 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 
-public class ScoreOverlay implements Overlay {
+public class ScoreOverlay extends Overlay {
     private Hitbox box;
 
     public ScoreOverlay() {
         this.box = new Hitbox(0.0F, (float) GlobalSettings.HEIGHT - 100.0F, 50.0F, 50.0F);
+        hide();
     }
 
     @Override
@@ -23,11 +24,10 @@ public class ScoreOverlay implements Overlay {
 
     @Override
     public void hide() {
-
     }
 
     @Override
-    public void destroy() {
+    public void show() {
 
     }
 }
