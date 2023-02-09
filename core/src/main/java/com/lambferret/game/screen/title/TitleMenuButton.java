@@ -55,7 +55,7 @@ public class TitleMenuButton {
                 logger.info("update | LOAD");
             }
             case OPTION -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
+                SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
                 logger.info("update | OPTION");
             }
             case CREDIT -> {

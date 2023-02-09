@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.lambferret.game.screen.ground.RecruitScreen;
 import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.ground.TrainingGroundScreen;
+import com.lambferret.game.screen.stage.ActionPhaseScreen;
+import com.lambferret.game.screen.stage.ReadyPhaseScreen;
 import com.lambferret.game.screen.stage.StageScreen;
 import com.lambferret.game.screen.title.TitleMenuScreen;
 import com.lambferret.game.setting.GlobalSettings;
@@ -88,6 +90,8 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         screenManager.addScreen(AddedScreen.TRAINING_GROUND_SCREEN.name(), new TrainingGroundScreen());
         screenManager.addScreen(AddedScreen.RECRUIT_SCREEN.name(), new RecruitScreen());
         screenManager.addScreen(AddedScreen.SHOP_SCREEN.name(), new ShopScreen());
+        screenManager.addScreen(AddedScreen.ACTION_SCREEN.name(), new ActionPhaseScreen());
+        screenManager.addScreen(AddedScreen.READY_SCREEN.name(), new ReadyPhaseScreen());
 
         // config transition 자세한 설정은 나중에 할것 투두
         // 근데 blending 아니고서야 진짜 개구리다 ㅋㅋ
@@ -98,7 +102,6 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         var push = new PushTransition(batch, SlidingDirection.DOWN, 1.5F);
         var horizontalSlicing = new HorizontalSlicingTransition(batch, 19, 1.5F);
         var verticalSlicing = new VerticalSlicingTransition(batch, 19, 1.5F);
-//        var shader = new ShaderTransition();
 
         // add transition
         screenManager.addScreenTransition(TransitionEffect.BLENDING.name(), blending);
@@ -107,7 +110,6 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         screenManager.addScreenTransition(TransitionEffect.PUSH.name(), push);
         screenManager.addScreenTransition(TransitionEffect.HORIZONTAL_SLICING.name(), horizontalSlicing);
         screenManager.addScreenTransition(TransitionEffect.VERTICAL_SLICING.name(), verticalSlicing);
-//        screenManager.addScreenTransition(TransitionEffect.SHADER.name(), shader);
 
         // show first screen
         screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), TransitionEffect.BLENDING.name());
@@ -140,7 +142,8 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         TRAINING_GROUND_SCREEN,
         RECRUIT_SCREEN,
         SHOP_SCREEN,
-
+        ACTION_SCREEN,
+        READY_SCREEN,
         ;
     }
 
