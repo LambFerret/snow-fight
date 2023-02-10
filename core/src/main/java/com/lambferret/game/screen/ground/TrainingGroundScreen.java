@@ -1,15 +1,19 @@
 package com.lambferret.game.screen.ground;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.lambferret.game.SnowFight;
+import com.lambferret.game.component.Hitbox;
 
 public class TrainingGroundScreen extends GroundUIScreen {
     TextButton.TextButtonStyle style;
     TextButton textButton;
     BitmapFont font;
     Stage stage;
+    Hitbox box;
 
     public TrainingGroundScreen() {
         stage = new Stage();
@@ -18,6 +22,7 @@ public class TrainingGroundScreen extends GroundUIScreen {
         style.font = font;
         textButton = new TextButton("TrainGround", style);
         stage.addActor(textButton);
+        box = new Hitbox(100, 100, 100, 100);
     }
 
     @Override
@@ -26,11 +31,14 @@ public class TrainingGroundScreen extends GroundUIScreen {
 
         stage.act();
         stage.draw();
+        batch.setColor(Color.CORAL);
+        box.render(batch);
     }
 
 
     public void update(float delta) {
         super.update(delta);
-
+        this.box.update(delta);
+        if (this.box.isClicked) SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
     }
 }

@@ -43,7 +43,7 @@ public class TitleMenuButton {
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.STAGE_SCREEN;
+                SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
             }
             case CONTINUE -> {
                 SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;

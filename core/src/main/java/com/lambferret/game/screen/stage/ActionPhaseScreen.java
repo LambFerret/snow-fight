@@ -16,12 +16,6 @@ public class ActionPhaseScreen extends PhaseUIScreen {
         box = new Hitbox(30, 30, 30, 30);
     }
 
-    @Override
-    protected void switchScreen() {
-        phaseNumber += 1;
-        logger.info("switchScreen |  🐳 phasenumber | " + phaseNumber);
-        SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
-    }
 
     @Override
     public void render(SpriteBatch batch) {
@@ -37,12 +31,12 @@ public class ActionPhaseScreen extends PhaseUIScreen {
 
 
         if (lastPhaseNumber == phaseNumber) {
-            logger.info("update |  🐳 2 |end ");
             endStage();
         }
     }
 
     private void endStage() {
+        phaseNumber = 0;
         SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
     }
 
