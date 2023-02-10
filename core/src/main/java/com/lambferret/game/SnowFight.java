@@ -112,8 +112,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         // show first screen
         screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), TransitionEffect.BLENDING.name());
 
-
-        logger.info("screenConfig | time : " + (System.currentTimeMillis() - startTime));
+        logger.info("screenConfig | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
     }
 
     private void assetConfig() {
