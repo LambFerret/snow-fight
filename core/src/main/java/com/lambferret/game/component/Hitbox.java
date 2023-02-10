@@ -85,7 +85,7 @@ public class Hitbox {
     }
 
     public void hide(Direction hidingDirection) {
-        switch (hidingDirection){
+        switch (hidingDirection) {
             case UP -> {
                 this.destY = this.y + GlobalSettings.HEIGHT;
             }
@@ -101,14 +101,13 @@ public class Hitbox {
         }
         this.isActive = false;
     }
+
     public void show() {
         this.destX = this.initX;
         this.destY = this.initY;
         this.isActive = true;
 
     }
-
-
 
 
     public void render(SpriteBatch debugBatch) {
@@ -136,12 +135,17 @@ public class Hitbox {
     }
 
     private void isHovered() {
-        this.isHovered = CustomInputProcessor.x > this.x && CustomInputProcessor.x < this.x + this.width && CustomInputProcessor.y > this.y && CustomInputProcessor.y < this.y + this.height;
+        this.isHovered =
+            CustomInputProcessor.getX() > this.x
+                && CustomInputProcessor.getX() < this.x + this.width
+                && CustomInputProcessor.getY() > this.y
+                && CustomInputProcessor.getY() < this.y + this.height;
     }
 
     private void isClicked() {
-        this.isClicked = this.isHovered && CustomInputProcessor.isTouched;
+        this.isClicked = this.isHovered && CustomInputProcessor.isTouched();
     }
+
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
     }

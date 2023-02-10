@@ -42,7 +42,7 @@ public class GlobalSettings {
         loadSoundConfig();
         loadGamePlayConfig();
 
-        logger.info("GlobalSettings init time | " + (System.currentTimeMillis() - startTime));
+        logger.info("GlobalSettings | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
 
     }
 
@@ -53,7 +53,7 @@ public class GlobalSettings {
 
         try (Reader reader = new FileReader(CONFIG_FILE_PATH)) {
             settings = gson.fromJson(reader, Setting.class);
-            logger.info("load config file! last INIT time : " + settings.getLastPlayedTime());
+            logger.info("load config file | last INIT time : " + settings.getLastPlayedTime());
             settings.setLastPlayedTime(LocalDateTime.now());
         } catch (IOException e) {
             logger.info("make new Config file");

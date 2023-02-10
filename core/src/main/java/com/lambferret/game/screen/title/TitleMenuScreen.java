@@ -42,7 +42,7 @@ public class TitleMenuScreen extends AbstractScreen {
 
     public void render(SpriteBatch batch) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
-        batch.setColor(1,1,1,1);
+        batch.setColor(1, 1, 1, 1);
         batch.draw(AssetPath.getTexture("titleBackground"),
             0, 0, GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
         for (TitleMenuButton button : buttons) {

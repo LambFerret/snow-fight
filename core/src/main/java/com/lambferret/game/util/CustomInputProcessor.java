@@ -8,23 +8,59 @@ import org.apache.logging.log4j.Logger;
 
 public class CustomInputProcessor implements InputProcessor {
     private static final Logger logger = LogManager.getLogger(CustomInputProcessor.class.getName());
-    public static boolean isTouched = false;
+    private static boolean isTouched = false;
+    private static float x;
+    private static float y;
 
-    public static float x;
-    public static float y;
-    public static int pressedKey;
-    public static int pressedKeyUp;
+    public static boolean isTouched() {
+        return isTouched;
+    }
+
+    public static float getX() {
+        return x;
+    }
+
+    public static float getY() {
+        return y;
+    }
+
+    public static int getPressedKey() {
+        return pressedKey;
+    }
+
+    public static int getPressedKeyUp() {
+        return pressedKeyUp;
+    }
+
+    public static int getMouseButton() {
+        return mouseButton;
+    }
+
+    public static int getMousePointer() {
+        return mousePointer;
+    }
+
+    public static float getScrolledAmount() {
+        return scrolledAmount;
+    }
+
+    public static boolean isESCPressed() {
+        return isESCPressed;
+    }
+
+    private static int pressedKey;
+    private static int pressedKeyUp;
     /**
      * 왼쪽 : 0, 오른쪽 : 1, 스크롤 : 2, ...마우스버튼
      * {@link Input.Buttons}
      */
-    public static int mouseButton;
+    private static int mouseButton;
     /**
      * 사용할지도 모름
      */
-    public static int mousePointer;
-    public static float scrolledAmount;
-    public static boolean isESCPressed = false;
+    private static int mousePointer;
+    private static float scrolledAmount;
+    private static boolean isESCPressed = false;
 
     @Override
     public boolean keyDown(int keycode) {
@@ -38,13 +74,11 @@ public class CustomInputProcessor implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         pressedKeyUp = keycode;
+        if (pressedKey == pressedKeyUp) {
+            pressedKey = Input.Keys.ANY_KEY;
+        }
 
         return true;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
     }
 
     @Override
@@ -58,7 +92,6 @@ public class CustomInputProcessor implements InputProcessor {
         mousePointer = pointer;
         mouseButton = button;
 
-        logger.info("touchDown | (x,y)" + x + ", " + y);
         return true;
     }
 
@@ -92,5 +125,10 @@ public class CustomInputProcessor implements InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         scrolledAmount = amountX;
         return true;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
     }
 }

@@ -43,26 +43,21 @@ public class TitleMenuButton {
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
-                logger.info("update | NEW");
                 SnowFight.changeScreen = SnowFight.AddedScreen.STAGE_SCREEN;
             }
             case CONTINUE -> {
-                logger.info("update | CONTINUE");
                 SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;
             }
             case LOAD -> {
                 SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT_SCREEN;
-                logger.info("update | LOAD");
             }
             case OPTION -> {
                 SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
-                logger.info("update | OPTION");
             }
             case CREDIT -> {
                 logger.info("update | CREDIT");
             }
             case EXIT -> {
-                logger.info("update | exit game!");
                 Gdx.app.exit();
             }
         }

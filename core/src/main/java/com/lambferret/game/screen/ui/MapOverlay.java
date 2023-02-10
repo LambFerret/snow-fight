@@ -82,13 +82,13 @@ public class MapOverlay extends Overlay {
             button.update(delta);
         }
         plate.update(delta);
-        if (!isHidden && CustomInputProcessor.pressedKey == Input.Keys.Y) {
+        if (!isHidden && CustomInputProcessor.getPressedKey() == Input.Keys.Y) {
             this.hide();
             isHidden = true;
-        } else if (isHidden && CustomInputProcessor.pressedKey == Input.Keys.U) {
+        } else if (isHidden && CustomInputProcessor.getPressedKey() == Input.Keys.U) {
             this.show();
             isHidden = false;
-        }else if (CustomInputProcessor.pressedKey == Input.Keys.Q) {
+        } else if (CustomInputProcessor.getPressedKey() == Input.Keys.Q) {
             plate.move(100, 100);
         }
     }
