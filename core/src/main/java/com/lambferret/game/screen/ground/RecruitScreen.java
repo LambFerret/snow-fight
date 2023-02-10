@@ -15,15 +15,13 @@ public class RecruitScreen extends GroundUIScreen {
     BitmapFont font;
     Stage stage;
 
-    @Override
-    public void show() {
+    public RecruitScreen() {
         stage = new Stage();
         font = new BitmapFont();
         style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("RECRUIT", style);
         stage.addActor(textButton);
-
     }
 
     @Override

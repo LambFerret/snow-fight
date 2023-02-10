@@ -11,15 +11,13 @@ public class TrainingGroundScreen extends GroundUIScreen {
     BitmapFont font;
     Stage stage;
 
-    @Override
-    public void show() {
+    public TrainingGroundScreen() {
         stage = new Stage();
         font = new BitmapFont();
         style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("TrainGround", style);
         stage.addActor(textButton);
-
     }
 
     @Override

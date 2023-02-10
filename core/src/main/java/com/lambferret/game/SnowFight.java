@@ -12,7 +12,6 @@ import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.ground.TrainingGroundScreen;
 import com.lambferret.game.screen.stage.ActionPhaseScreen;
 import com.lambferret.game.screen.stage.ReadyPhaseScreen;
-import com.lambferret.game.screen.stage.StageScreen;
 import com.lambferret.game.screen.title.TitleMenuScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
@@ -86,7 +85,6 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
         // add screens
         screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), new TitleMenuScreen());
-        screenManager.addScreen(AddedScreen.STAGE_SCREEN.name(), new StageScreen());
         screenManager.addScreen(AddedScreen.TRAINING_GROUND_SCREEN.name(), new TrainingGroundScreen());
         screenManager.addScreen(AddedScreen.RECRUIT_SCREEN.name(), new RecruitScreen());
         screenManager.addScreen(AddedScreen.SHOP_SCREEN.name(), new ShopScreen());
