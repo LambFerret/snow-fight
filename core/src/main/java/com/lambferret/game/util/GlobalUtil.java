@@ -14,4 +14,11 @@ public class GlobalUtil {
         return from;
     }
 
+    public static String encode() {
+        return "";
+    }
+
+    public static String decode() {
+        return "";
+    }
 }
