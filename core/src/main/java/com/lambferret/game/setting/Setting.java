@@ -97,7 +97,7 @@ public class Setting {
 
         public Gameplay() {
             this.difficulty = Difficulty.NORMAL;
-            this.language = Language.EN;
+            this.language = Language.KR;
         }
 
     }
@@ -107,7 +107,7 @@ public class Setting {
     }
 
     public enum Language {
-        KO,
+        KR,
         EN,
         JP,
         RU

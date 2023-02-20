@@ -1,18 +1,18 @@
 {
   "titleMenuText": {
-    "newGame": "NEW_GAME",
-    "continueGame": "CONTINUE",
-    "loadGame": "LOAD_GAME",
-    "credit": "CREDIT",
-    "option": "OPTION",
-    "exit": "EXIT"
+    "NEW_GAME": "새게임",
+    "CONTINUE": "계속",
+    "LOAD_GAME": "로드",
+    "CREDIT": "크레딧",
+    "OPTION": "옵션",
+    "EXIT": "나가기"
   },
   "overlayText": {
-    "TEST": "test_test"
+    "TEST": "테스트_테스트"
   },
   "groundText": {
-    "recruit" : "RECRUIT",
-    "shop" : "SHOP",
-    "trainingGround" :  "TRAINING_GROUND"
+    "recruit": "차출",
+    "shop": "피엑스",
+    "trainingGround": "연병장"
   }
 }

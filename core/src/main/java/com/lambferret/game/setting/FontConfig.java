@@ -13,7 +13,7 @@ public class FontConfig {
 
     public static void init() {
         fontFile = switch (GlobalSettings.language) {
-            case KO -> Gdx.files.internal(" TODO ");
+            case KR -> Gdx.files.internal(" TODO ");
             case EN -> Gdx.files.internal(" TODO1 ");
             case JP -> Gdx.files.internal(" TODO2 ");
             case RU -> Gdx.files.internal(" TODO3 ");

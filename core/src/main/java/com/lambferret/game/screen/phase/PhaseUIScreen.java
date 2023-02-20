@@ -1,4 +1,4 @@
-package com.lambferret.game.screen.stage;
+package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
