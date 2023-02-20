@@ -5,9 +5,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 public class CustomInputProcessor implements InputProcessor {
     private static final Logger logger = LogManager.getLogger(CustomInputProcessor.class.getName());
+    private static final Marker command = MarkerManager.getMarker("command");
     private static boolean isTouched = false;
     private static float x;
     private static float y;
@@ -26,7 +29,11 @@ public class CustomInputProcessor implements InputProcessor {
     private static boolean isESCPressed = false;
 
     public static boolean isTouched() {
-        return isTouched;
+        if (isTouched) {
+            isTouched = false;
+            return true;
+        }
+        return false;
     }
 
     public static float getX() {
@@ -56,6 +63,7 @@ public class CustomInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         pressedKey = keycode;
+        logger.info(command, keycode);
         return true;
     }
 
