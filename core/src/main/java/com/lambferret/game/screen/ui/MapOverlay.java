@@ -28,7 +28,7 @@ public class MapOverlay extends Overlay {
 
 
     public MapOverlay() {
-        x = GlobalSettings.WIDTH - (WIDTH_FIXED * s);
+        x = GlobalSettings.currWidth - (WIDTH_FIXED * s);
         y = 0.0F;
         width = WIDTH_FIXED * s;
         height = HEIGHT_FIXED * s;
@@ -82,13 +82,13 @@ public class MapOverlay extends Overlay {
             button.update(delta);
         }
         plate.update(delta);
-        if (!isHidden && CustomInputProcessor.getPressedKey() == Input.Keys.Y) {
+        if (!isHidden && CustomInputProcessor.pressedKey(Input.Keys.Y)) {
             this.hide();
             isHidden = true;
-        } else if (isHidden && CustomInputProcessor.getPressedKey() == Input.Keys.U) {
+        } else if (isHidden && CustomInputProcessor.pressedKey(Input.Keys.U)) {
             this.show();
             isHidden = false;
-        } else if (CustomInputProcessor.getPressedKey() == Input.Keys.Q) {
+        } else if (CustomInputProcessor.pressedKey(Input.Keys.I)) {
             plate.move(100, 100);
         }
     }

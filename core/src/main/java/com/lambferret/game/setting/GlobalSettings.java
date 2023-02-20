@@ -18,16 +18,16 @@ public class GlobalSettings {
 
     public static final String CONFIG_FILE_PATH = "./config.json";
     public static boolean isDev = true;
-    public static int SAVED_WIDTH;
-    public static int SAVED_HEIGHT;
-    public static int WIDTH;
-    public static int HEIGHT;
-    public static boolean IS_FULLSCREEN;
+    public static int prevWidth;
+    public static int prevHeight;
+    public static int currWidth;
+    public static int currHeight;
+    public static boolean isFullscreen;
     public static int FPS;
-    public static boolean IS_VSYNC;
-    public static float MASTER_VOLUME;
-    public static float BGM_VOLUME;
-    public static float EFFECT_VOLUME;
+    public static boolean isVsync;
+    public static float masterVolume;
+    public static float bgmVolume;
+    public static float effectVolume;
     public static float scale;
 
     public static Setting settings;
@@ -73,17 +73,19 @@ public class GlobalSettings {
 
         var display = settings.getDisplay();
 
-        WIDTH = display.getWidth();
-        HEIGHT = display.getHeight();
+        currWidth = display.getWidth();
+        currHeight = display.getHeight();
+        prevWidth = currWidth;
+        prevHeight = currHeight;
         FPS = display.getFps();
-        IS_FULLSCREEN = display.isFullScreen();
-        IS_VSYNC = display.isVsync();
+        isFullscreen = display.isFullScreen();
+        isVsync = display.isVsync();
 
-        float ratio = (float) WIDTH / (float) HEIGHT;
+        float ratio = (float) currWidth / (float) currHeight;
         if (1.3F < ratio && ratio < 1.4F) {
             //xScale, yScale of 4:3
         } else if (1.77777F < ratio && ratio < 1.8F) {
-            scale = (float) Setting.DEFAULT_WIDTH / (float) WIDTH;
+            scale = (float) Setting.DEFAULT_WIDTH / (float) currWidth;
         } else {
             // have LetterBox
         }
@@ -93,9 +95,9 @@ public class GlobalSettings {
 
 
     public static void loadSoundConfig() {
-        MASTER_VOLUME = settings.getVolume().getMasterVolume();
-        BGM_VOLUME = settings.getVolume().getBgmVolume();
-        EFFECT_VOLUME = settings.getVolume().getEffectVolume();
+        masterVolume = settings.getVolume().getMasterVolume();
+        bgmVolume = settings.getVolume().getBgmVolume();
+        effectVolume = settings.getVolume().getEffectVolume();
     }
 
     public static void loadGamePlayConfig() {

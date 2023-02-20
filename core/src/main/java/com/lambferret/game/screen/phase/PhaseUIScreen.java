@@ -29,12 +29,12 @@ public abstract class PhaseUIScreen extends AbstractScreen {
     }
 
     private void switchScreen() {
-        if (phaseNumber % 2 == 0 && CustomInputProcessor.getPressedKeyUp() == Input.Keys.NUM_0) {
+        if (phaseNumber % 2 == 0 && CustomInputProcessor.pressedKeyUp(Input.Keys.NUM_0)) {
             SnowFight.changeScreen = SnowFight.AddedScreen.ACTION_SCREEN;
             logger.info("phaseNumber : " + phaseNumber);
             phaseNumber += 1;
 //            isReadyPhase = false;
-        } else if (phaseNumber % 2 == 1 && CustomInputProcessor.getPressedKeyUp() == Input.Keys.NUM_9) {
+        } else if (phaseNumber % 2 == 1 && CustomInputProcessor.pressedKeyUp(Input.Keys.NUM_9)) {
             SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
 //            isReadyPhase = true;
             phaseNumber += 1;

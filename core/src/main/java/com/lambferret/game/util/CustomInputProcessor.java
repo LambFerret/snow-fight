@@ -11,43 +11,6 @@ public class CustomInputProcessor implements InputProcessor {
     private static boolean isTouched = false;
     private static float x;
     private static float y;
-
-    public static boolean isTouched() {
-        return isTouched;
-    }
-
-    public static float getX() {
-        return x;
-    }
-
-    public static float getY() {
-        return y;
-    }
-
-    public static int getPressedKey() {
-        return pressedKey;
-    }
-
-    public static int getPressedKeyUp() {
-        return pressedKeyUp;
-    }
-
-    public static int getMouseButton() {
-        return mouseButton;
-    }
-
-    public static int getMousePointer() {
-        return mousePointer;
-    }
-
-    public static float getScrolledAmount() {
-        return scrolledAmount;
-    }
-
-    public static boolean isESCPressed() {
-        return isESCPressed;
-    }
-
     private static int pressedKey;
     private static int pressedKeyUp;
     /**
@@ -62,22 +25,43 @@ public class CustomInputProcessor implements InputProcessor {
     private static float scrolledAmount;
     private static boolean isESCPressed = false;
 
+    public static boolean isTouched() {
+        return isTouched;
+    }
+
+    public static float getX() {
+        return x;
+    }
+
+    public static float getY() {
+        return y;
+    }
+
+    public static boolean pressedKey(int keycode) {
+        if (pressedKey == keycode) {
+            pressedKey = Input.Keys.ANY_KEY;
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean pressedKeyUp(int keycode) {
+        if (pressedKeyUp == keycode) {
+            pressedKeyUp = Input.Keys.ANY_KEY;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         pressedKey = keycode;
-        if (pressedKey == Input.Keys.ESCAPE) {
-            isESCPressed = true;
-        }
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         pressedKeyUp = keycode;
-        if (pressedKey == pressedKeyUp) {
-            pressedKey = Input.Keys.ANY_KEY;
-        }
-
         return true;
     }
 

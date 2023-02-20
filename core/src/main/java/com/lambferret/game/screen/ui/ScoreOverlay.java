@@ -8,7 +8,7 @@ public class ScoreOverlay extends Overlay {
     private Hitbox box;
 
     public ScoreOverlay() {
-        this.box = new Hitbox(0.0F, (float) GlobalSettings.HEIGHT - 100.0F, 50.0F, 50.0F);
+        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - 100.0F, 50.0F, 50.0F);
         hide();
     }
 

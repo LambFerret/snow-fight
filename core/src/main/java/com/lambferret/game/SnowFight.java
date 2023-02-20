@@ -6,7 +6,8 @@ import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lambferret.game.screen.ground.RecruitScreen;
 import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.ground.TrainingGroundScreen;
@@ -32,6 +33,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     private static final Logger logger = LogManager.getLogger(SnowFight.class.getName());
     public static OrthographicCamera camera;
+    public static Viewport viewport;
     private static AddedScreen currentScreen;
     public static AddedScreen changeScreen;
     public static AssetManager assetManager;
@@ -43,7 +45,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         // NEVER SCRAMBLE THIS INIT CONFIG'S ORDER !!
         globalGameConfig();
         inputConfig();
-        cameraConfig();
+        cameraConfig(GlobalSettings.currWidth, GlobalSettings.currHeight);
         assetConfig();
         LocalizeConfig.init();
         screenConfig();
@@ -64,24 +66,17 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         Gdx.input.setInputProcessor(new CustomInputProcessor());
     }
 
-    private void cameraConfig() {
+    public static void cameraConfig(int width, int height) {
         camera = new OrthographicCamera();
-        Matrix4 matrix = new Matrix4();
-        matrix.setToOrtho2D(0, 0, GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
-        matrix.scale(
-            (float) GlobalSettings.WIDTH / GlobalSettings.scale,
-            (float) GlobalSettings.WIDTH / GlobalSettings.scale,
-            1
-        );
-
-        camera.setToOrtho(false, GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
+        viewport = new FitViewport(width, height, camera);
+        camera.setToOrtho(false, width, height);
     }
 
 
     private void screenConfig() {
         var startTime = System.currentTimeMillis();
 
-        Gdx.graphics.setWindowedMode(GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
+        Gdx.graphics.setWindowedMode(GlobalSettings.currWidth, GlobalSettings.currHeight);
 
         // add screens
         screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), new TitleMenuScreen());

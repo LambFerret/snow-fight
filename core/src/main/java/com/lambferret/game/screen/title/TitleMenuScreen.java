@@ -1,8 +1,5 @@
 package com.lambferret.game.screen.title;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.setting.GlobalSettings;
@@ -41,10 +38,9 @@ public class TitleMenuScreen extends AbstractScreen {
 
 
     public void render(SpriteBatch batch) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.F)) switchFullScreen();
         batch.setColor(1, 1, 1, 1);
         batch.draw(AssetPath.getTexture("titleBackground"),
-            0, 0, GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
+            0, 0, GlobalSettings.currWidth, GlobalSettings.currHeight);
         for (TitleMenuButton button : buttons) {
             button.render(batch);
         }
@@ -55,15 +51,4 @@ public class TitleMenuScreen extends AbstractScreen {
             b.update(delta);
         }
     }
-
-    // 전체화면 관련
-    private void switchFullScreen() {
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(GlobalSettings.WIDTH, GlobalSettings.HEIGHT);
-        } else {
-            Graphics.DisplayMode mode = Gdx.graphics.getDisplayMode();
-            Gdx.graphics.setFullscreenMode(mode);
-        }
-    }
-
 }

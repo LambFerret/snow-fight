@@ -8,7 +8,7 @@ public class BarOverlay extends Overlay {
     private Hitbox box;
 
     public BarOverlay() {
-        this.box = new Hitbox(0.0F, (float) GlobalSettings.HEIGHT - 50.0F, GlobalSettings.WIDTH, 50.0F);
+        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - 50.0F, GlobalSettings.currWidth, 50.0F);
         hide();
     }
 

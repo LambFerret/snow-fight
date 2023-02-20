@@ -87,16 +87,16 @@ public class Hitbox {
     public void hide(Direction hidingDirection) {
         switch (hidingDirection) {
             case UP -> {
-                this.destY = this.y + GlobalSettings.HEIGHT;
+                this.destY = this.y + GlobalSettings.currHeight;
             }
             case DOWN -> {
-                this.destY = this.y - GlobalSettings.HEIGHT;
+                this.destY = this.y - GlobalSettings.currHeight;
             }
             case LEFT -> {
-                this.destX = this.x - GlobalSettings.WIDTH;
+                this.destX = this.x - GlobalSettings.currWidth;
             }
             case RIGHT -> {
-                this.destX = this.x + GlobalSettings.WIDTH;
+                this.destX = this.x + GlobalSettings.currWidth;
             }
         }
         this.isActive = false;
