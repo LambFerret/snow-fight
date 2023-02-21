@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.TitleMenuText;
@@ -43,9 +44,11 @@ public class TitleMenuButton {
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
+                SaveLoader.makeNewSave(0);
                 SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
             }
             case CONTINUE -> {
+                SaveLoader.load(0);
                 SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;
             }
             case LOAD -> {

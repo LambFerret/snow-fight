@@ -28,6 +28,11 @@ public abstract class GroundUIScreen extends AbstractScreen {
     }
 
     @Override
+    public void create() {
+        ((BarOverlay) bar).loadSaveFile();
+    }
+
+    @Override
     public void render(SpriteBatch batch) {
         for (Overlay overlay : lists) {
             overlay.render(batch);

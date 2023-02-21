@@ -2,6 +2,7 @@ package com.lambferret.game.setting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.util.GsonDateFormatAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +43,7 @@ public class GlobalSettings {
         loadDisplayConfig();
         loadSoundConfig();
         loadGamePlayConfig();
+        SaveLoader.init();
 
         logger.info("GlobalSettings | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
 

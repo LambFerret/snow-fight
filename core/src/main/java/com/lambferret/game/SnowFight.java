@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.ground.RecruitScreen;
 import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.ground.TrainingGroundScreen;
@@ -56,6 +57,12 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     public void render() {
         super.render();
         screenChanger(TransitionEffect.NULL);
+    }
+
+    @Override
+    public void dispose() {
+        SaveLoader.save(0);
+        super.dispose();
     }
 
     private void globalGameConfig() {
