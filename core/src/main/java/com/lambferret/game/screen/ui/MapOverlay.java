@@ -43,6 +43,10 @@ public class MapOverlay extends Overlay {
     }
 
     @Override
+    public void create() {
+    }
+
+    @Override
     public void render(SpriteBatch batch) {
         plate.render(batch);
         boolean isPrevious = false;

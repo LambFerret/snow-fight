@@ -29,7 +29,18 @@ public abstract class GroundUIScreen extends AbstractScreen {
 
     @Override
     public void create() {
-        ((BarOverlay) bar).loadSaveFile();
+        for (Overlay overlay : lists) {
+            overlay.create();
+        }
+    }
+
+    public void disposeOne(Overlay overlay) {
+        lists.remove(overlay);
+    }
+
+    public void createOne(Overlay overlay) {
+        lists.add(overlay);
+        overlay.create();
     }
 
     @Override

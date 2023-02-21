@@ -31,4 +31,9 @@ public class ScoreOverlay extends Overlay {
     public void show() {
         this.box.show();
     }
+
+    @Override
+    public void create() {
+
+    }
 }

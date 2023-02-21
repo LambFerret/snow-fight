@@ -14,7 +14,9 @@ public class BarOverlay extends Overlay {
         hide();
     }
 
-    public void loadSaveFile() {
+
+    @Override
+    public void create() {
         time = SaveLoader.currentSave.getTime();
     }
 

@@ -15,32 +15,8 @@ public abstract class AbstractScreen extends ManagedScreen {
     private static final Logger logger = LogManager.getLogger(AbstractScreen.class.getName());
     private static final SpriteBatch batch = new SpriteBatch();
 
-
     @Override
     public void create() {
-
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        SnowFight.cameraConfig(width, height);
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void dispose() {
-
     }
 
     @Override
@@ -61,6 +37,15 @@ public abstract class AbstractScreen extends ManagedScreen {
 
     public abstract void update(float delta);
 
+    @Override
+    public void resize(int width, int height) {
+        SnowFight.cameraConfig(width, height);
+    }
+
+    @Override
+    public void dispose() {
+    }
+
     private void TEST() {
         if (CustomInputProcessor.pressedKeyUp(Input.Keys.NUMPAD_9)) {
             switchFullScreen();
@@ -73,5 +58,17 @@ public abstract class AbstractScreen extends ManagedScreen {
         } else {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
+    }
+
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
     }
 }

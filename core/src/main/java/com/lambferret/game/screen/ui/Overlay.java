@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 public abstract class Overlay {
     public static final Logger logger = LogManager.getLogger(Overlay.class.getName());
 
+    public abstract void create();
+
     public abstract void update(float delta);
 
     public abstract void render(SpriteBatch batch);
