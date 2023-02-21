@@ -63,17 +63,17 @@ final class k {
         int var5 = var1 / 8;
         var1 %= 8;
 
-        for(int var4 = 0; var4 < 16; ++var4) {
-            var2[var3 + (var5 + var4) % 16] ^= (byte)(var0[var4] >> var1);
+        for (int var4 = 0; var4 < 16; ++var4) {
+            var2[var3 + (var5 + var4) % 16] ^= (byte) (var0[var4] >> var1);
             if (var1 != 0) {
-                var2[var3 + (var5 + var4 + 1) % 16] ^= (byte)(var0[var4] << 8 - var1);
+                var2[var3 + (var5 + var4 + 1) % 16] ^= (byte) (var0[var4] << 8 - var1);
             }
         }
 
     }
 
     private static void a(byte[] var0, int[] var1) {
-        for(int var2 = 0; var2 < var0.length; ++var2) {
+        for (int var2 = 0; var2 < var0.length; ++var2) {
             if (var0[var2] < 0) {
                 var1[var2] = var0[var2] + 256;
             } else {
@@ -84,7 +84,7 @@ final class k {
     }
 
     private static void a(int[] var0) {
-        for(int var1 = 0; var1 < 272; ++var1) {
+        for (int var1 = 0; var1 < 272; ++var1) {
             if (var0[var1] < 0) {
                 var0[var1] += 256;
             } else {
@@ -95,8 +95,8 @@ final class k {
     }
 
     private static void a(int[] var0, byte[] var1) {
-        for(int var2 = 0; var2 < 16; ++var2) {
-            var1[var2] = (byte)var0[var2];
+        for (int var2 = 0; var2 < 16; ++var2) {
+            var1[var2] = (byte) var0[var2];
         }
 
     }
@@ -109,46 +109,46 @@ final class k {
         int[] var9 = new int[16];
         int var5 = (var3 - 128) / 64;
 
-        for(var3 = 0; var3 < 16; ++var3) {
+        for (var3 = 0; var3 < 16; ++var3) {
             var6[var3] = this.a[var3 % 4][this.b[var5][var3] ^ var1[var3]];
         }
 
         a(var6, var7);
         if (var4 == 14) {
-            for(var3 = 0; var3 < 8; ++var3) {
+            for (var3 = 0; var3 < 8; ++var3) {
                 var7[var3] ^= var1[var3 + 16];
             }
         } else if (var4 == 16) {
-            for(var3 = 0; var3 < 16; ++var3) {
+            for (var3 = 0; var3 < 16; ++var3) {
                 var7[var3] ^= var1[var3 + 16];
             }
         }
 
         var5 = var5 == 2 ? 0 : var5 + 1;
 
-        for(var3 = 0; var3 < 16; ++var3) {
+        for (var3 = 0; var3 < 16; ++var3) {
             var6[var3] = this.a[(var3 + 2) % 4][this.b[var5][var3] ^ var7[var3]];
         }
 
         a(var6, var8);
 
-        for(var3 = 0; var3 < 16; ++var3) {
+        for (var3 = 0; var3 < 16; ++var3) {
             var8[var3] ^= var1[var3];
         }
 
         var5 = var5 == 2 ? 0 : var5 + 1;
 
-        for(var3 = 0; var3 < 16; ++var3) {
+        for (var3 = 0; var3 < 16; ++var3) {
             var6[var3] = this.a[var3 % 4][this.b[var5][var3] ^ var8[var3]];
         }
 
         a(var6, var9);
 
-        for(var3 = 0; var3 < 16; ++var3) {
+        for (var3 = 0; var3 < 16; ++var3) {
             var9[var3] ^= var7[var3];
         }
 
-        for(var3 = 0; var3 < 16 * (var4 + 1); ++var3) {
+        for (var3 = 0; var3 < 16 * (var4 + 1); ++var3) {
             var2[var3] = 0;
         }
 
@@ -199,17 +199,17 @@ final class k {
         int[] var5 = new int[16];
         int var4 = this.a(var1, var2, 256);
 
-        for(var3 = 0; var3 < 16; ++var3) {
+        for (var3 = 0; var3 < 16; ++var3) {
             var5[var3] = var2[var3];
             var2[var3] = var2[var4 * 16 + var3];
             var2[var4 * 16 + var3] = var5[var3];
         }
 
-        for(int var6 = 1; var6 <= var4 / 2; ++var6) {
+        for (int var6 = 1; var6 <= var4 / 2; ++var6) {
             a(var2, var6 << 4, var5, 0);
             a(var2, var4 - var6 << 4, var2, var6 << 4);
 
-            for(var3 = 0; var3 < 16; ++var3) {
+            for (var3 = 0; var3 < 16; ++var3) {
                 var2[(var4 - var6 << 4) + var3] = var5[var3];
             }
         }
@@ -222,19 +222,19 @@ final class k {
         int[] var7 = new int[16];
 
         int var5;
-        for(var5 = 0; var5 < 16; ++var5) {
+        for (var5 = 0; var5 < 16; ++var5) {
             var4[var5] = var1[var5];
         }
 
-        for(int var8 = 0; var8 < var2 / 2; ++var8) {
-            for(var5 = 0; var5 < 16; ++var5) {
+        for (int var8 = 0; var8 < var2 / 2; ++var8) {
+            for (var5 = 0; var5 < 16; ++var5) {
                 var7[var5] = this.a[var5 % 4][var3[var6 + var5] ^ var4[var5]];
             }
 
             a(var7, var4);
             var6 += 16;
 
-            for(var5 = 0; var5 < 16; ++var5) {
+            for (var5 = 0; var5 < 16; ++var5) {
                 var7[var5] = this.a[(var5 + 2) % 4][var3[var6 + var5] ^ var4[var5]];
             }
 
@@ -244,8 +244,8 @@ final class k {
 
         a(var4, var7);
 
-        for(var5 = 0; var5 < 16; ++var5) {
-            var4[var5] = (byte)(var3[var5] ^ var7[var5]);
+        for (var5 = 0; var5 < 16; ++var5) {
+            var4[var5] = (byte) (var3[var5] ^ var7[var5]);
         }
 
     }
@@ -255,19 +255,19 @@ final class k {
         int[] var8 = new int[16];
 
         int var6;
-        for(var6 = 0; var6 < 16; ++var6) {
+        for (var6 = 0; var6 < 16; ++var6) {
             var5[var6] = var1[var2 + var6];
         }
 
-        for(int var9 = 0; var9 < var3 / 2; ++var9) {
-            for(var6 = 0; var6 < 16; ++var6) {
+        for (int var9 = 0; var9 < var3 / 2; ++var9) {
+            for (var6 = 0; var6 < 16; ++var6) {
                 var8[var6] = this.a[var6 % 4][var4[var7 + var6] ^ var5[var6]];
             }
 
             a(var8, var5);
             var7 += 16;
 
-            for(var6 = 0; var6 < 16; ++var6) {
+            for (var6 = 0; var6 < 16; ++var6) {
                 var8[var6] = this.a[(var6 + 2) % 4][var4[var7 + var6] ^ var5[var6]];
             }
 
@@ -277,7 +277,7 @@ final class k {
 
         a(var5, var8);
 
-        for(var6 = 0; var6 < 16; ++var6) {
+        for (var6 = 0; var6 < 16; ++var6) {
             var5[var6] = var4[var7 + var6] ^ var8[var6];
         }
 
@@ -286,7 +286,7 @@ final class k {
     private static String a(byte[] var0) {
         StringBuilder var1 = new StringBuilder();
 
-        for(int var2 = 0; var2 < 16; ++var2) {
+        for (int var2 = 0; var2 < 16; ++var2) {
             var1.append(String.format("%02X", var0[var2]));
         }
 
@@ -297,8 +297,8 @@ final class k {
         if (var0 != null && var0.length() != 0) {
             byte[] var1 = new byte[var0.length() / 2];
 
-            for(int var2 = 0; var2 < var1.length; ++var2) {
-                var1[var2] = (byte)Integer.parseInt(var0.substring(2 * var2, 2 * var2 + 2), 16);
+            for (int var2 = 0; var2 < var1.length; ++var2) {
+                var1[var2] = (byte) Integer.parseInt(var0.substring(2 * var2, 2 * var2 + 2), 16);
             }
 
             return var1;
@@ -335,12 +335,12 @@ final class k {
             int[] var8 = new int[(var10 = var1.getBytes("EUC-KR")).length];
             a(var10, var8);
             System.arraycopy(var8, 0, var5, 0, var8.length);
-            var7 = (int)Math.ceil((double)var8.length / 16.0);
+            var7 = (int) Math.ceil((double) var8.length / 16.0);
         } catch (UnsupportedEncodingException var9) {
             var9.printStackTrace();
         }
 
-        for(int var11 = 0; var11 < var7; ++var11) {
+        for (int var11 = 0; var11 < var7; ++var11) {
             Arrays.fill(var4, 0);
             this.a(var5, var11 << 4, var6, var3, var4);
             byte[] var12 = new byte[16];
@@ -362,8 +362,8 @@ final class k {
         if (var1 != null && var1.length() != 0) {
             byte[] var9 = new byte[var1.length() / 2];
 
-            for(var8 = 0; var8 < var9.length; ++var8) {
-                var9[var8] = (byte)Integer.parseInt(var6.substring(2 * var8, 2 * var8 + 2), 16);
+            for (var8 = 0; var8 < var9.length; ++var8) {
+                var9[var8] = (byte) Integer.parseInt(var6.substring(2 * var8, 2 * var8 + 2), 16);
             }
 
             var10000 = var9;
@@ -381,18 +381,18 @@ final class k {
         int[] var11 = new int[16];
         int var10 = this.a(var17, var2, 256);
 
-        for(var8 = 0; var8 < 16; ++var8) {
+        for (var8 = 0; var8 < 16; ++var8) {
             var11[var8] = var18[var8];
             var18[var8] = var18[var10 * 16 + var8];
             var18[var10 * 16 + var8] = var11[var8];
         }
 
         int var15;
-        for(var15 = 1; var15 <= var10 / 2; ++var15) {
+        for (var15 = 1; var15 <= var10 / 2; ++var15) {
             a(var18, var15 << 4, var11, 0);
             a(var18, var10 - var15 << 4, var18, var15 << 4);
 
-            for(var8 = 0; var8 < 16; ++var8) {
+            for (var8 = 0; var8 < 16; ++var8) {
                 var18[(var10 - var15 << 4) + var8] = var11[var8];
             }
         }
@@ -400,11 +400,11 @@ final class k {
         var15 = var10;
         a(var2);
         int var13;
-        ByteBuffer var20 = ByteBuffer.allocate((var13 = (int)Math.ceil((double)var1.length() / 32.0)) << 4);
+        ByteBuffer var20 = ByteBuffer.allocate((var13 = (int) Math.ceil((double) var1.length() / 32.0)) << 4);
 
-        for(int var19 = 0; var19 < var13; ++var19) {
+        for (int var19 = 0; var19 < var13; ++var19) {
             Arrays.fill(var3, 0);
-            Arrays.fill(var4, (byte)0);
+            Arrays.fill(var4, (byte) 0);
             this.a(var7, var19 << 4, var15, var2, var3);
             a(var3, var4);
             var20.put(var4);
