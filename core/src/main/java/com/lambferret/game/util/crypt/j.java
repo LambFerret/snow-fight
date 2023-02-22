@@ -39,7 +39,7 @@ public final class j {
 
     }
 
-    static String a(String var0) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
+    public static String a(String var0) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
         a();
         SecureRandom var2 = new SecureRandom();
         byte[] var3 = new byte[20];
@@ -58,7 +58,7 @@ public final class j {
         return Base64.getEncoder().encodeToString(var3);
     }
 
-    static String b(String var0) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
+    public static String b(String var0) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidParameterSpecException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, InvalidAlgorithmParameterException {
         a();
         Cipher var2 = Cipher.getInstance(f);
         ByteBuffer var5 = ByteBuffer.wrap(Base64.getDecoder().decode(var0));

@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.GsonDateFormatAdapter;
-import com.lambferret.game.util.crypt.CryptoUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +41,7 @@ public class SaveLoader {
                 sb.append(s);
             }
             br.close();
-            var ac = CryptoUtil.decrypt(String.valueOf(sb));
+            var ac = GlobalUtil.decrypt(String.valueOf(sb));
             saveFile = gson.fromJson(ac, Save.class);
         } catch (IOException e) {
         }
@@ -67,7 +67,7 @@ public class SaveLoader {
             .init(true)
             .build();
         try (FileWriter file = new FileWriter(fileName)) {
-            file.append(CryptoUtil.encrypt(gson.toJson(save)));
+            file.append(GlobalUtil.encrypt(gson.toJson(save)));
         } catch (IOException ex) {
             logger.fatal("old save file IOException");
             Gdx.app.exit();
@@ -87,7 +87,7 @@ public class SaveLoader {
             .create();
         Save newSave = Save.builder().time(0).build();
         try (FileWriter file = new FileWriter(fileName)) {
-            file.append(CryptoUtil.encrypt(gson.toJson(newSave)));
+            file.append(GlobalUtil.encrypt(gson.toJson(newSave)));
         } catch (IOException ex) {
             logger.fatal("new save file IOException");
             Gdx.app.exit();
