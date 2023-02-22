@@ -54,7 +54,7 @@ public class Overlay {
             overlay.create();
             overlay.hide(Hitbox.Direction.INSTANTLY);
         }
-        bar.show(false);
+        bar.show(true);
     }
 
     public void setPhaseUI() {

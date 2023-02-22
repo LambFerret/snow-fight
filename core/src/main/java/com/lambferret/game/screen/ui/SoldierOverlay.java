@@ -13,7 +13,7 @@ public class SoldierOverlay extends AbstractOverlay {
 
     @Override
     public void create() {
-        this.box = new Hitbox(0.0F, 0.0F, GlobalSettings.currWidth, OVERLAY_HEIGHT);
+        this.box = new Hitbox(0.0F, 0.0F, GlobalSettings.currWidth * 2 / 3.0F, OVERLAY_HEIGHT);
     }
 
     @Override
