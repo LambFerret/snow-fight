@@ -2,27 +2,21 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 
-public class BarOverlay extends Overlay {
+public class BarOverlay extends AbstractOverlay {
     private Hitbox box;
-    public static long time = 0;
-
-    public BarOverlay() {
-        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - 50.0F, GlobalSettings.currWidth, 50.0F);
-        hide();
-    }
-
+    private boolean isHidden = false;
 
     @Override
     public void create() {
-        time = SaveLoader.currentSave.getTime();
+        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - 50.0F, GlobalSettings.currWidth, 50.0F);
+
     }
 
     @Override
     public void update(float delta) {
-        time++;
+        this.box.update(delta);
     }
 
     @Override
@@ -31,12 +25,20 @@ public class BarOverlay extends Overlay {
     }
 
     @Override
-    public void hide() {
-        box.hide(Hitbox.Direction.UP);
+    public void hide(Hitbox.Direction direction) {
+        if (isHidden) return;
+        this.box.hide(direction);
+        isHidden = true;
     }
 
     @Override
-    public void show() {
-        box.show();
+    public void show(boolean instantly) {
+        if (!isHidden) return;
+        if (instantly) {
+            this.box.showInstantly();
+        } else {
+            this.box.show();
+        }
+        isHidden = false;
     }
 }

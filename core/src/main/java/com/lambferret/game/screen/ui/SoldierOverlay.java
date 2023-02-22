@@ -4,13 +4,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 
-public class ScoreOverlay extends AbstractOverlay {
+public class SoldierOverlay extends AbstractOverlay {
     private Hitbox box;
-    private boolean isHidden = false;
+    private boolean isHidden = true;
+
+    // TODO : 이부분은 좀 고정 사이즈를 가질 필요를 느낀다
+    private static final float OVERLAY_HEIGHT = 200.0F;
 
     @Override
     public void create() {
-        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - 100.0F, 50.0F, 50.0F);
+        this.box = new Hitbox(0.0F, 0.0F, GlobalSettings.currWidth, OVERLAY_HEIGHT);
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.lambferret.game.screen.ui.BarOverlay;
 import com.lambferret.game.util.GsonDateFormatAdapter;
 import com.lambferret.game.util.crypt.CryptoUtil;
 import org.apache.logging.log4j.LogManager;
@@ -64,7 +63,7 @@ public class SaveLoader {
             .create();
         Save save = Save.builder()
             // some saving stuff
-            .time(BarOverlay.time)
+//            .time(BarOverlay.time)
             .init(true)
             .build();
         try (FileWriter file = new FileWriter(fileName)) {

@@ -7,8 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.screen.ui.Overlay;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class TrainingGroundScreen extends GroundUIScreen {
+    private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
+
     TextButton.TextButtonStyle style;
     TextButton textButton;
     BitmapFont font;
@@ -39,6 +44,10 @@ public class TrainingGroundScreen extends GroundUIScreen {
     public void update(float delta) {
         super.update(delta);
         this.box.update(delta);
-        if (this.box.isClicked) SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
+        if (this.box.isClicked) {
+            this.box.hide(Hitbox.Direction.INSTANTLY);
+            Overlay.hideAll();
+            SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
+        }
     }
 }

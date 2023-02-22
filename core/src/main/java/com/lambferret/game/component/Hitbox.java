@@ -98,17 +98,28 @@ public class Hitbox {
             case RIGHT -> {
                 this.destX = this.x + GlobalSettings.currWidth;
             }
+            case INSTANTLY -> {
+                this.destY = -10000;
+                this.y = -10000;
+
+            }
         }
         this.isActive = false;
+        this.isHovered = false;
+        this.isClicked = false;
     }
 
     public void show() {
-        this.destX = this.initX;
         this.destY = this.initY;
         this.isActive = true;
-
     }
 
+    public void showInstantly() {
+        this.destY = this.initY;
+        this.y = this.initY;
+
+        this.isActive = true;
+    }
 
     public void render(SpriteBatch debugBatch) {
         if (GlobalSettings.isDev) {
@@ -147,7 +158,7 @@ public class Hitbox {
     }
 
     public enum Direction {
-        UP, DOWN, LEFT, RIGHT
+        UP, DOWN, LEFT, RIGHT, INSTANTLY
     }
 
 }

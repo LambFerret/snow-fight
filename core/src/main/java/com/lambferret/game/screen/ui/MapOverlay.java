@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapOverlay extends Overlay {
+public class MapOverlay extends AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(MapOverlay.class.getName());
 
     private static final float WIDTH_FIXED = 400.0F;
@@ -24,7 +24,7 @@ public class MapOverlay extends Overlay {
     private final float y;
     private final float width;
     private final float height;
-    private boolean isHidden;
+    private boolean isHidden = false;
 
 
     public MapOverlay() {
@@ -32,7 +32,6 @@ public class MapOverlay extends Overlay {
         y = 0.0F;
         width = WIDTH_FIXED * s;
         height = HEIGHT_FIXED * s;
-        isHidden = false;
         int index = 0;
         plate = new Hitbox(x, y, width, height);
         buttons.add(new MapButton(MapButton.GroundButtonAction.RECRUIT, index++));
@@ -69,15 +68,21 @@ public class MapOverlay extends Overlay {
     }
 
     @Override
-    public void hide() {
+       public void hide(Hitbox.Direction direction) {
         if (isHidden) return;
-        this.plate.hide(Hitbox.Direction.RIGHT);
+        this.plate.hide(direction);
+        isHidden = true;
     }
 
     @Override
-    public void show() {
+    public void show(boolean instantly) {
         if (!isHidden) return;
-        this.plate.show();
+        if (instantly) {
+            this.plate.showInstantly();
+        } else {
+            this.plate.show();
+        }
+        isHidden = false;
     }
 
     @Override
@@ -87,11 +92,9 @@ public class MapOverlay extends Overlay {
         }
         plate.update(delta);
         if (!isHidden && CustomInputProcessor.pressedKey(Input.Keys.Y)) {
-            this.hide();
-            isHidden = true;
+            this.hide(Hitbox.Direction.INSTANTLY);
         } else if (isHidden && CustomInputProcessor.pressedKey(Input.Keys.U)) {
-            this.show();
-            isHidden = false;
+            this.show(true);
         } else if (CustomInputProcessor.pressedKey(Input.Keys.I)) {
             plate.move(100, 100);
         }

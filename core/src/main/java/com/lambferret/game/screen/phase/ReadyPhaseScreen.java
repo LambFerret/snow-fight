@@ -1,28 +1,37 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.Hitbox;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ReadyPhaseScreen extends PhaseUIScreen {
     private static final Logger logger = LogManager.getLogger(ReadyPhaseScreen.class.getName());
-    Hitbox box;
+
+    TextButton.TextButtonStyle style;
+    TextButton textButton;
+    BitmapFont font;
+    Stage stage;
 
     public ReadyPhaseScreen() {
-        box = new Hitbox(50, 50, 50, 50);
+        stage = new Stage();
+        font = new BitmapFont();
+        style = new TextButton.TextButtonStyle();
+        style.font = font;
+        textButton = new TextButton("READY", style);
+        stage.addActor(textButton);
     }
-
 
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
-        batch.setColor(Color.CHARTREUSE);
-        box.render(batch);
+
+        stage.act();
+        stage.draw();
     }
 
-    @Override
     public void update(float delta) {
         super.update(delta);
 

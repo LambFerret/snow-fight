@@ -63,7 +63,6 @@ public class CustomInputProcessor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         pressedKey = keycode;
-        logger.info(command, keycode);
         return true;
     }
 
