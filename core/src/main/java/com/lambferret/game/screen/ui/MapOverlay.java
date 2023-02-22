@@ -68,7 +68,7 @@ public class MapOverlay extends AbstractOverlay {
     }
 
     @Override
-       public void hide(Hitbox.Direction direction) {
+    public void hide(Hitbox.Direction direction) {
         if (isHidden) return;
         this.plate.hide(direction);
         isHidden = true;
