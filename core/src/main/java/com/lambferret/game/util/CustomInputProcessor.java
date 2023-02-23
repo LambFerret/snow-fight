@@ -80,6 +80,12 @@ public class CustomInputProcessor implements InputProcessor {
         return mouseLocationY;
     }
 
+    public static float getScrolledAmount() {
+        float current = scrolledAmount;
+        scrolledAmount = 0;
+        return current;
+    }
+
     public static boolean pressedKey(int keycode) {
         if (keyDown == keycode) {
             keyDown = Input.Keys.ANY_KEY;
@@ -163,7 +169,7 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean scrolled(float amountX, float amountY) {
-        scrolledAmount = amountX;
+        scrolledAmount = amountY;
         return true;
     }
 
