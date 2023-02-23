@@ -14,8 +14,6 @@ public class ExecuteOverlay extends AbstractOverlay {
     private Texture texture;
 
 
-
-
     @Override
     public void create() {
         this.box = new Hitbox(GlobalSettings.currWidth - OVERLAY_WIDTH, 0.0F, OVERLAY_WIDTH, OVERLAY_HEIGHT);
