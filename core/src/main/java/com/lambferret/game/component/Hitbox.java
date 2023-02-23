@@ -147,14 +147,19 @@ public class Hitbox {
 
     private void isHovered() {
         this.isHovered =
-            CustomInputProcessor.getX() > this.x
-                && CustomInputProcessor.getX() < this.x + this.width
-                && CustomInputProcessor.getY() > this.y
-                && CustomInputProcessor.getY() < this.y + this.height;
+            CustomInputProcessor.getMouseLocationX() > this.x
+                && CustomInputProcessor.getMouseLocationX() < this.x + this.width
+                && CustomInputProcessor.getMouseLocationY() > this.y
+                && CustomInputProcessor.getMouseLocationY() < this.y + this.height;
     }
 
     private void isClicked() {
-        this.isClicked = this.isHovered && CustomInputProcessor.isTouched();
+        this.isClicked =
+            CustomInputProcessor.getMouseUpX() > this.x
+                && CustomInputProcessor.getMouseUpX() < this.x + this.width
+                && CustomInputProcessor.getMouseUpY() > this.y
+                && CustomInputProcessor.getMouseUpY() < this.y + this.height
+                && CustomInputProcessor.isMouseUp();
     }
 
     public enum Direction {
