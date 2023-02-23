@@ -15,7 +15,7 @@ public class SoldierContainer {
 
     private static final float EXTEND_WIDTH = 300.0F;
     private static float EXTEND_HEIGHT;
-    private static final float SHRINK_WIDTH = 50;
+    private static final float SHRINK_WIDTH = EXTEND_WIDTH;
     private static float SHRINK_HEIGHT;
     private static final float VERTICAL_SPACING = 10.0F;
     private static final float HORIZONTAL_SPACING = 5.0F;
@@ -28,7 +28,6 @@ public class SoldierContainer {
     }
 
     public void standard() {
-        logger.info("standard |  🐳 ");
 
         this.box.resize(EXTEND_WIDTH, EXTEND_HEIGHT);
         this.box.move(
@@ -40,21 +39,13 @@ public class SoldierContainer {
     public void simplify() {
 
         this.box.resize(SHRINK_WIDTH, SHRINK_HEIGHT);
-        if (index % 2 == 0) {
-            logger.info("simplify 111|  🐳 " + oddIndex);
 
-            this.box.move(
-                plate.getX() + HORIZONTAL_SPACING * (oddIndex + 1) + SHRINK_WIDTH * oddIndex,
-                plate.getY() + VERTICAL_SPACING * 2 + SHRINK_HEIGHT
-            );
-        } else {
-            logger.info("simplify 222|  🐳 " + oddIndex);
+        float x = plate.getX() + HORIZONTAL_SPACING * (oddIndex + 1) + SHRINK_WIDTH * oddIndex;
+        float y = (index % 2 == 0)
+            ? plate.getY() + VERTICAL_SPACING * 2 + SHRINK_HEIGHT
+            : plate.getY() + VERTICAL_SPACING;
+        this.box.move(x, y);
 
-            this.box.move(
-                plate.getX() + HORIZONTAL_SPACING * (oddIndex + 1) + SHRINK_WIDTH * oddIndex,
-                plate.getY() + VERTICAL_SPACING
-            );
-        }
 
     }
 
