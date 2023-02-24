@@ -1,7 +1,7 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.component.Direction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +14,7 @@ public abstract class AbstractOverlay {
 
     public abstract void render(SpriteBatch batch);
 
-    public abstract void hide(Hitbox.Direction direction);
+    public abstract void hide(Direction direction);
 
     public abstract void show(boolean instantly);
 }

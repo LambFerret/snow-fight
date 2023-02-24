@@ -1,7 +1,7 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.component.Direction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -52,7 +52,7 @@ public class Overlay {
     private static void create() {
         for (AbstractOverlay overlay : allOverlay) {
             overlay.create();
-            overlay.hide(Hitbox.Direction.INSTANTLY);
+            overlay.hide(Direction.INSTANTLY);
         }
         bar.show(true);
     }
@@ -75,7 +75,7 @@ public class Overlay {
 
     public static void hideAll() {
         for (AbstractOverlay overlay : allOverlay) {
-            overlay.hide(Hitbox.Direction.INSTANTLY);
+            overlay.hide(Direction.INSTANTLY);
         }
     }
 

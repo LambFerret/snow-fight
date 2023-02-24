@@ -2,6 +2,7 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.component.Direction;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.screen.ground.MapButton;
 import com.lambferret.game.setting.GlobalSettings;
@@ -68,7 +69,7 @@ public class MapOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void hide(Hitbox.Direction direction) {
+    public void hide(Direction direction) {
         if (isHidden) return;
         this.plate.hide(direction);
         isHidden = true;
@@ -92,7 +93,7 @@ public class MapOverlay extends AbstractOverlay {
         }
         plate.update(delta);
         if (!isHidden && CustomInputProcessor.pressedKey(Input.Keys.Y)) {
-            this.hide(Hitbox.Direction.INSTANTLY);
+            this.hide(Direction.INSTANTLY);
         } else if (isHidden && CustomInputProcessor.pressedKey(Input.Keys.U)) {
             this.show(true);
         } else if (CustomInputProcessor.pressedKey(Input.Keys.I)) {

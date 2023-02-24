@@ -6,10 +6,11 @@ import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 public abstract class PhaseUIScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(PhaseUIScreen.class.getName());
     private static Overlay overlay;
+    private static int level;
+    private static int region;
 
     public PhaseUIScreen() {
         overlay = Overlay.getInstance();

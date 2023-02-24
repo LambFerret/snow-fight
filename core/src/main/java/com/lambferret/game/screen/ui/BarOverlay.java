@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.component.Direction;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 
@@ -25,7 +26,7 @@ public class BarOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void hide(Hitbox.Direction direction) {
+    public void hide(Direction direction) {
         if (isHidden) return;
         this.box.hide(direction);
         isHidden = true;

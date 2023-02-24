@@ -14,24 +14,36 @@ public class HorizontalScroll {
     private Hitbox scrollPointer;
     private Hitbox plate;
     private float X;
-    private float POINTER_X;
     private float Y;
     private float WIDTH;
-    private final float POINTER_WIDTH = 100.0F;
-    private final float HEIGHT = 50.0F;
+    private final float HEIGHT = 25.0F;
+    private float POINTER_X;
+    private float POINTER_WIDTH;
+    private Direction direction;
+    private boolean isVisible;
 
-    public HorizontalScroll() {
+    public HorizontalScroll(Direction direction) {
+        if (!(direction == Direction.UP || direction == Direction.DOWN)) {
+            throw new IllegalStateException("Scroll direction isn't valid");
+        }
+        this.direction = direction;
+
 
     }
 
     public void create(Hitbox plate) {
         this.plate = plate;
-        pointerTexture = AssetPath.getTexture("scrollPointer");
-        barTexture = AssetPath.getTexture("scrollBar");
+        pointerTexture = AssetPath.getTexture("scrollPointer_H");
+        barTexture = AssetPath.getTexture("scrollBar_H");
+        if (direction == Direction.UP) {
+            Y = plate.getY() + plate.getHeight() - HEIGHT;
+        } else if (direction == Direction.DOWN) {
+            Y = plate.getY();
+        }
         X = plate.getX();
-        Y = plate.getY();
-        POINTER_X = X;
         WIDTH = plate.getWidth();
+        POINTER_WIDTH = WIDTH / 10.0F;
+        POINTER_X = X;
         scrollPointer = new Hitbox(X, Y, POINTER_WIDTH, HEIGHT);
 
     }
@@ -39,17 +51,18 @@ public class HorizontalScroll {
     public void render(SpriteBatch batch) {
         batch.draw(barTexture, X, Y, WIDTH, HEIGHT);
         batch.draw(pointerTexture, POINTER_X, Y, POINTER_WIDTH, HEIGHT);
-        scrollPointer.render(batch);
     }
 
     public void update(float delta) {
         scrollPointer.update(delta);
+
         POINTER_X += CustomInputProcessor.getScrolledAmount() * 10;
+
         if (POINTER_X < X) {
-            POINTER_X = 0;
+            POINTER_X = X;
         }
-        if (POINTER_X > WIDTH-POINTER_WIDTH) {
-            POINTER_X = WIDTH-POINTER_WIDTH;
+        if (POINTER_X > X + WIDTH - POINTER_WIDTH) {
+            POINTER_X = X + WIDTH - POINTER_WIDTH;
         }
 
     }

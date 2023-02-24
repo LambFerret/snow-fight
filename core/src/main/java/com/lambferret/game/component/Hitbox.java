@@ -162,8 +162,5 @@ public class Hitbox {
                 && CustomInputProcessor.isMouseUp();
     }
 
-    public enum Direction {
-        UP, DOWN, LEFT, RIGHT, INSTANTLY
-    }
 
 }
