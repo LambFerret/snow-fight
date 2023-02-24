@@ -2,6 +2,7 @@ package com.lambferret.game.component;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetPath;
 import com.lambferret.game.util.CustomInputProcessor;

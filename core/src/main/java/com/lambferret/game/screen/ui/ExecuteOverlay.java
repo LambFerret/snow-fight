@@ -2,7 +2,7 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.Direction;
+import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetPath;

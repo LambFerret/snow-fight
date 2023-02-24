@@ -2,6 +2,7 @@ package com.lambferret.game.component;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.util.AssetPath;
 import com.lambferret.game.util.CustomInputProcessor;
 import com.lambferret.game.util.GlobalUtil;
@@ -24,7 +25,7 @@ public class HorizontalScroll {
     private static final float SCROLL_SPEED = 10.0F;
     private float transparency = 0.0F;
 
-    public HorizontalScroll(Direction direction) {
+    public HorizontalScroll(Direction direction, ScrollObserver observer) {
         if (!(direction == Direction.UP || direction == Direction.DOWN)) {
             throw new IllegalStateException("Scroll direction isn't valid");
         }

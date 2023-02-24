@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.component.Direction;
+import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;

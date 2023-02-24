@@ -1,7 +1,7 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.Direction;
+import com.lambferret.game.component.constant.Direction;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
