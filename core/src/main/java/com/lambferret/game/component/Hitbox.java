@@ -141,8 +141,8 @@ public class Hitbox {
             isHovered();
             isClicked();
         }
-        this.x = GlobalUtil.lerp(x, destX, SPEED, delta);
-        this.y = GlobalUtil.lerp(y, destY, SPEED, delta);
+        this.x = GlobalUtil.lerp(x, destX, SPEED);
+        this.y = GlobalUtil.lerp(y, destY, SPEED);
     }
 
     private void isHovered() {

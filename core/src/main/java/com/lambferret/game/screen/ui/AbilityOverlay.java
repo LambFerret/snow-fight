@@ -17,7 +17,6 @@ public class AbilityOverlay extends AbstractOverlay {
     @Override
     public void create() {
         this.plate = new Hitbox(GlobalSettings.currWidth - OVERLAY_WIDTH, OVERLAY_HEIGHT, OVERLAY_WIDTH, GlobalSettings.currHeight - OVERLAY_HEIGHT);
-        logger.info("create |  🐳 plate 0 | " + OVERLAY_HEIGHT);
         scroll.create(this.plate);
 
     }
