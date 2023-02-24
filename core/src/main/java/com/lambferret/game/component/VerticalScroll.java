@@ -44,9 +44,6 @@ public class VerticalScroll {
         POINTER_HEIGHT = HEIGHT / 10.0F;
         POINTER_Y = Y;
 
-        logger.info("create |  🐳 Y0 | " + Y);
-        logger.info("create |  🐳 Y1 | " + HEIGHT);
-        logger.info("create |  🐳 Y2 | " + (Y+HEIGHT));
         scrollPointer = new Hitbox(X, Y, WIDTH, POINTER_HEIGHT);
 
     }

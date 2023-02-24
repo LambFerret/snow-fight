@@ -21,7 +21,7 @@ public class RecruitScreen extends GroundUIScreen {
     HorizontalScroll scroll_H;
 
     public RecruitScreen() {
-        Hitbox plate_H = new Hitbox(0,500.0F, GlobalSettings.currWidth, 100.0F);
+        Hitbox plate_H = new Hitbox(0, 500.0F, GlobalSettings.currWidth, 100.0F);
 
         scroll_H = new HorizontalScroll(Direction.DOWN);
         scroll_H.create(plate_H);

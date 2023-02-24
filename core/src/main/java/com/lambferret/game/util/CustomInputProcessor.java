@@ -143,20 +143,16 @@ public class CustomInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-
         if (isMouseDown) {
-
             mouseDragStartX = screenX;
             mouseDragStartY = Gdx.graphics.getHeight() - screenY;
-
         }
+
         if (isMouseUp) {
             mouseDragEndX = screenX;
             mouseDragEndY = Gdx.graphics.getHeight() - screenY;
+
         }
-
-
-
         return true;
     }
 
