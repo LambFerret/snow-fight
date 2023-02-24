@@ -1,32 +1,107 @@
 package com.lambferret.game.soldier;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.component.constant.Affiliation;
+import com.lambferret.game.component.constant.Branch;
+import com.lambferret.game.component.constant.Rank;
+import com.lambferret.game.component.constant.Terrain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public abstract class Soldier implements Comparable<Soldier> {
     private static final Logger logger = LogManager.getLogger(Soldier.class.getName());
-    public String ID;
-    public String name;
-    public String description;
-    public int rank;
-    public String texturePath;
-    public float speed;
-    public int rangeX;
-    public int rangeY;
-    public float runAwayProbability;
+    /**
+     * 카드 id. 군번도 가능할까?
+     */
+    private String ID;
+    /**
+     * 소속
+     */
+    private Affiliation affiliation;
+    /**
+     * 직급
+     */
+    private Rank rank;
+    /**
+     * 이름
+     */
+    private String name;
+    /**
+     * 병과
+     */
+    private Branch branch;
+    /**
+     * 선호 지형
+     */
+    private List<Terrain> preferenceTerrain;
+    /**
+     * 한마디?
+     */
+    private String description;
+    /**
+     * 텍스쳐 관련
+     */
+    private String texturePath;
+    /**
+     * 속도
+     */
+    private float speed;
+    /**
+     * 특수한 가로세로 범위
+     */
+    private boolean isUncommonRange;
+    /**
+     * 가로 범위
+     */
+    private int rangeX;
+    /**
+     * 세로 범위
+     */
+    private int rangeY;
+    /**
+     * 뺑끼 확률 (아직안씀)
+     */
+    private float runAwayProbability;
+
+    private Texture texture;
 
     public Soldier(
-        String ID, String name, String description, int rank, String texturePath,
-        float speed, int rangeX, int rangeY
+        String ID, Affiliation affiliation, Rank rank, String name, Branch branch,
+        List<Terrain> preferenceTerrain, String description, String texturePath,
+        float speed, boolean isUncommonRange, int rangeX, int rangeY
     ) {
         this.ID = ID;
-        this.name = name;
-        this.description = description;
+        this.affiliation = affiliation;
         this.rank = rank;
+        this.name = name;
+        this.branch = branch;
+        this.preferenceTerrain = preferenceTerrain;
+        this.description = description;
         this.texturePath = texturePath;
         this.speed = speed;
+        this.isUncommonRange = isUncommonRange;
         this.rangeX = rangeX;
         this.rangeY = rangeY;
+    }
+
+    public void create(Hitbox plate) {
+
+    }
+
+    public void render(SpriteBatch batch) {
+//        batch.draw(texture);
+    }
+    private void renderFront(SpriteBatch batch) {
+
+    }
+    private void renderBack(SpriteBatch batch) {
+
+    }
+    public void update(float delta) {
     }
 
     @Override
@@ -34,98 +109,6 @@ public abstract class Soldier implements Comparable<Soldier> {
         return this.ID.compareTo(o.ID);
     }
 
-    static public class Rank {
-
-        /**
-         * 훈련병
-         */
-        public static final int RECRUIT = 1;
-        /**
-         * 이등병
-         */
-        public static final int PRIVATE = 2;
-        /**
-         * 일등병
-         */
-        public static final int PRIVATE_FIRST_CLASS = 3;
-        /**
-         * 상병
-         */
-        public static final int CORPORAL = 4;
-        /**
-         * 병장
-         */
-        public static final int SERGEANT = 5;
-        /**
-         * 하사
-         */
-        public static final int STAFF_SERGEANT = 6;
-        /**
-         * 중사
-         */
-        public static final int SERGEANT_FIRST_CLASS = 7;
-        /**
-         * 상사
-         */
-        public static final int FIRST_SERGEANT = 8;
-        /**
-         * 원사
-         */
-        public static final int SERGENT_MAJOR = 9;
-        /**
-         * 주임원사
-         */
-        public static final int COMMAND_SERGEANT_MAJOR = 10;
-        /**
-         * 육군주임원사
-         */
-        public static final int SERGEANT_MAJOR_OF_THE_ARMY = 11;
-        /**
-         * 준위
-         */
-        public static final int MASTER_WARRANT_OFFICER = 12;
-        /**
-         * 소위
-         */
-        public static final int SECOND_LIEUTENANT = 13;
-        /**
-         * 중위
-         */
-        public static final int FIRST_LIEUTENANT = 14;
-        /**
-         * 대위
-         */
-        public static final int CAPTAIN = 15;
-        /**
-         * 소령
-         */
-        public static final int MAJOR = 16;
-        /**
-         * 중령
-         */
-        public static final int LIEUTENANT_COLONEL = 17;
-        /**
-         * 대령
-         */
-        public static final int COLONEL = 18;
-        /**
-         * 준장
-         */
-        public static final int BRIGADIER_GENERAL = 19;
-        /**
-         * 소장
-         */
-        public static final int MAJOR_GENERAL = 20;
-        /**
-         * 중장
-         */
-        public static final int LIEUTENANT_GENERAL = 21;
-        /**
-         * 대장
-         */
-        public static final int GENERAL = 22;
-
-    }
 
 }
 

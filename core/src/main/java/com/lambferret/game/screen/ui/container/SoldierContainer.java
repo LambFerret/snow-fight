@@ -1,17 +1,23 @@
 package com.lambferret.game.screen.ui.container;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.component.HorizontalScroll;
+import com.lambferret.game.component.ScrollObserver;
 import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SoldierContainer {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SoldierContainer implements ScrollObserver {
     private static final Logger logger = LogManager.getLogger(SoldierContainer.class.getName());
-    private Hitbox box;
+    private final Hitbox containerBox;
     private Hitbox plate;
-    private int index;
-    private int oddIndex;
+    private final List<Hitbox> container = new ArrayList<>();
+    private HorizontalScroll scroll;
 
     private static final float EXTEND_WIDTH = 300.0F;
     private static float EXTEND_HEIGHT;
@@ -21,30 +27,68 @@ public class SoldierContainer {
     private static final float HORIZONTAL_SPACING = 5.0F;
 
 
-    public SoldierContainer(Soldier soldier, int index) {
-        this.index = index;
-        this.oddIndex = index / 2;
-        this.box = new Hitbox();
+    public SoldierContainer(List<Soldier> soldiers) {
+        scroll = new HorizontalScroll(Direction.DOWN, this);
+        for (Soldier soldier : soldiers) {
+            container.add(new Hitbox());
+        }
+
+        this.containerBox = new Hitbox();
+    }
+
+    public void create(Hitbox plate) {
+        this.plate = plate;
+        this.containerBox.move(plate.getX(), /* scroll height */25.0F);
+        this.containerBox.resize(plate.getWidth(), plate.getHeight() - 25.0F);
+        EXTEND_HEIGHT = containerBox.getHeight() - (VERTICAL_SPACING * 2);
+        SHRINK_HEIGHT = (containerBox.getHeight() - (VERTICAL_SPACING * 3)) / 2;
+
+
+        this.standard();
+    }
+
+    public void render(SpriteBatch batch) {
+        for (Hitbox box : container) {
+            box.render(batch);
+        }
+
+        this.containerBox.render(batch);
+    }
+
+    public void update(float delta) {
+
+        for (Hitbox box : container) {
+            box.update(delta);
+            if (box.isHovered) hoverAction();
+            if (box.isClicked) clickAction();
+        }
+
+        this.containerBox.update(delta);
     }
 
     public void standard() {
-
-        this.box.resize(EXTEND_WIDTH, EXTEND_HEIGHT);
-        this.box.move(
-            plate.getX() + HORIZONTAL_SPACING * (index + 1) + EXTEND_WIDTH * index,
-            plate.getY() + VERTICAL_SPACING
-        );
+        for (int index = 0; index < container.size(); index++) {
+            container.get(index).resize(EXTEND_WIDTH, EXTEND_HEIGHT);
+            container.get(index).move(
+                containerBox.getX() + HORIZONTAL_SPACING * (index + 1) + EXTEND_WIDTH * index,
+                containerBox.getY() + VERTICAL_SPACING
+            );
+            logger.info("standard |  🐳 ratio | " + EXTEND_WIDTH + " : " + EXTEND_HEIGHT);
+        }
     }
 
     public void simplify() {
+        for (int index = 0; index < container.size(); index++) {
+            int odd = index / 2;
+            container.get(index).resize(SHRINK_WIDTH, SHRINK_HEIGHT);
+            float x = containerBox.getX() + HORIZONTAL_SPACING * (odd + 1) + SHRINK_WIDTH * odd;
+            float y = (index % 2 == 0)
+                ? containerBox.getY() + VERTICAL_SPACING * 2 + SHRINK_HEIGHT
+                : containerBox.getY() + VERTICAL_SPACING;
+            container.get(index).move(x, y);
+            logger.info("standard |  🐳 ratio | " + SHRINK_WIDTH + " : " + SHRINK_HEIGHT);
 
-        this.box.resize(SHRINK_WIDTH, SHRINK_HEIGHT);
-
-        float x = plate.getX() + HORIZONTAL_SPACING * (oddIndex + 1) + SHRINK_WIDTH * oddIndex;
-        float y = (index % 2 == 0)
-            ? plate.getY() + VERTICAL_SPACING * 2 + SHRINK_HEIGHT
-            : plate.getY() + VERTICAL_SPACING;
-        this.box.move(x, y);
+        }
 
 
     }
@@ -56,25 +100,9 @@ public class SoldierContainer {
     private void clickAction() {
     }
 
-    public void create(Hitbox plate) {
-        this.plate = plate;
-        EXTEND_HEIGHT = plate.getHeight() - (VERTICAL_SPACING * 2);
-        SHRINK_HEIGHT = (plate.getHeight() - (VERTICAL_SPACING * 3)) / 2;
-        this.standard();
-    }
 
-    public void render(SpriteBatch batch) {
-        this.box.render(batch);
-    }
+    @Override
+    public void scroll(float value) {
 
-    public void update(float delta) {
-        this.box.update(delta);
-        clickAction();
-        if (this.box.isClicked) {
-//            clickAction();
-        }
-        if (this.box.isHovered) {
-            hoverAction();
-        }
     }
 }
