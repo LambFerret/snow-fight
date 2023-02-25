@@ -20,10 +20,10 @@ public class SilvanusPark extends Soldier {
 
     public SilvanusPark() {
         super(
-            ID, Affiliation.ARMY, Rank.PRIVATE, text.getContinueGame(), Branch.SNIPER,
-            List.of(Terrain.LAKE), text.getNewGame(), "silvanusPark",
+            ID, Affiliation.ARMY, Rank.RECRUIT, "text.getContinueGame()", Branch.SNIPER,
+            List.of(Terrain.LAKE), "text.getNewGame()", "silvanusPark",
             0.1F, false, 3, 4
-            );
+        );
     }
 
 }

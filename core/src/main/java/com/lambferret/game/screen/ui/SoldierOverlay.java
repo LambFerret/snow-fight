@@ -2,8 +2,8 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.screen.ui.container.SoldierContainer;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.SilvanusPark;
@@ -19,12 +19,12 @@ public class SoldierOverlay extends AbstractOverlay {
     private boolean isSimplify = false;
     private final List<Soldier> soldiers = new ArrayList<>();
     private final List<SoldierContainer> hand = new ArrayList<>();
-//    private final HorizontalScroll scroll = new HorizontalScroll(Direction.DOWN, );
+    //    private final HorizontalScroll scroll = new HorizontalScroll(Direction.DOWN, );
     private float locationX = 0.0F;
     private float locationY = 0.0F;
     private float width = GlobalSettings.currWidth * 2 / 3.0F;
     private float height = 200.0F;
-
+    private SoldierContainer container;
 
     // TODO : 이부분은 좀 고정 사이즈를 가질 필요를 느낀다
 
@@ -40,7 +40,7 @@ public class SoldierOverlay extends AbstractOverlay {
         this.plate = new Hitbox(locationX, locationY, width, height);
 //        scroll.create(this.plate);
 
-        var container = new SoldierContainer(soldiers);
+        container = new SoldierContainer(soldiers);
         container.create(plate);
         hand.add(container);
     }
@@ -48,14 +48,10 @@ public class SoldierOverlay extends AbstractOverlay {
 
     private void switchInfo() {
         if (isSimplify) {
-            for (SoldierContainer soldier : hand) {
-                soldier.standard();
-            }
+            container.standard();
             isSimplify = false;
         } else {
-            for (SoldierContainer soldier : hand) {
-                soldier.simplify();
-            }
+            container.simplify();
             isSimplify = true;
         }
     }

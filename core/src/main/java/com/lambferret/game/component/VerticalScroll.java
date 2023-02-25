@@ -3,7 +3,7 @@ package com.lambferret.game.component;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.constant.Direction;
-import com.lambferret.game.util.AssetPath;
+import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.CustomInputProcessor;
 import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
@@ -33,8 +33,8 @@ public class VerticalScroll {
     }
 
     public void create(Hitbox plate) {
-        pointerTexture = AssetPath.getTexture("scrollPointer_V");
-        barTexture = AssetPath.getTexture("scrollBar_V");
+        pointerTexture = AssetFinder.getTexture("scrollPointer_V");
+        barTexture = AssetFinder.getTexture("scrollBar_V");
         if (direction == Direction.RIGHT) {
             X = plate.getX() + plate.getWidth() - WIDTH;
         } else if (direction == Direction.LEFT) {

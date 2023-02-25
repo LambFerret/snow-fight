@@ -17,7 +17,7 @@ import com.lambferret.game.screen.phase.ReadyPhaseScreen;
 import com.lambferret.game.screen.title.TitleMenuScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
-import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.AssetLoader;
 import com.lambferret.game.util.CustomInputProcessor;
 import de.eskalon.commons.core.ManagedGame;
 import de.eskalon.commons.screen.ManagedScreen;
@@ -120,8 +120,8 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     private void assetConfig() {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         assetManager = new AssetManager();
-        AssetFinder assetFinder = new AssetFinder(assetManager, resolver);
-        assetFinder.load();
+        AssetLoader assetLoader = new AssetLoader(assetManager, resolver);
+        assetLoader.load();
         assetManager.finishLoading();
     }
 

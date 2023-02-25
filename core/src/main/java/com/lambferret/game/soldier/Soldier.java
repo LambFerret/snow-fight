@@ -1,12 +1,16 @@
 package com.lambferret.game.soldier;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.constant.Affiliation;
 import com.lambferret.game.component.constant.Branch;
 import com.lambferret.game.component.constant.Rank;
 import com.lambferret.game.component.constant.Terrain;
+import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.CustomInputProcessor;
+import com.lambferret.game.util.TextureFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -68,6 +72,17 @@ public abstract class Soldier implements Comparable<Soldier> {
     private float runAwayProbability;
 
     private Texture texture;
+    private float locationX;
+    private float locationY;
+    private float width;
+    private float height;
+    private float offsetX;
+    private float offsetY;
+    private Hitbox box;
+    private Texture simpleTexture;
+    private BitmapFont font = new BitmapFont();
+    private boolean isFront = true;
+    private boolean isDetail = false;
 
     public Soldier(
         String ID, Affiliation affiliation, Rank rank, String name, Branch branch,
@@ -86,22 +101,79 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.isUncommonRange = isUncommonRange;
         this.rangeX = rangeX;
         this.rangeY = rangeY;
+        box = new Hitbox();
+
     }
 
-    public void create(Hitbox plate) {
+    public void setOffset(Hitbox plate, boolean isDetail) {
+        this.isDetail = isDetail;
+        box.move(plate.getX(), plate.getY());
+        box.resize(plate.getWidth(), plate.getHeight());
 
+        this.offsetX = plate.getX();
+        this.offsetY = plate.getY();
+        this.width = plate.getWidth();
+        this.height = plate.getHeight();
+    }
+
+    private void renderSimple(SpriteBatch batch) {
+        batch.draw(AssetFinder.getTexture(texturePath + "DogTag"), offsetX, offsetY, width, height);
+        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height);
+        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 2.0F);
+        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height);
+        this.box.render(batch);
+    }
+
+
+    private void renderFront(SpriteBatch batch) {
+        batch.draw(AssetFinder.getTexture("soldierFront"), offsetX, offsetY, width, height);
+
+        batch.draw(AssetFinder.getTexture(this.texturePath), offsetX + height / 3.0F, offsetY, width, height * 2.0F / 3.0F);
+        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height / 3.0F);
+
+        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 6.0F);
+        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height / 3.0F);
+    }
+
+    private void renderBack(SpriteBatch batch) {
+        batch.draw(AssetFinder.getTexture("soldierBack"), offsetX, offsetY, width, height);
+        batch.draw(AssetFinder.getTexture("3by3"), offsetX, offsetY + height / 2.0F, width, height / 2.0F);
+        font.draw(batch, this.description, offsetX + 5.0F, offsetY + height / 2);
+
+    }
+
+    private void renderHover(SpriteBatch batch) {
+        var x = CustomInputProcessor.getMouseLocationX();
+        var y = CustomInputProcessor.getMouseLocationY();
+        var width = 300;
+        var height = 450;
+        batch.draw(AssetFinder.getTexture("soldierBack"), x, y, width, height);
+        batch.draw(AssetFinder.getTexture("3by3"), x, y + height / 2.0F, width, height / 2.0F);
+        font.draw(batch, this.description, x + 5.0F, y + height / 2.0F);
     }
 
     public void render(SpriteBatch batch) {
-//        batch.draw(texture);
+        if (!isDetail) {
+            renderSimple(batch);
+            if (this.box.isHovered) {
+                renderHover(batch);
+            }
+        } else if (isFront) {
+            renderFront(batch);
+        } else {
+            renderBack(batch);
+        }
     }
-    private void renderFront(SpriteBatch batch) {
 
-    }
-    private void renderBack(SpriteBatch batch) {
 
-    }
     public void update(float delta) {
+        this.box.update(delta);
+        if (isDetail && this.box.isClicked) {
+            isFront = false;
+        }
+        if (!this.box.isHovered) {
+            isFront = true;
+        }
     }
 
     @Override

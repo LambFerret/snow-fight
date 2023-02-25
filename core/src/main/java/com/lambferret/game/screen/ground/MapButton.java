@@ -8,7 +8,7 @@ import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
-import com.lambferret.game.util.AssetPath;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -113,19 +113,19 @@ public class MapButton {
     private void setProperty() {
         switch (this.action) {
             case RECRUIT -> {
-                texture = AssetPath.getTexture("recruit");
+                texture = AssetFinder.getTexture("recruit");
                 this.nameString = text.getRecruit();
             }
             case SHOP -> {
-                texture = AssetPath.getTexture("shop");
+                texture = AssetFinder.getTexture("shop");
                 this.nameString = text.getShop();
             }
             case TRAINING_GROUND -> {
-                texture = AssetPath.getTexture("ground");
+                texture = AssetFinder.getTexture("ground");
                 this.nameString = text.getTrainingGround();
             }
             case STAGE -> {
-                texture = AssetPath.getTexture("stage");
+                texture = AssetFinder.getTexture("stage");
                 this.nameString = text.getStage();
             }
         }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.util.AssetPath;
+import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.CustomInputProcessor;
 import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
@@ -131,7 +131,7 @@ public class Hitbox {
             } else {
                 debugBatch.setColor(255, 0, 0, 0.5F);
             }
-            Texture tex = AssetPath.getTexture("yellow");
+            Texture tex = AssetFinder.getTexture("yellow");
             debugBatch.draw(tex, this.x, this.y, this.width, this.height);
         }
     }

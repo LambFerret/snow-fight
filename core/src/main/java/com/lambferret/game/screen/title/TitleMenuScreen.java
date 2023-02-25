@@ -3,7 +3,7 @@ package com.lambferret.game.screen.title;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.util.AssetPath;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +39,7 @@ public class TitleMenuScreen extends AbstractScreen {
 
     public void render(SpriteBatch batch) {
         batch.setColor(1, 1, 1, 1);
-        batch.draw(AssetPath.getTexture("titleBackground"),
+        batch.draw(AssetFinder.getTexture("titleBackground"),
             0, 0, GlobalSettings.currWidth, GlobalSettings.currHeight);
         for (TitleMenuButton button : buttons) {
             button.render(batch);

@@ -1,10 +1,8 @@
 package com.lambferret.game.util;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -14,52 +12,86 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.Array;
+import com.lambferret.game.SnowFight;
+
+import java.io.File;
 
 public class AssetFinder {
 
-    private final AssetManager assetManager;
-    private final FileHandleResolver resolver;
+    private static final String SEP = File.separator;
+    private static final String MUSIC = Type.MUSIC.name().toLowerCase() + SEP;
+    private static final String SOUND = Type.SOUND.name().toLowerCase() + SEP;
+    private static final String SKIN = Type.SKIN.name().toLowerCase() + SEP;
+    private static final String TEXTURE = Type.TEXTURE.name().toLowerCase() + SEP;
+    private static final String ATLAS = Type.ATLAS.name().toLowerCase() + SEP;
+    private static final String FONT = Type.FONT.name().toLowerCase() + SEP;
+    private static final String EFFECT = Type.EFFECT.name().toLowerCase() + SEP;
+    private static final String PIXMAP = Type.PIXMAP.name().toLowerCase() + SEP;
+    private static final String REGION = Type.REGION.name().toLowerCase() + SEP;
+    private static final String MODEL = Type.MODEL.name().toLowerCase() + SEP;
+    private static final String LEVEL = Type.LEVEL.name().toLowerCase() + SEP;
 
-    public static class AssetDescriptor {
-        public String folder;
-        public Class<?> assetType;
+    public static AssetManager manager;
 
-        public AssetDescriptor(String folder, Class<?> assetType) {
-            this.folder = folder;
-            this.assetType = assetType;
-        }
+    static {
+        manager = SnowFight.assetManager;
     }
 
-    private final Array<AssetDescriptor> assets = new Array<>();
-
-    public AssetFinder(AssetManager assetManager, FileHandleResolver resolver) {
-        this.assetManager = assetManager;
-        this.resolver = resolver;
-
-        assets.add(new AssetDescriptor("music", Music.class));
-        assets.add(new AssetDescriptor("sound", Sound.class)); // You could remove all but this one
-        assets.add(new AssetDescriptor("skin", Skin.class));
-        assets.add(new AssetDescriptor("texture", Texture.class));
-        assets.add(new AssetDescriptor("atlas", TextureAtlas.class));
-        assets.add(new AssetDescriptor("font", BitmapFont.class));
-        assets.add(new AssetDescriptor("effect", ParticleEffect.class));
-        assets.add(new AssetDescriptor("pixmap", Pixmap.class));
-        assets.add(new AssetDescriptor("region", PolygonRegion.class));
-        assets.add(new AssetDescriptor("model", Model.class));
-        assets.add(new AssetDescriptor("level", TiledMap.class));
+    public static Music getMusic(String name) {
+        return manager.get(MUSIC + name, Music.class);
     }
 
-    public void load() {
-        for (AssetDescriptor descriptor : assets) {
-            FileHandle folder = resolver.resolve("").child(descriptor.folder);
-            if (!folder.exists()) {
-                continue;
-            }
+    public static Sound getSound(String name) {
+        return manager.get(SOUND + name, Sound.class);
+    }
 
-            for (FileHandle asset : folder.list()) {
-                assetManager.load(asset.path(), descriptor.assetType);
-            }
-        }
+    public static Skin getSkin(String name) {
+        return manager.get(SKIN + name, Skin.class);
+    }
+
+    public static Texture getTexture(String name) {
+        return manager.get(TEXTURE + name + ".png", Texture.class);
+    }
+
+    public static TextureAtlas getAtlas(String name) {
+        return manager.get(ATLAS + name, TextureAtlas.class);
+    }
+
+    public static BitmapFont getFont(String name) {
+        return manager.get(FONT + name, BitmapFont.class);
+    }
+
+    public static ParticleEffect getEffect(String name) {
+        return manager.get(EFFECT + name, ParticleEffect.class);
+    }
+
+    public static Pixmap getPixmap(String name) {
+        return manager.get(PIXMAP + name, Pixmap.class);
+    }
+
+    public static PolygonRegion getRegion(String name) {
+        return manager.get(REGION + name, PolygonRegion.class);
+    }
+
+    public static Model getModel(String name) {
+        return manager.get(MODEL + name, Model.class);
+    }
+
+    public static TiledMap getLevel(String name) {
+        return manager.get(LEVEL + name, TiledMap.class);
+    }
+
+    private enum Type {
+        MUSIC,
+        SOUND,
+        SKIN,
+        TEXTURE,
+        ATLAS,
+        FONT,
+        EFFECT,
+        PIXMAP,
+        REGION,
+        MODEL,
+        LEVEL,
     }
 }

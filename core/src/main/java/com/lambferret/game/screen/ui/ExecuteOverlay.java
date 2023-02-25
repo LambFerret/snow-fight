@@ -2,10 +2,10 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.util.AssetPath;
+import com.lambferret.game.util.AssetFinder;
 
 public class ExecuteOverlay extends AbstractOverlay {
     private Hitbox box;
@@ -18,7 +18,7 @@ public class ExecuteOverlay extends AbstractOverlay {
     @Override
     public void create() {
         this.box = new Hitbox(GlobalSettings.currWidth - OVERLAY_WIDTH, 0.0F, OVERLAY_WIDTH, OVERLAY_HEIGHT);
-        texture = AssetPath.getTexture("execute");
+        texture = AssetFinder.getTexture("execute");
     }
 
     @Override
