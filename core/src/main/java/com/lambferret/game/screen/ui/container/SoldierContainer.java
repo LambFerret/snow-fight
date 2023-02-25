@@ -7,6 +7,7 @@ import com.lambferret.game.component.HorizontalScroll;
 import com.lambferret.game.component.ScrollObserver;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,14 @@ public class SoldierContainer implements ScrollObserver {
     private static float SHRINK_HEIGHT;
     private static final float VERTICAL_SPACING = 10.0F;
     private static final float HORIZONTAL_SPACING = 5.0F;
+    private float plateInitX;
+    private float plateInitY;
+    private float plateInitWidth;
+    private float plateInitHeight;
+    private float containerInitX;
+    private float containerInitY;
+    private float containerInitWidth;
+    private float containerInitHeight;
     private final List<Soldier> soldiers;
     private boolean isStandard = true;
 
@@ -39,11 +48,22 @@ public class SoldierContainer implements ScrollObserver {
 
     public void create(Hitbox plate) {
         this.plate = plate;
-        this.containerBox.move(plate.getX(), /* scroll height */25.0F);
-        this.containerBox.resize(plate.getWidth(), plate.getHeight() - 25.0F);
-        EXTEND_HEIGHT = containerBox.getHeight() - (VERTICAL_SPACING * 2);
-        SHRINK_HEIGHT = (containerBox.getHeight() - (VERTICAL_SPACING * 3)) / 2;
 
+        plateInitX = plate.getX();
+        plateInitY = plate.getY();
+        plateInitWidth = plate.getWidth();
+        plateInitHeight = plate.getHeight();
+
+        this.containerBox.move(plateInitX, /* scroll height */25.0F);
+        this.containerBox.resize(plateInitWidth, plateInitHeight - 25.0F);
+
+        containerInitX = containerBox.getX();
+        containerInitY = containerBox.getY();
+        containerInitWidth = containerBox.getWidth();
+        containerInitHeight = containerBox.getHeight();
+
+        EXTEND_HEIGHT = containerInitHeight - (VERTICAL_SPACING * 2);
+        SHRINK_HEIGHT = (containerInitHeight - (VERTICAL_SPACING * 3)) / 2;
 
         this.standard();
     }
@@ -58,11 +78,11 @@ public class SoldierContainer implements ScrollObserver {
 
     public void update(float delta) {
 
+        this.containerBox.update(delta);
         for (Soldier soldier : soldiers) {
             soldier.update(delta);
         }
 
-        this.containerBox.update(delta);
     }
 
     public void standard() {
@@ -76,6 +96,7 @@ public class SoldierContainer implements ScrollObserver {
             soldiers.get(index).setOffset(this.child, true);
 
         }
+        isStandard = true;
     }
 
     public void simplify() {
@@ -91,6 +112,7 @@ public class SoldierContainer implements ScrollObserver {
             this.child.move(x, y);
             soldiers.get(index).setOffset(this.child, false);
         }
+        isStandard = false;
     }
 
 
@@ -104,6 +126,12 @@ public class SoldierContainer implements ScrollObserver {
 
     @Override
     public void scroll(float value) {
+        this.containerBox.move(GlobalUtil.lerp(containerBox.getX(),containerBox.getX() + value, 30), containerBox.getY());
+        if (isStandard) {
+            standard();
+        } else {
+            simplify();
+        }
 
     }
 }

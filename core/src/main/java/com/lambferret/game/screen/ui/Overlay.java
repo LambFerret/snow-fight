@@ -27,9 +27,9 @@ public class Overlay {
         groundUIList.add(map);
         groundUIList.add(score);
 
-        phaseUIList.add(bar);
-        phaseUIList.add(ability);
-        phaseUIList.add(execute);
+//        phaseUIList.add(bar);
+//        phaseUIList.add(ability);
+//        phaseUIList.add(execute);
         phaseUIList.add(soldier);
 
         allOverlay.add(bar);

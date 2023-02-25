@@ -3,6 +3,8 @@ package com.lambferret.game.screen.ui;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
+import com.lambferret.game.component.HorizontalScroll;
+import com.lambferret.game.component.ScrollObserver;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.screen.ui.container.SoldierContainer;
 import com.lambferret.game.setting.GlobalSettings;
@@ -13,13 +15,13 @@ import com.lambferret.game.util.CustomInputProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoldierOverlay extends AbstractOverlay {
+public class SoldierOverlay extends AbstractOverlay implements ScrollObserver {
     private Hitbox plate;
     private boolean isHidden = true;
     private boolean isSimplify = false;
     private final List<Soldier> soldiers = new ArrayList<>();
     private final List<SoldierContainer> hand = new ArrayList<>();
-    //    private final HorizontalScroll scroll = new HorizontalScroll(Direction.DOWN, );
+    private final HorizontalScroll scroll = new HorizontalScroll(Direction.DOWN, this);
     private float locationX = 0.0F;
     private float locationY = 0.0F;
     private float width = GlobalSettings.currWidth * 2 / 3.0F;
@@ -32,13 +34,13 @@ public class SoldierOverlay extends AbstractOverlay {
     public void create() {
 
         //=-=-=-=-=-=--=-=//
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 12; i++) {
             soldiers.add(new SilvanusPark());
         }
         //=-=-=-=-=-=--=-=//
 
         this.plate = new Hitbox(locationX, locationY, width, height);
-//        scroll.create(this.plate);
+        scroll.create(this.plate);
 
         container = new SoldierContainer(soldiers);
         container.create(plate);
@@ -58,6 +60,7 @@ public class SoldierOverlay extends AbstractOverlay {
 
     @Override
     public void update(float delta) {
+        scroll();
 
         if (CustomInputProcessor.pressedKeyUp(Input.Keys.Q)) {
             switchInfo();
@@ -67,17 +70,19 @@ public class SoldierOverlay extends AbstractOverlay {
         }
 
         if (this.plate.isHovered) {
-//            this.scroll.update(delta);
+            this.scroll.update(delta);
         }
         for (SoldierContainer soldier : hand) {
             soldier.update(delta);
         }
         this.plate.update(delta);
+
     }
 
     @Override
     public void render(SpriteBatch batch) {
-//        this.scroll.render(batch);
+
+        this.scroll.render(batch);
         this.plate.render(batch);
         for (SoldierContainer soldier : hand) {
             soldier.render(batch);
@@ -99,7 +104,31 @@ public class SoldierOverlay extends AbstractOverlay {
         } else {
             this.plate.show();
         }
-        isHidden = true;
+        isHidden = false;
     }
 
+    @Override
+    public void scroll(float value) {
+
+    }
+
+    private boolean isGrabbed = false;
+    private float initX;
+
+    public void scroll() {
+        float value = CustomInputProcessor.getMouseDownX();
+        float wheelScrollSpeed = 30.0F;
+        float amount = CustomInputProcessor.getScrolledAmount();
+        if (!isGrabbed) {
+            container.scroll(amount * wheelScrollSpeed);
+            if (this.plate.isClicked) {
+                this.isGrabbed = true;
+                container.scroll(value - CustomInputProcessor.getMouseLocationX());
+            }
+
+        } else {
+            this.isGrabbed = false;
+        }
+
+    }
 }
