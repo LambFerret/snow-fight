@@ -47,7 +47,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     @Override
     public void render() {
         super.render();
-        ScreenConfig.screenChanger(ScreenConfig.TransitionEffect.NULL);
+        ScreenConfig.screenChanger();
     }
 
     @Override

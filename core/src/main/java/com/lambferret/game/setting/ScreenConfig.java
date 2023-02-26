@@ -8,7 +8,6 @@ import com.lambferret.game.screen.ground.TrainingGroundScreen;
 import com.lambferret.game.screen.phase.ActionPhaseScreen;
 import com.lambferret.game.screen.phase.ReadyPhaseScreen;
 import com.lambferret.game.screen.title.TitleMenuScreen;
-import de.eskalon.commons.core.ManagedGame;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.ScreenManager;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -16,7 +15,7 @@ import de.eskalon.commons.screen.transition.impl.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ScreenConfig extends ManagedGame<ManagedScreen, ScreenTransition> {
+public class ScreenConfig {
     private static final Logger logger = LogManager.getLogger(ScreenConfig.class.getName());
     private static AddedScreen currentScreen;
     public static AddedScreen changeScreen;
@@ -60,11 +59,11 @@ public class ScreenConfig extends ManagedGame<ManagedScreen, ScreenTransition> {
         logger.info("screenConfig | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
     }
 
-    public static void screenChanger(TransitionEffect effect) {
+    public static void screenChanger() {
         if (currentScreen == changeScreen) return;
         logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
-        String te = effect.name();
-        if (effect == TransitionEffect.NULL) te = null;
+        String te = null; // effect.name(); TODO: 각각 원하는 changer effect 사용
+//        if (effect == TransitionEffect.NULL) te = null;
         screenManager.pushScreen(changeScreen.name(), te);
         currentScreen = changeScreen;
     }
