@@ -10,7 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class VerticalScroll {
-    private static final Logger logger = LogManager.getLogger(HorizontalScroll.class.getName());
+    private static final Logger logger = LogManager.getLogger(VerticalScroll.class.getName());
     private Texture pointerTexture;
     private Texture barTexture;
     private Hitbox scrollPointer;

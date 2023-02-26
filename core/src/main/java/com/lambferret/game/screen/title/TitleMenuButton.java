@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.SnowFight;
+import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
@@ -45,17 +45,17 @@ public class TitleMenuButton {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
                 SaveLoader.makeNewSave(0);
-                SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TRAINING_GROUND_SCREEN;
             }
             case CONTINUE -> {
                 SaveLoader.load(0);
-                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.SHOP_SCREEN;
             }
             case LOAD -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.RECRUIT_SCREEN;
             }
             case OPTION -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.READY_SCREEN;
             }
             case CREDIT -> {
                 logger.info("update | CREDIT");

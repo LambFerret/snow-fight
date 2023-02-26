@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.lambferret.game.SnowFight;
+import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.screen.ui.Overlay;
@@ -48,7 +48,7 @@ public class TrainingGroundScreen extends GroundUIScreen {
         if (this.box.isClicked) {
             this.box.hide(Direction.INSTANTLY);
             Overlay.hideAll();
-            SnowFight.changeScreen = SnowFight.AddedScreen.READY_SCREEN;
+            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.READY_SCREEN;
         }
     }
 }

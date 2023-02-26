@@ -3,7 +3,7 @@ package com.lambferret.game.screen.ground;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
-import com.lambferret.game.SnowFight;
+import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
@@ -134,16 +134,16 @@ public class MapButton {
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case RECRUIT -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.RECRUIT_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.RECRUIT_SCREEN;
             }
             case SHOP -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.SHOP_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.SHOP_SCREEN;
             }
             case TRAINING_GROUND -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.TRAINING_GROUND_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TRAINING_GROUND_SCREEN;
             }
             case STAGE -> {
-                SnowFight.changeScreen = SnowFight.AddedScreen.STAGE_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.STAGE_SCREEN;
             }
         }
     }
