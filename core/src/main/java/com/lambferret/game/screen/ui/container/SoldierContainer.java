@@ -58,8 +58,10 @@ public class SoldierContainer {
         EXTEND_HEIGHT = containerInitHeight - (VERTICAL_SPACING * 2);
         SHRINK_HEIGHT = (containerInitHeight - (VERTICAL_SPACING * 3)) / 2;
 
+        var a = (int) Math.ceil(soldiers.size() / 2.0);
+
         totalSize = containerBox.getX() + HORIZONTAL_SPACING * (soldiers.size() + 1) + EXTEND_WIDTH * soldiers.size();
-        simpleTotalSize = offsetX + HORIZONTAL_SPACING * (soldiers.size() / 2 + 1) + SHRINK_WIDTH * soldiers.size() / 2;
+        simpleTotalSize = containerBox.getX() + HORIZONTAL_SPACING * (a + 1) + SHRINK_WIDTH * a;
         this.standard();
     }
 
@@ -74,10 +76,10 @@ public class SoldierContainer {
     public void update(float delta, float scrollAmount) {
 
         if (isSimplify) {
-            offsetX = containerInitX - (totalSize - this.containerBox.getWidth()) * scrollAmount;
+            offsetX = containerInitX - (simpleTotalSize - this.containerBox.getWidth()) * scrollAmount;
             simplify();
         } else {
-            offsetX = containerInitX - (simpleTotalSize - this.containerBox.getWidth()) * scrollAmount;
+            offsetX = containerInitX - (totalSize - this.containerBox.getWidth()) * scrollAmount;
             standard();
         }
 
