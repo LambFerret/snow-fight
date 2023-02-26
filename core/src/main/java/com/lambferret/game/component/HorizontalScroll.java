@@ -25,7 +25,7 @@ public class HorizontalScroll {
     private static final float SCROLL_SPEED = 10.0F;
     private float transparency = 0.0F;
 
-    public HorizontalScroll(Direction direction, ScrollObserver observer) {
+    public HorizontalScroll(Direction direction) {
         if (!(direction == Direction.UP || direction == Direction.DOWN)) {
             throw new IllegalStateException("Scroll direction isn't valid");
         }
@@ -76,5 +76,9 @@ public class HorizontalScroll {
         }
         if (POINTER_PREV_X != POINTER_X) scrollPointer.move(POINTER_PREV_X, Y);
         scrollPointer.update(delta);
+    }
+
+    public float getPercent() {
+        return Math.round(((POINTER_X - X) / (WIDTH - POINTER_WIDTH)) * 100) / 100.0F;
     }
 }

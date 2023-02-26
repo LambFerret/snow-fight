@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.HorizontalScroll;
-import com.lambferret.game.component.ScrollObserver;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.screen.ui.container.SoldierContainer;
 import com.lambferret.game.setting.GlobalSettings;
@@ -15,17 +14,15 @@ import com.lambferret.game.util.CustomInputProcessor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SoldierOverlay extends AbstractOverlay implements ScrollObserver {
+public class SoldierOverlay extends AbstractOverlay {
     private Hitbox plate;
     private boolean isHidden = true;
-    private boolean isSimplify = false;
     private final List<Soldier> soldiers = new ArrayList<>();
-    private final List<SoldierContainer> hand = new ArrayList<>();
-    private final HorizontalScroll scroll = new HorizontalScroll(Direction.DOWN, this);
-    private float locationX = 0.0F;
-    private float locationY = 0.0F;
-    private float width = GlobalSettings.currWidth * 2 / 3.0F;
-    private float height = 200.0F;
+    private final HorizontalScroll scroll = new HorizontalScroll(Direction.DOWN);
+    private static final float locationX = 0.0F;
+    private static final float locationY = 0.0F;
+    private static final float width = GlobalSettings.currWidth * 2 / 3.0F;
+    private static final float height = 200.0F;
     private SoldierContainer container;
 
     // TODO : 이부분은 좀 고정 사이즈를 가질 필요를 느낀다
@@ -44,26 +41,14 @@ public class SoldierOverlay extends AbstractOverlay implements ScrollObserver {
 
         container = new SoldierContainer(soldiers);
         container.create(plate);
-        hand.add(container);
-    }
-
-
-    private void switchInfo() {
-        if (isSimplify) {
-            container.standard();
-            isSimplify = false;
-        } else {
-            container.simplify();
-            isSimplify = true;
-        }
     }
 
     @Override
     public void update(float delta) {
-        scroll();
+
 
         if (CustomInputProcessor.pressedKeyUp(Input.Keys.Q)) {
-            switchInfo();
+            container.switchInfo();
         }
         if (CustomInputProcessor.pressedKeyUp(Input.Keys.W)) {
             this.plate.move(50, 50);
@@ -72,9 +57,8 @@ public class SoldierOverlay extends AbstractOverlay implements ScrollObserver {
         if (this.plate.isHovered) {
             this.scroll.update(delta);
         }
-        for (SoldierContainer soldier : hand) {
-            soldier.update(delta);
-        }
+
+        container.update(delta, scroll.getPercent());
         this.plate.update(delta);
 
     }
@@ -84,9 +68,7 @@ public class SoldierOverlay extends AbstractOverlay implements ScrollObserver {
 
         this.scroll.render(batch);
         this.plate.render(batch);
-        for (SoldierContainer soldier : hand) {
-            soldier.render(batch);
-        }
+        container.render(batch);
     }
 
     @Override
@@ -107,28 +89,4 @@ public class SoldierOverlay extends AbstractOverlay implements ScrollObserver {
         isHidden = false;
     }
 
-    @Override
-    public void scroll(float value) {
-
-    }
-
-    private boolean isGrabbed = false;
-    private float initX;
-
-    public void scroll() {
-        float value = CustomInputProcessor.getMouseDownX();
-        float wheelScrollSpeed = 30.0F;
-        float amount = CustomInputProcessor.getScrolledAmount();
-        if (!isGrabbed) {
-            container.scroll(amount * wheelScrollSpeed);
-            if (this.plate.isClicked) {
-                this.isGrabbed = true;
-                container.scroll(value - CustomInputProcessor.getMouseLocationX());
-            }
-
-        } else {
-            this.isGrabbed = false;
-        }
-
-    }
 }

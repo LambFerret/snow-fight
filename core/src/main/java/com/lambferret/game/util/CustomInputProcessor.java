@@ -40,6 +40,10 @@ public class CustomInputProcessor implements InputProcessor {
      */
     private static int mousePointer;
 
+    public static boolean isGrabbed() {
+        return isGrabbed;
+    }
+
     public static boolean isMouseDown() {
         if (isMouseDown) {
             isMouseDown = false;
@@ -118,13 +122,13 @@ public class CustomInputProcessor implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (!(button == Input.Buttons.LEFT || button == Input.Buttons.RIGHT)) return false;
 
+        isGrabbed = true;
         isMouseDown = true;
 
         mouseDownX = screenX;
         mouseDownY = Gdx.graphics.getHeight() - screenY;
         mousePointer = pointer;
         mouseButton = button;
-
         return true;
     }
 
@@ -132,6 +136,7 @@ public class CustomInputProcessor implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (!(button == Input.Buttons.LEFT || button == Input.Buttons.RIGHT)) return false;
 
+        isGrabbed = false;
         isMouseUp = true;
 
         mouseUpX = screenX;

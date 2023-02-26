@@ -30,6 +30,7 @@ public class Hitbox {
     private float initHeight;
     public boolean isHovered;
     public boolean isClicked;
+    public boolean isGrabbed;
     private boolean isActive = true;
 
     public Hitbox() {
@@ -141,6 +142,7 @@ public class Hitbox {
         if (isActive) {
             isHovered();
             isClicked();
+            isGrabbed();
         }
         this.x = GlobalUtil.lerp(x, destX, SPEED);
         this.y = GlobalUtil.lerp(y, destY, SPEED);
@@ -162,6 +164,7 @@ public class Hitbox {
                 && CustomInputProcessor.getMouseUpY() < this.y + this.height
                 && CustomInputProcessor.isMouseUp();
     }
-
-
+    private void isGrabbed() {
+        this.isGrabbed = CustomInputProcessor.isGrabbed();
+    }
 }
