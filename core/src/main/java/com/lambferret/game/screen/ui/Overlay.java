@@ -2,6 +2,7 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.constant.Direction;
+import com.lambferret.game.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +22,7 @@ public class Overlay {
     private static final List<AbstractOverlay> groundUIList = new ArrayList<>();
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
     private static List<AbstractOverlay> currentUIList;
+    public static Player player;
 
     private Overlay() {
         groundUIList.add(bar);
@@ -55,6 +57,11 @@ public class Overlay {
             overlay.hide(Direction.INSTANTLY);
         }
         bar.show(true);
+    }
+
+    public static void setPlayer() {
+        player = new Player();
+        logger.info("player loaded | " + player.getName());
     }
 
     public void setPhaseUI() {

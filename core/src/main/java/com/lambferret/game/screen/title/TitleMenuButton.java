@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
@@ -50,9 +49,11 @@ public class TitleMenuButton {
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
-                SaveLoader.makeNewSave(0);
+                SelectSaveScreen.isLoad = false;
+                TitleScreen.screen = TitleScreen.Screen.SELECT_SAVE;
             }
             case CONTINUE -> {
+                SelectSaveScreen.isLoad = true;
                 TitleScreen.screen = TitleScreen.Screen.SELECT_SAVE;
             }
             case LOAD -> {

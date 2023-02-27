@@ -10,6 +10,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class Save {
+    private String name;
     private long time;
-    private boolean init = false;
+    private boolean init;
 }

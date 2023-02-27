@@ -21,9 +21,11 @@ public class SaveLoader {
     private static final String AUTO_SAVE_SUFFIX = ".autosave";
     private static final String SAVE_SUFFIX = ".save";
     public static Save currentSave;
+    public static int currentSaveSlot;
 
 
     public static void load(int saveFileNumber) {
+        currentSaveSlot = saveFileNumber;
         String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
         Save saveFile = null;
         if (saveFileNumber > MAXIMUM_SAVE) {
@@ -56,7 +58,8 @@ public class SaveLoader {
         }
     }
 
-    public static void save(int saveFileNumber) {
+    public static void save() {
+        int saveFileNumber = currentSaveSlot;
         String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
@@ -64,9 +67,11 @@ public class SaveLoader {
         Save save = Save.builder()
             // some saving stuff
 //            .time(BarOverlay.time)
+            .name("Rutheni")
             .init(true)
             .build();
         try (FileWriter file = new FileWriter(fileName)) {
+            logger.info("save |  🐳 fileName | " + fileName);
             file.append(GlobalUtil.encrypt(gson.toJson(save)));
         } catch (IOException ex) {
             logger.fatal("old save file IOException");
