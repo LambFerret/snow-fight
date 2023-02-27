@@ -8,6 +8,7 @@ import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +17,7 @@ public class MapButton {
     private static final Logger logger = LogManager.getLogger(MapButton.class.getName());
     private static final float s = GlobalSettings.scale;
     private static final float zoomScale = 2.5F;
-    private static final float speed = 30F;
+    private static final float speed = 1F;
 
     private static int total;
     private static GroundText text;
@@ -83,8 +84,8 @@ public class MapButton {
     }
 
     private void sizeWithLerp(float delta) {
-        this.drawX = INTER.apply(this.drawX, x, delta * speed);
-        this.drawW = INTER.apply(this.drawW, width, delta * speed);
+        this.drawX = GlobalUtil.lerp(this.drawX, x, speed);
+        this.drawW = GlobalUtil.lerp(this.drawW, width, speed);
     }
 
     private void resetSize() {
