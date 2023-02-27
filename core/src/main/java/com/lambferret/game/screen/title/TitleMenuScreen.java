@@ -1,7 +1,6 @@
 package com.lambferret.game.screen.title;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
-public class TitleMenuScreen extends AbstractScreen {
+public class TitleMenuScreen{
 
 
     private static final Logger logger = LogManager.getLogger(TitleMenuScreen.class.getName());
@@ -32,8 +31,9 @@ public class TitleMenuScreen extends AbstractScreen {
         this.buttons.add(new TitleMenuButton(TitleMenuButton.TitleMenuButtonAction.NEW, index++));
     }
 
-    @Override
+
     public void create() {
+
     }
 
 

@@ -5,14 +5,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.TitleMenuText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 
 public class TitleMenuButton {
 
@@ -21,6 +22,7 @@ public class TitleMenuButton {
     private Hitbox box;
     private String name;
     private TitleMenuButtonAction action;
+    private boolean isActive = true;
     private static final float s = GlobalSettings.scale;
 
     public TitleMenuButton(TitleMenuButtonAction action, int index) {
@@ -41,19 +43,23 @@ public class TitleMenuButton {
         setAction();
     }
 
+    public void isActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
                 SaveLoader.makeNewSave(0);
             }
             case CONTINUE -> {
-                SaveLoader.load(0);
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
+                TitleScreen.screen = TitleScreen.Screen.SELECT_SAVE;
             }
             case LOAD -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
             }
             case OPTION -> {
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
             }
             case CREDIT -> {
                 logger.info("update | CREDIT");

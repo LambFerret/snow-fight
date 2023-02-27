@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
-import com.lambferret.game.screen.title.TitleMenuScreen;
+import com.lambferret.game.screen.title.TitleScreen;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.ScreenManager;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -22,7 +22,7 @@ public class ScreenConfig {
      * Register screens
      */
     private static void addScreen() {
-        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), new TitleMenuScreen());
+        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), new TitleScreen());
         screenManager.addScreen(AddedScreen.GROUND_SCREEN.name(), new GroundScreen());
         screenManager.addScreen(AddedScreen.PHASE_SCREEN.name(), new PhaseScreen());
     }
