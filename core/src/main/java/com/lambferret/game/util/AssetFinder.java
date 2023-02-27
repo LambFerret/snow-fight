@@ -18,7 +18,7 @@ import java.io.File;
 
 public class AssetFinder {
 
-    private static final String SEP = File.separator;
+    private static final String SEP = "/"; //File.separator;
     private static final String MUSIC = Type.MUSIC.name().toLowerCase() + SEP;
     private static final String SOUND = Type.SOUND.name().toLowerCase() + SEP;
     private static final String SKIN = Type.SKIN.name().toLowerCase() + SEP;
