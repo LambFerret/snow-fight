@@ -3,7 +3,6 @@ package com.lambferret.game.screen.ground;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
-import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
@@ -124,26 +123,19 @@ public class MapButton {
                 texture = AssetFinder.getTexture("ground");
                 this.nameString = text.getTrainingGround();
             }
-            case STAGE -> {
-                texture = AssetFinder.getTexture("stage");
-                this.nameString = text.getStage();
-            }
         }
     }
 
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case RECRUIT -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.RECRUIT_SCREEN;
+                GroundScreen.screen = GroundScreen.Screen.RECRUIT;
             }
             case SHOP -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.SHOP_SCREEN;
+                GroundScreen.screen = GroundScreen.Screen.SHOP;
             }
             case TRAINING_GROUND -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TRAINING_GROUND_SCREEN;
-            }
-            case STAGE -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.STAGE_SCREEN;
+                GroundScreen.screen = GroundScreen.Screen.TRAINING_GROUND;
             }
         }
     }
@@ -160,7 +152,6 @@ public class MapButton {
         RECRUIT,
         SHOP,
         TRAINING_GROUND,
-        STAGE,
         ;
     }
 

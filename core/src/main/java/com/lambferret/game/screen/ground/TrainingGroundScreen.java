@@ -5,14 +5,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.component.constant.Direction;
-import com.lambferret.game.screen.ui.Overlay;
+import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TrainingGroundScreen extends GroundUIScreen {
+public class TrainingGroundScreen {
     private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
 
     TextButton.TextButtonStyle style;
@@ -31,10 +29,7 @@ public class TrainingGroundScreen extends GroundUIScreen {
         box = new Hitbox(100, 100, 100, 100);
     }
 
-    @Override
     public void render(SpriteBatch batch) {
-        super.render(batch);
-
         stage.act();
         stage.draw();
         batch.setColor(Color.CORAL);
@@ -43,12 +38,9 @@ public class TrainingGroundScreen extends GroundUIScreen {
 
 
     public void update(float delta) {
-        super.update(delta);
         this.box.update(delta);
         if (this.box.isClicked) {
-            this.box.hide(Direction.INSTANTLY);
-            Overlay.hideAll();
-            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.READY_SCREEN;
+            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.lambferret.game.screen.ground;
+package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,20 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RecruitScreen   {
-    private static final Logger logger = LogManager.getLogger(RecruitScreen.class.getName());
+public class DefeatScreen {
+    private static final Logger logger = LogManager.getLogger(DefeatScreen.class.getName());
 
     TextButton.TextButtonStyle style;
     TextButton textButton;
     BitmapFont font;
     Stage stage;
 
-    public RecruitScreen() {
+    public DefeatScreen() {
         stage = new Stage();
         font = new BitmapFont();
         style = new TextButton.TextButtonStyle();
         style.font = font;
-        textButton = new TextButton("RECRUIT", style);
+        textButton = new TextButton("DefeatScreen", style);
         stage.addActor(textButton);
     }
 
@@ -30,5 +30,6 @@ public class RecruitScreen   {
     }
 
     public void update(float delta) {
+
     }
 }

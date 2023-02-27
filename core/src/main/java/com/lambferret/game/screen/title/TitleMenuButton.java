@@ -45,17 +45,15 @@ public class TitleMenuButton {
         if (this.box.isClicked) switch (this.action) {
             case NEW -> {
                 SaveLoader.makeNewSave(0);
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TRAINING_GROUND_SCREEN;
             }
             case CONTINUE -> {
                 SaveLoader.load(0);
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.SHOP_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
             }
             case LOAD -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.RECRUIT_SCREEN;
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
             }
             case OPTION -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.READY_SCREEN;
             }
             case CREDIT -> {
                 logger.info("update | CREDIT");
