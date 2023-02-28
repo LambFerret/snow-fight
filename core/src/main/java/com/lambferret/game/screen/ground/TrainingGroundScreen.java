@@ -10,8 +10,6 @@ import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.lambferret.game.screen.ui.Overlay.player;
-
 public class TrainingGroundScreen {
     private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
 
@@ -42,7 +40,6 @@ public class TrainingGroundScreen {
     public void update(float delta) {
         this.box.update(delta);
         if (this.box.isClicked) {
-            logger.info("update |  🐳  | " + player.getName());
             ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
         }
     }

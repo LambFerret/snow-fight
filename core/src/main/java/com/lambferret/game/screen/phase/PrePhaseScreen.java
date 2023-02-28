@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.lambferret.game.level.Level;
+import com.lambferret.game.player.Player;
+import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +17,9 @@ public class PrePhaseScreen {
     TextButton textButton;
     BitmapFont font;
     Stage stage;
+    Player player;
+    Level level;
+
 
     public PrePhaseScreen() {
         stage = new Stage();
@@ -22,6 +28,8 @@ public class PrePhaseScreen {
         style.font = font;
         textButton = new TextButton("PrePhaseScreen", style);
         stage.addActor(textButton);
+        this.player = Overlay.player;
+
     }
 
     public void render(SpriteBatch batch) {

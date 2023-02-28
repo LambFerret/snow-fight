@@ -71,7 +71,6 @@ public class SaveLoader {
             .init(true)
             .build();
         try (FileWriter file = new FileWriter(fileName)) {
-            logger.info("save |  🐳 fileName | " + fileName);
             file.append(GlobalUtil.encrypt(gson.toJson(save)));
         } catch (IOException ex) {
             logger.fatal("old save file IOException");

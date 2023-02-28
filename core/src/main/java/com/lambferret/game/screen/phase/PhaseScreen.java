@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;
@@ -13,27 +14,31 @@ public class PhaseScreen extends AbstractScreen {
     private static int region;
 
     public static Screen screen;
+    public static Player player;
 
-    private final ActionPhaseScreen actionPhaseScreen;
-    private final ReadyPhaseScreen readyPhaseScreen;
-    private final DefeatScreen defeatScreen;
-    private final PrePhaseScreen prePhaseScreen;
-    private final VictoryScreen victoryScreen;
+    private ActionPhaseScreen actionPhaseScreen;
+    private ReadyPhaseScreen readyPhaseScreen;
+    private DefeatScreen defeatScreen;
+    private PrePhaseScreen prePhaseScreen;
+    private VictoryScreen victoryScreen;
 
     public PhaseScreen() {
-        prePhaseScreen = new PrePhaseScreen();
-        readyPhaseScreen = new ReadyPhaseScreen();
-        actionPhaseScreen = new ActionPhaseScreen();
-        victoryScreen = new VictoryScreen();
-        defeatScreen = new DefeatScreen();
-        screen = Screen.READY;
-        overlay = Overlay.getInstance();
+
     }
 
     @Override
     public void create() {
         super.create();
+        overlay = Overlay.getInstance();
         overlay.setPhaseUI();
+        player = Overlay.player;
+        prePhaseScreen = new PrePhaseScreen();
+        readyPhaseScreen = new ReadyPhaseScreen();
+        actionPhaseScreen = new ActionPhaseScreen();
+        victoryScreen = new VictoryScreen();
+        defeatScreen = new DefeatScreen();
+        screen = Screen.PRE;
+
     }
 
     @Override

@@ -9,9 +9,9 @@ import org.apache.logging.log4j.Logger;
 public abstract class AbstractOverlay {
     public static final Logger logger = LogManager.getLogger(AbstractOverlay.class.getName());
 
-    protected static final float OVERLAY_WIDTH = GlobalSettings.currWidth / 3.0F;
-    protected static final float OVERLAY_HEIGHT = 200.0F;
-    protected static final float BAR_HEIGHT = 50.0F;
+    public static final float OVERLAY_WIDTH = GlobalSettings.currWidth / 3.0F;
+    public static final float OVERLAY_HEIGHT = 200.0F;
+    public static final float BAR_HEIGHT = 50.0F;
 
     public abstract void create();
 
