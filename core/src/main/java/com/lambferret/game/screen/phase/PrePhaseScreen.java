@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.level.Level;
+import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,7 @@ public class PrePhaseScreen {
         stage.addActor(textButton);
         this.player = Overlay.player;
 
+        this.level = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
     }
 
     public void render(SpriteBatch batch) {

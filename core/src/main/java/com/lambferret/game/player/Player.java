@@ -1,6 +1,7 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.book.Book;
+import com.lambferret.game.component.constant.Region;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.soldier.Soldier;
@@ -22,20 +23,29 @@ public class Player {
     private int currentCost;
     private int difficulty;
     private int snowAmount;
-    private static int humanAffinity;
-    private static int hellAffinity;
+    private int humanAffinity;
+    private int hellAffinity;
+    private Region currentRegion;
+    private int levelNumber;
 
     public Player() {
+        // TODO : save 와 연동
+
         name = SaveLoader.currentSave.getName();
-        hellAffinity = 10;
-        humanAffinity = 50;
-        soldiers = new ArrayList<>();
-        books = new ArrayList<>();
-        soldiers.add(new SilvanusPark());
+
+        this.hellAffinity = 10;
+        this.humanAffinity = 50;
+        this.soldiers = new ArrayList<>();
+        this.books = new ArrayList<>();
+        this.soldiers.add(new SilvanusPark());
+
+        this.currentRegion = Region.URBAN;
+        this.levelNumber = 1;
+
     }
 
     public static void init() {
-//        name = SaveLoader.currentSave.getName();
+
     }
 
     public String getName() {
@@ -86,6 +96,22 @@ public class Player {
 
     public void addBook(Book book) {
         this.books.add(book);
+    }
+
+    public Region getCurrentRegion() {
+        return currentRegion;
+    }
+
+    public void setCurrentRegion(Region currentRegion) {
+        this.currentRegion = currentRegion;
+    }
+
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
     }
 
     public enum AFFINITY {

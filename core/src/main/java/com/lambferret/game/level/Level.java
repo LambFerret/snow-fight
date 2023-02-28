@@ -22,5 +22,7 @@ public class Level {
         this.maxAmount = maxAmount;
     }
 
-
+    public float getScaledMultiply() {
+        return scaledMultiply;
+    }
 }

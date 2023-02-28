@@ -6,20 +6,20 @@ import com.lambferret.game.level.Level;
 
 public class LevelU1 extends Level {
 
-    public static final float SCALED_MULTIPLY = 0.3F;
+    public static final float SCALED_MULTIPLY = 0.30303F;
     private final short[][] currentMap = {
-        {1, 2, 1, 1, 0},
-        {1, 2, 1, 0, 0},
-        {3, 2, 1, 0, 0},
-        {3, 2, 1, 0, 0},
-        {3, 2, 1, 0, 0},
+        {1, 2, 1, 1, 0,2},
+        {1, 2, 1, 0, 0,2},
+        {3, 2, 1, 0, 0,2},
+        {3, 2, 1, 0, 0,2},
+        {3, 2, 1, 0, 0,2},
     };
     private final int[][] maxAmount = {
-        {10, 20, 10, 10, -1},
-        {10, 20, 10, -1, -1},
-        {30, 20, 10, -1, -1},
-        {30, 20, 10, -1, -1},
-        {30, 20, 10, -1, -1},
+        {10, 20, 10, 10, -1, 20},
+        {10, 20, 10, -1, -1, 20},
+        {30, 20, 10, -1, -1, 20},
+        {30, 20, 10, -1, -1, 20},
+        {30, 20, 10, -1, -1, 20},
     };
     private final int ROWS = currentMap.length;
     private final int COLUMNS = currentMap[0].length;
