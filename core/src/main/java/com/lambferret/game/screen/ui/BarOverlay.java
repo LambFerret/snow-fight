@@ -11,7 +11,7 @@ public class BarOverlay extends AbstractOverlay {
 
     @Override
     public void create() {
-        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - 50.0F, GlobalSettings.currWidth, 50.0F);
+        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - BAR_HEIGHT, GlobalSettings.currWidth, BAR_HEIGHT);
 
     }
 

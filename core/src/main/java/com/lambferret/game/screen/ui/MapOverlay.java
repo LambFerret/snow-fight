@@ -16,8 +16,8 @@ import java.util.List;
 public class MapOverlay extends AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(MapOverlay.class.getName());
 
-    private static final float WIDTH_FIXED = 400.0F;
-    private static final float HEIGHT_FIXED = 300.0F;
+    private static final float MAP_WIDTH = 400.0F;
+    private static final float MAP_HEIGHT = 300.0F;
     public static final float s = GlobalSettings.scale;
     private final List<MapButton> buttons = new ArrayList<>();
     private final Hitbox plate;
@@ -29,10 +29,10 @@ public class MapOverlay extends AbstractOverlay {
 
 
     public MapOverlay() {
-        x = GlobalSettings.currWidth - (WIDTH_FIXED * s);
+        x = GlobalSettings.currWidth - (MAP_WIDTH * s);
         y = 0.0F;
-        width = WIDTH_FIXED * s;
-        height = HEIGHT_FIXED * s;
+        width = MAP_WIDTH * s;
+        height = MAP_HEIGHT * s;
         int index = 0;
         plate = new Hitbox(x, y, width, height);
         buttons.add(new MapButton(MapButton.GroundButtonAction.RECRUIT, index++));

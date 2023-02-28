@@ -9,8 +9,6 @@ import com.lambferret.game.setting.GlobalSettings;
 public class AbilityOverlay extends AbstractOverlay {
     private Hitbox plate;
     private boolean isHidden = true;
-    private static final float OVERLAY_WIDTH = GlobalSettings.currWidth / 3.0F;
-    private static final float OVERLAY_HEIGHT = 200.0F;
     private final VerticalScroll scroll = new VerticalScroll(Direction.LEFT);
 
 

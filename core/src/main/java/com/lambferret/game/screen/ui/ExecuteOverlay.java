@@ -10,8 +10,6 @@ import com.lambferret.game.util.AssetFinder;
 public class ExecuteOverlay extends AbstractOverlay {
     private Hitbox box;
     private boolean isHidden = true;
-    private static final float OVERLAY_WIDTH = GlobalSettings.currWidth / 3.0F;
-    private static final float OVERLAY_HEIGHT = 200.0F;
     private Texture texture;
 
 

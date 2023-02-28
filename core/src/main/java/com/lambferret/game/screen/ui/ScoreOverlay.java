@@ -9,6 +9,7 @@ public class ScoreOverlay extends AbstractOverlay {
     private Hitbox box;
     private boolean isHidden = false;
 
+    // TODO : 사용시 사이즈 확인 요
     @Override
     public void create() {
         this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - 100.0F, 50.0F, 50.0F);

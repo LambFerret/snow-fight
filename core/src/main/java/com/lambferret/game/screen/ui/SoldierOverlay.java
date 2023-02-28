@@ -6,7 +6,6 @@ import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.HorizontalScroll;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.screen.ui.container.SoldierContainer;
-import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.CustomInputProcessor;
@@ -21,8 +20,7 @@ public class SoldierOverlay extends AbstractOverlay {
     private final HorizontalScroll scroll = new HorizontalScroll(Direction.DOWN);
     private static final float locationX = 0.0F;
     private static final float locationY = 0.0F;
-    private static final float width = GlobalSettings.currWidth * 2 / 3.0F;
-    private static final float height = 200.0F;
+    private static final float width = OVERLAY_WIDTH * 2;
     private SoldierContainer container;
 
     // TODO : 이부분은 좀 고정 사이즈를 가질 필요를 느낀다
@@ -36,7 +34,7 @@ public class SoldierOverlay extends AbstractOverlay {
         }
         //=-=-=-=-=-=--=-=//
 
-        this.plate = new Hitbox(locationX, locationY, width, height);
+        this.plate = new Hitbox(locationX, locationY, width, OVERLAY_HEIGHT);
         scroll.create(this.plate);
 
         container = new SoldierContainer(soldiers);
