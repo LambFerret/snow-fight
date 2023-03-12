@@ -1,0 +1,39 @@
+{
+  "affiliation": {
+    "ARMY": "육군",
+    "NAVY": "해병대"
+  },
+  "rank": {
+    "RECRUIT": "훈련병",
+    "PRIVATE": "이등병",
+    "PRIVATE_FIRST_CLASS": "일등병",
+    "CORPORAL": "상병",
+    "SERGEANT": "병장",
+    "STAFF_SERGEANT": "하사",
+    "SERGEANT_FIRST_CLASS": "중사",
+    "FIRST_SERGEANT": "상사",
+    "SERGENT_MAJOR": "원사",
+    "COMMAND_SERGEANT_MAJOR": "주임원사",
+    "SERGEANT_MAJOR_OF_THE_ARMY": "육군주임원사",
+    "MASTER_WARRANT_OFFICER": "준위",
+    "SECOND_LIEUTENANT": "소위",
+    "FIRST_LIEUTENANT": "중위",
+    "CAPTAIN": "대위",
+    "MAJOR": "소령",
+    "LIEUTENANT_COLONEL": "중령",
+    "COLONEL": "대령",
+    "BRIGADIER_GENERAL": "준장",
+    "MAJOR_GENERAL": "소장",
+    "LIEUTENANT_GENERAL": "중장",
+    "GENERAL": "대장"
+  },
+  "name": {
+    "SilvanusPark": "갑상박"
+  },
+  "branch": {
+    "SNIPER": "저격병",
+    "ADMINISTRATIVE" : "행정병",
+    "COOK": "취사병"
+  }
+}
+
