@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -29,6 +30,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     public static OrthographicCamera camera;
     public static Viewport viewport;
     public static AssetManager assetManager;
+    public static Player player;
 
     @Override
     public void create() {
@@ -68,6 +70,11 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         camera = new OrthographicCamera();
         viewport = new FitViewport(width, height, camera);
         camera.setToOrtho(false, width, height);
+    }
+
+    public static void setPlayer() {
+        player = new Player();
+        logger.info("player loaded | " + player.getName());
     }
 
     private void assetConfig() {

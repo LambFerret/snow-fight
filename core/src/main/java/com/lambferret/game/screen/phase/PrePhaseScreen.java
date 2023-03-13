@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
-import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +29,7 @@ public class PrePhaseScreen {
         style.font = font;
         textButton = new TextButton("PrePhaseScreen", style);
         stage.addActor(textButton);
-        this.player = Overlay.player;
+        this.player = SnowFight.player;
 
         this.level = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
     }

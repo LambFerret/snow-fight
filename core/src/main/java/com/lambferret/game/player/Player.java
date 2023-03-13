@@ -37,7 +37,12 @@ public class Player {
         this.humanAffinity = 50;
         this.soldiers = new ArrayList<>();
         this.books = new ArrayList<>();
-        this.soldiers.add(new SilvanusPark());
+
+        //=-=-=-=-=-=--=-=//
+        for (int i = 0; i < 11; i++) {
+            soldiers.add(new SilvanusPark());
+        }
+        //=-=-=-=-=-=--=-=//
 
         this.currentRegion = Region.URBAN;
         this.levelNumber = 1;

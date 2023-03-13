@@ -2,7 +2,6 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.constant.Direction;
-import com.lambferret.game.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,19 +11,24 @@ import java.util.List;
 public class Overlay {
     private static final Logger logger = LogManager.getLogger(Overlay.class.getName());
     private static Overlay instance = null;
-    private static final AbstractOverlay map = new MapOverlay();
-    private static final AbstractOverlay bar = new BarOverlay();
-    private static final AbstractOverlay score = new ScoreOverlay();
-    private static final AbstractOverlay ability = new AbilityOverlay();
-    private static final AbstractOverlay execute = new ExecuteOverlay();
-    private static final AbstractOverlay soldier = new SoldierOverlay();
+    private static AbstractOverlay map;
+    private static AbstractOverlay bar;
+    private static AbstractOverlay score;
+    private static AbstractOverlay ability;
+    private static AbstractOverlay execute;
+    private static AbstractOverlay soldier;
     private static final List<AbstractOverlay> allOverlay = new ArrayList<>();
     private static final List<AbstractOverlay> groundUIList = new ArrayList<>();
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
     private static List<AbstractOverlay> currentUIList;
-    public static Player player;
 
     private Overlay() {
+        map = new MapOverlay();
+        bar = new BarOverlay();
+        score = new ScoreOverlay();
+        ability = new AbilityOverlay();
+        execute = new ExecuteOverlay();
+        soldier = new SoldierOverlay();
         groundUIList.add(bar);
         groundUIList.add(map);
         groundUIList.add(score);
@@ -57,11 +61,6 @@ public class Overlay {
             overlay.hide(Direction.INSTANTLY);
         }
         bar.show(true);
-    }
-
-    public static void setPlayer() {
-        player = new Player();
-        logger.info("player loaded | " + player.getName());
     }
 
     public void setPhaseUI() {

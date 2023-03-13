@@ -1,5 +1,6 @@
 package com.lambferret.game.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -13,11 +14,11 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
-
-import java.io.File;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AssetFinder {
-
+    private static final Logger logger = LogManager.getLogger(AssetFinder.class.getName());
     private static final String SEP = "/"; //File.separator;
     private static final String MUSIC = Type.MUSIC.name().toLowerCase() + SEP;
     private static final String SOUND = Type.SOUND.name().toLowerCase() + SEP;
@@ -50,7 +51,12 @@ public class AssetFinder {
     }
 
     public static Texture getTexture(String name) {
-        return manager.get(TEXTURE + name + ".png", Texture.class);
+        String fileName = TEXTURE + name + ".png";
+        if (!Gdx.files.absolute(fileName).exists()) {
+            logger.info("this texture doesn't exist. please check : " + name);
+            fileName = TEXTURE + "yellow.png";
+        }
+        return manager.get(fileName, Texture.class);
     }
 
     public static TextureAtlas getAtlas(String name) {

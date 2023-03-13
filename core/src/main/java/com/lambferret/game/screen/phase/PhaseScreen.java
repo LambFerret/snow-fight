@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
@@ -31,7 +32,7 @@ public class PhaseScreen extends AbstractScreen {
         super.create();
         overlay = Overlay.getInstance();
         overlay.setPhaseUI();
-        player = Overlay.player;
+        player = SnowFight.player;
         prePhaseScreen = new PrePhaseScreen();
         readyPhaseScreen = new ReadyPhaseScreen();
         actionPhaseScreen = new ActionPhaseScreen();

@@ -1,9 +1,9 @@
 package com.lambferret.game.screen.title;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.save.SaveLoader;
-import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -44,7 +44,7 @@ public class SaveSlot {
         this.box.update(delta);
         if (box.isClicked) {
             SaveLoader.load(this.slotNumber);
-            Overlay.setPlayer();
+            SnowFight.setPlayer();
             ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
         }
     }
