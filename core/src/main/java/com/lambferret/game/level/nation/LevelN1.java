@@ -6,30 +6,25 @@ import com.lambferret.game.level.Level;
 public class LevelN1 extends Level {
 
     public static final float SCALED_MULTIPLY = 0.3F;
-    private final short[][] currentMap = {
+    private static final short[][] map = {
         {1, 2, 1, 1, -1},
         {1, 2, 1, -1, -1},
         {3, 2, 1, -1, -1},
         {3, 2, 1, -1, -1},
         {3, 2, 1, -1, -1},
     };
-    private final int[][] maxAmount = {
+    private static final int[][] maxAmountMap = {
         {10, 20, 10, 10, 0},
         {10, 20, 10, 0, 0},
         {30, 20, 10, 0, 0},
         {30, 20, 10, 0, 0},
         {30, 20, 10, 0, 0},
     };
-    private final int ROWS = currentMap.length;
-    private final int COLUMNS = currentMap[0].length;
-
-    private final int[][] currentAmount = new int[ROWS][COLUMNS];
-
+    private static final int snowMin = 400;
+    private static final int snowMax = 400;
 
     public LevelN1() {
-        super(Region.RURAL);
-        this.map = currentMap;
-        this.maxAmountMap = maxAmount;
+        super(Region.RURAL, map, maxAmountMap, snowMin, snowMax);
     }
 
 }

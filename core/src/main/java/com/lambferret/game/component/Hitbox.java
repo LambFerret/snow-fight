@@ -1,5 +1,6 @@
 package com.lambferret.game.component;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.constant.Direction;
@@ -32,6 +33,7 @@ public class Hitbox {
     public boolean isClicked;
     public boolean isGrabbed;
     private boolean isActive = true;
+    private Color color;
 
     public Hitbox() {
         this(1, 1);
@@ -56,6 +58,7 @@ public class Hitbox {
         this.height = height;
         this.isHovered = false;
         this.isClicked = false;
+        color = Color.RED;
     }
 
     public float getX() {
@@ -84,6 +87,10 @@ public class Hitbox {
     public void resize(float width, float height) {
         this.width = width;
         this.height = height;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public void hide(Direction hidingDirection) {
@@ -130,7 +137,7 @@ public class Hitbox {
             } else if (this.isClicked) {
                 debugBatch.setColor(0, 0, 255, 0.5F);
             } else {
-                debugBatch.setColor(255, 0, 0, 0.5F);
+                debugBatch.setColor(color);
             }
             Texture tex = AssetFinder.getTexture("yellow");
             debugBatch.draw(tex, this.x, this.y, this.width, this.height);

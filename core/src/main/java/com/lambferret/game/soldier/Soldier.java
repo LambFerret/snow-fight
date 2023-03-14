@@ -7,7 +7,6 @@ import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.constant.Affiliation;
 import com.lambferret.game.component.constant.Branch;
 import com.lambferret.game.component.constant.Rank;
-import com.lambferret.game.component.constant.Terrain;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.CustomInputProcessor;
 import com.lambferret.game.util.TextureFinder;
@@ -41,7 +40,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     /**
      * 선호 지형
      */
-    private List<Terrain> preferenceTerrain;
+    private List<Short> preferenceTerrain;
     /**
      * 한마디?
      */
@@ -86,7 +85,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     public Soldier(
         String ID, Affiliation affiliation, Rank rank, String name, Branch branch,
-        List<Terrain> preferenceTerrain, String description, String texturePath,
+        List<Short> preferenceTerrain, String description, String texturePath,
         float speed, boolean isUncommonRange, int rangeX, int rangeY
     ) {
         this.ID = ID;

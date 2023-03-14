@@ -2,6 +2,8 @@ package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.level.Level;
+import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
@@ -11,17 +13,14 @@ import org.apache.logging.log4j.Logger;
 public class PhaseScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
     private static Overlay overlay;
-    private static int level;
-    private static int region;
-
     public static Screen screen;
     public static Player player;
-
     private ActionPhaseScreen actionPhaseScreen;
     private ReadyPhaseScreen readyPhaseScreen;
     private DefeatScreen defeatScreen;
     private PrePhaseScreen prePhaseScreen;
     private VictoryScreen victoryScreen;
+    public static Level currentLevel;
 
     public PhaseScreen() {
 
@@ -33,6 +32,7 @@ public class PhaseScreen extends AbstractScreen {
         overlay = Overlay.getInstance();
         overlay.setPhaseUI();
         player = SnowFight.player;
+        currentLevel = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
         prePhaseScreen = new PrePhaseScreen();
         readyPhaseScreen = new ReadyPhaseScreen();
         actionPhaseScreen = new ActionPhaseScreen();
@@ -57,7 +57,6 @@ public class PhaseScreen extends AbstractScreen {
             }
             case VICTORY -> {
                 victoryScreen.render(batch);
-
             }
             case DEFEAT -> {
                 defeatScreen.render(batch);
