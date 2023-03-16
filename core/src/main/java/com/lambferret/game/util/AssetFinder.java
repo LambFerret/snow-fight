@@ -6,7 +6,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -61,10 +60,6 @@ public class AssetFinder {
 
     public static TextureAtlas getAtlas(String name) {
         return manager.get(ATLAS + name, TextureAtlas.class);
-    }
-
-    public static BitmapFont getFont(String name) {
-        return manager.get(FONT + name, BitmapFont.class);
     }
 
     public static ParticleEffect getEffect(String name) {

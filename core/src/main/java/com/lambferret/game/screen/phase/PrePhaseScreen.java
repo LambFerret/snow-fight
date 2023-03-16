@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
@@ -14,19 +15,23 @@ public class PrePhaseScreen {
     Player player;
     Level map;
     MapContainer mapContainer;
+    ImageButton imageButton = new ImageButton(new ImageButton.ImageButtonStyle());
 
 
-    public PrePhaseScreen() {
+
+    public PrePhaseScreen(MapContainer mapContainer) {
+        this.mapContainer = mapContainer;
+
         this.player = SnowFight.player;
         this.map = PhaseScreen.currentLevel;
         this.mapContainer = new MapContainer(this.map);
     }
 
-    public void render(SpriteBatch batch) {
-        mapContainer.renderMap(batch);
+    public void render() {
+        mapContainer.renderMap();
     }
 
-    public void update(float delta) {
-        mapContainer.updateMap(delta);
+    public void update() {
+        mapContainer.updateMap();
     }
 }

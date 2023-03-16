@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.setting.GlobalSettings;
@@ -16,13 +15,13 @@ public class ScoreOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void update(float delta) {
-        this.box.update(delta);
+    public void update() {
+        this.box.update();
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        this.box.render(batch);
+    public void render() {
+        this.box.render();
     }
 
     @Override

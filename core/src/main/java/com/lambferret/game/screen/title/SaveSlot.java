@@ -34,14 +34,14 @@ public class SaveSlot {
     public void create(Hitbox plate) {
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (SaveLoader.isSaveExist(slotNumber)) {
-            this.box.render(batch);
+            this.box.render();
         }
     }
 
-    public void update(float delta) {
-        this.box.update(delta);
+    public void update() {
+        this.box.update();
         if (box.isClicked) {
             SaveLoader.load(this.slotNumber);
             SnowFight.setPlayer();

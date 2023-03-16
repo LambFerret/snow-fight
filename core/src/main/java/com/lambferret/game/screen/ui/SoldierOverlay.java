@@ -1,7 +1,6 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.HorizontalScroll;
@@ -41,7 +40,7 @@ public class SoldierOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
 
         if (CustomInputProcessor.pressedKeyUp(Input.Keys.Q)) {
             container.switchInfo();
@@ -51,24 +50,24 @@ public class SoldierOverlay extends AbstractOverlay {
         }
 
         if (this.plate.isHovered) {
-            this.scroll.update(delta);
+            this.scroll.update();
         }
 
-        container.update(delta, scroll.getPercent());
-        this.plate.update(delta);
+        container.update(scroll.getPercent());
+        this.plate.update();
 
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (!isInit) {
             setPlayer();
             isInit = true;
         }
 
-        this.scroll.render(batch);
-        this.plate.render(batch);
-        container.render(batch);
+        this.scroll.render();
+        this.plate.render();
+        container.render();
     }
 
     @Override

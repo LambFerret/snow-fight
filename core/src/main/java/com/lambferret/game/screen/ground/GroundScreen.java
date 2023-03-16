@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;
@@ -25,39 +24,38 @@ public class GroundScreen extends AbstractScreen {
 
     @Override
     public void create() {
-        super.create();
         Overlay.setGroundUI();
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        overlay.render(batch);
+    public void render() {
+        overlay.render();
         switch (screen) {
             case RECRUIT -> {
-                recruitScreen.render(batch);
+                recruitScreen.render();
             }
             case SHOP -> {
-                shopScreen.render(batch);
+                shopScreen.render();
             }
             case TRAINING_GROUND -> {
-                trainingGroundScreen.render(batch);
+                trainingGroundScreen.render();
             }
         }
     }
 
     @Override
-    public void update(float delta) {
-        overlay.update(delta);
+    public void update() {
+        overlay.update();
         switch (screen) {
             case RECRUIT -> {
-                recruitScreen.update(delta);
+                recruitScreen.update();
             }
             case SHOP -> {
-                shopScreen.update(delta);
+                shopScreen.update();
 
             }
             case TRAINING_GROUND -> {
-                trainingGroundScreen.update(delta);
+                trainingGroundScreen.update();
 
             }
         }

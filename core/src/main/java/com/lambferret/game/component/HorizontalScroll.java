@@ -1,7 +1,6 @@
 package com.lambferret.game.component;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.CustomInputProcessor;
@@ -48,7 +47,7 @@ public class HorizontalScroll {
         scrollPointer = new Hitbox(X, Y, POINTER_WIDTH, HEIGHT);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (POINTER_PREV_X == POINTER_X) {
             transparency = GlobalUtil.smallLerp(transparency, 0, 0.3F);
         } else {
@@ -58,14 +57,13 @@ public class HorizontalScroll {
         if (scrollPointer.isHovered) {
             transparency = 1;
         }
-        batch.setColor(1, 1, 1, transparency);
-
-        batch.draw(barTexture, X, Y, WIDTH, HEIGHT);
-        batch.draw(pointerTexture, POINTER_X, Y, POINTER_WIDTH, HEIGHT);
-        scrollPointer.render(batch);
+//        batch.setColor(1, 1, 1, transparency);
+//        batch.draw(barTexture, X, Y, WIDTH, HEIGHT);
+//        batch.draw(pointerTexture, POINTER_X, Y, POINTER_WIDTH, HEIGHT);
+        scrollPointer.render();
     }
 
-    public void update(float delta) {
+    public void update() {
         POINTER_PREV_X += CustomInputProcessor.getScrolledAmount() * SCROLL_SPEED;
 
         if (POINTER_PREV_X < X) {
@@ -75,7 +73,7 @@ public class HorizontalScroll {
             POINTER_PREV_X = X + WIDTH - POINTER_WIDTH;
         }
         if (POINTER_PREV_X != POINTER_X) scrollPointer.move(POINTER_PREV_X, Y);
-        scrollPointer.update(delta);
+        scrollPointer.update();
     }
 
     public float getPercent() {

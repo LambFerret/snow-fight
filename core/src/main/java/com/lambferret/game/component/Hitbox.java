@@ -2,7 +2,8 @@ package com.lambferret.game.component;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
@@ -34,6 +35,8 @@ public class Hitbox {
     public boolean isGrabbed;
     private boolean isActive = true;
     private Color color;
+    private TextureRegion textureRegion = new TextureRegion();
+    private Actor actor = new Actor();
 
     public Hitbox() {
         this(1, 1);
@@ -58,7 +61,7 @@ public class Hitbox {
         this.height = height;
         this.isHovered = false;
         this.isClicked = false;
-        color = Color.RED;
+        color = Color.valueOf("FF00007F");
     }
 
     public float getX() {
@@ -130,22 +133,26 @@ public class Hitbox {
         this.isActive = true;
     }
 
-    public void render(SpriteBatch debugBatch) {
+    public void render() {
         if (GlobalSettings.isDev) {
             if (this.isHovered) {
-                debugBatch.setColor(0, 255, 0, 0.5F);
+//                debugBatch.setColor(0, 255, 0, 0.5F);
             } else if (this.isClicked) {
-                debugBatch.setColor(0, 0, 255, 0.5F);
+//                debugBatch.setColor(0, 0, 255, 0.5F);
             } else {
-                debugBatch.setColor(color);
+//                debugBatch.setColor(color);
             }
             Texture tex = AssetFinder.getTexture("yellow");
-            debugBatch.draw(tex, this.x, this.y, this.width, this.height);
+//            debugBatch.draw(tex, this.x, this.y, this.width, this.height);
         }
     }
 
+    public void rotate() {
 
-    public void update(float delta) {
+    }
+
+
+    public void update() {
         if (isActive) {
             isHovered();
             isClicked();
@@ -171,6 +178,7 @@ public class Hitbox {
                 && CustomInputProcessor.getMouseUpY() < this.y + this.height
                 && CustomInputProcessor.isMouseUp();
     }
+
     private void isGrabbed() {
         this.isGrabbed = CustomInputProcessor.isGrabbed();
     }

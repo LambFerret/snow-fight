@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class FirstEvent extends GameEvent {
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render() {
 
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
 
     }
 

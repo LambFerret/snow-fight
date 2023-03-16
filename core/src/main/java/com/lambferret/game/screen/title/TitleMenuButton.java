@@ -2,9 +2,6 @@ package com.lambferret.game.screen.title;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -20,25 +17,25 @@ public class TitleMenuButton {
     private static TitleMenuText text;
     private Hitbox box;
     private String name;
-    private TitleMenuButtonAction action;
+    private TitleMenuScreen.TitleAction action;
     private boolean isActive = true;
     private static final float s = GlobalSettings.scale;
 
-    public TitleMenuButton(TitleMenuButtonAction action, int index) {
+    public TitleMenuButton(TitleMenuScreen.TitleAction action, int index) {
         text = LocalizeConfig.uiText.getTitleMenuText();
         this.action = action;
         this.name = setName(action);
         this.box = new Hitbox(100 * s, 50.0F * s * (index + 1), 50 * s, 25 * s);
     }
 
-    public void render(SpriteBatch batch) {
-        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        batch.setColor(Color.BLACK);
-        this.box.render(batch);
+    public void render() {
+//        batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+//        batch.setColor(Color.BLACK);
+        this.box.render();
     }
 
-    public void update(float delta) {
-        this.box.update(delta);
+    public void update() {
+        this.box.update();
         setAction();
     }
 
@@ -71,7 +68,7 @@ public class TitleMenuButton {
         }
     }
 
-    private String setName(TitleMenuButtonAction action) {
+    private String setName(TitleMenuScreen.TitleAction action) {
         return switch (action) {
             case NEW -> text.getNewGame();
             case CONTINUE -> text.getContinueGame();
@@ -82,12 +79,4 @@ public class TitleMenuButton {
         };
     }
 
-    enum TitleMenuButtonAction {
-        NEW,
-        CONTINUE,
-        LOAD,
-        OPTION,
-        CREDIT,
-        EXIT
-    }
 }

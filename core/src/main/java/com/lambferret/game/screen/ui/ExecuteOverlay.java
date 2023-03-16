@@ -1,7 +1,6 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.setting.GlobalSettings;
@@ -20,14 +19,14 @@ public class ExecuteOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void update(float delta) {
-        this.box.update(delta);
+    public void update() {
+        this.box.update();
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        this.box.render(batch);
-        batch.draw(texture, GlobalSettings.currWidth - OVERLAY_WIDTH, 0.0F, OVERLAY_WIDTH, OVERLAY_HEIGHT);
+    public void render() {
+        this.box.render();
+//        batch.draw(texture, GlobalSettings.currWidth - OVERLAY_WIDTH, 0.0F, OVERLAY_WIDTH, OVERLAY_HEIGHT);
     }
 
     @Override

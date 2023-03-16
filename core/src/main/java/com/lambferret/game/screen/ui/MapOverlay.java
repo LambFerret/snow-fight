@@ -1,7 +1,6 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.screen.ground.MapButton;
@@ -47,8 +46,8 @@ public class MapOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        plate.render(batch);
+    public void render() {
+        plate.render();
         boolean isPrevious = false;
 
         for (MapButton button : buttons) {
@@ -64,7 +63,7 @@ public class MapOverlay extends AbstractOverlay {
                     button.isPreviousZoomed = isPrevious;
                 }
             }
-            button.render(batch, plate);
+            button.render(plate);
         }
     }
 
@@ -87,11 +86,11 @@ public class MapOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
         for (MapButton button : buttons) {
-            button.update(delta);
+            button.update();
         }
-        plate.update(delta);
+        plate.update();
         if (!isHidden && CustomInputProcessor.pressedKey(Input.Keys.Y)) {
             this.hide(Direction.INSTANTLY);
         } else if (isHidden && CustomInputProcessor.pressedKey(Input.Keys.U)) {

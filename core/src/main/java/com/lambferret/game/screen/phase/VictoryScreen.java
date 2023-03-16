@@ -24,12 +24,12 @@ public class VictoryScreen {
         stage.addActor(textButton);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         stage.act();
         stage.draw();
     }
 
-    public void update(float delta) {
+    public void update() {
 
     }
 }

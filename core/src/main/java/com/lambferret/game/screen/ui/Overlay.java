@@ -94,16 +94,16 @@ public class Overlay {
         overlay.create();
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         for (AbstractOverlay overlay : currentUIList) {
-            overlay.render(batch);
+            overlay.render();
         }
     }
 
-    public void update(float delta) {
+    public void update() {
 
         for (AbstractOverlay overlay : currentUIList) {
-            overlay.update(delta);
+            overlay.update();
         }
     }
 

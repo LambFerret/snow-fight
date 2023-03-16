@@ -1,7 +1,6 @@
 package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Interpolation;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.setting.GlobalSettings;
@@ -44,7 +43,7 @@ public class MapButton {
 
     }
 
-    public void render(SpriteBatch batch, Hitbox plate) {
+    public void render(Hitbox plate) {
 
         if (!initSize) {
             this.plate = plate;
@@ -66,16 +65,16 @@ public class MapButton {
 
         box.move(this.drawX, plate.getY());
         box.resize(this.drawW, plate.getHeight());
-        batch.setColor(1, 1, 1, 1);
-        batch.draw(texture, this.drawX, plate.getY(), this.drawW, plate.getHeight());
-        this.box.render(batch);
+//        batch.setColor(1, 1, 1, 1);
+//        batch.draw(texture, this.drawX, plate.getY(), this.drawW, plate.getHeight());
+        this.box.render();
     }
 
 
-    public void update(float delta) {
+    public void update() {
         setAction();
-        this.box.update(delta);
-        sizeWithLerp(delta);
+        this.box.update();
+        sizeWithLerp();
     }
 
     private void setInitSize() {
@@ -83,7 +82,7 @@ public class MapButton {
         this.drawX = plate.getX() + plate.getWidth() / (float) total * (float) index;
     }
 
-    private void sizeWithLerp(float delta) {
+    private void sizeWithLerp() {
         this.drawX = GlobalUtil.lerp(this.drawX, x, speed);
         this.drawW = GlobalUtil.lerp(this.drawW, width, speed);
     }

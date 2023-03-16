@@ -47,6 +47,7 @@ public class Level {
     private int[][] currentAmount;
 
     public Level(Region region, short[][] map, int[][] maxAmountMap, int snowMin, int snowMax) {
+        checkMap(map, maxAmountMap);
         this.region = region;
         this.map = map;
         this.maxAmountMap = maxAmountMap;
@@ -55,6 +56,23 @@ public class Level {
         this.ROWS = map.length;
         this.COLUMNS = map[0].length;
         this.currentAmount = new int[ROWS][COLUMNS];
+    }
+
+    private void checkMap(short[][] map, int[][] maxAmountMap) {
+        // 유효성 체크
+        boolean isError = false;
+        if (map.length != maxAmountMap.length) {
+            isError = true;
+        } else {
+            for (int i = 0; i < map.length; i++) {
+                if (map[i].length != maxAmountMap[i].length) {
+                    isError = true;
+                }
+            }
+        }
+        if (isError) {
+            throw new RuntimeException("this Map " + getClass().getSimpleName() + " is INCORRECT");
+        }
     }
 
     public short[][] getMap() {

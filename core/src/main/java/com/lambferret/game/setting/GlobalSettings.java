@@ -1,5 +1,10 @@
 package com.lambferret.game.setting;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lambferret.game.save.SaveLoader;
@@ -34,7 +39,7 @@ public class GlobalSettings {
 
     public static Setting settings;
     public static Setting.Language language;
-
+    public static BitmapFont font = null;
 
     public static void init() {
         var startTime = System.currentTimeMillis();
@@ -105,7 +110,32 @@ public class GlobalSettings {
 
     public static void loadGamePlayConfig() {
         language = settings.getGameplay().getLanguage();
+        font = switch (language) {
+            case KR -> getFont("KR_nanumBold");
+            case EN -> getFont("EN_Archivo_Condensed-Light");
+            case JP -> getFont("JP_ShipporiSans");
+            case RU -> getFont("RU_kremlin");
+        };
+//        font = new BitmapFont(Gdx.files.absolute("font/KRSCDream4.otf"));
+
     }
 
+    private static BitmapFont getFont(String name) {
+        String FONT = "font/";
+        String fileName = FONT + name + ".ttf";
+        if (!Gdx.files.absolute(fileName).exists()) {
+            fileName = FONT + name + ".otf";
+        }
+
+        FileHandle file = Gdx.files.internal(fileName);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 12;
+        params.color = Color.BLACK;
+
+        BitmapFont font = generator.generateFont(params);
+        generator.dispose();
+        return font;
+    }
 
 }

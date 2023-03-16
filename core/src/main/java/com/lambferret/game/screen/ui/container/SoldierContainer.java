@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ui.container;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
@@ -66,14 +65,14 @@ public class SoldierContainer {
     }
 
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         for (Soldier soldier : soldiers) {
-            soldier.render(batch);
+            soldier.render();
         }
     }
 
 
-    public void update(float delta, float scrollAmount) {
+    public void update(float scrollAmount) {
 
         if (isSimplify) {
             offsetX = containerInitX - (simpleTotalSize - this.containerBox.getWidth()) * scrollAmount;
@@ -84,7 +83,7 @@ public class SoldierContainer {
         }
 
         for (Soldier soldier : soldiers) {
-            soldier.update(delta);
+            soldier.update();
         }
 
     }
@@ -98,9 +97,7 @@ public class SoldierContainer {
         for (int index = 0; index < soldiers.size(); index++) {
             float x = offsetX + HORIZONTAL_SPACING * (index + 1) + EXTEND_WIDTH * index;
             float y = containerBox.getY() + VERTICAL_SPACING;
-            float width = EXTEND_WIDTH;
-            float height = EXTEND_HEIGHT;
-            this.child.resize(width, height);
+            this.child.resize(EXTEND_WIDTH, EXTEND_HEIGHT);
             this.child.move(x, y);
             soldiers.get(index).setOffset(this.child, true);
         }
@@ -113,9 +110,7 @@ public class SoldierContainer {
             float y = (index % 2 == 0)
                 ? containerBox.getY() + VERTICAL_SPACING * 2 + SHRINK_HEIGHT
                 : containerBox.getY() + VERTICAL_SPACING;
-            float width = SHRINK_WIDTH;
-            float height = SHRINK_HEIGHT;
-            this.child.resize(width, height);
+            this.child.resize(SHRINK_WIDTH, SHRINK_HEIGHT);
             this.child.move(x, y);
             soldiers.get(index).setOffset(this.child, false);
         }

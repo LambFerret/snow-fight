@@ -1,11 +1,11 @@
 {
   "titleMenuText": {
-    "NEW_GAME": "새게임",
-    "CONTINUE": "계속",
-    "LOAD_GAME": "로드",
-    "CREDIT": "크레딧",
-    "OPTION": "옵션",
-    "EXIT": "나가기"
+    "newGame": "새게임",
+    "continueGame": "계속",
+    "loadGame": "로드",
+    "credit": "크레딧",
+    "option": "옵션",
+    "exit": "나가기"
   },
   "overlayText": {
     "TEST": "테스트_테스트"

@@ -1,12 +1,14 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Input;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.AbstractScreen;
+import com.lambferret.game.screen.phase.container.MapContainer;
 import com.lambferret.game.screen.ui.Overlay;
+import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,14 +30,14 @@ public class PhaseScreen extends AbstractScreen {
 
     @Override
     public void create() {
-        super.create();
         overlay = Overlay.getInstance();
         overlay.setPhaseUI();
         player = SnowFight.player;
         currentLevel = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
-        prePhaseScreen = new PrePhaseScreen();
-        readyPhaseScreen = new ReadyPhaseScreen();
-        actionPhaseScreen = new ActionPhaseScreen();
+        MapContainer mapContainer = new MapContainer(currentLevel);
+        prePhaseScreen = new PrePhaseScreen(mapContainer);
+        readyPhaseScreen = new ReadyPhaseScreen(mapContainer);
+        actionPhaseScreen = new ActionPhaseScreen(mapContainer);
         victoryScreen = new VictoryScreen();
         defeatScreen = new DefeatScreen();
         screen = Screen.PRE;
@@ -43,47 +45,54 @@ public class PhaseScreen extends AbstractScreen {
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        overlay.render(batch);
+    public void render() {
+        overlay.render();
         switch (screen) {
             case PRE -> {
-                prePhaseScreen.render(batch);
+                prePhaseScreen.render();
             }
             case READY -> {
-                readyPhaseScreen.render(batch);
+                readyPhaseScreen.render();
             }
             case ACTION -> {
-                actionPhaseScreen.render(batch);
+                actionPhaseScreen.render();
             }
             case VICTORY -> {
-                victoryScreen.render(batch);
+                victoryScreen.render();
             }
             case DEFEAT -> {
-                defeatScreen.render(batch);
+                defeatScreen.render();
 
             }
         }
     }
 
     @Override
-    public void update(float delta) {
-        overlay.update(delta);
+    public void update() {
+        overlay.update();
         switch (screen) {
             case PRE -> {
-                prePhaseScreen.update(delta);
+                prePhaseScreen.update();
             }
             case READY -> {
-                readyPhaseScreen.update(delta);
+                readyPhaseScreen.update();
             }
             case ACTION -> {
-                actionPhaseScreen.update(delta);
+                actionPhaseScreen.update();
             }
             case VICTORY -> {
-                victoryScreen.update(delta);
+                victoryScreen.update();
             }
             case DEFEAT -> {
-                defeatScreen.update(delta);
+                defeatScreen.update();
             }
+        }
+        if (CustomInputProcessor.pressedKey(Input.Keys.NUM_6)) {
+            screen = Screen.PRE;
+        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_7)) {
+            screen = Screen.READY;
+        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_8)) {
+            screen = Screen.ACTION;
         }
     }
 

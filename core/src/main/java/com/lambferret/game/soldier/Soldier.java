@@ -2,14 +2,11 @@ package com.lambferret.game.soldier;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.Hitbox;
 import com.lambferret.game.component.constant.Affiliation;
 import com.lambferret.game.component.constant.Branch;
 import com.lambferret.game.component.constant.Rank;
-import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.CustomInputProcessor;
-import com.lambferret.game.util.TextureFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -115,58 +112,56 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.height = plate.getHeight();
     }
 
-    private void renderSimple(SpriteBatch batch) {
-        batch.draw(AssetFinder.getTexture(texturePath + "DogTag"), offsetX, offsetY, width, height);
-        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height);
-        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 2.0F);
-        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height);
-        this.box.render(batch);
+    private void renderSimple() {
+//        batch.draw(AssetFinder.getTexture(texturePath + "DogTag"), offsetX, offsetY, width, height);
+//        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height);
+//        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 2.0F);
+//        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height);
+        this.box.render();
     }
 
 
-    private void renderFront(SpriteBatch batch) {
-        batch.draw(AssetFinder.getTexture("soldierFront"), offsetX, offsetY, width, height);
-
-        batch.draw(AssetFinder.getTexture(this.texturePath), offsetX + height / 3.0F, offsetY, width, height * 2.0F / 3.0F);
-        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height / 3.0F);
-
-        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 6.0F);
-        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height / 3.0F);
+    private void renderFront() {
+//        batch.draw(AssetFinder.getTexture("soldierFront"), offsetX, offsetY, width, height);
+//        batch.draw(AssetFinder.getTexture(this.texturePath), offsetX + height / 3.0F, offsetY, width, height * 2.0F / 3.0F);
+//        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height / 3.0F);
+//        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 6.0F);
+//        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height / 3.0F);
     }
 
-    private void renderBack(SpriteBatch batch) {
-        batch.draw(AssetFinder.getTexture("soldierBack"), offsetX, offsetY, width, height);
-        batch.draw(AssetFinder.getTexture("3by3"), offsetX, offsetY + height / 2.0F, width, height / 2.0F);
-        font.draw(batch, this.description, offsetX + 5.0F, offsetY + height / 2);
+    private void renderBack() {
+//        batch.draw(AssetFinder.getTexture("soldierBack"), offsetX, offsetY, width, height);
+//        batch.draw(AssetFinder.getTexture("3by3"), offsetX, offsetY + height / 2.0F, width, height / 2.0F);
+//        font.draw(batch, this.description, offsetX + 5.0F, offsetY + height / 2);
 
     }
 
-    private void renderHover(SpriteBatch batch) {
-        var x = CustomInputProcessor.getMouseLocationX();
-        var y = CustomInputProcessor.getMouseLocationY();
-        var width = 300;
-        var height = 450;
-        batch.draw(AssetFinder.getTexture("soldierBack"), x, y, width, height);
-        batch.draw(AssetFinder.getTexture("3by3"), x, y + height / 2.0F, width, height / 2.0F);
-        font.draw(batch, this.description, x + 5.0F, y + height / 2.0F);
+    private void renderHover() {
+        float x = CustomInputProcessor.getMouseLocationX();
+        float y = CustomInputProcessor.getMouseLocationY();
+        float width = 300;
+        float height = 450;
+//        batch.draw(AssetFinder.getTexture("soldierBack"), x, y, width, height);
+//        batch.draw(AssetFinder.getTexture("3by3"), x, y + height / 2.0F, width, height / 2.0F);
+//        font.draw(batch, this.description, x + 5.0F, y + height / 2.0F);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (!isDetail) {
-            renderSimple(batch);
+            renderSimple();
             if (this.box.isHovered) {
-                renderHover(batch);
+                renderHover();
             }
         } else if (isFront) {
-            renderFront(batch);
+            renderFront();
         } else {
-            renderBack(batch);
+            renderBack();
         }
     }
 
 
-    public void update(float delta) {
-        this.box.update(delta);
+    public void update() {
+        this.box.update();
         if (isDetail && this.box.isClicked) {
             isFront = false;
         }

@@ -16,13 +16,13 @@ public class BarOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void update(float delta) {
-        this.box.update(delta);
+    public void update() {
+        this.box.update();
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        this.box.render(batch);
+    public void render() {
+        this.box.render();
     }
 
     @Override

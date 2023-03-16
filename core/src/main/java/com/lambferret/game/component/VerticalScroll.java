@@ -1,7 +1,6 @@
 package com.lambferret.game.component;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.component.constant.Direction;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.CustomInputProcessor;
@@ -48,22 +47,21 @@ public class VerticalScroll {
         scrollPointer = new Hitbox(X, Y, WIDTH, POINTER_HEIGHT);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         if (POINTER_PREV_Y == POINTER_Y) {
             transparency = GlobalUtil.smallLerp(transparency, 0, 0.3F);
         } else {
             transparency = GlobalUtil.smallLerp(transparency, 2, 30F);
             POINTER_Y = POINTER_PREV_Y;
         }
-        batch.setColor(1, 1, 1, transparency);
-
-        batch.draw(barTexture, X, Y, WIDTH, HEIGHT);
-        batch.draw(pointerTexture, X, POINTER_Y, WIDTH, POINTER_HEIGHT);
-        scrollPointer.render(batch);
+//        batch.setColor(1, 1, 1, transparency);
+//        batch.draw(barTexture, X, Y, WIDTH, HEIGHT);
+//        batch.draw(pointerTexture, X, POINTER_Y, WIDTH, POINTER_HEIGHT);
+        scrollPointer.render();
     }
 
-    public void update(float delta) {
-        scrollPointer.update(delta);
+    public void update() {
+        scrollPointer.update();
         POINTER_PREV_Y -= CustomInputProcessor.getScrolledAmount() * SCROLL_SPEED;
 
         if (POINTER_PREV_Y < Y) {
@@ -73,6 +71,6 @@ public class VerticalScroll {
             POINTER_PREV_Y = Y + HEIGHT - POINTER_HEIGHT;
         }
         if (POINTER_PREV_Y != POINTER_Y) scrollPointer.move(X, POINTER_PREV_Y);
-        scrollPointer.update(delta);
+        scrollPointer.update();
     }
 }

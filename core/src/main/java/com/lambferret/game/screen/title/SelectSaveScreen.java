@@ -30,17 +30,17 @@ public class SelectSaveScreen {
 
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
 
         for (SaveSlot slot : slots) {
-            slot.render(batch);
+            slot.render();
         }
     }
 
-    public void update(float delta) {
+    public void update() {
 
         for (SaveSlot slot : slots) {
-            slot.update(delta);
+            slot.update();
         }
     }
 }

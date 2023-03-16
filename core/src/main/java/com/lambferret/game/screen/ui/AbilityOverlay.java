@@ -20,17 +20,17 @@ public class AbilityOverlay extends AbstractOverlay {
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
         if (this.plate.isHovered) {
-            this.scroll.update(delta);
+            this.scroll.update();
         }
-        this.plate.update(delta);
+        this.plate.update();
     }
 
     @Override
-    public void render(SpriteBatch batch) {
-        this.scroll.render(batch);
-        this.plate.render(batch);
+    public void render() {
+        this.scroll.render();
+        this.plate.render();
     }
 
     @Override

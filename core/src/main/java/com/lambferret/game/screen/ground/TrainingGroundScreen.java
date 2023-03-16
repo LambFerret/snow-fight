@@ -1,8 +1,6 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.component.Hitbox;
@@ -29,16 +27,16 @@ public class TrainingGroundScreen {
         box = new Hitbox(100, 100, 100, 100);
     }
 
-    public void render(SpriteBatch batch) {
+    public void render() {
         stage.act();
         stage.draw();
-        batch.setColor(Color.CORAL);
-        box.render(batch);
+//        batch.setColor(Color.CORAL);
+        box.render();
     }
 
 
-    public void update(float delta) {
-        this.box.update(delta);
+    public void update() {
+        this.box.update();
         if (this.box.isClicked) {
             ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
         }

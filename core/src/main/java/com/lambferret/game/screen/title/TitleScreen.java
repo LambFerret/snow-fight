@@ -1,50 +1,52 @@
 package com.lambferret.game.screen.title;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.AbstractScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TitleScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(TitleScreen.class.getName());
-    public static Screen screen;
 
+    public static Screen screen;
     private final TitleMenuScreen titleMenuScreen;
     private final SelectSaveScreen selectSaveScreen;
+
     public TitleScreen() {
         titleMenuScreen = new TitleMenuScreen();
         selectSaveScreen = new SelectSaveScreen();
-        screen = Screen.TITLE;
     }
 
     @Override
     public void create() {
-        super.create();
+        titleMenuScreen.create();
+        selectSaveScreen.create();
+        screen = Screen.TITLE;
     }
 
     @Override
-    public void render(SpriteBatch batch) {
+    public void render() {
         switch (screen) {
             case TITLE -> {
-                titleMenuScreen.render(batch);
+                titleMenuScreen.render();
             }
             case SELECT_SAVE -> {
-                selectSaveScreen.render(batch);
+                selectSaveScreen.render();
             }
         }
     }
 
     @Override
-    public void update(float delta) {
+    public void update() {
         switch (screen) {
             case TITLE -> {
-                titleMenuScreen.update(delta);
+                titleMenuScreen.update();
             }
             case SELECT_SAVE -> {
-                selectSaveScreen.update(delta);
+                selectSaveScreen.update();
             }
         }
     }
+
     public enum Screen {
         TITLE,
         SELECT_SAVE,

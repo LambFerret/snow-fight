@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.text.dto.SoldierText;
 import com.lambferret.game.text.dto.OptionText;
+import com.lambferret.game.text.dto.SoldierText;
 import com.lambferret.game.text.dto.UIText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,14 +16,14 @@ import java.nio.charset.StandardCharsets;
 /**
  * .트리 계층 구조
  * └── Text(LocalizeConfig)/
- *     ├── UI/
- *     │   ├── title/
- *     │   │   ├── components1
- *     │   │   └── components2
- *     │   └── ground
- *     └── Option/
- *         ├── optionComponents1
- *         └── optionComponents2
+ * ├── UI/
+ * │   ├── title/
+ * │   │   ├── components1
+ * │   │   └── components2
+ * │   └── ground
+ * └── Option/
+ * ├── optionComponents1
+ * └── optionComponents2
  */
 public class LocalizeConfig {
     private static final Logger logger = LogManager.getLogger(LocalizeConfig.class.getName());
