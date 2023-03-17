@@ -1,7 +1,8 @@
 package com.lambferret.game.screen.title;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -16,16 +17,13 @@ import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SelectSaveScreen extends Window {
     private static final Logger logger = LogManager.getLogger(SelectSaveScreen.class.getName());
-    private static final List<Actor> component = new ArrayList<>();
     private BitmapFont font;
-    private Skin skin;
-    private Stage stage;
-
+    private final Skin skin;
+    private final Stage stage;
+    public static final int SAVE_WIDTH = 800;
+    public static final int SAVE_HEIGHT = 400;
 
     public SelectSaveScreen(Stage stage) {
         super("save", GlobalSettings.skin);
@@ -33,34 +31,36 @@ public class SelectSaveScreen extends Window {
         this.font = GlobalSettings.font;
         this.skin = GlobalSettings.skin;
 
-        component.add(new Label("select save file", skin));
-        component.add(table());
+        setWindowProperty(this);
     }
 
-    @Override
-    public void setVisible(boolean vis) {
-        for (Actor actor : component) {
-            actor.setVisible(vis);
-        }
+    private void setWindowProperty(Window window) {
+        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        window.setSize(SAVE_WIDTH, SAVE_HEIGHT);
+        float windowX = (Gdx.graphics.getWidth() - this.getWidth()) / 2;
+        float windowY = (Gdx.graphics.getHeight() - this.getHeight()) / 2;
+        window.setPosition(windowX, windowY);
+        window.setColor(Color.GREEN);
+        window.setBackground(texture);
+        window.add(table());
+        window.add(new Label("select save file", skin));
     }
 
     public void create() {
-        for (Actor actor : component) {
-            stage.addActor(actor);
-        }
+        stage.addActor(this);
     }
 
     private Table table() {
         Table table = new Table();
         for (int i = 0; i < 3; i++) {
-            table.add(button(i)).pad(10);
+            table.add(makeButton(i)).pad(10);
             table.row();
         }
         table.setPosition(GlobalSettings.currWidth / 2.0F, GlobalSettings.currHeight / 2.0F);
         return table;
     }
 
-    private ImageTextButtonStyle getButtonStyle() {
+    private ImageTextButtonStyle setButtonStyle() {
         TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = texture;
@@ -68,10 +68,10 @@ public class SelectSaveScreen extends Window {
         return style;
     }
 
-    private ImageTextButton button(int index) {
+    private ImageTextButton makeButton(int index) {
         boolean isExist = SaveLoader.isSaveExist(index);
         String label = isExist ? "load " + index : "new " + index;
-        ImageTextButton button = new ImageTextButton(label, getButtonStyle());
+        ImageTextButton button = new ImageTextButton(label, setButtonStyle());
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

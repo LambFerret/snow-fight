@@ -1,7 +1,8 @@
 package com.lambferret.game.screen.title;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -16,15 +17,13 @@ import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class SelectLoadScreen extends Window{
     private static final Logger logger = LogManager.getLogger(SelectLoadScreen.class.getName());
-    private static final List<Actor> component = new ArrayList<>();
     private BitmapFont font;
     private Skin skin;
     private Stage stage;
+    public static final int SAVE_WIDTH = 800;
+    public static final int SAVE_HEIGHT = 400;
 
     public SelectLoadScreen(Stage stage) {
         super("load", GlobalSettings.skin);
@@ -32,19 +31,23 @@ public class SelectLoadScreen extends Window{
         this.font = GlobalSettings.font;
         this.skin = GlobalSettings.skin;
 
-        component.add(new Label("select load file", skin));
-        component.add(table());
+        setWindowProperty(this);
     }
-    @Override
-    public void setVisible(boolean vis) {
-        for (Actor actor : component) {
-            actor.setVisible(vis);
-        }
+
+    private void setWindowProperty(Window window) {
+        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        window.setSize(SAVE_WIDTH, SAVE_HEIGHT);
+        float windowX = (Gdx.graphics.getWidth() - this.getWidth()) / 2;
+        float windowY = (Gdx.graphics.getHeight() - this.getHeight()) / 2;
+        window.setPosition(windowX, windowY);
+        window.setColor(Color.GREEN);
+        window.setBackground(texture);
+        window.add(table());
+        window.add(new Label("select save file", skin));
     }
+
     public void create() {
-        for (Actor actor : component) {
-            stage.addActor(actor);
-        }
+     stage.addActor(this);
     }
 
     private Table table() {

@@ -26,7 +26,6 @@ public class TitleScreen extends AbstractScreen {
     private final SelectSaveScreen selectSaveScreen;
     private final SelectLoadScreen selectLoadScreen;
     private final Stage stage;
-    Table table;
     TitleMenuText text;
     BitmapFont font;
 
@@ -52,18 +51,24 @@ public class TitleScreen extends AbstractScreen {
     @Override
     public void create() {
         font = GlobalSettings.font;
-        table = createTable();
         stage.addActor(backGroundImage());
-        stage.addActor(table);
+        stage.addActor(createTable());
         selectSaveScreen.create();
         selectLoadScreen.create();
+
         initDisplay();
     }
 
     private Image backGroundImage() {
         Image backgroundImage = new Image(AssetFinder.getTexture("titleBackground"));
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
-        backgroundImage.setZIndex(0);
+        backgroundImage.toBack();
+        backgroundImage.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                initDisplay();
+            }
+        });
         return backgroundImage;
     }
 
@@ -118,9 +123,11 @@ public class TitleScreen extends AbstractScreen {
         switch (action) {
             case NEW -> {
                 selectSaveScreen.setVisible(true);
+                selectSaveScreen.toFront();
             }
             case CONTINUE -> {
                 selectLoadScreen.setVisible(true);
+                selectLoadScreen.toFront();
             }
             case LOAD -> {
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
@@ -136,7 +143,6 @@ public class TitleScreen extends AbstractScreen {
             }
         }
     }
-
 
     public void render() {
         stage.draw();
