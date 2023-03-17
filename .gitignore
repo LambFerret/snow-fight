@@ -148,3 +148,5 @@ Thumbs.db
 *.log
 *.log.*
 assets/config.json
+*.save
+/assets/saves/save1.save

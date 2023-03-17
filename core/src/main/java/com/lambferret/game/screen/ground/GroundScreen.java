@@ -1,7 +1,10 @@
 package com.lambferret.game.screen.ground;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
+import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +32,10 @@ public class GroundScreen extends AbstractScreen {
 
     @Override
     public void render() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
+            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TITLE_SCREEN;
+
+        }
         overlay.render();
         switch (screen) {
             case RECRUIT -> {
@@ -47,17 +54,9 @@ public class GroundScreen extends AbstractScreen {
     public void update() {
         overlay.update();
         switch (screen) {
-            case RECRUIT -> {
-                recruitScreen.update();
-            }
-            case SHOP -> {
-                shopScreen.update();
-
-            }
-            case TRAINING_GROUND -> {
-                trainingGroundScreen.update();
-
-            }
+            case RECRUIT -> recruitScreen.update();
+            case SHOP -> shopScreen.update();
+            case TRAINING_GROUND -> trainingGroundScreen.update();
         }
     }
 

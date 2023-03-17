@@ -19,31 +19,28 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelectSaveScreen extends Window {
-    private static final Logger logger = LogManager.getLogger(SelectSaveScreen.class.getName());
+public class SelectLoadScreen extends Window{
+    private static final Logger logger = LogManager.getLogger(SelectLoadScreen.class.getName());
     private static final List<Actor> component = new ArrayList<>();
     private BitmapFont font;
     private Skin skin;
     private Stage stage;
 
-
-    public SelectSaveScreen(Stage stage) {
-        super("save", GlobalSettings.skin);
+    public SelectLoadScreen(Stage stage) {
+        super("load", GlobalSettings.skin);
         this.stage = stage;
         this.font = GlobalSettings.font;
         this.skin = GlobalSettings.skin;
 
-        component.add(new Label("select save file", skin));
+        component.add(new Label("select load file", skin));
         component.add(table());
     }
-
     @Override
     public void setVisible(boolean vis) {
         for (Actor actor : component) {
             actor.setVisible(vis);
         }
     }
-
     public void create() {
         for (Actor actor : component) {
             stage.addActor(actor);
@@ -62,7 +59,7 @@ public class SelectSaveScreen extends Window {
 
     private ImageTextButtonStyle getButtonStyle() {
         TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        ImageTextButtonStyle style = new ImageTextButtonStyle();
         style.up = texture;
         style.font = GlobalSettings.font;
         return style;
@@ -72,39 +69,23 @@ public class SelectSaveScreen extends Window {
         boolean isExist = SaveLoader.isSaveExist(index);
         String label = isExist ? "load " + index : "new " + index;
         ImageTextButton button = new ImageTextButton(label, getButtonStyle());
+
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (!isExist) {
-                    showDialog(index);
+                if (isExist) {
+                    SaveLoader.load(index);
+                    SnowFight.setPlayer();
+                    ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
                 } else {
-                    logger.info("cannot select empty slot");
+                    logger.info("cannot select empty slot" );
                 }
             }
 
         });
+
+
         return button;
-    }
-
-    private void showDialog(int index) {
-        Dialog dialog = new Dialog("Confirmation", skin) {
-            {
-                text("Are you sure?");
-                button("Yes", "YES");
-                button("No", "NO");
-            }
-
-            @Override
-            protected void result(Object object) {
-                if ("YES".equals(object)) {
-                    SaveLoader.makeNewSave(index);
-                    SaveLoader.load(index);
-                    SnowFight.setPlayer();
-                    ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
-                }
-            }
-        };
-        dialog.show(stage);
     }
 
 

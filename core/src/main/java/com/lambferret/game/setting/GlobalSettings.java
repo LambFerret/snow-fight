@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lambferret.game.save.SaveLoader;
@@ -36,6 +37,8 @@ public class GlobalSettings {
     public static float bgmVolume;
     public static float effectVolume;
     public static float scale;
+    public static Skin skin;
+
 
     public static Setting settings;
     public static Setting.Language language;
@@ -97,10 +100,7 @@ public class GlobalSettings {
         } else {
             // have LetterBox
         }
-
-
     }
-
 
     public static void loadSoundConfig() {
         masterVolume = settings.getVolume().getMasterVolume();
@@ -116,7 +116,7 @@ public class GlobalSettings {
             case JP -> getFont("JP_ShipporiSans");
             case RU -> getFont("RU_kremlin");
         };
-//        font = new BitmapFont(Gdx.files.absolute("font/KRSCDream4.otf"));
+        skin = new Skin(Gdx.files.internal("./data/uiskin.json"));
 
     }
 

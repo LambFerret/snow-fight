@@ -1,6 +1,7 @@
 package com.lambferret.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -13,7 +14,6 @@ import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.util.AssetLoader;
-import com.lambferret.game.util.CustomInputProcessor;
 import de.eskalon.commons.core.ManagedGame;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -29,6 +29,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     private static final Logger logger = LogManager.getLogger(SnowFight.class.getName());
     public static OrthographicCamera camera;
     public static Viewport viewport;
+    public static InputMultiplexer inputProcessor;
     public static AssetManager assetManager;
     public static Player player;
 
@@ -63,7 +64,8 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     }
 
     private void inputConfig() {
-        Gdx.input.setInputProcessor(new CustomInputProcessor());
+        inputProcessor = new InputMultiplexer();
+        Gdx.input.setInputProcessor(inputProcessor);
     }
 
     public static void cameraConfig(int width, int height) {
