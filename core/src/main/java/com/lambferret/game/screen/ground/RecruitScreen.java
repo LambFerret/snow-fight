@@ -24,7 +24,14 @@ public class RecruitScreen {
     }
 
     public Stage getStage() {
-        return stage;
+        return this.stage;
+    }
+
+    public void create() {
+//        stage.addActor(makeButton());
+    }
+
+    private void setProperty() {
     }
 
     public void render() {
@@ -34,4 +41,5 @@ public class RecruitScreen {
     public void update() {
         stage.act();
     }
+
 }

@@ -24,14 +24,22 @@ public class ShopScreen {
     }
 
     public Stage getStage() {
-        return stage;
+        return this.stage;
+    }
+
+    public void create() {
+//        stage.addActor(makeButton());
+    }
+
+    private void setProperty() {
     }
 
     public void render() {
-        stage.act();
         stage.draw();
     }
 
     public void update() {
+        stage.act();
     }
+
 }

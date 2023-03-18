@@ -2,15 +2,12 @@ package com.lambferret.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.lambferret.game.setting.GlobalSettings;
 import de.eskalon.commons.screen.ManagedScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractScreen extends ManagedScreen {
     private static final Logger logger = LogManager.getLogger(AbstractScreen.class.getName());
-    private static final Stage stage = new Stage();
 
     @Override
     public void render(float delta) {
@@ -33,15 +30,6 @@ public abstract class AbstractScreen extends ManagedScreen {
 
     @Override
     public void dispose() {
-    }
-
-
-    private void switchFullScreen() {
-        if (Gdx.graphics.isFullscreen()) {
-            Gdx.graphics.setWindowedMode(GlobalSettings.prevWidth, GlobalSettings.prevHeight);
-        } else {
-            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-        }
     }
 
     @Override

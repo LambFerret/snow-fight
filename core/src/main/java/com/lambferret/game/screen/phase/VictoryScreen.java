@@ -8,14 +8,13 @@ import org.apache.logging.log4j.Logger;
 
 public class VictoryScreen {
     private static final Logger logger = LogManager.getLogger(VictoryScreen.class.getName());
-
     TextButton.TextButtonStyle style;
     TextButton textButton;
     BitmapFont font;
     Stage stage;
 
     public VictoryScreen() {
-        stage = new Stage();
+        this.stage = new Stage();
         font = new BitmapFont();
         style = new TextButton.TextButtonStyle();
         style.font = font;
@@ -23,12 +22,23 @@ public class VictoryScreen {
         stage.addActor(textButton);
     }
 
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    public void create() {
+//    stage.addActor(this);
+        setProperty();
+    }
+
+    private void setProperty() {
+    }
+
     public void render() {
-        stage.act();
         stage.draw();
     }
 
     public void update() {
-
+        stage.act();
     }
 }

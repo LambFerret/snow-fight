@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 public class Setting {
     private static final Logger logger = LogManager.getLogger(Setting.class.getName());
 
-
     public static final int DEFAULT_WIDTH = 1280;
     public static final int DEFAULT_HEIGHT = 720;
     public static final int DEFAULT_FPS = 60;
@@ -69,8 +68,6 @@ public class Setting {
             this.fps = DEFAULT_FPS;
             this.isFullScreen = DEFAULT_VSYNC;
             this.isVsync = FULLSCREEN;
-
-
         }
     }
 
@@ -82,7 +79,6 @@ public class Setting {
         private float effectVolume;
 
         public Volume() {
-
             this.masterVolume = DEFAULT_MASTER_VOLUME;
             this.bgmVolume = DEFAULT_MASTER_VOLUME;
             this.effectVolume = DEFAULT_MASTER_VOLUME;

@@ -6,7 +6,6 @@ import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.AbstractScreen;
-import com.lambferret.game.screen.phase.container.MapContainer;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
@@ -15,62 +14,81 @@ import org.apache.logging.log4j.Logger;
 public class PhaseScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
     private static Overlay overlay;
-    public static Screen screen;
+    public static Screen currentScreen;
     public static Player player;
-    private ActionPhaseScreen actionPhaseScreen;
-    private ReadyPhaseScreen readyPhaseScreen;
-    private DefeatScreen defeatScreen;
-    private PrePhaseScreen prePhaseScreen;
-    private VictoryScreen victoryScreen;
+    private static final ActionPhaseScreen actionPhaseScreen;
+    private static final ReadyPhaseScreen readyPhaseScreen;
+    private static final DefeatScreen defeatScreen;
+    private static final PrePhaseScreen prePhaseScreen;
+    private static final VictoryScreen victoryScreen;
     public static Level currentLevel;
+//    PhaseText text;
+
+    static {
+        actionPhaseScreen = new ActionPhaseScreen();
+        readyPhaseScreen = new ReadyPhaseScreen();
+        defeatScreen = new DefeatScreen();
+        prePhaseScreen = new PrePhaseScreen();
+        victoryScreen = new VictoryScreen();
+    }
 
     public PhaseScreen() {
-
+//        text = LocalizeConfig.uiText.getGroundText();
+        overlay = Overlay.getInstance();
+        changeScreen(Screen.PRE);
     }
 
     @Override
     public void create() {
-        overlay = Overlay.getInstance();
-        overlay.setPhaseUI();
+        Overlay.setPhaseUI();
+        actionPhaseScreen.create();
+        readyPhaseScreen.create();
+        defeatScreen.create();
+        prePhaseScreen.create();
+        victoryScreen.create();
+    }
+
+    /**
+     * constructor, create, init
+     * constructor : 화면이 등록될 때 이므로 게임 시작과 거의 동시에 호출된다
+     * create : 보통은 constructor 와 비슷한 시간에 호출되나 constructor 보다 늦는다
+     * init : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
+     */
+    public void init() {
         player = SnowFight.player;
         currentLevel = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
-        MapContainer mapContainer = new MapContainer(currentLevel);
-        prePhaseScreen = new PrePhaseScreen(mapContainer);
-        readyPhaseScreen = new ReadyPhaseScreen(mapContainer);
-        actionPhaseScreen = new ActionPhaseScreen(mapContainer);
-        victoryScreen = new VictoryScreen();
-        defeatScreen = new DefeatScreen();
-        screen = Screen.PRE;
+    }
 
+    public static void changeScreen(Screen screen) {
+        if (currentScreen != screen) {
+            Overlay.currentStage = switch (screen) {
+                case PRE -> actionPhaseScreen.getStage();
+                case READY -> readyPhaseScreen.getStage();
+                case ACTION -> defeatScreen.getStage();
+                case VICTORY -> prePhaseScreen.getStage();
+                case DEFEAT -> victoryScreen.getStage();
+            };
+            Overlay.initInput();
+            currentScreen = screen;
+        }
     }
 
     @Override
     public void render() {
         overlay.render();
-        switch (screen) {
-            case PRE -> {
-                prePhaseScreen.render();
-            }
-            case READY -> {
-                readyPhaseScreen.render();
-            }
-            case ACTION -> {
-                actionPhaseScreen.render();
-            }
-            case VICTORY -> {
-                victoryScreen.render();
-            }
-            case DEFEAT -> {
-                defeatScreen.render();
-
-            }
+        switch (currentScreen) {
+            case PRE -> prePhaseScreen.render();
+            case READY -> readyPhaseScreen.render();
+            case ACTION -> actionPhaseScreen.render();
+            case VICTORY -> victoryScreen.render();
+            case DEFEAT -> defeatScreen.render();
         }
     }
 
     @Override
     public void update() {
         overlay.update();
-        switch (screen) {
+        switch (currentScreen) {
             case PRE -> {
                 prePhaseScreen.update();
             }
@@ -87,12 +105,20 @@ public class PhaseScreen extends AbstractScreen {
                 defeatScreen.update();
             }
         }
+        test();
+    }
+
+    public void test() {
         if (CustomInputProcessor.pressedKey(Input.Keys.NUM_6)) {
-            screen = Screen.PRE;
+            currentScreen = Screen.PRE;
         } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_7)) {
-            screen = Screen.READY;
+            currentScreen = Screen.READY;
         } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_8)) {
-            screen = Screen.ACTION;
+            currentScreen = Screen.ACTION;
+        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_9)) {
+            currentScreen = Screen.VICTORY;
+        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_0)) {
+            currentScreen = Screen.DEFEAT;
         }
     }
 

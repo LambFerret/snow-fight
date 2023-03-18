@@ -1,35 +1,44 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.lambferret.game.SnowFight;
-import com.lambferret.game.level.Level;
-import com.lambferret.game.player.Player;
-import com.lambferret.game.screen.phase.container.MapContainer;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class PrePhaseScreen {
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
+    TextButton.TextButtonStyle style;
+    TextButton textButton;
+    BitmapFont font;
+    Stage stage;
 
-    Player player;
-    Level map;
-    MapContainer mapContainer;
-    ImageButton imageButton = new ImageButton(new ImageButton.ImageButtonStyle());
+    public PrePhaseScreen() {
+        this.stage = new Stage();
+        font = new BitmapFont();
+        style = new TextButton.TextButtonStyle();
+        style.font = font;
+        textButton = new TextButton("PrePhaseScreen", style);
+        stage.addActor(textButton);
+    }
 
+    public Stage getStage() {
+        return this.stage;
+    }
 
-    public PrePhaseScreen(MapContainer mapContainer) {
-        this.mapContainer = mapContainer;
+    public void create() {
+//    stage.addActor(this);
+        setProperty();
+    }
 
-        this.player = SnowFight.player;
-        this.map = PhaseScreen.currentLevel;
-        this.mapContainer = new MapContainer(this.map);
+    private void setProperty() {
     }
 
     public void render() {
-        mapContainer.renderMap();
+        stage.draw();
     }
 
     public void update() {
-        mapContainer.updateMap();
+        stage.act();
     }
 }

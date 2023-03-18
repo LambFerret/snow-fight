@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.text.LocalizeConfig;
@@ -17,7 +16,6 @@ public class GroundScreen extends AbstractScreen {
     private static final ShopScreen shopScreen;
     private static final TrainingGroundScreen trainingGroundScreen;
     GroundText text;
-    BitmapFont font;
 
     static {
         recruitScreen = new RecruitScreen();
@@ -34,8 +32,8 @@ public class GroundScreen extends AbstractScreen {
     @Override
     public void create() {
         Overlay.setGroundUI();
-//        recruitScreen.create();
-//            shopScreen.create();
+        recruitScreen.create();
+        shopScreen.create();
         trainingGroundScreen.create();
     }
 
