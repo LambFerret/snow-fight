@@ -13,11 +13,10 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
-import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SelectLoadScreen extends Window{
+public class SelectLoadScreen extends Window {
     private static final Logger logger = LogManager.getLogger(SelectLoadScreen.class.getName());
     private BitmapFont font;
     private Skin skin;
@@ -47,7 +46,7 @@ public class SelectLoadScreen extends Window{
     }
 
     public void create() {
-     stage.addActor(this);
+        stage.addActor(this);
     }
 
     private Table makeTable() {
@@ -81,7 +80,7 @@ public class SelectLoadScreen extends Window{
                     SnowFight.setPlayer();
                     ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
                 } else {
-                    logger.info("cannot select empty slot" );
+                    logger.info("cannot select empty slot");
                 }
             }
 

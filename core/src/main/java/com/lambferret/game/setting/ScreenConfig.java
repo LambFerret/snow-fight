@@ -31,7 +31,7 @@ public class ScreenConfig {
 
         if (GlobalSettings.isFullscreen) {
             Gdx.graphics.setWindowedMode(GlobalSettings.currWidth, GlobalSettings.currHeight);
-        }else{
+        } else {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         }
 

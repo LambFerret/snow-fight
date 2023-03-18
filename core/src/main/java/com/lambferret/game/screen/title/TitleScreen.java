@@ -153,12 +153,14 @@ public class TitleScreen extends AbstractScreen {
     public void update() {
         stage.act();
     }
+
     public enum Screen {
         TITLE,
         SELECT_SAVE,
         SELECT_LOAD,
         ;
     }
+
     enum TitleAction {
         NEW,
         CONTINUE,

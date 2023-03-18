@@ -15,8 +15,8 @@ public class BarOverlay extends Table implements AbstractOverlay {
     }
 
     public void create() {
-            stage.addActor(this);
-            setProperty();
+        stage.addActor(this);
+        setProperty();
     }
 
     private void setProperty() {

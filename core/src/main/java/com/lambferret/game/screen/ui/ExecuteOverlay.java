@@ -12,7 +12,7 @@ public class ExecuteOverlay extends Table implements AbstractOverlay {
     private final Stage stage;
 
     public ExecuteOverlay(Stage stage) {
-        this.stage =stage;
+        this.stage = stage;
     }
 
     public void create() {

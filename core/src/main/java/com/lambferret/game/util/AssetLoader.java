@@ -55,7 +55,6 @@ public class AssetLoader {
     }
 
 
-
     public void load() {
         GlobalSettings.skin = new Skin(Gdx.files.internal("./data/uiskin.json"));
 

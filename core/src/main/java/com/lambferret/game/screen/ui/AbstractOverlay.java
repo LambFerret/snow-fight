@@ -8,7 +8,10 @@ public interface AbstractOverlay {
     float BAR_HEIGHT = 50.0F;
 
     void create();
+
     void update();
+
     void render();
+
     void setVisible(boolean visible);
 }

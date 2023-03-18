@@ -22,9 +22,11 @@ public class ShopScreen {
         textButton = new TextButton("SHOP", style);
         stage.addActor(textButton);
     }
+
     public Stage getStage() {
         return stage;
     }
+
     public void render() {
         stage.act();
         stage.draw();

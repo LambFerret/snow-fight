@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
@@ -16,7 +15,6 @@ public class PrePhaseScreen {
     Level map;
     MapContainer mapContainer;
     ImageButton imageButton = new ImageButton(new ImageButton.ImageButtonStyle());
-
 
 
     public PrePhaseScreen(MapContainer mapContainer) {

@@ -13,7 +13,6 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
-import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

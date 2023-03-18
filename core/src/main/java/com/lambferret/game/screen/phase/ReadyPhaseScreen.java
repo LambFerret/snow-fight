@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.phase.container.MapContainer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -109,7 +109,6 @@ public class MapOverlay extends Table implements AbstractOverlay {
     }
 
 
-
     public void render() {
         stage.draw();
     }
