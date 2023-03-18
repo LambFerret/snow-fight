@@ -32,6 +32,7 @@ public class MapContainer {
     private final List<Hitbox> hitboxList = new ArrayList<>();
     Matrix4 rotationMatrix;
     ShapeRenderer shapeRenderer;
+
     public MapContainer(Level currentLevel) {
         rotationMatrix = new Matrix4();
         shapeRenderer = new ShapeRenderer();
@@ -53,26 +54,18 @@ public class MapContainer {
         float rectangleWidth = COLUMNS * boxWidth;
         float rectangleHeight = ROWS * boxHeight;
 
-// Step 1: Check if the rectangle is larger than the plane
         if (rectangleWidth > planeWidth || rectangleHeight > planeHeight) {
-            // Step 2: Calculate scaling factors and choose the smallest one
             float widthScaleFactor = planeWidth / rectangleWidth;
             float heightScaleFactor = planeHeight / rectangleHeight;
-            float scaleFactor = Math.min(widthScaleFactor, heightScaleFactor);
 
-            // Step 3: Scale the rectangle using the chosen scaling factor
             rectangleWidth *= widthScaleFactor;
             rectangleHeight *= heightScaleFactor;
             boxWidth *= widthScaleFactor;
             boxHeight *= heightScaleFactor;
         }
 
-// Step 4: Calculate the top-left corner coordinates (x, y)
         float x = (planeWidth - rectangleWidth) / 2;
         float y = (planeHeight - rectangleHeight) / 2;
-
-        System.out.println("Top-left corner coordinates: (" + planeHeight + ", " + y + ")");
-        System.out.println("Scaled rectangle dimensions: (" + rectangleWidth + ", " + rectangleHeight + ")");
 
         this.xOffset = x;
         this.yOffset = AbstractOverlay.OVERLAY_HEIGHT;

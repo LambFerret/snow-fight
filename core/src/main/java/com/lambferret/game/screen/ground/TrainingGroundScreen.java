@@ -38,8 +38,6 @@ public class TrainingGroundScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
-
-                logger.info("clicked |  🐳 IMPORT am i? | ");
             }
         });
         button.setSize(50, 50);
