@@ -35,7 +35,7 @@ public class SelectSaveScreen extends Window {
     }
 
     private void setWindowProperty(Window window) {
-        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        TextureRegionDrawable texture = GlobalSettings.debugTexture;
         window.setSize(SAVE_WIDTH, SAVE_HEIGHT);
         float windowX = (Gdx.graphics.getWidth() - this.getWidth()) / 2;
         float windowY = (Gdx.graphics.getHeight() - this.getHeight()) / 2;
@@ -61,7 +61,7 @@ public class SelectSaveScreen extends Window {
     }
 
     private ImageTextButtonStyle setButtonStyle() {
-        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        TextureRegionDrawable texture = GlobalSettings.debugTexture;
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = texture;
         style.font = GlobalSettings.font;

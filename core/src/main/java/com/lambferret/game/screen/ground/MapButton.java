@@ -129,13 +129,13 @@ public class MapButton {
     private void setAction() {
         if (this.box.isClicked) switch (this.action) {
             case RECRUIT -> {
-                GroundScreen.screen = GroundScreen.Screen.RECRUIT;
+                GroundScreen.currentScreen = GroundScreen.Screen.RECRUIT;
             }
             case SHOP -> {
-                GroundScreen.screen = GroundScreen.Screen.SHOP;
+                GroundScreen.currentScreen = GroundScreen.Screen.SHOP;
             }
             case TRAINING_GROUND -> {
-                GroundScreen.screen = GroundScreen.Screen.TRAINING_GROUND;
+                GroundScreen.currentScreen = GroundScreen.Screen.TRAINING_GROUND;
             }
         }
     }

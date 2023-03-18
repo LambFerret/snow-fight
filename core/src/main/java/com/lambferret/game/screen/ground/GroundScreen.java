@@ -1,10 +1,10 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
-import com.lambferret.game.setting.ScreenConfig;
+import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.text.dto.GroundText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,55 +12,66 @@ import org.apache.logging.log4j.Logger;
 public class GroundScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(GroundScreen.class.getName());
     private static Overlay overlay;
-    public static Screen screen;
-    private RecruitScreen recruitScreen;
-    private ShopScreen shopScreen;
-    private TrainingGroundScreen trainingGroundScreen;
+    public static Screen currentScreen;
+    private static final RecruitScreen recruitScreen;
+    private static final ShopScreen shopScreen;
+    private static final TrainingGroundScreen trainingGroundScreen;
+    GroundText text;
+    BitmapFont font;
 
-    public GroundScreen() {
+    static {
         recruitScreen = new RecruitScreen();
         shopScreen = new ShopScreen();
         trainingGroundScreen = new TrainingGroundScreen();
-        screen = Screen.TRAINING_GROUND;
+    }
+
+    public GroundScreen() {
+        text = LocalizeConfig.uiText.getGroundText();
         overlay = Overlay.getInstance();
+        changeScreen(Screen.TRAINING_GROUND);
     }
 
     @Override
     public void create() {
         Overlay.setGroundUI();
+//        recruitScreen.create();
+//            shopScreen.create();
+        trainingGroundScreen.create();
+    }
+
+    public static void changeScreen(Screen screen) {
+        if (currentScreen != screen) {
+            Overlay.currentStage = switch (screen) {
+                case RECRUIT -> recruitScreen.getStage();
+                case SHOP -> shopScreen.getStage();
+                case TRAINING_GROUND -> trainingGroundScreen.getStage();
+            };
+            Overlay.initInput();
+            currentScreen = screen;
+        }
     }
 
     @Override
     public void render() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.K)) {
-            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TITLE_SCREEN;
-
-        }
         overlay.render();
-        switch (screen) {
-            case RECRUIT -> {
-                recruitScreen.render();
-            }
-            case SHOP -> {
-                shopScreen.render();
-            }
-            case TRAINING_GROUND -> {
-                trainingGroundScreen.render();
-            }
+        switch (currentScreen) {
+            case RECRUIT -> recruitScreen.render();
+            case SHOP -> shopScreen.render();
+            case TRAINING_GROUND -> trainingGroundScreen.render();
         }
     }
 
     @Override
     public void update() {
         overlay.update();
-        switch (screen) {
+        switch (currentScreen) {
             case RECRUIT -> recruitScreen.update();
             case SHOP -> shopScreen.update();
             case TRAINING_GROUND -> trainingGroundScreen.update();
         }
     }
 
-    enum Screen {
+    public enum Screen {
         RECRUIT,
         SHOP,
         TRAINING_GROUND,

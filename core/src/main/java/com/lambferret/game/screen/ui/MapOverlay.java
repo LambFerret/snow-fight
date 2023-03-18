@@ -1,102 +1,121 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.Input;
-import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.component.constant.Direction;
-import com.lambferret.game.screen.ground.MapButton;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.util.CustomInputProcessor;
+import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.text.dto.GroundText;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MapOverlay extends AbstractOverlay {
+public class MapOverlay extends Table implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(MapOverlay.class.getName());
-
-    private static final float MAP_WIDTH = 400.0F;
-    private static final float MAP_HEIGHT = 300.0F;
-    public static final float s = GlobalSettings.scale;
-    private final List<MapButton> buttons = new ArrayList<>();
-    private final Hitbox plate;
-    private final float x;
-    private final float y;
-    private final float width;
-    private final float height;
-    private boolean isHidden = false;
+    private final Stage stage;
+    private final GroundText text;
 
 
-    public MapOverlay() {
-        x = GlobalSettings.currWidth - (MAP_WIDTH * s);
-        y = 0.0F;
-        width = MAP_WIDTH * s;
-        height = MAP_HEIGHT * s;
-        int index = 0;
-        plate = new Hitbox(x, y, width, height);
-        buttons.add(new MapButton(MapButton.GroundButtonAction.RECRUIT, index++));
-        buttons.add(new MapButton(MapButton.GroundButtonAction.TRAINING_GROUND, index++));
-        buttons.add(new MapButton(MapButton.GroundButtonAction.SHOP, index++));
-
-        MapButton.setTotal(buttons.size());
+    public MapOverlay(Stage stage) {
+        text = LocalizeConfig.uiText.getGroundText();
+        this.stage = stage;
     }
 
-    @Override
     public void create() {
+        stage.addActor(this);
+        setProperty();
     }
 
-    @Override
-    public void render() {
-        plate.render();
-        boolean isPrevious = false;
+    private Image setHoverImage(GroundScreen.Screen screen) {
+        Texture texture = switch (screen) {
+            case RECRUIT -> AssetFinder.getTexture(GroundScreen.Screen.RECRUIT.name().toLowerCase());
+            case SHOP -> AssetFinder.getTexture(GroundScreen.Screen.SHOP.name().toLowerCase());
+            case TRAINING_GROUND -> AssetFinder.getTexture(GroundScreen.Screen.TRAINING_GROUND.name().toLowerCase());
+        };
+        Image mapHoverInfo = new Image(texture);
 
-        for (MapButton button : buttons) {
-            if (!plate.isHovered) {
-                button.zoomMode = MapButton.ZoomMode.N;
-            } else {
-                button.zoomMode = MapButton.ZoomMode.OUT;
-                if (button.box.isHovered) {
-                    button.isPreviousZoomed = isPrevious;
-                    isPrevious = !isPrevious;
-                    button.zoomMode = MapButton.ZoomMode.IN;
-                } else {
-                    button.isPreviousZoomed = isPrevious;
-                }
+        mapHoverInfo.setSize(300, 600);
+        mapHoverInfo.setPosition(100, 100);
+
+        return mapHoverInfo;
+    }
+
+    private void setProperty() {
+        this.clear();
+        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
+        this.add(button(GroundScreen.Screen.SHOP)).pad(10);
+        this.add(button(GroundScreen.Screen.TRAINING_GROUND)).pad(10);
+        this.setPosition(GlobalSettings.currWidth - 100, 100);
+    }
+
+    private ImageTextButton.ImageTextButtonStyle getButtonStyle() {
+        TextureRegionDrawable texture = GlobalSettings.debugTexture;
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = texture;
+        style.font = GlobalSettings.font;
+        return style;
+    }
+
+    private ImageTextButton button(GroundScreen.Screen action) {
+        Image hoverImage = setHoverImage(action);
+        String label = switch (action) {
+            case RECRUIT -> text.getRecruit();
+            case SHOP -> text.getShop();
+            case TRAINING_GROUND -> text.getTrainingGround();
+        };
+        var button = new ImageTextButton(label, getButtonStyle());
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                setAction(action);
             }
-            button.render(plate);
+        });
+        button.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                stage.addActor(hoverImage);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                hoverImage.remove();
+            }
+        });
+
+        return button;
+
+    }
+
+    private void setAction(GroundScreen.Screen action) {
+        switch (action) {
+            case RECRUIT -> {
+                GroundScreen.changeScreen(GroundScreen.Screen.RECRUIT);
+            }
+            case SHOP -> {
+                GroundScreen.changeScreen(GroundScreen.Screen.SHOP);
+            }
+            case TRAINING_GROUND -> {
+                GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
+            }
         }
     }
 
-    @Override
-    public void hide(Direction direction) {
-        if (isHidden) return;
-        this.plate.hide(direction);
-        isHidden = true;
+
+
+    public void render() {
+        stage.draw();
     }
 
-    @Override
-    public void show(boolean instantly) {
-        if (!isHidden) return;
-        if (instantly) {
-            this.plate.showInstantly();
-        } else {
-            this.plate.show();
-        }
-        isHidden = false;
-    }
-
-    @Override
     public void update() {
-        for (MapButton button : buttons) {
-            button.update();
-        }
-        plate.update();
-        if (!isHidden && CustomInputProcessor.pressedKey(Input.Keys.Y)) {
-            this.hide(Direction.INSTANTLY);
-        } else if (isHidden && CustomInputProcessor.pressedKey(Input.Keys.U)) {
-            this.show(true);
-        } else if (CustomInputProcessor.pressedKey(Input.Keys.I)) {
-            plate.move(100, 100);
-        }
+        stage.act();
     }
+
 }

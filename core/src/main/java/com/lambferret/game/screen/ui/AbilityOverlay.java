@@ -1,55 +1,40 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.component.VerticalScroll;
-import com.lambferret.game.component.constant.Direction;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.setting.GlobalSettings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class AbilityOverlay extends AbstractOverlay {
-    private Hitbox plate;
-    private boolean isHidden = true;
-    private final VerticalScroll scroll = new VerticalScroll(Direction.LEFT);
+public class AbilityOverlay extends Table implements AbstractOverlay {
+    private static final Logger logger = LogManager.getLogger(AbilityOverlay.class.getName());
+    private final Stage stage;
 
+    public AbilityOverlay(Stage stage) {
+        this.stage = stage;
+    }
 
-    @Override
     public void create() {
-        this.plate = new Hitbox(GlobalSettings.currWidth - OVERLAY_WIDTH, OVERLAY_HEIGHT, OVERLAY_WIDTH, GlobalSettings.currHeight - OVERLAY_HEIGHT);
-        scroll.create(this.plate);
-
+        stage.addActor(this);
+        setProperty();
     }
 
-    @Override
-    public void update() {
-        if (this.plate.isHovered) {
-            this.scroll.update();
-        }
-        this.plate.update();
+    private void setProperty() {
+        this.clear();
+        //        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
+        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, OVERLAY_HEIGHT);
+        this.setSize(OVERLAY_WIDTH, GlobalSettings.currHeight - OVERLAY_HEIGHT - BAR_HEIGHT);
+
+        this.setBackground(GlobalSettings.debugTexture);
+        this.setColor(GlobalSettings.debugColorGreen);
     }
 
-    @Override
     public void render() {
-        this.scroll.render();
-        this.plate.render();
+        stage.draw();
     }
 
-    @Override
-    public void hide(Direction direction) {
-        if (isHidden) return;
-        this.plate.hide(direction);
-        isHidden = true;
+    public void update() {
+        stage.act();
     }
-
-    @Override
-    public void show(boolean instantly) {
-        if (!isHidden) return;
-        if (instantly) {
-            this.plate.showInstantly();
-        } else {
-            this.plate.show();
-        }
-        isHidden = true;
-    }
-
 
 }

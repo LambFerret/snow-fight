@@ -1,50 +1,41 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.component.constant.Direction;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.util.AssetFinder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class ExecuteOverlay extends AbstractOverlay {
-    private Hitbox box;
-    private boolean isHidden = true;
-    private Texture texture;
+// TODO : table 아님
+public class ExecuteOverlay extends Table implements AbstractOverlay {
+    private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
+    private final Stage stage;
 
+    public ExecuteOverlay(Stage stage) {
+        this.stage =stage;
+    }
 
-    @Override
     public void create() {
-        this.box = new Hitbox(GlobalSettings.currWidth - OVERLAY_WIDTH, 0.0F, OVERLAY_WIDTH, OVERLAY_HEIGHT);
-        texture = AssetFinder.getTexture("execute");
+        stage.addActor(this);
+        setProperty();
     }
 
-    @Override
-    public void update() {
-        this.box.update();
+    private void setProperty() {
+        this.clear();
+        //        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
+        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, 0);
+        this.setSize(OVERLAY_WIDTH, OVERLAY_HEIGHT);
+
+        this.setBackground(GlobalSettings.debugTexture);
+        this.setColor(GlobalSettings.debugColorGreen);
     }
 
-    @Override
     public void render() {
-        this.box.render();
-//        batch.draw(texture, GlobalSettings.currWidth - OVERLAY_WIDTH, 0.0F, OVERLAY_WIDTH, OVERLAY_HEIGHT);
+        stage.draw();
     }
 
-    @Override
-    public void hide(Direction direction) {
-        if (isHidden) return;
-        this.box.hide(direction);
-        isHidden = true;
-    }
-
-    @Override
-    public void show(boolean instantly) {
-        if (!isHidden) return;
-        if (instantly) {
-            this.box.showInstantly();
-        } else {
-            this.box.show();
-        }
-        isHidden = true;
+    public void update() {
+        stage.act();
     }
 
 

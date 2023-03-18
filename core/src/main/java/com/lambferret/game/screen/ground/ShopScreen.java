@@ -15,14 +15,16 @@ public class ShopScreen {
     Stage stage;
 
     public ShopScreen() {
-        stage = new Stage();
+        this.stage = new Stage();
         font = new BitmapFont();
         style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("SHOP", style);
         stage.addActor(textButton);
     }
-
+    public Stage getStage() {
+        return stage;
+    }
     public void render() {
         stage.act();
         stage.draw();

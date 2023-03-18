@@ -35,14 +35,14 @@ public class SelectLoadScreen extends Window{
     }
 
     private void setWindowProperty(Window window) {
-        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        TextureRegionDrawable texture = GlobalSettings.debugTexture;
         window.setSize(SAVE_WIDTH, SAVE_HEIGHT);
         float windowX = (Gdx.graphics.getWidth() - this.getWidth()) / 2;
         float windowY = (Gdx.graphics.getHeight() - this.getHeight()) / 2;
         window.setPosition(windowX, windowY);
         window.setColor(Color.GREEN);
         window.setBackground(texture);
-        window.add(table());
+        window.add(makeTable());
         window.add(new Label("select save file", skin));
     }
 
@@ -50,7 +50,7 @@ public class SelectLoadScreen extends Window{
      stage.addActor(this);
     }
 
-    private Table table() {
+    private Table makeTable() {
         Table table = new Table();
         for (int i = 0; i < 3; i++) {
             table.add(button(i)).pad(10);
@@ -61,7 +61,7 @@ public class SelectLoadScreen extends Window{
     }
 
     private ImageTextButtonStyle getButtonStyle() {
-        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        TextureRegionDrawable texture = GlobalSettings.debugTexture;
         ImageTextButtonStyle style = new ImageTextButtonStyle();
         style.up = texture;
         style.font = GlobalSettings.font;

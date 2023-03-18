@@ -1,45 +1,41 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.component.constant.Direction;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.setting.GlobalSettings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class BarOverlay extends AbstractOverlay {
-    private Hitbox box;
-    private boolean isHidden = false;
+public class BarOverlay extends Table implements AbstractOverlay {
+    private static final Logger logger = LogManager.getLogger(BarOverlay.class.getName());
+    private final Stage stage;
 
-    @Override
+    public BarOverlay(Stage stage) {
+        this.stage = stage;
+    }
+
     public void create() {
-        this.box = new Hitbox(0.0F, (float) GlobalSettings.currHeight - BAR_HEIGHT, GlobalSettings.currWidth, BAR_HEIGHT);
-
+            stage.addActor(this);
+            setProperty();
     }
 
-    @Override
-    public void update() {
-        this.box.update();
+    private void setProperty() {
+        this.clear();
+//        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
+        this.setPosition(0, GlobalSettings.currHeight - BAR_HEIGHT);
+        this.setSize(GlobalSettings.currWidth, BAR_HEIGHT);
+
+        this.setBackground(GlobalSettings.debugTexture);
+        this.setColor(GlobalSettings.debugColorGreen);
     }
 
-    @Override
     public void render() {
-        this.box.render();
+        stage.draw();
     }
 
-    @Override
-    public void hide(Direction direction) {
-        if (isHidden) return;
-        this.box.hide(direction);
-        isHidden = true;
+    public void update() {
+        stage.act();
     }
 
-    @Override
-    public void show(boolean instantly) {
-        if (!isHidden) return;
-        if (instantly) {
-            this.box.showInstantly();
-        } else {
-            this.box.show();
-        }
-        isHidden = false;
-    }
+
 }

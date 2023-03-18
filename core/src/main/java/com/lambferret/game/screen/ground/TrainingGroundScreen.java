@@ -1,44 +1,57 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.lambferret.game.component.Hitbox;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TrainingGroundScreen {
     private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
-
-    TextButton.TextButtonStyle style;
-    TextButton textButton;
-    BitmapFont font;
-    Stage stage;
-    Hitbox box;
+    private final Stage stage;
+    private Skin skin;
 
     public TrainingGroundScreen() {
-        stage = new Stage();
-        font = new BitmapFont();
-        style = new TextButton.TextButtonStyle();
-        style.font = font;
-        textButton = new TextButton("TrainGround", style);
-        stage.addActor(textButton);
-        box = new Hitbox(100, 100, 100, 100);
+        this.stage = new Stage();
+    }
+
+    public Stage getStage() {
+        return this.stage;
+    }
+
+    public void create() {
+        skin = GlobalSettings.skin;
+        stage.addActor(makeButton());
+    }
+
+    private void setProperty() {
+
+    }
+
+    private TextButton makeButton() {
+        TextButton button = new TextButton("GO TO Phase", this.skin);
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
+
+                logger.info("clicked |  🐳 IMPORT am i? | ");
+            }
+        });
+        button.setSize(50, 50);
+        button.setPosition(GlobalSettings.currWidth / 2.0F, 0);
+        return button;
     }
 
     public void render() {
-        stage.act();
         stage.draw();
-//        batch.setColor(Color.CORAL);
-        box.render();
     }
 
-
     public void update() {
-        this.box.update();
-        if (this.box.isClicked) {
-            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
-        }
+        stage.act();
     }
 }

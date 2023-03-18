@@ -1,10 +1,12 @@
 package com.lambferret.game.setting;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.screen.title.TitleScreen;
+import com.lambferret.game.screen.ui.Overlay;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.ScreenManager;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -17,14 +19,23 @@ public class ScreenConfig {
     private static AddedScreen currentScreen;
     public static AddedScreen changeScreen;
     private static ScreenManager<ManagedScreen, ScreenTransition> screenManager;
+    private static InputProcessor currentInputProcessor;
+    private static TitleScreen titleScreen;
+    private static GroundScreen groundScreen;
+    private static PhaseScreen phaseScreen;
 
     /**
      * Register screens
      */
     private static void addScreen() {
-        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), new TitleScreen());
-        screenManager.addScreen(AddedScreen.GROUND_SCREEN.name(), new GroundScreen());
-        screenManager.addScreen(AddedScreen.PHASE_SCREEN.name(), new PhaseScreen());
+
+        titleScreen = new TitleScreen();
+        groundScreen = new GroundScreen();
+        phaseScreen = new PhaseScreen();
+
+        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), titleScreen);
+        screenManager.addScreen(AddedScreen.GROUND_SCREEN.name(), groundScreen);
+        screenManager.addScreen(AddedScreen.PHASE_SCREEN.name(), phaseScreen);
     }
 
     /**
@@ -54,6 +65,7 @@ public class ScreenConfig {
     public static void init(ScreenManager<ManagedScreen, ScreenTransition> screenManager) {
         var startTime = System.currentTimeMillis();
 
+
         ScreenConfig.screenManager = screenManager;
         Gdx.graphics.setWindowedMode(GlobalSettings.currWidth, GlobalSettings.currHeight);
 
@@ -66,11 +78,30 @@ public class ScreenConfig {
     }
 
     public static void screenChanger() {
+        if (changeScreen == null) {
+            currentScreen = AddedScreen.TITLE_SCREEN;
+            Gdx.input.setInputProcessor(titleScreen.getStage());
+            return;
+        }
         if (currentScreen == changeScreen) return;
         logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
         String te = null; // effect.name(); TODO: 각각 원하는 changer effect 사용
 //        if (effect == TransitionEffect.NULL) te = null;
         screenManager.pushScreen(changeScreen.name(), te);
+        switch (changeScreen) {
+            case TITLE_SCREEN -> {
+                currentInputProcessor = titleScreen.getStage();
+            }
+            case GROUND_SCREEN -> {
+                Overlay.setGroundUI();
+                currentInputProcessor = Overlay.getInput();
+            }
+            case PHASE_SCREEN -> {
+                Overlay.setPhaseUI();
+                currentInputProcessor = Overlay.getInput();
+            }
+        }
+        Gdx.input.setInputProcessor(currentInputProcessor);
         currentScreen = changeScreen;
     }
 

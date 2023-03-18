@@ -3,9 +3,11 @@ package com.lambferret.game.setting;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lambferret.game.save.SaveLoader;
@@ -38,11 +40,20 @@ public class GlobalSettings {
     public static float effectVolume;
     public static float scale;
     public static Skin skin;
+    public static final Color debugColorGreen;
+    public static final TextureRegionDrawable debugTexture;
 
 
     public static Setting settings;
     public static Setting.Language language;
     public static BitmapFont font = null;
+
+    static {
+        debugColorGreen = new Color(0, 255, 0, 0.1F);
+        debugTexture = new TextureRegionDrawable(
+            new TextureRegionDrawable(new Texture(Gdx.files.internal("./texture/yellow.png")))
+        );
+    }
 
     public static void init() {
         var startTime = System.currentTimeMillis();

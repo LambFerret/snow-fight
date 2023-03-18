@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -31,7 +30,6 @@ public class TitleScreen extends AbstractScreen {
 
     public TitleScreen() {
         stage = new Stage();
-        SnowFight.inputProcessor.addProcessor(stage);
         text = LocalizeConfig.uiText.getTitleMenuText();
 
         selectSaveScreen = new SelectSaveScreen(stage);
@@ -41,6 +39,10 @@ public class TitleScreen extends AbstractScreen {
         stage.addActor(selectLoadScreen);
 
         screen = Screen.TITLE;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     private void initDisplay() {
@@ -91,7 +93,7 @@ public class TitleScreen extends AbstractScreen {
     }
 
     private ImageTextButton.ImageTextButtonStyle getButtonStyle() {
-        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        TextureRegionDrawable texture = GlobalSettings.debugTexture;
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = texture;
         style.font = font;

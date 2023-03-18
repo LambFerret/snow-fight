@@ -1,7 +1,8 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.component.constant.Direction;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,17 +21,29 @@ public class Overlay {
     private static final List<AbstractOverlay> allOverlay = new ArrayList<>();
     private static final List<AbstractOverlay> groundUIList = new ArrayList<>();
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
-    private static List<AbstractOverlay> currentUIList;
+    public static Stage stage;
+    public static Stage currentStage;
+    public static InputMultiplexer inputManager;
 
     private Overlay() {
-        map = new MapOverlay();
-        bar = new BarOverlay();
-        score = new ScoreOverlay();
-        ability = new AbilityOverlay();
-        execute = new ExecuteOverlay();
-        soldier = new SoldierOverlay();
-        groundUIList.add(bar);
+        initInput();
+
+        map = new MapOverlay(stage);
+        bar = new BarOverlay(stage);
+        score = new ScoreOverlay(stage);
+        ability = new AbilityOverlay(stage);
+        execute = new ExecuteOverlay(stage);
+        soldier = new SoldierOverlay(stage);
+
+        allOverlay.add(map);
+        allOverlay.add(bar);
+        allOverlay.add(score);
+        allOverlay.add(ability);
+        allOverlay.add(execute);
+        allOverlay.add(soldier);
+
         groundUIList.add(map);
+        groundUIList.add(bar);
         groundUIList.add(score);
 
         phaseUIList.add(bar);
@@ -38,17 +51,22 @@ public class Overlay {
         phaseUIList.add(execute);
         phaseUIList.add(soldier);
 
-        allOverlay.add(bar);
-        allOverlay.add(score);
-        allOverlay.add(ability);
-        allOverlay.add(execute);
-        allOverlay.add(soldier);
+    }
 
-        currentUIList = groundUIList;
+    public static void initInput() {
+        inputManager.addProcessor(stage);
+        inputManager.addProcessor(currentStage);
+    }
+
+    public static InputProcessor getInput() {
+        return inputManager;
     }
 
     public static Overlay getInstance() {
         if (instance == null) {
+            inputManager = new InputMultiplexer();
+            stage = new Stage();
+            currentStage = new Stage();
             instance = new Overlay();
             create();
         }
@@ -58,51 +76,35 @@ public class Overlay {
     private static void create() {
         for (AbstractOverlay overlay : allOverlay) {
             overlay.create();
-            overlay.hide(Direction.INSTANTLY);
         }
-        bar.show(true);
     }
 
-    public void setPhaseUI() {
-        ability.show(true);
-        execute.show(true);
-        soldier.show(true);
-
-        currentUIList = phaseUIList;
+    public static void setPhaseUI() {
+        for (AbstractOverlay overlay : groundUIList) {
+            overlay.setVisible(false);
+        }
+        for (AbstractOverlay overlay : phaseUIList) {
+            overlay.setVisible(true);
+        }
     }
 
     public static void setGroundUI() {
-        map.show(true);
-        score.show(true);
-
-        currentUIList = groundUIList;
-
-    }
-
-    public static void hideAll() {
-        for (AbstractOverlay overlay : allOverlay) {
-            overlay.hide(Direction.INSTANTLY);
+        for (AbstractOverlay overlay : phaseUIList) {
+            overlay.setVisible(false);
+        }
+        for (AbstractOverlay overlay : groundUIList) {
+            overlay.setVisible(true);
         }
     }
 
-    public void disposeOne(AbstractOverlay overlay) {
-        groundUIList.remove(overlay);
-    }
-
-    public void createOne(AbstractOverlay overlay) {
-        groundUIList.add(overlay);
-        overlay.create();
-    }
-
     public void render() {
-        for (AbstractOverlay overlay : currentUIList) {
+        for (AbstractOverlay overlay : allOverlay) {
             overlay.render();
         }
     }
 
     public void update() {
-
-        for (AbstractOverlay overlay : currentUIList) {
+        for (AbstractOverlay overlay : allOverlay) {
             overlay.update();
         }
     }
