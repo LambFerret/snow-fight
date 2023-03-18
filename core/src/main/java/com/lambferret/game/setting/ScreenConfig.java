@@ -24,50 +24,16 @@ public class ScreenConfig {
     private static GroundScreen groundScreen;
     private static PhaseScreen phaseScreen;
 
-    /**
-     * Register screens
-     */
-    private static void addScreen() {
-
-        titleScreen = new TitleScreen();
-        groundScreen = new GroundScreen();
-        phaseScreen = new PhaseScreen();
-
-        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), titleScreen);
-        screenManager.addScreen(AddedScreen.GROUND_SCREEN.name(), groundScreen);
-        screenManager.addScreen(AddedScreen.PHASE_SCREEN.name(), phaseScreen);
-    }
-
-    /**
-     * Register transition
-     * config transition 자세한 설정은 나중에 할것 투두
-     * 근데 blending 아니고서야 진짜 개구리다 ㅋㅋ
-     */
-    private static void addTransition() {
-
-        SpriteBatch batch = new SpriteBatch();
-        var blending = new BlendingTransition(batch, 0.5F);
-        var slidingIn = new SlidingInTransition(batch, SlidingDirection.DOWN, 1.5F);
-        var slidingOut = new SlidingOutTransition(batch, SlidingDirection.DOWN, 1.5F);
-        var push = new PushTransition(batch, SlidingDirection.DOWN, 1.5F);
-        var horizontalSlicing = new HorizontalSlicingTransition(batch, 19, 1.5F);
-        var verticalSlicing = new VerticalSlicingTransition(batch, 19, 1.5F);
-
-        screenManager.addScreenTransition(TransitionEffect.BLENDING.name(), blending);
-        screenManager.addScreenTransition(TransitionEffect.SLIDING_IN.name(), slidingIn);
-        screenManager.addScreenTransition(TransitionEffect.SLIDING_OUT.name(), slidingOut);
-        screenManager.addScreenTransition(TransitionEffect.PUSH.name(), push);
-        screenManager.addScreenTransition(TransitionEffect.HORIZONTAL_SLICING.name(), horizontalSlicing);
-        screenManager.addScreenTransition(TransitionEffect.VERTICAL_SLICING.name(), verticalSlicing);
-
-    }
-
     public static void init(ScreenManager<ManagedScreen, ScreenTransition> screenManager) {
         var startTime = System.currentTimeMillis();
 
-
         ScreenConfig.screenManager = screenManager;
-        Gdx.graphics.setWindowedMode(GlobalSettings.currWidth, GlobalSettings.currHeight);
+
+        if (GlobalSettings.isFullscreen) {
+            Gdx.graphics.setWindowedMode(GlobalSettings.currWidth, GlobalSettings.currHeight);
+        }else{
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        }
 
         addScreen();
         addTransition();
@@ -77,6 +43,9 @@ public class ScreenConfig {
         logger.info("screenConfig | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
     }
 
+    /**
+     * 스크린을 바꾸는 쪽에서 모든 관련 인자를 넘겨주어야 함
+     */
     public static void screenChanger() {
         if (changeScreen == null) {
             currentScreen = AddedScreen.TITLE_SCREEN;
@@ -103,6 +72,41 @@ public class ScreenConfig {
         }
         Gdx.input.setInputProcessor(currentInputProcessor);
         currentScreen = changeScreen;
+    }
+
+    /**
+     * Register screens
+     */
+    private static void addScreen() {
+        titleScreen = new TitleScreen();
+        groundScreen = new GroundScreen();
+        phaseScreen = new PhaseScreen();
+
+        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), titleScreen);
+        screenManager.addScreen(AddedScreen.GROUND_SCREEN.name(), groundScreen);
+        screenManager.addScreen(AddedScreen.PHASE_SCREEN.name(), phaseScreen);
+    }
+
+    /**
+     * Register transition
+     * config transition 자세한 설정은 나중에 할것 투두
+     * 근데 blending 아니고서야 진짜 개구리다 ㅋㅋ
+     */
+    private static void addTransition() {
+        SpriteBatch batch = new SpriteBatch();
+        var blending = new BlendingTransition(batch, 0.5F);
+        var slidingIn = new SlidingInTransition(batch, SlidingDirection.DOWN, 1.5F);
+        var slidingOut = new SlidingOutTransition(batch, SlidingDirection.DOWN, 1.5F);
+        var push = new PushTransition(batch, SlidingDirection.DOWN, 1.5F);
+        var horizontalSlicing = new HorizontalSlicingTransition(batch, 19, 1.5F);
+        var verticalSlicing = new VerticalSlicingTransition(batch, 19, 1.5F);
+
+        screenManager.addScreenTransition(TransitionEffect.BLENDING.name(), blending);
+        screenManager.addScreenTransition(TransitionEffect.SLIDING_IN.name(), slidingIn);
+        screenManager.addScreenTransition(TransitionEffect.SLIDING_OUT.name(), slidingOut);
+        screenManager.addScreenTransition(TransitionEffect.PUSH.name(), push);
+        screenManager.addScreenTransition(TransitionEffect.HORIZONTAL_SLICING.name(), horizontalSlicing);
+        screenManager.addScreenTransition(TransitionEffect.VERTICAL_SLICING.name(), verticalSlicing);
     }
 
     public enum AddedScreen {

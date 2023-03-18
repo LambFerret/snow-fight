@@ -1,5 +1,6 @@
 package com.lambferret.game.util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.audio.Music;
@@ -14,6 +15,7 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Array;
+import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,6 +57,8 @@ public class AssetLoader {
 
 
     public void load() {
+        GlobalSettings.skin = new Skin(Gdx.files.internal("./data/uiskin.json"));
+
         for (AssetDescriptor descriptor : assets) {
             FileHandle folder = resolver.resolve("").child(descriptor.folder);
             if (!folder.exists()) {

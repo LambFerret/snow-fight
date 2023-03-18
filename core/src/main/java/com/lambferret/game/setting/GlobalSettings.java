@@ -1,11 +1,9 @@
 package com.lambferret.game.setting;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.google.gson.Gson;
@@ -22,10 +20,10 @@ import java.io.Reader;
 import java.time.LocalDateTime;
 
 public class GlobalSettings {
-
     private static final Logger logger = LogManager.getLogger(GlobalSettings.class.getName());
 
     public static final String CONFIG_FILE_PATH = "./config.json";
+    public static Setting settings;
     public static final int MAXIMUM_SAVE = 3;
     public static boolean isDev = true;
     public static int prevWidth;
@@ -39,16 +37,19 @@ public class GlobalSettings {
     public static float bgmVolume;
     public static float effectVolume;
     public static float scale;
+    public static Setting.Language language;
+
     public static Skin skin;
     public static final Color debugColorGreen;
     public static final TextureRegionDrawable debugTexture;
+    public static BitmapFont font;
 
-
-    public static Setting settings;
-    public static Setting.Language language;
-    public static BitmapFont font = null;
+    public static final Gson gson;
 
     static {
+        gson = new GsonBuilder()
+            .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
+            .create();
         debugColorGreen = new Color(0, 255, 0, 0.1F);
         debugTexture = new TextureRegionDrawable(
             new TextureRegionDrawable(new Texture(Gdx.files.internal("./texture/yellow.png")))
@@ -58,21 +59,20 @@ public class GlobalSettings {
     public static void init() {
         var startTime = System.currentTimeMillis();
 
-        settingJsonConfig();
+        loadJsonConfig();
         loadDisplayConfig();
         loadSoundConfig();
         loadGamePlayConfig();
         SaveLoader.init();
 
         logger.info("GlobalSettings | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
-
     }
 
-    public static void settingJsonConfig() {
-        Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
-            .create();
-
+    /**
+     * 유저 config.json 을 로드
+     * 이미 파일이 존재한다면 로드한 시간을 저장하기위해, 존재하지 않는다면 새 파일 만들기 위해 저장한다
+     */
+    public static void loadJsonConfig() {
         try (Reader reader = new FileReader(CONFIG_FILE_PATH)) {
             settings = gson.fromJson(reader, Setting.class);
             logger.info("load config file | last INIT time : " + settings.getLastPlayedTime());
@@ -80,19 +80,23 @@ public class GlobalSettings {
         } catch (IOException e) {
             logger.info("make new Config file");
             settings = new Setting();
-
         }
+        saveConfigJson();
+    }
+
+    /**
+     * config save.
+     * 세팅을 바꾸고 싶을땐 settings를 조작한 후 메소드 호출하면 된다.
+     */
+    public static void saveConfigJson() {
         try (FileWriter file = new FileWriter(CONFIG_FILE_PATH)) {
             file.append(gson.toJson(settings));
         } catch (IOException ex) {
-            logger.info("init | config file IOException!!");
+            logger.fatal("Config file saving error");
         }
-
-
     }
 
     public static void loadDisplayConfig() {
-
         var display = settings.getDisplay();
 
         currWidth = display.getWidth();
@@ -102,51 +106,18 @@ public class GlobalSettings {
         FPS = display.getFps();
         isFullscreen = display.isFullScreen();
         isVsync = display.isVsync();
-
-        float ratio = (float) currWidth / (float) currHeight;
-        if (1.3F < ratio && ratio < 1.4F) {
-            //xScale, yScale of 4:3
-        } else if (1.77777F < ratio && ratio < 1.8F) {
-            scale = (float) Setting.DEFAULT_WIDTH / (float) currWidth;
-        } else {
-            // have LetterBox
-        }
     }
 
     public static void loadSoundConfig() {
-        masterVolume = settings.getVolume().getMasterVolume();
-        bgmVolume = settings.getVolume().getBgmVolume();
-        effectVolume = settings.getVolume().getEffectVolume();
+        var sound = settings.getVolume();
+        masterVolume = sound.getMasterVolume();
+        bgmVolume = sound.getBgmVolume();
+        effectVolume = sound.getEffectVolume();
     }
 
     public static void loadGamePlayConfig() {
-        language = settings.getGameplay().getLanguage();
-        font = switch (language) {
-            case KR -> getFont("KR_nanumBold");
-            case EN -> getFont("EN_Archivo_Condensed-Light");
-            case JP -> getFont("JP_ShipporiSans");
-            case RU -> getFont("RU_kremlin");
-        };
-        skin = new Skin(Gdx.files.internal("./data/uiskin.json"));
-
-    }
-
-    private static BitmapFont getFont(String name) {
-        String FONT = "font/";
-        String fileName = FONT + name + ".ttf";
-        if (!Gdx.files.absolute(fileName).exists()) {
-            fileName = FONT + name + ".otf";
-        }
-
-        FileHandle file = Gdx.files.internal(fileName);
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
-        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        params.size = 12;
-        params.color = Color.BLACK;
-
-        BitmapFont font = generator.generateFont(params);
-        generator.dispose();
-        return font;
+        var gameplay = settings.getGameplay();
+        language = gameplay.getLanguage();
     }
 
 }

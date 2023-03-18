@@ -4,11 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -56,6 +60,27 @@ public class AssetFinder {
             fileName = TEXTURE + "yellow.png";
         }
         return manager.get(fileName, Texture.class);
+    }
+
+    /**
+     * font 를 freetype 으로 로드
+     * 폰트에 관한 옵션은 여기서 처리
+     */
+    public static BitmapFont getFont(String name) {
+        String fileName = FONT + name + ".ttf";
+        if (!Gdx.files.absolute(fileName).exists()) {
+            fileName = FONT + name + ".otf";
+        }
+
+        FileHandle file = Gdx.files.internal(fileName);
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = 12;
+        params.color = Color.BLACK;
+
+        BitmapFont font = generator.generateFont(params);
+        generator.dispose();
+        return font;
     }
 
     public static TextureAtlas getAtlas(String name) {

@@ -1,6 +1,5 @@
 package com.lambferret.game;
 
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -28,7 +27,6 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     private static final Logger logger = LogManager.getLogger(SnowFight.class.getName());
     public static OrthographicCamera camera;
     public static Viewport viewport;
-    public static InputProcessor inputProcessor;
     public static AssetManager assetManager;
     public static Player player;
 
@@ -37,44 +35,23 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         super.create();
 
         // NEVER SCRAMBLE THIS INIT CONFIG'S ORDER !!
-        globalGameConfig();
-        inputConfig();
-        cameraConfig(GlobalSettings.currWidth, GlobalSettings.currHeight);
+        GlobalSettings.init();
+        cameraConfig();
         assetConfig();
         LocalizeConfig.init();
         ScreenConfig.init(screenManager);
 
     }
 
-    @Override
-    public void render() {
-        super.render();
-        ScreenConfig.screenChanger();
-    }
-
-    @Override
-    public void dispose() {
-        SaveLoader.save();
-        super.dispose();
-    }
-
-    private void globalGameConfig() {
-        GlobalSettings.init();
-    }
-
-    private void inputConfig() {
-//        Gdx.input.setInputProcessor(inputProcessor);
-    }
-
-    public static void cameraConfig(int width, int height) {
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(width, height, camera);
-        camera.setToOrtho(false, width, height);
-    }
-
     public static void setPlayer() {
         player = new Player();
         logger.info("player loaded | " + player.getName());
+    }
+
+    private static void cameraConfig() {
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(GlobalSettings.currWidth, GlobalSettings.currHeight, camera);
+        camera.setToOrtho(false, GlobalSettings.currWidth, GlobalSettings.currHeight);
     }
 
     private void assetConfig() {
@@ -83,5 +60,20 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         AssetLoader assetLoader = new AssetLoader(assetManager, resolver);
         assetLoader.load();
         assetManager.finishLoading();
+    }
+
+    @Override
+    public void render() {
+        super.render();
+        ScreenConfig.screenChanger();
+    }
+
+    /**
+     * 게임이 꺼질때 해야하는 것들 ex) 저장
+     */
+    @Override
+    public void dispose() {
+        SaveLoader.save();
+        super.dispose();
     }
 }

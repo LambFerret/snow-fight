@@ -3,7 +3,6 @@ package com.lambferret.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.setting.GlobalSettings;
 import de.eskalon.commons.screen.ManagedScreen;
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +29,6 @@ public abstract class AbstractScreen extends ManagedScreen {
 
     @Override
     public void resize(int width, int height) {
-        SnowFight.cameraConfig(width, height);
     }
 
     @Override
