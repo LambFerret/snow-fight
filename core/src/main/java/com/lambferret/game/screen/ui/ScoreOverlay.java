@@ -28,13 +28,4 @@ public class ScoreOverlay extends Table implements AbstractOverlay {
         this.setBackground(GlobalSettings.debugTexture);
         this.setColor(GlobalSettings.debugColorGreen);
     }
-
-    public void render() {
-        stage.draw();
-    }
-
-    public void update() {
-        stage.act();
-    }
-
 }

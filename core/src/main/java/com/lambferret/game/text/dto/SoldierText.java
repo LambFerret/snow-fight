@@ -1,8 +1,8 @@
 package com.lambferret.game.text.dto;
 
-import com.lambferret.game.component.constant.Affiliation;
-import com.lambferret.game.component.constant.Branch;
-import com.lambferret.game.component.constant.Rank;
+import com.lambferret.game.constant.Affiliation;
+import com.lambferret.game.constant.Branch;
+import com.lambferret.game.constant.Rank;
 import lombok.Getter;
 import lombok.ToString;
 

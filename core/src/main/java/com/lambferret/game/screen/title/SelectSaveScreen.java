@@ -105,13 +105,4 @@ public class SelectSaveScreen extends Window {
         };
         dialog.show(stage);
     }
-
-
-    public void render() {
-        stage.draw();
-    }
-
-    public void update() {
-        stage.act();
-    }
 }

@@ -1,6 +1,6 @@
 package com.lambferret.game.level.nation;
 
-import com.lambferret.game.component.constant.Region;
+import com.lambferret.game.constant.Region;
 import com.lambferret.game.level.Level;
 
 public class LevelN1 extends Level {

@@ -9,9 +9,5 @@ public interface AbstractOverlay {
 
     void create();
 
-    void update();
-
-    void render();
-
     void setVisible(boolean visible);
 }

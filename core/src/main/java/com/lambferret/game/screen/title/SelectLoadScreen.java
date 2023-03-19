@@ -83,19 +83,7 @@ public class SelectLoadScreen extends Window {
                     logger.info("cannot select empty slot");
                 }
             }
-
         });
-
-
         return button;
-    }
-
-
-    public void render() {
-        stage.draw();
-    }
-
-    public void update() {
-        stage.act();
     }
 }

@@ -1,7 +1,7 @@
 package com.lambferret.game.level;
 
-import com.lambferret.game.component.constant.Region;
-import com.lambferret.game.component.constant.Terrain;
+import com.lambferret.game.constant.Region;
+import com.lambferret.game.constant.Terrain;
 
 import java.util.Map;
 

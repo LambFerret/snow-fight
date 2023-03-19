@@ -2,10 +2,9 @@ package com.lambferret.game.soldier;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.lambferret.game.component.Hitbox;
-import com.lambferret.game.component.constant.Affiliation;
-import com.lambferret.game.component.constant.Branch;
-import com.lambferret.game.component.constant.Rank;
+import com.lambferret.game.constant.Affiliation;
+import com.lambferret.game.constant.Branch;
+import com.lambferret.game.constant.Rank;
 import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,7 +73,6 @@ public abstract class Soldier implements Comparable<Soldier> {
     private float height;
     private float offsetX;
     private float offsetY;
-    private Hitbox box;
     private Texture simpleTexture;
     private BitmapFont font = new BitmapFont();
     private boolean isFront = true;
@@ -97,27 +95,26 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.isUncommonRange = isUncommonRange;
         this.rangeX = rangeX;
         this.rangeY = rangeY;
-        box = new Hitbox();
 
     }
-
-    public void setOffset(Hitbox plate, boolean isDetail) {
-        this.isDetail = isDetail;
-        box.move(plate.getX(), plate.getY());
-        box.resize(plate.getWidth(), plate.getHeight());
-
-        this.offsetX = plate.getX();
-        this.offsetY = plate.getY();
-        this.width = plate.getWidth();
-        this.height = plate.getHeight();
-    }
+//
+//    public void setOffset(Hitbox plate, boolean isDetail) {
+//        this.isDetail = isDetail;
+//        box.move(plate.getX(), plate.getY());
+//        box.resize(plate.getWidth(), plate.getHeight());
+//
+//        this.offsetX = plate.getX();
+//        this.offsetY = plate.getY();
+//        this.width = plate.getWidth();
+//        this.height = plate.getHeight();
+//    }
 
     private void renderSimple() {
 //        batch.draw(AssetFinder.getTexture(texturePath + "DogTag"), offsetX, offsetY, width, height);
 //        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height);
 //        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 2.0F);
 //        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height);
-        this.box.render();
+//        this.box.render();
     }
 
 
@@ -149,9 +146,9 @@ public abstract class Soldier implements Comparable<Soldier> {
     public void render() {
         if (!isDetail) {
             renderSimple();
-            if (this.box.isHovered) {
-                renderHover();
-            }
+//            if (this.box.isHovered) {
+//                renderHover();
+//            }
         } else if (isFront) {
             renderFront();
         } else {
@@ -161,13 +158,8 @@ public abstract class Soldier implements Comparable<Soldier> {
 
 
     public void update() {
-        this.box.update();
-        if (isDetail && this.box.isClicked) {
-            isFront = false;
-        }
-        if (!this.box.isHovered) {
-            isFront = true;
-        }
+        isFront = false;
+        isFront = true;
     }
 
     @Override

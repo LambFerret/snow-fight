@@ -21,19 +21,19 @@ public class Overlay {
     private static final List<AbstractOverlay> allOverlay = new ArrayList<>();
     private static final List<AbstractOverlay> groundUIList = new ArrayList<>();
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
-    public static Stage stage;
-    public static Stage currentStage;
-    public static InputMultiplexer inputManager;
+    public static Stage uiStage = new Stage();
+    public static Stage currentMainStage = new Stage();
+    public static InputMultiplexer inputManager = new InputMultiplexer();
 
     private Overlay() {
         initInput();
 
-        map = new MapOverlay(stage);
-        bar = new BarOverlay(stage);
-        score = new ScoreOverlay(stage);
-        ability = new AbilityOverlay(stage);
-        execute = new ExecuteOverlay(stage);
-        soldier = new SoldierOverlay(stage);
+        map = new MapOverlay(uiStage);
+        bar = new BarOverlay(uiStage);
+        score = new ScoreOverlay(uiStage);
+        ability = new AbilityOverlay(uiStage);
+        execute = new ExecuteOverlay(uiStage);
+        soldier = new SoldierOverlay(uiStage);
 
         allOverlay.add(map);
         allOverlay.add(bar);
@@ -54,8 +54,7 @@ public class Overlay {
     }
 
     public static void initInput() {
-        inputManager.addProcessor(stage);
-        inputManager.addProcessor(currentStage);
+//        inputManager.addProcessor(currentMainStage);
     }
 
     public static InputProcessor getInput() {
@@ -64,10 +63,8 @@ public class Overlay {
 
     public static Overlay getInstance() {
         if (instance == null) {
-            inputManager = new InputMultiplexer();
-            stage = new Stage();
-            currentStage = new Stage();
             instance = new Overlay();
+            inputManager.addProcessor(uiStage);
             create();
         }
         return instance;
@@ -98,15 +95,12 @@ public class Overlay {
     }
 
     public void render() {
-        for (AbstractOverlay overlay : allOverlay) {
-            overlay.render();
-        }
+        uiStage.draw();
+
     }
 
     public void update() {
-        for (AbstractOverlay overlay : allOverlay) {
-            overlay.update();
-        }
+        uiStage.act();
     }
 
 }

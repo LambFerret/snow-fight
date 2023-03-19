@@ -1,7 +1,7 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.book.Book;
-import com.lambferret.game.component.constant.Region;
+import com.lambferret.game.constant.Region;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.soldier.Soldier;

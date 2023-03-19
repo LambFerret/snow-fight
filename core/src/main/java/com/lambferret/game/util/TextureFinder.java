@@ -1,7 +1,7 @@
 package com.lambferret.game.util;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.lambferret.game.component.constant.Rank;
+import com.lambferret.game.constant.Rank;
 
 public class TextureFinder {
 

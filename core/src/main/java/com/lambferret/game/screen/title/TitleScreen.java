@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.SnowFight;
+import com.lambferret.game.player.Player;
+import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -135,6 +138,8 @@ public class TitleScreen extends AbstractScreen {
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
             }
             case OPTION -> {
+                SaveLoader.load(0);
+                SnowFight.player = new Player();
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
             }
             case CREDIT -> {

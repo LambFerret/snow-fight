@@ -61,7 +61,7 @@ public class PhaseScreen extends AbstractScreen {
 
     public static void changeScreen(Screen screen) {
         if (currentScreen != screen) {
-            Overlay.currentStage = switch (screen) {
+            Overlay.currentMainStage = switch (screen) {
                 case PRE -> actionPhaseScreen.getStage();
                 case READY -> readyPhaseScreen.getStage();
                 case ACTION -> defeatScreen.getStage();

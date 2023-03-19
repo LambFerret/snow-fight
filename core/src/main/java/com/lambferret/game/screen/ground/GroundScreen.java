@@ -39,7 +39,7 @@ public class GroundScreen extends AbstractScreen {
 
     public static void changeScreen(Screen screen) {
         if (currentScreen != screen) {
-            Overlay.currentStage = switch (screen) {
+            Overlay.currentMainStage = switch (screen) {
                 case RECRUIT -> recruitScreen.getStage();
                 case SHOP -> shopScreen.getStage();
                 case TRAINING_GROUND -> trainingGroundScreen.getStage();

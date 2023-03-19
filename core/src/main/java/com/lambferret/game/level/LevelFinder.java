@@ -1,6 +1,6 @@
 package com.lambferret.game.level;
 
-import com.lambferret.game.component.constant.Region;
+import com.lambferret.game.constant.Region;
 import com.lambferret.game.level.nation.LevelN1;
 
 public class LevelFinder {

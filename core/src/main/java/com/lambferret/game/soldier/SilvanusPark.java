@@ -1,9 +1,9 @@
 package com.lambferret.game.soldier;
 
-import com.lambferret.game.component.constant.Affiliation;
-import com.lambferret.game.component.constant.Branch;
-import com.lambferret.game.component.constant.Rank;
-import com.lambferret.game.component.constant.Terrain;
+import com.lambferret.game.constant.Affiliation;
+import com.lambferret.game.constant.Branch;
+import com.lambferret.game.constant.Rank;
+import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.SoldierText;
 import org.apache.logging.log4j.LogManager;

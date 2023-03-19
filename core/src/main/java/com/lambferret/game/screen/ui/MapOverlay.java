@@ -89,9 +89,7 @@ public class MapOverlay extends Table implements AbstractOverlay {
                 hoverImage.remove();
             }
         });
-
         return button;
-
     }
 
     private void setAction(GroundScreen.Screen action) {
@@ -107,14 +105,4 @@ public class MapOverlay extends Table implements AbstractOverlay {
             }
         }
     }
-
-
-    public void render() {
-        stage.draw();
-    }
-
-    public void update() {
-        stage.act();
-    }
-
 }

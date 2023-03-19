@@ -1,4 +1,4 @@
-package com.lambferret.game.component.constant;
+package com.lambferret.game.constant;
 
 public class Terrain {
     public static final short NULL = -1;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.google.gson.Gson;
@@ -42,6 +43,7 @@ public class GlobalSettings {
     public static Skin skin;
     public static final Color debugColorGreen;
     public static final TextureRegionDrawable debugTexture;
+    public static final ImageTextButton.ImageTextButtonStyle imageButtonStyle;
     public static BitmapFont font;
 
     public static final Gson gson;
@@ -50,10 +52,11 @@ public class GlobalSettings {
         gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
             .create();
-        debugColorGreen = new Color(0, 255, 0, 0.1F);
+        debugColorGreen = new Color(0, 255, 0, 0.5F);
         debugTexture = new TextureRegionDrawable(
             new TextureRegionDrawable(new Texture(Gdx.files.internal("./texture/yellow.png")))
         );
+        imageButtonStyle = new ImageTextButton.ImageTextButtonStyle();
     }
 
     public static void init() {
