@@ -33,6 +33,7 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
         this.stage = stage;
         pen = new Image(AssetFinder.getTexture("pen"));
         pen.setSize(50, 60);
+        pen.setVisible(false);
 
     }
 
@@ -49,56 +50,75 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
         this.setColor(Color.RED);
         var xOff = this.getX();
         var yOff = this.getY();
-        logger.info("setProperty |  🐳 x , y | " + xOff + " / " + yOff);
 
         this.addListener(new InputListener() {
 
+            /*
+            욕나오는 부분
+            Hover -> entered with pointer -1
+            Click down -> entered with pointer 0
+            Release click -> exited with pointer 0
+            Move cursor away -> exited with pointer -1
+             */
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                System.out.println("exit call!!@#!@#!@#!@#");
-                pen.remove();
+                super.exit(event, x, y, pointer, toActor);
+                if (pointer == -1) {
+                    pen.setVisible(false);
+                }
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                stage.addActor(pen);
+                super.enter(event, x, y, pointer, fromActor);
+                pen.setVisible(true);
+
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                logger.info("touchUp |  🐳 weoifj | ");
+                super.touchUp(event, x, y, pointer, button);
                 screenChanger();
             }
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                logger.info("touchDown |  🐳 wefiojweofij1212 | ");
                 return true;
             }
 
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+
+                logger.info("keyDown |  🐳  | " + event);
                 logger.info("keyDown |  🐳 keycode | " + keycode);
                 if (keycode == Input.Keys.SPACE) {
                     screenChanger();
                 }
-                return true;
+                return super.keyDown(event, keycode);
+            }
+
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+
+                logger.info("keyUp |  🐳  | " + event);
+                logger.info("keyUp |  🐳 keycode | " + keycode);
+                return super.keyUp(event, keycode);
             }
 
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
+
                 pen.setPosition(xOff + x + pen.getWidth(), yOff + y + getHeight());
-                return true;
+                return super.mouseMoved(event, x, y);
+
             }
         });
-
 
         this.setBackground(GlobalSettings.debugTexture);
         this.setColor(GlobalSettings.debugColorGreen);
     }
 
     private void screenChanger() {
-        logger.info("screenChanger |  🐳 ?? | ");
         if (PhaseScreen.currentScreen == PhaseScreen.Screen.PRE) {
             // set PRE phase to ready phase
             PhaseScreen.currentScreen = PhaseScreen.Screen.READY;
@@ -130,6 +150,5 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
                 }
             }
         }
-        logger.info("screenChanger |  🐳 end | " + PhaseScreen.currentScreen);
     }
 }

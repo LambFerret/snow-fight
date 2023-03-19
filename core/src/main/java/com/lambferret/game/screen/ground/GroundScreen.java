@@ -1,5 +1,6 @@
 package com.lambferret.game.screen.ground;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.text.LocalizeConfig;
@@ -7,6 +8,7 @@ import com.lambferret.game.text.dto.GroundText;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
 
 public class GroundScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(GroundScreen.class.getName());
@@ -26,7 +28,6 @@ public class GroundScreen extends AbstractScreen {
     public GroundScreen() {
         text = LocalizeConfig.uiText.getGroundText();
         overlay = Overlay.getInstance();
-        changeScreen(Screen.TRAINING_GROUND);
     }
 
     @Override
@@ -39,12 +40,12 @@ public class GroundScreen extends AbstractScreen {
 
     public static void changeScreen(Screen screen) {
         if (currentScreen != screen) {
-            Overlay.currentMainStage = switch (screen) {
+            Stage currentStage = switch (screen) {
                 case RECRUIT -> recruitScreen.getStage();
                 case SHOP -> shopScreen.getStage();
                 case TRAINING_GROUND -> trainingGroundScreen.getStage();
             };
-            Overlay.initInput();
+            changeCurrentInputProcessor(currentStage);
             currentScreen = screen;
         }
     }

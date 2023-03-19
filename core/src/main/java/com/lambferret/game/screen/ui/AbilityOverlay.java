@@ -33,7 +33,6 @@ public class AbilityOverlay extends Table implements AbstractOverlay {
         this.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                logger.info("mouseMoved |  🐳 23ioj | ");
 
                 super.enter(event, x, y, pointer, fromActor);
             }

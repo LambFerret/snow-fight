@@ -1,15 +1,16 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
-import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
 
 public class PhaseScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
@@ -35,7 +36,6 @@ public class PhaseScreen extends AbstractScreen {
     public PhaseScreen() {
 //        text = LocalizeConfig.uiText.getGroundText();
         overlay = Overlay.getInstance();
-        changeScreen(Screen.PRE);
     }
 
     @Override
@@ -61,14 +61,14 @@ public class PhaseScreen extends AbstractScreen {
 
     public static void changeScreen(Screen screen) {
         if (currentScreen != screen) {
-            Overlay.currentMainStage = switch (screen) {
-                case PRE -> actionPhaseScreen.getStage();
+            Stage currentMainStage = switch (screen) {
+                case PRE -> prePhaseScreen.getStage();
                 case READY -> readyPhaseScreen.getStage();
-                case ACTION -> defeatScreen.getStage();
-                case VICTORY -> prePhaseScreen.getStage();
-                case DEFEAT -> victoryScreen.getStage();
+                case ACTION -> actionPhaseScreen.getStage();
+                case VICTORY -> victoryScreen.getStage();
+                case DEFEAT -> defeatScreen.getStage();
             };
-            Overlay.initInput();
+            changeCurrentInputProcessor(currentMainStage);
             currentScreen = screen;
         }
     }
@@ -105,22 +105,8 @@ public class PhaseScreen extends AbstractScreen {
                 defeatScreen.update();
             }
         }
-        test();
     }
 
-    public void test() {
-        if (CustomInputProcessor.pressedKey(Input.Keys.NUM_6)) {
-            currentScreen = Screen.PRE;
-        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_7)) {
-            currentScreen = Screen.READY;
-        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_8)) {
-            currentScreen = Screen.ACTION;
-        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_9)) {
-            currentScreen = Screen.VICTORY;
-        } else if (CustomInputProcessor.pressedKey(Input.Keys.NUM_0)) {
-            currentScreen = Screen.DEFEAT;
-        }
-    }
 
     public enum Screen {
         PRE,

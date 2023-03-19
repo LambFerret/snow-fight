@@ -1,8 +1,10 @@
 package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,11 +29,18 @@ public class PrePhaseScreen {
     }
 
     public void create() {
-//    stage.addActor(this);
         setProperty();
     }
 
     private void setProperty() {
+        textButton.setPosition(300, 300);
+        textButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                logger.info("clicked |  🐳 i am working | ");
+            }
+        });
     }
 
     public void render() {

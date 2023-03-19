@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.lambferret.game.constant.Affiliation;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.Rank;
-import com.lambferret.game.util.CustomInputProcessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -134,8 +133,8 @@ public abstract class Soldier implements Comparable<Soldier> {
     }
 
     private void renderHover() {
-        float x = CustomInputProcessor.getMouseLocationX();
-        float y = CustomInputProcessor.getMouseLocationY();
+//        float x = CustomInputProcessor.getMouseLocationX();
+//        float y = CustomInputProcessor.getMouseLocationY();
         float width = 300;
         float height = 450;
 //        batch.draw(AssetFinder.getTexture("soldierBack"), x, y, width, height);

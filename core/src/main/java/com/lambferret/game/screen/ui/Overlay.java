@@ -1,5 +1,6 @@
 package com.lambferret.game.screen.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -23,11 +24,9 @@ public class Overlay {
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
     public static Stage uiStage = new Stage();
     public static Stage currentMainStage = new Stage();
-    public static InputMultiplexer inputManager = new InputMultiplexer();
+    private static final InputMultiplexer inputManager = new InputMultiplexer();
 
     private Overlay() {
-        initInput();
-
         map = new MapOverlay(uiStage);
         bar = new BarOverlay(uiStage);
         score = new ScoreOverlay(uiStage);
@@ -53,21 +52,24 @@ public class Overlay {
 
     }
 
-    public static void initInput() {
-//        inputManager.addProcessor(currentMainStage);
-    }
-
     public static InputProcessor getInput() {
         return inputManager;
     }
 
     public static Overlay getInstance() {
         if (instance == null) {
+            changeCurrentInputProcessor(currentMainStage);
             instance = new Overlay();
-            inputManager.addProcessor(uiStage);
             create();
         }
         return instance;
+    }
+
+    public static void changeCurrentInputProcessor(InputProcessor processor) {
+        inputManager.clear();
+        inputManager.addProcessor(uiStage);
+        inputManager.addProcessor(processor);
+        Gdx.input.setInputProcessor(inputManager);
     }
 
     private static void create() {

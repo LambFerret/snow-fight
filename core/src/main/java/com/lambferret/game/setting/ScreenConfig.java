@@ -61,18 +61,18 @@ public class ScreenConfig {
         switch (changeScreen) {
             case TITLE_SCREEN -> {
                 currentInputProcessor = titleScreen.getStage();
+                Gdx.input.setInputProcessor(currentInputProcessor);
             }
             case GROUND_SCREEN -> {
+                GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
                 Overlay.setGroundUI();
-                currentInputProcessor = Overlay.getInput();
             }
             case PHASE_SCREEN -> {
                 Overlay.setPhaseUI();
-                currentInputProcessor = Overlay.getInput();
+                PhaseScreen.changeScreen(PhaseScreen.Screen.PRE);
                 if (SnowFight.player == null) phaseScreen.init();
             }
         }
-        Gdx.input.setInputProcessor(currentInputProcessor);
         currentScreen = changeScreen;
     }
 
