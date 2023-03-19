@@ -3,7 +3,6 @@ package com.lambferret.game.setting;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.screen.title.TitleScreen;
@@ -70,7 +69,7 @@ public class ScreenConfig {
             case PHASE_SCREEN -> {
                 Overlay.setPhaseUI();
                 PhaseScreen.changeScreen(PhaseScreen.Screen.PRE);
-                if (SnowFight.player == null) phaseScreen.init();
+                phaseScreen.init();
             }
         }
         currentScreen = changeScreen;

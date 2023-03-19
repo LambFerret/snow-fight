@@ -1,12 +1,15 @@
 package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
+import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +26,7 @@ public class PhaseScreen extends AbstractScreen {
     private static final PrePhaseScreen prePhaseScreen;
     private static final VictoryScreen victoryScreen;
     public static Level currentLevel;
+    public static Table map;
 //    PhaseText text;
 
     static {
@@ -57,6 +61,29 @@ public class PhaseScreen extends AbstractScreen {
     public void init() {
         player = SnowFight.player;
         currentLevel = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
+
+        map = makeMap();
+        // interface로 바꿀것. 이거보고 결심해요
+        prePhaseScreen.init();
+//        readyPhaseScreen.init();
+//        actionPhaseScreen.init();
+//        defeatScreen.init();
+//        victoryScreen.init();
+    }
+
+    public static Table makeMap() {
+        Table map = new Table();
+        map.setSkin(GlobalSettings.skin);
+        for (int i = 0; i < currentLevel.ROWS; i++) {
+            for (int j = 0; j < currentLevel.COLUMNS; j++) {
+                var a = new TextButton.TextButtonStyle();
+                a.font = GlobalSettings.font;
+                TextButton button = new TextButton(String.valueOf(currentLevel.getMap()[i][j]), a);
+                map.add(button).pad(3);
+            }
+            map.row().pad(3);
+        }
+        return map;
     }
 
     public static void changeScreen(Screen screen) {
@@ -89,21 +116,11 @@ public class PhaseScreen extends AbstractScreen {
     public void update() {
         overlay.update();
         switch (currentScreen) {
-            case PRE -> {
-                prePhaseScreen.update();
-            }
-            case READY -> {
-                readyPhaseScreen.update();
-            }
-            case ACTION -> {
-                actionPhaseScreen.update();
-            }
-            case VICTORY -> {
-                victoryScreen.update();
-            }
-            case DEFEAT -> {
-                defeatScreen.update();
-            }
+            case PRE -> prePhaseScreen.update();
+            case READY -> readyPhaseScreen.update();
+            case ACTION -> actionPhaseScreen.update();
+            case VICTORY -> victoryScreen.update();
+            case DEFEAT -> defeatScreen.update();
         }
     }
 
