@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.lambferret.game.player.PlayerObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Overlay {
+public class Overlay implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(Overlay.class.getName());
     private static Overlay instance = null;
     private static AbstractOverlay map;
@@ -63,6 +64,13 @@ public class Overlay {
             create();
         }
         return instance;
+    }
+
+    @Override
+    public void onPlayerReady() {
+        for (AbstractOverlay overlay : allOverlay) {
+            overlay.init();
+        }
     }
 
     public static void changeCurrentInputProcessor(InputProcessor processor) {

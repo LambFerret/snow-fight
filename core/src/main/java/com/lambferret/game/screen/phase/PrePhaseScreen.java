@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PrePhaseScreen {
+public class PrePhaseScreen implements AbstractPhase{
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
     TextButton.TextButtonStyle style;
     TextButton textButton;

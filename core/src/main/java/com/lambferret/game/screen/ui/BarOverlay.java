@@ -28,4 +28,9 @@ public class BarOverlay extends Table implements AbstractOverlay {
         this.setBackground(GlobalSettings.debugTexture);
         this.setColor(GlobalSettings.debugColorGreen);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

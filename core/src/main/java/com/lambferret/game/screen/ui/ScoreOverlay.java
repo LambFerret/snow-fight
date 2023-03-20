@@ -28,4 +28,9 @@ public class ScoreOverlay extends Table implements AbstractOverlay {
         this.setBackground(GlobalSettings.debugTexture);
         this.setColor(GlobalSettings.debugColorGreen);
     }
+
+    @Override
+    public void init() {
+
+    }
 }

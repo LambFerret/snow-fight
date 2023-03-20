@@ -10,7 +10,7 @@ import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TrainingGroundScreen {
+public class TrainingGroundScreen implements AbstractGround{
     private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
     private final Stage stage;
     private Skin skin;
@@ -26,6 +26,11 @@ public class TrainingGroundScreen {
     public void create() {
         skin = GlobalSettings.skin;
         stage.addActor(makeButton());
+    }
+
+    @Override
+    public void init() {
+
     }
 
     private void setProperty() {

@@ -40,5 +40,8 @@ public class AbilityOverlay extends Table implements AbstractOverlay {
         });
     }
 
+    @Override
+    public void init() {
 
+    }
 }

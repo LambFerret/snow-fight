@@ -151,4 +151,8 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
             }
         }
     }
+    @Override
+    public void init() {
+
+    }
 }

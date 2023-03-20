@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class VictoryScreen {
+public class VictoryScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(VictoryScreen.class.getName());
     TextButton.TextButtonStyle style;
     TextButton textButton;
@@ -24,6 +24,11 @@ public class VictoryScreen {
 
     public Stage getStage() {
         return this.stage;
+    }
+
+    @Override
+    public void init() {
+
     }
 
     public void create() {

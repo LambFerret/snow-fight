@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class RecruitScreen {
+public class RecruitScreen implements AbstractGround {
     private static final Logger logger = LogManager.getLogger(RecruitScreen.class.getName());
 
     TextButton.TextButtonStyle style;
@@ -32,6 +32,11 @@ public class RecruitScreen {
     }
 
     private void setProperty() {
+    }
+
+    @Override
+    public void init() {
+
     }
 
     public void render() {

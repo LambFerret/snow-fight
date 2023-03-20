@@ -105,4 +105,9 @@ public class MapOverlay extends Table implements AbstractOverlay {
             }
         }
     }
+
+    @Override
+    public void init() {
+
+    }
 }

@@ -7,24 +7,29 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
 
-public class PhaseScreen extends AbstractScreen {
+public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
     private static Overlay overlay;
     public static Screen currentScreen;
     public static Player player;
-    private static final ActionPhaseScreen actionPhaseScreen;
-    private static final ReadyPhaseScreen readyPhaseScreen;
-    private static final DefeatScreen defeatScreen;
-    private static final PrePhaseScreen prePhaseScreen;
-    private static final VictoryScreen victoryScreen;
+    private static final List<AbstractPhase> phaseListener;
+    private static final AbstractPhase actionPhaseScreen;
+    private static final AbstractPhase readyPhaseScreen;
+    private static final AbstractPhase defeatScreen;
+    private static final AbstractPhase prePhaseScreen;
+    private static final AbstractPhase victoryScreen;
     public static Level currentLevel;
     public static Table map;
 //    PhaseText text;
@@ -35,6 +40,12 @@ public class PhaseScreen extends AbstractScreen {
         defeatScreen = new DefeatScreen();
         prePhaseScreen = new PrePhaseScreen();
         victoryScreen = new VictoryScreen();
+        phaseListener = new ArrayList<>();
+        phaseListener.add(actionPhaseScreen);
+        phaseListener.add(readyPhaseScreen);
+        phaseListener.add(defeatScreen);
+        phaseListener.add(prePhaseScreen);
+        phaseListener.add(victoryScreen);
     }
 
     public PhaseScreen() {
@@ -45,30 +56,20 @@ public class PhaseScreen extends AbstractScreen {
     @Override
     public void create() {
         Overlay.setPhaseUI();
-        actionPhaseScreen.create();
-        readyPhaseScreen.create();
-        defeatScreen.create();
-        prePhaseScreen.create();
-        victoryScreen.create();
+        for (AbstractPhase phase : phaseListener) {
+            phase.create();
+        }
     }
 
-    /**
-     * constructor, create, init
-     * constructor : 화면이 등록될 때 이므로 게임 시작과 거의 동시에 호출된다
-     * create : 보통은 constructor 와 비슷한 시간에 호출되나 constructor 보다 늦는다
-     * init : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
-     */
-    public void init() {
+
+    public void onPlayerReady() {
         player = SnowFight.player;
         currentLevel = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
-
         map = makeMap();
-        // interface로 바꿀것. 이거보고 결심해요
-        prePhaseScreen.init();
-//        readyPhaseScreen.init();
-//        actionPhaseScreen.init();
-//        defeatScreen.init();
-//        victoryScreen.init();
+
+        for (AbstractPhase phase : phaseListener) {
+            phase.init();
+        }
     }
 
     public static Table makeMap() {
@@ -79,12 +80,13 @@ public class PhaseScreen extends AbstractScreen {
                 var a = new TextButton.TextButtonStyle();
                 a.font = GlobalSettings.font;
                 TextButton button = new TextButton(String.valueOf(currentLevel.getMap()[i][j]), a);
-                map.add(button).pad(3);
+                map.add(button).pad(5);
             }
             map.row().pad(3);
         }
         return map;
     }
+
 
     public static void changeScreen(Screen screen) {
         if (currentScreen != screen) {

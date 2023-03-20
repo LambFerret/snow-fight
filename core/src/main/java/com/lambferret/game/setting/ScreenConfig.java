@@ -69,7 +69,8 @@ public class ScreenConfig {
             case PHASE_SCREEN -> {
                 Overlay.setPhaseUI();
                 PhaseScreen.changeScreen(PhaseScreen.Screen.PRE);
-                phaseScreen.init();
+                phaseScreen.onPlayerReady();
+                groundScreen.onPlayerReady();
             }
         }
         currentScreen = changeScreen;
