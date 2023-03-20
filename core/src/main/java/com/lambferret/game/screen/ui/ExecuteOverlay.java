@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -18,8 +19,8 @@ import org.apache.logging.log4j.Logger;
 
 public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
-    private final Stage stage;
     private static final ImageTextButtonStyle imageButtonStyle;
+    private final Stage stage;
     private final Image pen;
 
     static {
@@ -29,18 +30,21 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
     public ExecuteOverlay(Stage stage) {
         super("execute", imageButtonStyle);
-        imageButtonStyle.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
         this.stage = stage;
+        imageButtonStyle.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
         pen = new Image(AssetFinder.getTexture("pen"));
         pen.setSize(50, 60);
         pen.setVisible(false);
-
     }
 
     public void create() {
         stage.addActor(this);
         stage.addActor(pen);
         setProperty();
+    }
+
+    @Override
+    public void init(Player player) {
     }
 
     private void setProperty() {
@@ -72,7 +76,6 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 pen.setVisible(true);
-
             }
 
             @Override
@@ -88,7 +91,6 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-
                 logger.info("keyDown |  🐳  | " + event);
                 logger.info("keyDown |  🐳 keycode | " + keycode);
                 if (keycode == Input.Keys.SPACE) {
@@ -99,7 +101,6 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-
                 logger.info("keyUp |  🐳  | " + event);
                 logger.info("keyUp |  🐳 keycode | " + keycode);
                 return super.keyUp(event, keycode);
@@ -107,10 +108,8 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-
                 pen.setPosition(xOff + x + pen.getWidth(), yOff + y + getHeight());
                 return super.mouseMoved(event, x, y);
-
             }
         });
 
@@ -151,8 +150,5 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
             }
         }
     }
-    @Override
-    public void init() {
 
-    }
 }

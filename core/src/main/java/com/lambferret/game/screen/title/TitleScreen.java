@@ -24,9 +24,9 @@ import org.apache.logging.log4j.Logger;
 public class TitleScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(TitleScreen.class.getName());
 
-    public static Screen screen;
-    private final SelectSaveScreen selectSaveScreen;
-    private final SelectLoadScreen selectLoadScreen;
+    private final SelectSaveWindow selectSaveWindow;
+    private final SelectLoadWindow selectLoadWindow;
+    public static Screen currentScreen;
     private final Stage stage;
     TitleMenuText text;
     BitmapFont font;
@@ -35,22 +35,19 @@ public class TitleScreen extends AbstractScreen {
         stage = new Stage();
         text = LocalizeConfig.uiText.getTitleMenuText();
 
-        selectSaveScreen = new SelectSaveScreen(stage);
-        selectLoadScreen = new SelectLoadScreen(stage);
+        selectSaveWindow = new SelectSaveWindow(stage);
+        selectLoadWindow = new SelectLoadWindow(stage);
 
-        stage.addActor(selectSaveScreen);
-        stage.addActor(selectLoadScreen);
+        stage.addActor(selectSaveWindow);
+        stage.addActor(selectLoadWindow);
 
-        screen = Screen.TITLE;
+        currentScreen = Screen.TITLE;
     }
 
-    public Stage getStage() {
-        return stage;
-    }
 
     private void initDisplay() {
-        selectLoadScreen.setVisible(false);
-        selectSaveScreen.setVisible(false);
+        selectLoadWindow.setVisible(false);
+        selectSaveWindow.setVisible(false);
     }
 
     @Override
@@ -58,8 +55,8 @@ public class TitleScreen extends AbstractScreen {
         font = GlobalSettings.font;
         stage.addActor(backGroundImage());
         stage.addActor(createTable());
-        selectSaveScreen.create();
-        selectLoadScreen.create();
+        selectSaveWindow.create();
+        selectLoadWindow.create();
 
         initDisplay();
     }
@@ -120,19 +117,18 @@ public class TitleScreen extends AbstractScreen {
             }
         });
         return button;
-
     }
 
     private void setAction(TitleAction action) {
         initDisplay();
         switch (action) {
             case NEW -> {
-                selectSaveScreen.setVisible(true);
-                selectSaveScreen.toFront();
+                selectSaveWindow.setVisible(true);
+                selectSaveWindow.toFront();
             }
             case CONTINUE -> {
-                selectLoadScreen.setVisible(true);
-                selectLoadScreen.toFront();
+                selectLoadWindow.setVisible(true);
+                selectLoadWindow.toFront();
             }
             case LOAD -> {
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
@@ -149,6 +145,10 @@ public class TitleScreen extends AbstractScreen {
                 Gdx.app.exit();
             }
         }
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 
     public void render() {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
@@ -22,13 +23,17 @@ public class SoldierOverlay extends Table implements AbstractOverlay {
         this.soldierContainer = new Table();
         this.scrollPane = new ScrollPane(soldierContainer);
         scrollPane.setScrollingDisabled(false, true);
-
     }
 
     public void create() {
         stage.addActor(this);
         stage.addActor(scrollPane);
         setProperty();
+    }
+
+    @Override
+    public void init(Player player) {
+
     }
 
     private void setProperty() {
@@ -42,33 +47,22 @@ public class SoldierOverlay extends Table implements AbstractOverlay {
     }
 
     private void makeSoldierContainer(List<Soldier> soldiers) {
-
         for (Soldier soldier : soldiers) {
             soldierContainer.add(renderSoldier(soldier));
         }
-
         soldierContainer.setPosition(300, 300);
         soldierContainer.setSize(300, 300);
-
-
     }
 
     private ImageTextButton renderSoldier(Soldier soldier) {
-        var a = new ImageTextButton("soldier.getName()", soldierButtonStyle());
-
-
-return a;
+        var a = new ImageTextButton(soldier.getName(), soldierButtonStyle());
+        return a;
     }
 
     private ImageTextButton.ImageTextButtonStyle soldierButtonStyle() {
         var a = new ImageTextButton.ImageTextButtonStyle();
         a.font = GlobalSettings.font;
         return a;
-    }
-
-    @Override
-    public void init() {
-
     }
 
 }

@@ -6,10 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.lambferret.game.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PrePhaseScreen implements AbstractPhase{
+public class PrePhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
     TextButton.TextButtonStyle style;
     TextButton textButton;
@@ -26,15 +27,11 @@ public class PrePhaseScreen implements AbstractPhase{
         stage.addActor(textButton);
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
-
     public void create() {
         setProperty();
     }
 
-    public void init() {
+    public void init(Player player) {
         map = PhaseScreen.map;
         map.setPosition(500, 100);
         map.setSize(500, 500);
@@ -50,6 +47,10 @@ public class PrePhaseScreen implements AbstractPhase{
                 logger.info("clicked |  🐳 i am working | ");
             }
         });
+    }
+
+    public Stage getStage() {
+        return this.stage;
     }
 
     public void render() {

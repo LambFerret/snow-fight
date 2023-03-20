@@ -2,6 +2,7 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,11 @@ public class ScoreOverlay extends Table implements AbstractOverlay {
         setProperty();
     }
 
+    @Override
+    public void init(Player player) {
+
+    }
+
     private void setProperty() {
         this.clear();
         //        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
@@ -29,8 +35,4 @@ public class ScoreOverlay extends Table implements AbstractOverlay {
         this.setColor(GlobalSettings.debugColorGreen);
     }
 
-    @Override
-    public void init() {
-
-    }
 }

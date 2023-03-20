@@ -16,20 +16,23 @@ import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SelectLoadScreen extends Window {
-    private static final Logger logger = LogManager.getLogger(SelectLoadScreen.class.getName());
+public class SelectLoadWindow extends Window {
+    private static final Logger logger = LogManager.getLogger(SelectLoadWindow.class.getName());
+    public static final int SAVE_WIDTH = 800;
+    public static final int SAVE_HEIGHT = 400;
     private BitmapFont font;
     private Skin skin;
     private Stage stage;
-    public static final int SAVE_WIDTH = 800;
-    public static final int SAVE_HEIGHT = 400;
 
-    public SelectLoadScreen(Stage stage) {
+    public SelectLoadWindow(Stage stage) {
         super("load", GlobalSettings.skin);
         this.stage = stage;
         this.font = GlobalSettings.font;
         this.skin = GlobalSettings.skin;
+    }
 
+    public void create() {
+        stage.addActor(this);
         setWindowProperty(this);
     }
 
@@ -43,10 +46,6 @@ public class SelectLoadScreen extends Window {
         window.setBackground(texture);
         window.add(makeTable());
         window.add(new Label("select save file", skin));
-    }
-
-    public void create() {
-        stage.addActor(this);
     }
 
     private Table makeTable() {

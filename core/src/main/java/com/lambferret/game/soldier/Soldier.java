@@ -1,7 +1,13 @@
 package com.lambferret.game.soldier;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.constant.Affiliation;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.Rank;
@@ -96,7 +102,58 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.rangeY = rangeY;
 
     }
-//
+
+    public String getName() {
+        return name;
+    }
+
+    public void renderNormal() {
+// Load the image components
+        Texture texture1 = new Texture("image1.png");
+        Texture texture2 = new Texture("image2.png");
+
+// Create a Pixmap for the composite image
+        int width = Math.max(texture1.getWidth(), texture2.getWidth());
+        int height = texture1.getHeight() + texture2.getHeight();
+        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+
+// Draw the image components onto the Pixmap
+
+        pixmap.drawPixmap(texture1.getTextureData().consumePixmap(), 0, 0);
+        pixmap.drawPixmap(texture2.getTextureData().consumePixmap(), 0, texture1.getHeight());
+
+// Load a BitmapFont and render text onto the Pixmap
+        BitmapFont font = new BitmapFont();
+        String text = "Some Text";
+        Pixmap textPixmap = new Pixmap(Gdx.files.internal("font.png"));
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
+
+        Label scoreLabel = new Label("11", labelStyle);
+
+        scoreLabel.setBounds(10, 20, 30, 40);
+
+        scoreLabel.setAlignment(Align.center);
+
+
+// Create a Texture from the Pixmap
+        Texture compositeTexture = new Texture(pixmap);
+
+// Create an Image using the composite Texture
+        Image compositeImage = new Image(compositeTexture);
+
+// Don't forget to dispose of resources you don't need anymore
+        pixmap.dispose();
+        textPixmap.dispose();
+        texture1.dispose();
+        texture2.dispose();
+    }
+
+    public void renderInfo() {
+
+    }
+
+    //
 //    public void setOffset(Hitbox plate, boolean isDetail) {
 //        this.isDetail = isDetail;
 //        box.move(plate.getX(), plate.getY());
@@ -140,25 +197,6 @@ public abstract class Soldier implements Comparable<Soldier> {
 //        batch.draw(AssetFinder.getTexture("soldierBack"), x, y, width, height);
 //        batch.draw(AssetFinder.getTexture("3by3"), x, y + height / 2.0F, width, height / 2.0F);
 //        font.draw(batch, this.description, x + 5.0F, y + height / 2.0F);
-    }
-
-    public void render() {
-        if (!isDetail) {
-            renderSimple();
-//            if (this.box.isHovered) {
-//                renderHover();
-//            }
-        } else if (isFront) {
-            renderFront();
-        } else {
-            renderBack();
-        }
-    }
-
-
-    public void update() {
-        isFront = false;
-        isFront = true;
     }
 
     @Override

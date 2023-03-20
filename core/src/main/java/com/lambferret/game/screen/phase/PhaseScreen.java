@@ -68,7 +68,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         map = makeMap();
 
         for (AbstractPhase phase : phaseListener) {
-            phase.init();
+            phase.init(player);
         }
     }
 
@@ -86,7 +86,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         }
         return map;
     }
-
 
     public static void changeScreen(Screen screen) {
         if (currentScreen != screen) {
@@ -125,7 +124,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             case DEFEAT -> defeatScreen.update();
         }
     }
-
 
     public enum Screen {
         PRE,

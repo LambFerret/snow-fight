@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
@@ -32,6 +33,10 @@ public class MapOverlay extends Table implements AbstractOverlay {
     public void create() {
         stage.addActor(this);
         setProperty();
+    }
+
+    @Override
+    public void init(Player player) {
     }
 
     private Image setHoverImage(GroundScreen.Screen screen) {
@@ -106,8 +111,4 @@ public class MapOverlay extends Table implements AbstractOverlay {
         }
     }
 
-    @Override
-    public void init() {
-
-    }
 }

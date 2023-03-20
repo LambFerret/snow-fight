@@ -63,14 +63,14 @@ public class ScreenConfig {
                 Gdx.input.setInputProcessor(currentInputProcessor);
             }
             case GROUND_SCREEN -> {
-                GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
                 Overlay.setGroundUI();
+                GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
+                groundScreen.onPlayerReady();
             }
             case PHASE_SCREEN -> {
                 Overlay.setPhaseUI();
                 PhaseScreen.changeScreen(PhaseScreen.Screen.PRE);
                 phaseScreen.onPlayerReady();
-                groundScreen.onPlayerReady();
             }
         }
         currentScreen = changeScreen;

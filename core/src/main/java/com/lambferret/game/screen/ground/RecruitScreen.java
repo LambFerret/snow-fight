@@ -3,6 +3,7 @@ package com.lambferret.game.screen.ground;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.lambferret.game.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,7 +36,7 @@ public class RecruitScreen implements AbstractGround {
     }
 
     @Override
-    public void init() {
+    public void init(Player player) {
 
     }
 

@@ -3,6 +3,7 @@ package com.lambferret.game.screen.phase;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.lambferret.game.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,19 +23,20 @@ public class ReadyPhaseScreen implements AbstractPhase {
         stage.addActor(textButton);
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
-
     public void create() {
 //    stage.addActor(this);
         setProperty();
     }
-    @Override
-    public void init() {
 
+    @Override
+    public void init(Player player) {
     }
+
     private void setProperty() {
+    }
+
+    public Stage getStage() {
+        return this.stage;
     }
 
     public void render() {
