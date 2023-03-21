@@ -21,12 +21,12 @@ import com.lambferret.game.setting.GlobalSettings;
  * 보통은 static -> constructor -> create -> init -> ETC... -> render -> update
  * <p>
  * private enum :
- * 순서는 상관 없지만 클래스 변수가 아닐경우 enum class 를 constant directory에 작성
+ * 순서는 상관 없지만 클래스 변수가 아닐경우 enum class 를 constant directory 에 작성
  * <p>
- * setProperty 에 대한 고찰
- * 가독성을 위한다고는 하나 그렇게 까지 필요할까 싶다
- * create 와 마찬가지
- * setProperty, create 는 필요 없다고 느껴지면 바로 버릴것
+ * constructor, create, init
+ * constructor : constructor 의 parameter 와 관련된 설정, 작업 등을 시행하고 필드값을 초기화 한다
+ * create : parameter 이외의 설정, 작업등을 시행한다. 즉 init 과 constructor 에서 할 수 없는 설정을 한다
+ * init : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
  */
 public interface AbstractOverlay {
     float OVERLAY_WIDTH = GlobalSettings.currWidth / 3.0F;
