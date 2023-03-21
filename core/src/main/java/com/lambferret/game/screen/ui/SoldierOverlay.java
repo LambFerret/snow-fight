@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
@@ -46,7 +47,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     @Override
     public void init(Player player) {
-        makeDogTagContainer(player.getSoldiers());
+        makeSoldierContainer(player.getSoldiers());
 
         scrollPane.addListener(new InputListener() {
             @Override
@@ -104,7 +105,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < soldiers.size() / numRows + 1; j++) {
                 if (index >= soldiers.size()) continue;
-                soldierContainer.add(renderSoldier(soldiers.get(index++))).pad(50);
+                soldierContainer.add(renderSoldier(soldiers.get(index++))).pad(10);
             }
             soldierContainer.row();
         }
@@ -112,13 +113,15 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     }
 
     private ImageTextButton renderSoldier(Soldier soldier) {
-        var a = new ImageTextButton(soldier.getName(), soldierButtonStyle());
+        var a = new ImageTextButton(soldier.getName(), soldierButtonStyle(soldier));
+        a.setSize(scrollPane.getHeight()* 2 / 3.0F, scrollPane.getHeight());
         return a;
     }
 
-    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle() {
+    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Soldier soldier) {
         var a = new ImageTextButton.ImageTextButtonStyle();
         a.font = GlobalSettings.font;
+        a.up = new TextureRegionDrawable(soldier.renderFront());
         return a;
     }
 

@@ -2,6 +2,7 @@ package com.lambferret.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.lambferret.game.SnowFight;
 import de.eskalon.commons.screen.ManagedScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +27,7 @@ public abstract class AbstractScreen extends ManagedScreen {
 
     @Override
     public void resize(int width, int height) {
+        SnowFight.viewport.update(width, height, true);
     }
 
     @Override

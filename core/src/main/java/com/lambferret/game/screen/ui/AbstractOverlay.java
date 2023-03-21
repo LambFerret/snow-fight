@@ -24,9 +24,10 @@ import com.lambferret.game.setting.GlobalSettings;
  * 순서는 상관 없지만 클래스 변수가 아닐경우 enum class 를 constant directory 에 작성
  * <p>
  * constructor, create, init
- * constructor : constructor 의 parameter 와 관련된 설정, 작업 등을 시행하고 필드값을 초기화 한다
- * create : parameter 이외의 설정, 작업등을 시행한다. 즉 init 과 constructor 에서 할 수 없는 설정을 한다
- * init : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
+ * constructor  : 외부와 관련된 설정들. constructor 의 parameter 와 관련된 설정, 작업 등을 시행하고 필드값을 초기화 한다
+ * create       : 내부와 관련된 설정들. parameter 이외의 설정, 작업등을 시행한다.
+ *                (즉 init 과 constructor 에서 할 수 없는 설정을 한다)
+ * init         : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
  */
 public interface AbstractOverlay {
     float OVERLAY_WIDTH = GlobalSettings.currWidth / 3.0F;

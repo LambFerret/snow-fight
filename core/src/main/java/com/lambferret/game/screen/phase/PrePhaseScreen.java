@@ -12,33 +12,21 @@ import org.apache.logging.log4j.Logger;
 
 public class PrePhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
-    TextButton.TextButtonStyle style;
+    TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
     TextButton textButton;
-    BitmapFont font;
+    BitmapFont font = new BitmapFont();
     Stage stage;
     Table map;
 
     public PrePhaseScreen() {
         this.stage = new Stage();
-        font = new BitmapFont();
-        style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("PrePhaseScreen", style);
         stage.addActor(textButton);
     }
 
+
     public void create() {
-        setProperty();
-    }
-
-    public void init(Player player) {
-        map = PhaseScreen.map;
-        map.setPosition(500, 100);
-        map.setSize(500, 500);
-        stage.addActor(map);
-    }
-
-    private void setProperty() {
         textButton.setPosition(300, 300);
         textButton.addListener(new ClickListener() {
             @Override
@@ -47,6 +35,13 @@ public class PrePhaseScreen implements AbstractPhase {
                 logger.info("clicked |  🐳 i am working | ");
             }
         });
+    }
+
+    public void init(Player player) {
+        map = PhaseScreen.map;
+        map.setPosition(500, 100);
+        map.setSize(500, 500);
+        stage.addActor(map);
     }
 
     public Stage getStage() {
