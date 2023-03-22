@@ -1,9 +1,12 @@
 package com.lambferret.game.screen.phase;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
@@ -21,24 +24,29 @@ import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
 
 public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
+    public static final float MAP_X = 50.0F;
+    public static final float MAP_Y = 50.0F;
+    public static final float MAP_WIDTH = 500.0F;
+    public static final float MAP_HEIGHT = 500.0F;
+    public static final Container<Table> mapContainer = new Container<>();
     private static Overlay overlay;
     public static Screen currentScreen;
     public static Player player;
+    public static Level currentLevel;
+
     private static final List<AbstractPhase> phaseListener;
     private static final AbstractPhase actionPhaseScreen;
     private static final AbstractPhase readyPhaseScreen;
     private static final AbstractPhase defeatScreen;
     private static final AbstractPhase prePhaseScreen;
     private static final AbstractPhase victoryScreen;
-    public static Level currentLevel;
-    public static Table map;
 //    PhaseText text;
 
     static {
-        actionPhaseScreen = new ActionPhaseScreen();
-        readyPhaseScreen = new ReadyPhaseScreen();
+        prePhaseScreen = new PrePhaseScreen(mapContainer);
+        actionPhaseScreen = new ActionPhaseScreen(mapContainer);
+        readyPhaseScreen = new ReadyPhaseScreen(mapContainer);
         defeatScreen = new DefeatScreen();
-        prePhaseScreen = new PrePhaseScreen();
         victoryScreen = new VictoryScreen();
         phaseListener = new ArrayList<>();
         phaseListener.add(actionPhaseScreen);
@@ -59,32 +67,55 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         for (AbstractPhase phase : phaseListener) {
             phase.create();
         }
-    }
+        mapContainer.fill();
+        mapContainer.setPosition(MAP_X, MAP_Y);
+        mapContainer.setSize(MAP_WIDTH, MAP_HEIGHT);
 
+        mapContainer.setDebug(true, true);
+
+    }
 
     public void onPlayerReady() {
         player = SnowFight.player;
         currentLevel = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
-        map = makeMap();
-
+        mapContainer.setActor(makeMap());
         for (AbstractPhase phase : phaseListener) {
             phase.init(player);
         }
     }
 
-    public static Table makeMap() {
+    private Table makeMap() {
         Table map = new Table();
+        map.setFillParent(true);
+
         map.setSkin(GlobalSettings.skin);
         for (int i = 0; i < currentLevel.ROWS; i++) {
             for (int j = 0; j < currentLevel.COLUMNS; j++) {
-                var a = new TextButton.TextButtonStyle();
-                a.font = GlobalSettings.font;
-                TextButton button = new TextButton(String.valueOf(currentLevel.getMap()[i][j]), a);
-                map.add(button).pad(5);
+                map.add(makeMapElement(currentLevel.getMap()[i][j]));
             }
-            map.row().pad(3);
+            map.row();
         }
+        map.setSize(MAP_WIDTH, MAP_HEIGHT);
         return map;
+    }
+
+    private ImageButton makeMapElement(int terrain) {
+        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
+        style.up = GlobalSettings.debugTexture;
+        ImageButton button = new ImageButton(style);
+        Color color = switch (terrain) {
+            case Terrain.NULL -> Color.BLACK;
+            case Terrain.LAKE -> Color.ORANGE;
+            case Terrain.MOUNTAIN -> Color.YELLOW;
+            case Terrain.SEA -> Color.GREEN;
+            case Terrain.TOWN -> Color.CHARTREUSE;
+            default -> Color.VIOLET;
+        };
+        button.setColor(color);
+//        button.setSize(MAP_WIDTH / currentLevel.COLUMNS, MAP_HEIGHT / currentLevel.ROWS);
+        logger.info("makeMap |  🐳  | " + MAP_WIDTH / currentLevel.COLUMNS + " / " + MAP_HEIGHT / currentLevel.ROWS);
+
+        return button;
     }
 
     public static void changeScreen(Screen screen) {

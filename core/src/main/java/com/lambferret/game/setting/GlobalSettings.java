@@ -42,6 +42,7 @@ public class GlobalSettings {
 
     public static Skin skin;
     public static final Color debugColorGreen;
+    public static final Color debugColorRed;
     public static final TextureRegionDrawable debugTexture;
     public static final ImageTextButton.ImageTextButtonStyle imageButtonStyle;
     public static BitmapFont font;
@@ -53,6 +54,7 @@ public class GlobalSettings {
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
             .create();
         debugColorGreen = new Color(0, 255, 0, 0.5F);
+        debugColorRed = new Color(255, 0, 0, 0.5F);
         debugTexture = new TextureRegionDrawable(
             new TextureRegionDrawable(new Texture(Gdx.files.internal("./texture/yellow.png")))
         );

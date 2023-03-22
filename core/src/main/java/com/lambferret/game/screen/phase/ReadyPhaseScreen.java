@@ -2,6 +2,8 @@ package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.player.Player;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +16,7 @@ public class ReadyPhaseScreen implements AbstractPhase {
     BitmapFont font;
     Stage stage;
 
-    public ReadyPhaseScreen() {
+    public ReadyPhaseScreen(Container<Table> mapContainer) {
         this.stage = new Stage();
         font = new BitmapFont();
         style = new TextButton.TextButtonStyle();
