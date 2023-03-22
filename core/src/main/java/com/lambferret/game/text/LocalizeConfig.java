@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.text.dto.BookText;
 import com.lambferret.game.text.dto.OptionText;
 import com.lambferret.game.text.dto.SoldierText;
 import com.lambferret.game.text.dto.UIText;
@@ -34,6 +35,7 @@ public class LocalizeConfig {
     public static UIText uiText;
     public static OptionText optionText;
     public static SoldierText soldierText;
+    public static BookText bookText;
     private static final Gson gson = new GsonBuilder().create();
 
     public static void init() {
@@ -47,6 +49,7 @@ public class LocalizeConfig {
         optionText = gson.fromJson(getTextFromJSON(Context.OPTION), OptionText.class);
         uiText = gson.fromJson(getTextFromJSON(Context.UI), UIText.class);
         soldierText = gson.fromJson(getTextFromJSON(Context.SOLDIER), SoldierText.class);
+        bookText = gson.fromJson(getTextFromJSON(Context.BOOK), BookText.class);
     }
 
     private static String getTextFromJSON(Context content) {
@@ -57,6 +60,6 @@ public class LocalizeConfig {
 
     // UI, OPTION 등등 현지화 작업이 필요한 분류의 폴더명
     private enum Context {
-        UI, OPTION, SOLDIER,
+        UI, OPTION, SOLDIER, BOOK,
     }
 }

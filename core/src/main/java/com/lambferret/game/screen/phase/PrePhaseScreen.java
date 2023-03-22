@@ -16,6 +16,7 @@ public class PrePhaseScreen implements AbstractPhase {
     TextButton textButton;
     BitmapFont font = new BitmapFont();
     Stage stage;
+    Player player;
 
     public PrePhaseScreen(Container<Table> mapContainer) {
         this.stage = new Stage();
@@ -32,6 +33,7 @@ public class PrePhaseScreen implements AbstractPhase {
     }
 
     public void init(Player player) {
+        this.player = player;
     }
 
     public Stage getStage() {

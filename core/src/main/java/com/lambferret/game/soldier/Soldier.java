@@ -14,11 +14,15 @@ import com.lambferret.game.constant.Rank;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.TextureFinder;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+@Setter
+@Getter
 public abstract class Soldier implements Comparable<Soldier> {
     private static final Logger logger = LogManager.getLogger(Soldier.class.getName());
     /**
@@ -175,27 +179,4 @@ public abstract class Soldier implements Comparable<Soldier> {
         return this.ID.compareTo(o.ID);
     }
 
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

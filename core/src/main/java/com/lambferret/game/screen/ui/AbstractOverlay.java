@@ -7,12 +7,14 @@ import com.lambferret.game.setting.GlobalSettings;
  * 작성 방법 (중요합니다)
  * <p>
  * field :
- * 최우선적으로 Logger
+ * 최우선적으로 Logger (예외사항 : Book 이나 Soldier 각자 객체엔 없음)
  * public static final
  * private static final
  * public
  * private
  * 순으로 작성하고 각각 life-cycle 이 먼저인 순으로, 크기가 큰순으로 정렬
+ * static field :
+ * 필드 선언 이후 작성. 예외적으로 Book 이나 Soldier 각자 객체는 최상단으로 재배치
  * <p>
  * method :
  * public - private 순으로 작성하며

@@ -112,8 +112,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             default -> Color.VIOLET;
         };
         button.setColor(color);
-//        button.setSize(MAP_WIDTH / currentLevel.COLUMNS, MAP_HEIGHT / currentLevel.ROWS);
-        logger.info("makeMap |  🐳  | " + MAP_WIDTH / currentLevel.COLUMNS + " / " + MAP_HEIGHT / currentLevel.ROWS);
+        button.setSize(MAP_WIDTH / currentLevel.COLUMNS, MAP_HEIGHT / currentLevel.ROWS);
 
         return button;
     }
@@ -162,6 +161,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         ACTION,
         VICTORY,
         DEFEAT,
-        ;
+
     }
 }

@@ -1,6 +1,9 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.book.Book;
+import com.lambferret.game.book.Bunkering;
+import com.lambferret.game.book.EvilWithin;
+import com.lambferret.game.book.FieldInstructor;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.SilvanusPark;
@@ -14,9 +17,9 @@ import java.util.Map;
 
 public class Player {
     private static final Logger logger = LogManager.getLogger(Player.class.getName());
-    private String name;
-    private List<Soldier> soldiers;
-    private List<Book> books;
+    private final String name;
+    private final List<Soldier> soldiers;
+    private final List<Book> books;
     private int money;
     private Map<AFFINITY, Integer> affinity;
     private int maxCost;
@@ -42,6 +45,9 @@ public class Player {
         for (int i = 0; i < 11; i++) {
             soldiers.add(new SilvanusPark());
         }
+        books.add(new Bunkering());
+        books.add(new EvilWithin());
+        books.add(new FieldInstructor());
         //=-=-=-=-=-=--=-=//
 
         this.currentRegion = Region.URBAN;
