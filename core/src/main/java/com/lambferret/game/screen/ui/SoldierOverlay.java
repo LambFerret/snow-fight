@@ -1,19 +1,16 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +21,8 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     private final Stage stage;
     private final ScrollPane scrollPane;
     private boolean isSimple = true;
+    public boolean isHide = false;
+
 
     public SoldierOverlay(Stage stage) {
         this.stage = stage;
@@ -31,7 +30,6 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         this.scrollPane = new ScrollPane(new Table());
         this.setActor(this.scrollPane);
         stage.setKeyboardFocus(this);
-        stage.addActor(scrollPane);
     }
 
     public void create() {
@@ -39,6 +37,8 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         this.setSize(GlobalSettings.currWidth - OVERLAY_WIDTH, OVERLAY_HEIGHT);
         this.setBackground(GlobalSettings.debugTexture);
         this.setColor(GlobalSettings.debugColorGreen);
+
+        stage.addActor(hideSwitch());
 
         scrollPane.setScrollingDisabled(false, true);
         scrollPane.setPosition(this.getX(), this.getY());
@@ -93,7 +93,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     private void makeSoldierContainer(List<Soldier> soldiers) {
         var soldierContainer = new Table();
         for (Soldier soldier : soldiers) {
-            soldierContainer.add(renderSoldier(soldier)).pad(50);
+            soldierContainer.add(renderSoldier(soldier)).pad(5);
         }
         this.scrollPane.setActor(soldierContainer);
     }
@@ -114,7 +114,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     private ImageTextButton renderSoldier(Soldier soldier) {
         var a = new ImageTextButton(soldier.getName(), soldierButtonStyle(soldier));
-        a.setSize(scrollPane.getHeight()* 2 / 3.0F, scrollPane.getHeight());
+        a.setSize(scrollPane.getHeight() * 2 / 3.0F, scrollPane.getHeight());
         return a;
     }
 
@@ -124,5 +124,38 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         a.up = new TextureRegionDrawable(soldier.renderFront());
         return a;
     }
+
+    private ImageButton.ImageButtonStyle hideButtonStyle() {
+        var a = new ImageButton.ImageButtonStyle();
+        a.up = new TextureRegionDrawable(AssetFinder.getTexture("scrollPointer_H"));
+        return a;
+    }
+
+    private ImageButton hideSwitch() {
+        SoldierOverlay thisOverlay = this;
+        ImageButton hideSwitch = new ImageButton(hideButtonStyle());
+
+        hideSwitch.setSize(50, 50);
+        hideSwitch.setPosition(thisOverlay.getX() + 5.0F, thisOverlay.getY() + thisOverlay.getHeight() + 5.0F);
+        hideSwitch.setOrigin(Align.center);
+
+        hideSwitch.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                thisOverlay.addAction(
+                    Actions.moveBy(0, thisOverlay.getHeight() * (isHide ? 1 : -1), 0.1F)
+                );
+                hideSwitch.addAction(
+                    Actions.moveBy(0, thisOverlay.getHeight() * (isHide ? 1 : -1), 0.1F)
+                );
+                hideSwitch.addAction(
+                    Actions.rotateBy(90, 1.0F)
+                );
+                isHide = !isHide;
+            }
+        });
+        return hideSwitch;
+    }
+
 
 }
