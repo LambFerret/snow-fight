@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
@@ -31,6 +32,7 @@ public abstract class Book implements Comparable<Book> {
     private boolean isPersistentEffect;
     private boolean isReusable;
     private boolean isEvil;
+    private Target target;
     private int itemCount = 0;
 
     public Book(
@@ -42,7 +44,8 @@ public abstract class Book implements Comparable<Book> {
         int affectToDown,
         boolean isPersistentEffect,
         boolean isReusable,
-        boolean isEvil
+        boolean isEvil,
+        Target target
     ) {
         this.ID = ID;
         this.texturePath = texturePath;
@@ -53,10 +56,24 @@ public abstract class Book implements Comparable<Book> {
         this.isPersistentEffect = isPersistentEffect;
         this.isReusable = isReusable;
         this.isEvil = isEvil;
+        this.target = target;
     }
 
-    public void executeToPlayer(Player player) {
+    public void execute() {
+        switch (this.target) {
+            case PLAYER -> {
+                executeToPlayer();
+            }
+            case SOLDIER -> {
+//                executeToPlayer();
+            }
+            case UI, ENEMY -> {
+            }
+        }
+    }
 
+    public void executeToPlayer() {
+        Player player = SnowFight.player;
     }
 
     public void executeToSoldier(Soldier soldier) {
@@ -87,9 +104,14 @@ public abstract class Book implements Comparable<Book> {
     public void renderInfo() {
 
     }
+
     @Override
     public int compareTo(Book o) {
         return this.ID.compareTo(o.ID);
+    }
+
+    enum Target {
+        PLAYER, SOLDIER, UI, ENEMY
     }
 
 }

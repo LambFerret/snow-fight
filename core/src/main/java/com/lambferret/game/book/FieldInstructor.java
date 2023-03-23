@@ -12,7 +12,7 @@ public class FieldInstructor extends Book {
         isPersistentEffect = true;
         isReusable = true;
         isEvil = false;
-
+        target = Target.SOLDIER;
     }
 
     public static final String ID = FieldInstructor.class.getSimpleName();
@@ -25,6 +25,7 @@ public class FieldInstructor extends Book {
     static boolean isPersistentEffect;
     static boolean isReusable;
     static boolean isEvil;
+    static Target target;
 
 
     public FieldInstructor() {
@@ -37,7 +38,8 @@ public class FieldInstructor extends Book {
             affectToDown,
             isPersistentEffect,
             isReusable,
-            isEvil
+            isEvil,
+            target
         );
     }
 }

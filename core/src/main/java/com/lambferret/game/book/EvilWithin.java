@@ -12,6 +12,7 @@ public class EvilWithin extends Book {
         isPersistentEffect = false;
         isReusable = false;
         isEvil = true;
+        target = Target.PLAYER;
 
     }
 
@@ -25,7 +26,7 @@ public class EvilWithin extends Book {
     static boolean isPersistentEffect;
     static boolean isReusable;
     static boolean isEvil;
-
+    static Target target;
 
     public EvilWithin() {
         super(
@@ -37,7 +38,8 @@ public class EvilWithin extends Book {
             affectToDown,
             isPersistentEffect,
             isReusable,
-            isEvil
+            isEvil,
+            target
         );
     }
 }
