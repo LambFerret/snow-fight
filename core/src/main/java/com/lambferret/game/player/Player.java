@@ -8,6 +8,8 @@ import com.lambferret.game.constant.Region;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.soldier.Soldier;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Getter
+@Setter
 public class Player {
     private static final Logger logger = LogManager.getLogger(Player.class.getName());
     private final String name;
@@ -24,6 +28,7 @@ public class Player {
     private Map<AFFINITY, Integer> affinity;
     private int maxCost;
     private int currentCost;
+    private int currentMoney;
     private int difficulty;
     private int snowAmount;
     private int humanAffinity;

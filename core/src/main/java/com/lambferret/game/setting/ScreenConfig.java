@@ -65,14 +65,14 @@ public class ScreenConfig {
             case GROUND_SCREEN -> {
                 Overlay.setGroundUI();
                 GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
-                Overlay.getInstance().onPlayerReady();
                 groundScreen.onPlayerReady();
+                Overlay.getInstance().onPlayerReady();
             }
             case PHASE_SCREEN -> {
                 Overlay.setPhaseUI();
                 PhaseScreen.changeScreen(PhaseScreen.Screen.PRE);
-                Overlay.getInstance().onPlayerReady();
                 phaseScreen.onPlayerReady();
+                Overlay.getInstance().onPlayerReady();
             }
         }
         currentScreen = changeScreen;

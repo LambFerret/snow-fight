@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
@@ -26,6 +27,9 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
     private final Stage stage;
     private final Image pen;
     private boolean isHide;
+
+    Level level;
+    Player player;
 
     static {
         imageButtonStyle = GlobalSettings.imageButtonStyle;
@@ -56,6 +60,8 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
     @Override
     public void init(Player player) {
+        this.level = PhaseScreen.currentLevel;
+        this.player = player;
         hide();
 
         var xOff = this.getX();
@@ -138,37 +144,60 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
     }
 
     private void screenChanger() {
-        if (PhaseScreen.currentScreen == PhaseScreen.Screen.PRE) {
-            // set PRE phase to ready phase
-            PhaseScreen.currentScreen = PhaseScreen.Screen.READY;
-        } else if (PhaseScreen.currentScreen == PhaseScreen.Screen.DEFEAT) {
-            logger.info("game over");
-            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TITLE_SCREEN;
-        } else if (PhaseScreen.currentScreen == PhaseScreen.Screen.VICTORY) {
-            logger.info("beat this level");
-            ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
-        } else {
-            if (PhaseScreen.currentScreen == PhaseScreen.Screen.READY) {
-                // execute some stuff when READY
-                PhaseScreen.currentScreen = PhaseScreen.Screen.ACTION;
-            } else if (PhaseScreen.currentScreen == PhaseScreen.Screen.ACTION) {
-
-                if (Math.random() > 0.5d) {
-                    // execute some stuff when ACTION
-                    PhaseScreen.currentScreen = PhaseScreen.Screen.READY;
-
-                    // if this level get maximum phase iteration ...
-                } else {
-
-                    // victory or defeat
-                    if (Math.random() > 0.5d) {
-                        PhaseScreen.currentScreen = PhaseScreen.Screen.VICTORY;
+        switch (PhaseScreen.currentScreen) {
+            case PRE -> {
+                screenPtoR();
+            }
+            case READY -> {
+                screenRtoA();
+            }
+            case ACTION -> {
+                if (level.getMaxIteration() > level.getCurrentIteration()) {
+                    screenAtoR();
+                } else if (level.getMaxIteration() == level.getCurrentIteration()) {
+                    if (player.getSnowAmount() > level.getSnowMin()) {
+                        screenAtoD();
                     } else {
-                        PhaseScreen.currentScreen = PhaseScreen.Screen.DEFEAT;
+                        screenAtoV();
                     }
+                } else {
+                    throw new RuntimeException("current iter is bigger than max iter");
                 }
+            }
+            case VICTORY -> {
+                logger.info("beat this level");
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
+            }
+            case DEFEAT -> {
+                logger.info("game over");
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TITLE_SCREEN;
             }
         }
     }
 
+    // set PRE phase to ready phase
+    private void screenPtoR() {
+        player.setSnowAmount(level.getSnowMax());
+        level.initCurrentIteration();
+        PhaseScreen.currentScreen = PhaseScreen.Screen.READY;
+    }
+
+    // execute some stuff when READY
+    private void screenRtoA() {
+        PhaseScreen.currentScreen = PhaseScreen.Screen.ACTION;
+    }
+
+    private void screenAtoR() {
+        player.setCurrentCost(player.getMaxCost());
+        level.toNextIteration();
+        PhaseScreen.currentScreen = PhaseScreen.Screen.READY;
+    }
+
+    private void screenAtoD() {
+        PhaseScreen.currentScreen = PhaseScreen.Screen.DEFEAT;
+    }
+
+    private void screenAtoV() {
+        PhaseScreen.currentScreen = PhaseScreen.Screen.VICTORY;
+    }
 }

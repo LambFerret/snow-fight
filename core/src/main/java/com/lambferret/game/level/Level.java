@@ -2,37 +2,41 @@ package com.lambferret.game.level;
 
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
 /**
  * 맵에 대한 정보만 저장할 것!
  */
+@Setter
+@Getter
 public class Level {
     /**
      * 전체 지도의 좌표
      */
-    protected short[][] map;
+    private final short[][] map;
     /**
      * 지도에서 최대 쌓을 수 있는 눈의 양
      */
-    protected int[][] maxAmountMap;
+    private final int[][] maxAmountMap;
     /**
      * 지역
      */
-    protected Region region;
+    private final Region region;
     /**
      * 제설이 쉬워지거나 어려워지는 지형과 그 배수
      */
-    protected Map<Terrain, Float> scaleByMapFeature;
+    private Map<Terrain, Float> scaleByMapFeature;
     /**
      * 할당된 제설량
      */
-    protected int snowMax;
+    private int snowMax;
     /**
      * 클리어 최소량
      */
-    protected int snowMin;
+    private int snowMin;
     /**
      * 행 (가로)
      */
@@ -45,6 +49,8 @@ public class Level {
      * 현재 지도에 적설된 량
      */
     private int[][] currentAmount;
+    private short maxIteration;
+    private short currentIteration = 0;
 
     public Level(Region region, short[][] map, int[][] maxAmountMap, int snowMin, int snowMax) {
         checkMap(map, maxAmountMap);
@@ -56,6 +62,7 @@ public class Level {
         this.ROWS = map.length;
         this.COLUMNS = map[0].length;
         this.currentAmount = new int[ROWS][COLUMNS];
+        this.maxIteration = setMaxIteration(region);
     }
 
     private void checkMap(short[][] map, int[][] maxAmountMap) {
@@ -75,6 +82,14 @@ public class Level {
         }
     }
 
+    public short setMaxIteration(Region region) {
+        return switch (region) {
+            case NATION -> (short) 3;
+            case RURAL -> (short) 4;
+            case URBAN -> (short) 5;
+        };
+    }
+
     public short[][] getMap() {
         return map;
     }
@@ -89,6 +104,24 @@ public class Level {
 
     public int[][] getCurrentAmount() {
         return currentAmount;
+    }
+
+    public void initCurrentIteration() {
+        this.currentIteration = 0;
+    }
+
+    public void toNextIteration() {
+        ++this.currentIteration;
+    }
+
+    public int getSnowAmountInMap() {
+        int result = 0;
+        for (int i = 0; i < currentAmount.length; i++) {
+            for (int j = 0; j < currentAmount[i].length; j++) {
+                result += currentAmount[i][j];
+            }
+        }
+        return result;
     }
 
 }
