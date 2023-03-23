@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,9 +20,12 @@ import org.apache.logging.log4j.Logger;
 
 public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
+
+
     private static final ImageTextButtonStyle imageButtonStyle;
     private final Stage stage;
     private final Image pen;
+    private boolean isHide;
 
     static {
         imageButtonStyle = GlobalSettings.imageButtonStyle;
@@ -40,21 +44,22 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
     public void create() {
         stage.addActor(this);
         stage.addActor(pen);
-        setProperty();
+
+        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, 0);
+        this.setSize(OVERLAY_WIDTH, OVERLAY_HEIGHT);
+        this.setColor(Color.RED);
+
+
+        this.setBackground(GlobalSettings.debugTexture);
+        this.setColor(GlobalSettings.debugColorGreen);
     }
 
     @Override
     public void init(Player player) {
-    }
+        hide();
 
-    private void setProperty() {
-        this.clear();
-        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, 0);
-        this.setSize(OVERLAY_WIDTH, OVERLAY_HEIGHT);
-        this.setColor(Color.RED);
         var xOff = this.getX();
         var yOff = this.getY();
-
         this.addListener(new InputListener() {
 
             /*
@@ -68,6 +73,7 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
                 if (pointer == -1) {
+                    hide();
                     pen.setVisible(false);
                 }
             }
@@ -76,6 +82,7 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 pen.setVisible(true);
+                show();
             }
 
             @Override
@@ -112,9 +119,22 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
                 return super.mouseMoved(event, x, y);
             }
         });
+    }
 
-        this.setBackground(GlobalSettings.debugTexture);
-        this.setColor(GlobalSettings.debugColorGreen);
+    private void hide() {
+        if (isHide) return;
+        this.addAction(
+            Actions.moveBy(this.getWidth() * 2 / 3.0F, 0, ANIMATION_DURATION)
+        );
+        isHide = true;
+    }
+
+    private void show() {
+        if (!isHide) return;
+        this.addAction(
+            Actions.moveBy(-(this.getWidth() * 2 / 3.0F), 0, ANIMATION_DURATION)
+        );
+        isHide = false;
     }
 
     private void screenChanger() {
