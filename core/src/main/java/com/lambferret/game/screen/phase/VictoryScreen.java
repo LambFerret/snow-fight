@@ -25,14 +25,19 @@ public class VictoryScreen implements AbstractPhase {
 
     public void create() {
 //    stage.addActor(this);
-        setProperty();
     }
 
     @Override
     public void init(Player player) {
     }
+    @Override
+    public void startPhase() {
 
-    private void setProperty() {
+    }
+
+    @Override
+    public void executePhase() {
+
     }
 
     public Stage getStage() {

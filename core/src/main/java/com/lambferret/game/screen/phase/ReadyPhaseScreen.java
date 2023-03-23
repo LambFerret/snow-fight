@@ -27,6 +27,16 @@ public class ReadyPhaseScreen implements AbstractPhase {
         this.player = player;
     }
 
+    @Override
+    public void startPhase() {
+
+    }
+
+    @Override
+    public void executePhase() {
+
+    }
+
     public Stage getStage() {
         return this.stage;
     }

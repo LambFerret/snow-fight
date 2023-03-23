@@ -28,13 +28,15 @@ import com.lambferret.game.setting.GlobalSettings;
  * constructor, create, init
  * constructor  : 외부와 관련된 설정들. constructor 의 parameter 와 관련된 설정, 작업 등을 시행하고 필드값을 초기화 한다
  * create       : 내부와 관련된 설정들. parameter 이외의 설정, 작업등을 시행한다.
- *                (즉 init 과 constructor 에서 할 수 없는 설정을 한다)
+ * (즉 init 과 constructor 에서 할 수 없는 설정을 한다)
  * init         : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
  */
 public interface AbstractOverlay {
     float OVERLAY_WIDTH = GlobalSettings.currWidth / 3.0F;
     float OVERLAY_HEIGHT = 200.0F;
     float BAR_HEIGHT = 50.0F;
+    float PADDING = 5.0F;
+    float ANIMATION_DURATION = 0.1F;
 
     void create();
 

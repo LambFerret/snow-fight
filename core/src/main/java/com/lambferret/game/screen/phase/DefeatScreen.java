@@ -1,8 +1,10 @@
 package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,19 +22,33 @@ public class DefeatScreen implements AbstractPhase {
         style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("DefeatScreen", style);
+        textButton.setPosition(300, 300);
         stage.addActor(textButton);
     }
 
     public void create() {
+        textButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                logger.info("clicked |  🐳 i am alive | ");
+            }
+        });
 //    stage.addActor(this);
-        setProperty();
     }
 
     @Override
     public void init(Player player) {
     }
 
-    private void setProperty() {
+    @Override
+    public void startPhase() {
+
+    }
+
+    @Override
+    public void executePhase() {
+
     }
 
     public Stage getStage() {

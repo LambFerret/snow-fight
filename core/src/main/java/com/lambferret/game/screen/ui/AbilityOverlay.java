@@ -23,8 +23,6 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
     private static final Logger logger = LogManager.getLogger(AbilityOverlay.class.getName());
     public static final int HIDE_BUTTON_WIDTH = 50;
     public static final int HIDE_BUTTON_HEIGHT = 50;
-    public static final float PADDING = 5.0F;
-    public static final float ANIMATION_DURATION = 0.1F;
     private final Stage stage;
     private final ScrollPane scrollPane;
     private List<Book> book;
@@ -100,9 +98,31 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
     }
 
     private ImageTextButton renderBook(Book book) {
-        var a = new ImageTextButton("book", soldierButtonStyle(book));
-        a.setSize(scrollPane.getWidth(), scrollPane.getHeight() / 3.0F);
-        return a;
+        var bookButton = new ImageTextButton("book", soldierButtonStyle(book));
+        bookButton.setSize(scrollPane.getWidth(), scrollPane.getHeight() / 3.0F);
+        bookButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                //Hover Information
+                logger.info("enter |  🐳  | " + event);
+                logger.info("enter |  🐳  | " + pointer);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                //unHover Information
+                logger.info("exit |  🐳  | " + event);
+                logger.info("exit |  🐳  | " + pointer);
+            }
+        });
+        return bookButton;
     }
 
     private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Book book) {
@@ -150,7 +170,6 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         hide(true);
     }
 
-    // 현재 위로 사라지나 너무 멋있으므로 나중에 바꿀것
     private void hide(boolean isInstant) {
         if (isHide) return;
         float instant = isInstant ? 0.0F : ANIMATION_DURATION;

@@ -60,7 +60,7 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
     @Override
     public void init(Player player) {
-        this.level = PhaseScreen.currentLevel;
+        this.level = PhaseScreen.level;
         this.player = player;
         hide();
 
@@ -144,21 +144,21 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
     }
 
     private void screenChanger() {
-        switch (PhaseScreen.currentScreen) {
+        switch (PhaseScreen.getCurrentScreen()) {
             case PRE -> {
-                screenPtoR();
+                PhaseScreen.screenPtoR();
             }
             case READY -> {
-                screenRtoA();
+                PhaseScreen.screenRtoA();
             }
             case ACTION -> {
                 if (level.getMaxIteration() > level.getCurrentIteration()) {
-                    screenAtoR();
+                    PhaseScreen.screenAtoR();
                 } else if (level.getMaxIteration() == level.getCurrentIteration()) {
                     if (player.getSnowAmount() > level.getSnowMin()) {
-                        screenAtoD();
+                        PhaseScreen.screenAtoD();
                     } else {
-                        screenAtoV();
+                        PhaseScreen.screenAtoV();
                     }
                 } else {
                     throw new RuntimeException("current iter is bigger than max iter");
@@ -175,29 +175,5 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
         }
     }
 
-    // set PRE phase to ready phase
-    private void screenPtoR() {
-        player.setSnowAmount(level.getSnowMax());
-        level.initCurrentIteration();
-        PhaseScreen.currentScreen = PhaseScreen.Screen.READY;
-    }
 
-    // execute some stuff when READY
-    private void screenRtoA() {
-        PhaseScreen.currentScreen = PhaseScreen.Screen.ACTION;
-    }
-
-    private void screenAtoR() {
-        player.setCurrentCost(player.getMaxCost());
-        level.toNextIteration();
-        PhaseScreen.currentScreen = PhaseScreen.Screen.READY;
-    }
-
-    private void screenAtoD() {
-        PhaseScreen.currentScreen = PhaseScreen.Screen.DEFEAT;
-    }
-
-    private void screenAtoV() {
-        PhaseScreen.currentScreen = PhaseScreen.Screen.VICTORY;
-    }
 }

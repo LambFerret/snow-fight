@@ -30,9 +30,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static final float MAP_HEIGHT = 500.0F;
     public static final Container<Table> mapContainer = new Container<>();
     private static Overlay overlay;
-    public static Screen currentScreen;
+    private static Screen currentScreen;
     public static Player player;
-    public static Level currentLevel;
+    public static Level level;
 
     private static final List<AbstractPhase> phaseListener;
     private static final AbstractPhase actionPhaseScreen;
@@ -77,7 +77,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     public void onPlayerReady() {
         player = SnowFight.player;
-        currentLevel = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
+        level = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
         mapContainer.setActor(makeMap());
         for (AbstractPhase phase : phaseListener) {
             phase.init(player);
@@ -89,9 +89,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         map.setFillParent(true);
 
         map.setSkin(GlobalSettings.skin);
-        for (int i = 0; i < currentLevel.ROWS; i++) {
-            for (int j = 0; j < currentLevel.COLUMNS; j++) {
-                map.add(makeMapElement(currentLevel.getMap()[i][j]));
+        for (int i = 0; i < level.ROWS; i++) {
+            for (int j = 0; j < level.COLUMNS; j++) {
+                map.add(makeMapElement(level.getMap()[i][j]));
             }
             map.row();
         }
@@ -112,23 +112,67 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             default -> Color.VIOLET;
         };
         button.setColor(color);
-        button.setSize(MAP_WIDTH / currentLevel.COLUMNS, MAP_HEIGHT / currentLevel.ROWS);
+        button.setSize(MAP_WIDTH / level.COLUMNS, MAP_HEIGHT / level.ROWS);
 
         return button;
     }
 
-    public static void changeScreen(Screen screen) {
-        if (currentScreen != screen) {
-            Stage currentMainStage = switch (screen) {
-                case PRE -> prePhaseScreen.getStage();
-                case READY -> readyPhaseScreen.getStage();
-                case ACTION -> actionPhaseScreen.getStage();
-                case VICTORY -> victoryScreen.getStage();
-                case DEFEAT -> defeatScreen.getStage();
-            };
-            changeCurrentInputProcessor(currentMainStage);
-            currentScreen = screen;
-        }
+    public static Screen getCurrentScreen() {
+        return currentScreen;
+    }
+
+    public static void screenInitToP() {
+        prePhaseScreen.startPhase();
+
+        changeCurrentInputProcessor(prePhaseScreen.getStage());
+        currentScreen = Screen.PRE;
+    }
+
+    // 이하 순서 조심할 것. 아직 섞인 상태 노확신
+    public static void screenPtoR() {
+        prePhaseScreen.executePhase();
+
+        player.setSnowAmount(level.getSnowMax());
+        level.initCurrentIteration();
+
+        readyPhaseScreen.startPhase();
+        changeCurrentInputProcessor(readyPhaseScreen.getStage());
+        currentScreen = Screen.READY;
+    }
+
+    public static void screenRtoA() {
+        readyPhaseScreen.executePhase();
+
+        actionPhaseScreen.startPhase();
+        changeCurrentInputProcessor(actionPhaseScreen.getStage());
+        currentScreen = Screen.ACTION;
+    }
+
+    public static void screenAtoR() {
+        actionPhaseScreen.executePhase();
+
+        player.setCurrentCost(player.getMaxCost());
+        level.toNextIteration();
+
+        readyPhaseScreen.startPhase();
+        changeCurrentInputProcessor(readyPhaseScreen.getStage());
+        currentScreen = Screen.READY;
+    }
+
+    public static void screenAtoD() {
+        actionPhaseScreen.executePhase();
+
+        defeatScreen.startPhase();
+        changeCurrentInputProcessor(defeatScreen.getStage());
+        currentScreen = Screen.DEFEAT;
+    }
+
+    public static void screenAtoV() {
+        actionPhaseScreen.executePhase();
+
+        victoryScreen.startPhase();
+        changeCurrentInputProcessor(victoryScreen.getStage());
+        currentScreen = Screen.VICTORY;
     }
 
     @Override
