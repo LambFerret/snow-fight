@@ -26,7 +26,7 @@ public class SilvanusPark extends Soldier {
         super(
             ID, Affiliation.ARMY, Rank.RECRUIT, text.getName().get(ID), Branch.SNIPER,
             List.of(Terrain.LAKE), "text.getNewGame()", "silvanusPark",
-            0.1F, false, 3, 4
+            1, false, 3, 4
         );
     }
 

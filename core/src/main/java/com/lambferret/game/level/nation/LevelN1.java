@@ -41,10 +41,11 @@ public class LevelN1 extends Level {
         {30, 20, 10, 0, 0, 10, 0, 0, 10, 0, 0, 10},
     };
     private static final int snowMin = 400;
-    private static final int snowMax = 700;
+    private static final int snowMax = 500;
+    public static final int MAX_SOLDIER_CAPACITY = 8;
 
     public LevelN1() {
-        super(Region.RURAL, map, maxAmountMap, snowMin, snowMax);
+        super(Region.RURAL, map, maxAmountMap, snowMin, snowMax, MAX_SOLDIER_CAPACITY);
     }
 
 }

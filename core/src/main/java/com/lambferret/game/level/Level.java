@@ -49,10 +49,20 @@ public class Level {
      * 현재 지도에 적설된 량
      */
     private int[][] currentAmount;
+    /**
+     * 페이즈 최대 반복 횟수
+     */
     private short maxIteration;
+    /**
+     * 현재 페이즈
+     */
     private short currentIteration = 0;
+    /**
+     * 작업할 수 있는 최대 군인 수
+     */
+    private int maxSoldierCapacity;
 
-    public Level(Region region, short[][] map, int[][] maxAmountMap, int snowMin, int snowMax) {
+    public Level(Region region, short[][] map, int[][] maxAmountMap, int snowMin, int snowMax, int maxSoldierCapacity) {
         checkMap(map, maxAmountMap);
         this.region = region;
         this.map = map;
@@ -63,6 +73,7 @@ public class Level {
         this.COLUMNS = map[0].length;
         this.currentAmount = new int[ROWS][COLUMNS];
         this.maxIteration = setMaxIteration(region);
+        this.maxSoldierCapacity = maxSoldierCapacity;
     }
 
     private void checkMap(short[][] map, int[][] maxAmountMap) {
@@ -84,9 +95,9 @@ public class Level {
 
     public short setMaxIteration(Region region) {
         return switch (region) {
-            case NATION -> (short) 3;
-            case RURAL -> (short) 4;
-            case URBAN -> (short) 5;
+            case NATION -> (short) 2;
+            case RURAL -> (short) 3;
+            case URBAN -> (short) 4;
         };
     }
 

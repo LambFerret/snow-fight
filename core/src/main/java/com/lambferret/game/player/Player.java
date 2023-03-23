@@ -28,7 +28,6 @@ public class Player {
     private Map<AFFINITY, Integer> affinity;
     private int maxCost;
     private int currentCost;
-    private int currentMoney;
     private int difficulty;
     private int snowAmount;
     private int humanAffinity;

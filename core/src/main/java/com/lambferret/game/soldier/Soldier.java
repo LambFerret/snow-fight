@@ -60,7 +60,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     /**
      * 속도
      */
-    private float speed;
+    private int speed;
     /**
      * 특수한 가로세로 범위
      */
@@ -89,7 +89,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     public Soldier(
         String ID, Affiliation affiliation, Rank rank, String name, Branch branch,
         List<Short> preferenceTerrain, String description, String texturePath,
-        float speed, boolean isUncommonRange, int rangeX, int rangeY
+        int speed, boolean isUncommonRange, int rangeX, int rangeY
     ) {
         this.ID = ID;
         this.affiliation = affiliation;
