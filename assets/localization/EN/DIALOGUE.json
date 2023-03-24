@@ -1,0 +1,45 @@
+{
+  "tutorial": {
+    "actorRight": [
+      "me",
+      "someone",
+      "someone2"
+    ],
+    "actorLeft": [
+      "G-man",
+      "hell hound"
+    ],
+    "context": [
+      {
+        "speaker": 0,
+        "text": "i am who i am"
+      },
+      {
+        "speaker": -1,
+        "text": "i am G-man",
+        "optionIndex" : 1
+      },
+      {
+        "speaker": -2,
+        "text": "i am hell hound"
+      },
+      {
+        "speaker": 2,
+        "text": "i am somebody 2",
+        "optionIndex" : 2
+      }
+    ],
+    "option": [
+      [
+        "aaa",
+        "bbb",
+        "ccc"
+      ],
+      [
+        "ddd",
+        "eee",
+        "fff"
+      ]
+    ]
+  }
+}

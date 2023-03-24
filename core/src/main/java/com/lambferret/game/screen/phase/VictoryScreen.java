@@ -30,6 +30,7 @@ public class VictoryScreen implements AbstractPhase {
     @Override
     public void init(Player player) {
     }
+
     @Override
     public void startPhase() {
 

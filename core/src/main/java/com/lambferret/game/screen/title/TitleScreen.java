@@ -13,6 +13,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.AbstractScreen;
+import com.lambferret.game.screen.event.Tutorial;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
@@ -53,7 +54,7 @@ public class TitleScreen extends AbstractScreen {
     @Override
     public void create() {
         font = GlobalSettings.font;
-        stage.addActor(backGroundImage());
+//        stage.addActor(backGroundImage());
         stage.addActor(createTable());
         selectSaveWindow.create();
         selectLoadWindow.create();
@@ -139,6 +140,8 @@ public class TitleScreen extends AbstractScreen {
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
             }
             case CREDIT -> {
+                stage.addActor(new Tutorial(GlobalSettings.skin));
+
                 logger.info("update | CREDIT");
             }
             case EXIT -> {

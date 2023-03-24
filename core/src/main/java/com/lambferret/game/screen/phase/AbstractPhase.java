@@ -14,6 +14,7 @@ public interface AbstractPhase {
 
     /**
      * 세이브파일을 로드 즉시 초기화
+     *
      * @param player 가독성을 위해 추가 (삭제가능)
      */
     void init(Player player);
