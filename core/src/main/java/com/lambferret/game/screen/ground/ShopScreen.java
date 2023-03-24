@@ -32,9 +32,6 @@ public class ShopScreen implements AbstractGround {
     public void init(Player player) {
     }
 
-    private void setProperty() {
-    }
-
     public Stage getStage() {
         return this.stage;
     }

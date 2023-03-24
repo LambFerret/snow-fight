@@ -13,26 +13,18 @@ public class ScoreOverlay extends Table implements AbstractOverlay {
 
     public ScoreOverlay(Stage stage) {
         this.stage = stage;
+        stage.addActor(this);
     }
 
     public void create() {
-        stage.addActor(this);
-        setProperty();
+        this.setPosition(50, GlobalSettings.currHeight - BAR_HEIGHT - 50);
+        this.setSize(100, 100);
+        this.setBackground(GlobalSettings.debugTexture);
+        this.setColor(GlobalSettings.debugColorGreen);
     }
 
     @Override
     public void init(Player player) {
-
-    }
-
-    private void setProperty() {
-        this.clear();
-        //        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
-        this.setPosition(50, GlobalSettings.currHeight - BAR_HEIGHT - 50);
-        this.setSize(100, 100);
-
-        this.setBackground(GlobalSettings.debugTexture);
-        this.setColor(GlobalSettings.debugColorGreen);
     }
 
 }

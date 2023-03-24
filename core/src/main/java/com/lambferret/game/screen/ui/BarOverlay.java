@@ -13,25 +13,19 @@ public class BarOverlay extends Table implements AbstractOverlay {
 
     public BarOverlay(Stage stage) {
         this.stage = stage;
+        stage.addActor(this);
     }
 
     public void create() {
-        stage.addActor(this);
-        setProperty();
-    }
-
-    @Override
-    public void init(Player player) {
-    }
-
-    private void setProperty() {
-        this.clear();
-//        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
         this.setPosition(0, GlobalSettings.currHeight - BAR_HEIGHT);
         this.setSize(GlobalSettings.currWidth, BAR_HEIGHT);
 
         this.setBackground(GlobalSettings.debugTexture);
         this.setColor(GlobalSettings.debugColorGreen);
+    }
+
+    @Override
+    public void init(Player player) {
     }
 
 }

@@ -26,13 +26,16 @@ public class MapOverlay extends Table implements AbstractOverlay {
 
 
     public MapOverlay(Stage stage) {
-        text = LocalizeConfig.uiText.getGroundText();
         this.stage = stage;
+        stage.addActor(this);
+        text = LocalizeConfig.uiText.getGroundText();
     }
 
     public void create() {
-        stage.addActor(this);
-        setProperty();
+        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
+        this.add(button(GroundScreen.Screen.SHOP)).pad(10);
+        this.add(button(GroundScreen.Screen.TRAINING_GROUND)).pad(10);
+        this.setPosition(GlobalSettings.currWidth - 100, 100);
     }
 
     @Override
@@ -51,14 +54,6 @@ public class MapOverlay extends Table implements AbstractOverlay {
         mapHoverInfo.setPosition(100, 100);
 
         return mapHoverInfo;
-    }
-
-    private void setProperty() {
-        this.clear();
-        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
-        this.add(button(GroundScreen.Screen.SHOP)).pad(10);
-        this.add(button(GroundScreen.Screen.TRAINING_GROUND)).pad(10);
-        this.setPosition(GlobalSettings.currWidth - 100, 100);
     }
 
     private ImageTextButton.ImageTextButtonStyle getButtonStyle() {

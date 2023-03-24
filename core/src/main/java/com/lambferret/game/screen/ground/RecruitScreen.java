@@ -24,20 +24,17 @@ public class RecruitScreen implements AbstractGround {
         stage.addActor(textButton);
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
-
     public void create() {
 //        stage.addActor(makeButton());
-    }
-
-    private void setProperty() {
     }
 
     @Override
     public void init(Player player) {
 
+    }
+
+    public Stage getStage() {
+        return this.stage;
     }
 
     public void render() {

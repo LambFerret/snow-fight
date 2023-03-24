@@ -29,9 +29,6 @@ public class TrainingGroundScreen implements AbstractGround {
     public void init(Player player) {
     }
 
-    private void setProperty() {
-    }
-
     private TextButton makeButton() {
         TextButton button = new TextButton("GO TO Phase", this.skin);
         button.addListener(new ClickListener() {
