@@ -130,10 +130,18 @@ public abstract class ConversationWindow extends Window {
         thisDialog.setMovable(false);
         thisDialog.setResizable(false);
 
+
 //        thisDialog.getContentTable().add(speakerLabel).pad(10).row();
 //        thisDialog.getContentTable().add(textLabel).width(300).pad(10).row();
 
         thisDialog.button("Close", false);
+    }
+
+    private void setOption(List<String> options) {
+        for (String option : options) {
+            this.thisDialog.button(option);
+        }
+
     }
 
     private void setLine(DialogContext lineInfo) {
@@ -141,6 +149,7 @@ public abstract class ConversationWindow extends Window {
         if (lineInfo.getOptionIndex() != 0) {
             isDialog = true;
             dialogNumber = lineInfo.getOptionIndex();
+            setOption(currentDialogue.getOption().get(dialogNumber - 1));
         } else {
             isDialog = false;
         }
