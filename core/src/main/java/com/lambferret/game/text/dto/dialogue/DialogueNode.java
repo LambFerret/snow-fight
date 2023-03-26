@@ -14,10 +14,10 @@ import static com.lambferret.game.constant.Expression.IDLE;
 public class DialogueNode {
     private static final Logger logger = LogManager.getLogger(DialogueNode.class.getName());
 
-    private String text;
-    private List<DialogueNode> children;
-    private String characterName;
-    private Expression characterExpression;
+    private final String text;
+    private final List<DialogueNode> children;
+    private final String characterName;
+    private final Expression characterExpression;
     private boolean isDialog;
     private int dialogNumber;
 
@@ -30,6 +30,10 @@ public class DialogueNode {
         this.dialogNumber = -1;
     }
 
+    public DialogueNode(String text, String characterName) {
+        this(text, characterName, IDLE);
+    }
+
     public DialogueNode(String text, String characterName, int dialogNumber) {
         this(text, characterName, IDLE, dialogNumber);
     }
@@ -38,10 +42,6 @@ public class DialogueNode {
         this(text, characterName, characterExpression);
         isDialog = true;
         this.dialogNumber = dialogNumber;
-    }
-
-    public DialogueNode(String text, String characterName) {
-        this(text, characterName, IDLE);
     }
 
     public void addChild(DialogueNode child) {

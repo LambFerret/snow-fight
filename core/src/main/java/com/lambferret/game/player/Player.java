@@ -129,6 +129,11 @@ public class Player {
         this.levelNumber = levelNumber;
     }
 
+    public void setMoneyBy(int amount) {
+        this.money += amount;
+    };
+
+
     public enum AFFINITY {
         HUMAN, HELL
     }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.component.TypewriterLabel;
+import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.dialogue.Dialogue;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
@@ -22,8 +23,8 @@ public abstract class EventWindow extends Window {
     private static final float DIALOGUE_HEIGHT = 300.0F;
     private static final float SPEAKERS_WIDTH = GlobalSettings.currWidth / 3.0F;
     private static final float SPEAKERS_HEIGHT = GlobalSettings.currHeight - DIALOGUE_HEIGHT;
-    public List<String> leftActor;
-    public List<String> rightActor;
+    private List<String> leftActor;
+    private List<String> rightActor;
     private final Skin skin;
     protected final Dialogue currentEvent;
     private DialogueNode dialogueNode;
@@ -34,6 +35,7 @@ public abstract class EventWindow extends Window {
     private TypewriterLabel textLabel;
     private List<Option> options;
     private int optionNumber;
+    private boolean isFirstTime = true;
 
     public abstract List<String> getLeftActor();
 
@@ -43,11 +45,7 @@ public abstract class EventWindow extends Window {
 
     public abstract void solveEvent(int dialogNumber, int optionNumber);
 
-    public String getContextByIndex(int index) {
-        return this.currentEvent.getContext().get(index);
-    }
-
-    public EventWindow(String dialogueID, Skin skin) {
+    public EventWindow(String dialogueID, Skin skin, StoryType storyType, boolean repeatable) {
         super(dialogueID, skin);
         this.clear();
         this.skin = GlobalSettings.skin;
@@ -193,7 +191,16 @@ public abstract class EventWindow extends Window {
         }
     }
 
+    public String getContextByIndex(int index) {
+        return this.currentEvent.getContext().get(index);
+    }
+
+    public boolean isFirstTime() {
+        return isFirstTime;
+    }
+
     private void exitEvent() {
+        isFirstTime = false;
         this.remove();
     }
 

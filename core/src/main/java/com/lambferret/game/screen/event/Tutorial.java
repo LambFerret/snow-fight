@@ -1,6 +1,10 @@
 package com.lambferret.game.screen.event;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.lambferret.game.SnowFight;
+import com.lambferret.game.book.EvilWithin;
+import com.lambferret.game.constant.StoryType;
+import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,25 +14,25 @@ import java.util.List;
 public class Tutorial extends EventWindow {
     private static final Logger logger = LogManager.getLogger(Tutorial.class.getName());
 
-    public static final String ID = "TUTORIAL";
-    public static final String G_MAN = "G-man";
-    public static final String HELL_HOUND = "hell hound";
-    public static final String ME = "me";
-    public static final String SOMEONE = "someone";
-    public static final String SOMEONE_2 = "someone2";
-    public final DialogueNode dialogueNode;
-    public final List<String> leftActor = List.of(
+    private static final String ID = "TUTORIAL";
+    private static final String G_MAN = "G-man";
+    private static final String HELL_HOUND = "hell hound";
+    private static final String ME = "me";
+    private static final String SOMEONE = "someone";
+    private static final String SOMEONE_2 = "someone2";
+    private final DialogueNode dialogueNode;
+    private final List<String> leftActor = List.of(
         G_MAN,
         HELL_HOUND
     );
-    public final List<String> rightActor = List.of(
+    private final List<String> rightActor = List.of(
         ME,
         SOMEONE,
         SOMEONE_2
     );
 
     public Tutorial(Skin skin) {
-        super(ID, skin);
+        super(ID, skin, StoryType.MAIN, false);
         this.dialogueNode = currentEvent.getDialogueNode();
 
         //TODO : 우야면좋을꼬
@@ -82,5 +86,21 @@ public class Tutorial extends EventWindow {
     @Override
     public void solveEvent(int dialogNumber, int optionNumber) {
         logger.info("solveEvent |  🐳  dialog / option | " + dialogNumber + " / " + optionNumber);
+        switch (dialogNumber) {
+            case 0:
+                switch (optionNumber) {
+                    case 0 -> {
+                    }
+                    case 1 -> SnowFight.player.addBook(new EvilWithin());
+                    case 2 -> SnowFight.player.addSoldier(new SilvanusPark());
+                }
+                break;
+            case 1:
+                switch (optionNumber) {
+                    case 0 -> SnowFight.player.setMoneyBy(50);
+                    case 1 -> SnowFight.player.setMoneyBy(-100);
+                }
+                break;
+        }
     }
 }

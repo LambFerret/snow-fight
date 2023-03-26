@@ -140,8 +140,6 @@ public class TitleScreen extends AbstractScreen {
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
             }
             case CREDIT -> {
-                stage.addActor(new Tutorial(GlobalSettings.skin));
-
                 logger.info("update | CREDIT");
             }
             case EXIT -> {
