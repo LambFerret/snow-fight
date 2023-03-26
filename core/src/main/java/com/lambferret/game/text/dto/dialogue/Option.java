@@ -5,14 +5,15 @@ import lombok.ToString;
 
 import java.util.List;
 
-/**
- * 선택지가 있을 경우 사용하는 대화창
- */
 @Getter
 @ToString
-public class DialogChoice {
+public class Option {
     /**
-     * 선택지
+     * 선택지 설명
      */
-    List<String> option;
+    String description;
+    /**
+     * 선택지의 내용
+     */
+    List<String> element;
 }

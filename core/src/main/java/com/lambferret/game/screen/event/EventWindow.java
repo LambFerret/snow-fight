@@ -7,44 +7,55 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.component.TypewriterLabel;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.text.dto.dialogue.DialogContext;
 import com.lambferret.game.text.dto.dialogue.Dialogue;
+import com.lambferret.game.text.dto.dialogue.DialogueNode;
+import com.lambferret.game.text.dto.dialogue.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public abstract class ConversationWindow extends Window {
-    private static final Logger logger = LogManager.getLogger(ConversationWindow.class.getName());
+public abstract class EventWindow extends Window {
+    private static final Logger logger = LogManager.getLogger(EventWindow.class.getName());
 
     private static final float DIALOGUE_WIDTH = GlobalSettings.currWidth;
     private static final float DIALOGUE_HEIGHT = 300.0F;
     private static final float SPEAKERS_WIDTH = GlobalSettings.currWidth / 3.0F;
     private static final float SPEAKERS_HEIGHT = GlobalSettings.currHeight - DIALOGUE_HEIGHT;
-
+    public List<String> leftActor;
+    public List<String> rightActor;
     private final Skin skin;
-    private final Dialogue currentDialogue;
+    protected final Dialogue currentEvent;
+    private DialogueNode dialogueNode;
     private final Container<Label> conversationContainer = new Container<>();
     private final Container<Dialog> dialogContainer = new Container<>();
     private final HorizontalGroup leftSpeakers = new HorizontalGroup();
     private final HorizontalGroup rightSpeakers = new HorizontalGroup();
-    private final Window thisWindow;
-    private Label speakerLabel;
     private TypewriterLabel textLabel;
-    private Dialog thisDialog;
-    private int currentLine = 0;
-    private boolean isDialog = false;
-    private short dialogNumber = -1;
+    private Dialog currentDialog;
+    private List<Option> options;
 
+    public abstract List<String> getLeftActor();
 
-    public ConversationWindow(String dialogueID, Skin skin) {
+    public abstract List<String> getRightActor();
+
+    public abstract DialogueNode getDialogueNode();
+
+    public abstract void solveEvent(int dialogNumber, int optionNumber);
+
+    public String getContextByIndex(int index) {
+        return this.currentEvent.getContext().get(index);
+    }
+
+    public EventWindow(String dialogueID, Skin skin) {
         super(dialogueID, skin);
         this.clear();
         this.skin = GlobalSettings.skin;
-        this.currentDialogue = DialogueFinder.get(dialogueID);
-        this.thisWindow = this;
+        this.currentEvent = DialogueFinder.get(dialogueID);
+        this.dialogueNode = getDialogueNode();
 
         if (GlobalSettings.isDev) this.setDebug(true, true);
+
         this.setPosition(0, 0);
         this.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
         this.setColor(0, 0, 0, 0.3F);
@@ -65,29 +76,32 @@ public abstract class ConversationWindow extends Window {
 
         dialogContainer.setVisible(false);
 
-        setContext();
     }
 
-    private void setContext() {
-        setSpeakers(currentDialogue.getActorLeft(), currentDialogue.getActorRight());
-        setConversations(currentDialogue.getContext());
-        setDialog(currentDialogue.getOption());
+    protected void setContext() {
+        this.options = currentEvent.getOption();
+
+        setSpeakers();
+        setConversationBox();
     }
 
-    private void setSpeakers(List<String> left, List<String> right) {
+    private void setSpeakers() {
+        this.leftActor = getLeftActor();
+        this.rightActor = getRightActor();
+
         TextButton button;
         leftSpeakers.setDebug(true, true);
         rightSpeakers.setDebug(true, true);
 
-        for (int i = left.size() - 1; i >= 0; i--) {
-            button = new TextButton(left.get(i), skin);
+        for (int i = leftActor.size() - 1; i >= 0; i--) {
+            button = new TextButton(leftActor.get(i), skin);
             button.setPosition(20, 0);
             button.setSize(300, 500);
             leftSpeakers.addActor(button);
             leftSpeakers.pad(5);
         }
 
-        for (String name : right) {
+        for (String name : rightActor) {
             button = new TextButton(name, skin);
             button.setPosition(20, 0);
             button.setSize(300, 500);
@@ -96,26 +110,32 @@ public abstract class ConversationWindow extends Window {
         }
     }
 
-    private void setConversations(List<DialogContext> context) {
-        currentLine = 0;
-        speakerLabel = new Label("speakerLabel", skin);
+    private void setConversationBox() {
         textLabel = new TypewriterLabel("");
 
         conversationContainer.setActor(textLabel);
         conversationContainer.align(Align.center);
         conversationContainer.fill();
 
-        setLine(context.get(currentLine));
+        setTypewriter(dialogueNode);
 
         conversationContainer.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 if (textLabel.isEnd()) {
-                    if (currentLine < context.size() - 1) {
-                        setLine(context.get(++currentLine));
+                    if (dialogueNode.isDialog()) {
+                        dialogContainer.setVisible(true);
+                        conversationContainer.setVisible(false);
+                        setDialog(dialogueNode.getDialogNumber());
                     } else {
-                        thisWindow.remove();
+                        dialogContainer.setVisible(false);
+                        conversationContainer.setVisible(true);
+                    }
+                    if (dialogueNode.isEnd()) {
+                        exitEvent();
+                    } else {
+                        setTypewriter(dialogueNode.select(0));
                     }
                 } else {
                     textLabel.instantShow();
@@ -124,37 +144,33 @@ public abstract class ConversationWindow extends Window {
         });
     }
 
-    private void setDialog(List<List<String>> options) {
-        this.thisDialog = new Dialog("dialog", GlobalSettings.skin);
-        dialogContainer.setActor(this.thisDialog);
-        thisDialog.setMovable(false);
-        thisDialog.setResizable(false);
+    private void setDialog(int number) {
+        this.currentDialog = new Dialog("dialog", GlobalSettings.skin) {
+            @Override
+            protected void result(Object object) {
+                int optionNumber = (int) object;
+                solveEvent(number, optionNumber);
+                setTypewriter(dialogueNode.select(optionNumber));
+            }
+        };
 
+        for (int i = 0; i < options.get(number).getElement().size(); i++) {
+            currentDialog.button(options.get(number).getElement().get(i), i);
+        }
+
+        dialogContainer.setActor(this.currentDialog);
+        currentDialog.setMovable(false);
+        currentDialog.setResizable(false);
 
 //        thisDialog.getContentTable().add(speakerLabel).pad(10).row();
 //        thisDialog.getContentTable().add(textLabel).width(300).pad(10).row();
 
-        thisDialog.button("Close", false);
     }
 
-    private void setOption(List<String> options) {
-        for (String option : options) {
-            this.thisDialog.button(option);
-        }
-
-    }
-
-    private void setLine(DialogContext lineInfo) {
-        dialogNumber = -1;
-        if (lineInfo.getOptionIndex() != 0) {
-            isDialog = true;
-            dialogNumber = lineInfo.getOptionIndex();
-            setOption(currentDialogue.getOption().get(dialogNumber - 1));
-        } else {
-            isDialog = false;
-        }
-        highlightSpeaker(lineInfo.getSpeaker());
-        textLabel = new TypewriterLabel(lineInfo.getText());
+    private void setTypewriter(DialogueNode node) {
+//        highlightSpeaker(node.getSpeaker());
+        this.dialogueNode = node;
+        textLabel = new TypewriterLabel(node.getText());
         conversationContainer.setActor(textLabel);
         textLabel.setAlignment(Align.center);
         textLabel.setWrap(true);
@@ -173,6 +189,10 @@ public abstract class ConversationWindow extends Window {
         } else {
             rightSpeakers.getChild(index).setVisible(true);
         }
+    }
+
+    private void exitEvent() {
+        this.remove();
     }
 
 }
