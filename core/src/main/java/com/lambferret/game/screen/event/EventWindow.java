@@ -32,8 +32,8 @@ public abstract class EventWindow extends Window {
     private final HorizontalGroup leftSpeakers = new HorizontalGroup();
     private final HorizontalGroup rightSpeakers = new HorizontalGroup();
     private TypewriterLabel textLabel;
-    private Dialog currentDialog;
     private List<Option> options;
+    private int optionNumber;
 
     public abstract List<String> getLeftActor();
 
@@ -129,13 +129,11 @@ public abstract class EventWindow extends Window {
                         conversationContainer.setVisible(false);
                         setDialog(dialogueNode.getDialogNumber());
                     } else {
-                        dialogContainer.setVisible(false);
-                        conversationContainer.setVisible(true);
-                    }
-                    if (dialogueNode.isEnd()) {
-                        exitEvent();
-                    } else {
-                        setTypewriter(dialogueNode.select(0));
+                        if (dialogueNode.isEnd()) {
+                            exitEvent();
+                        } else {
+                            setTypewriter(dialogueNode.select(0));
+                        }
                     }
                 } else {
                     textLabel.instantShow();
@@ -145,22 +143,26 @@ public abstract class EventWindow extends Window {
     }
 
     private void setDialog(int number) {
-        this.currentDialog = new Dialog("dialog", GlobalSettings.skin) {
+
+        var dialog = new Dialog("dialog", GlobalSettings.skin) {
             @Override
             protected void result(Object object) {
-                int optionNumber = (int) object;
+                optionNumber = (int) object;
                 solveEvent(number, optionNumber);
+                dialogContainer.setVisible(false);
+                conversationContainer.setVisible(true);
+                textLabel.startTyping();
                 setTypewriter(dialogueNode.select(optionNumber));
             }
         };
 
         for (int i = 0; i < options.get(number).getElement().size(); i++) {
-            currentDialog.button(options.get(number).getElement().get(i), i);
+            dialog.button(options.get(number).getElement().get(i), i);
         }
 
-        dialogContainer.setActor(this.currentDialog);
-        currentDialog.setMovable(false);
-        currentDialog.setResizable(false);
+        dialogContainer.setActor(dialog);
+        dialog.setMovable(false);
+        dialog.setResizable(false);
 
 //        thisDialog.getContentTable().add(speakerLabel).pad(10).row();
 //        thisDialog.getContentTable().add(textLabel).width(300).pad(10).row();

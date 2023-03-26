@@ -1,13 +1,19 @@
 package com.lambferret.game.text.dto.dialogue;
 
 import com.lambferret.game.constant.Expression;
+import lombok.ToString;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.lambferret.game.constant.Expression.IDLE;
 
+@ToString
 public class DialogueNode {
+    private static final Logger logger = LogManager.getLogger(DialogueNode.class.getName());
+
     private String text;
     private List<DialogueNode> children;
     private String characterName;
@@ -40,10 +46,6 @@ public class DialogueNode {
 
     public void addChild(DialogueNode child) {
         children.add(child);
-
-        if (children.size() > 1) {
-            isDialog = true;
-        }
     }
 
     public String getText() {

@@ -30,8 +30,9 @@ public class Tutorial extends EventWindow {
     public Tutorial(Skin skin) {
         super(ID, skin);
         this.dialogueNode = currentEvent.getDialogueNode();
-        setContext();
 
+        //TODO : 우야면좋을꼬
+        setContext();
     }
 
     @Override
