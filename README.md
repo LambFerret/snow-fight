@@ -1,36 +1,150 @@
-# snow-fight
+# 기획서
 
-A [libGDX](https://libgdx.com/) project generated with [gdx-liftoff](https://github.com/tommyettinger/gdx-liftoff).
+인디게임 가격책정 약 5900₩ (슬더스 : 26000, 괴혼 : 26800)
 
-This project was generated with a template including simple application launchers and a main class extending `Game` that sets the first screen.
+1. 요약
+    - 하늘위 천상의 군부대인 천군(가칭)은 지상에 눈을 뿌리는 것을 목표로 플레이어가 자신이 가진 인원을 어디에 배치하여 눈을 뿌릴것인가를 전략적으로 선택한다. 튜토리얼 이후 승급 또는 할당량 증가의 명목으로 더 어려운 난이도를 담당하게 된다.
+    - 부대 내 인원을 어떻게 구성해나가느냐에 따라 다른 플레이 양상을 보이며, 이 덱으로 어떻게 플레이 할 것인지를 통해 플레이어가 선택해 나갈 수 있고 이는 지역주민 혹은 적대세력의 호감도에 영향을 끼친다.
+    - 선택해 나간 평판 및 적대세력의 영향력은 이벤트의 트리거가 되고 이러한 이벤트를 수집하여 엔딩을 볼 수 있다.
+    - 플레이어는 게임을 여러번 시도하면서 새로운 엔딩을 수집하거나 새로운 덱으로 게임의 다른 재미를 느낄 수 있다.
+2. 인트로
 
-## Platforms
+   상부에서 어느정도의 눈을 뿌리라면서 할당한다. 중간관리자인 플레이어는 이를 보고 좌절한 표정으로 부대인원 목록을 넘긴다.
 
-- `core`: Main module with the application logic shared by all platforms.
-- `lwjgl3`: Primary desktop platform using LWJGL3.
-- `android`: Android mobile platform. Needs Android SDK.
-- `ios`: iOS mobile platform using RoboVM.
+3. 스크린 Screen
+   - 타이틀 스크린 Title Screen: 세이브, 로드 등 타이틀 첫 화면
+   - 연병장 스크린 Ground Screen : 스테이지 선택, 병사 확인, 상점, 스토리 여러개
+   - 페이즈 스크린 Phase Screen : 레디 페이즈 ↔ 액션 페이즈 ——> 정산 페이즈
+   - 스토리 스크린 : 여기는 그냥 서로 대사치는 스크린 ****스크린이 아니지만 편의상 적음**
+     - Ground Screen : 주로 덱을 빌딩하거나 스토리를 진행
+         1. 스테이지 선택 : 2-3개의 스테이지 중에서 선택할 수 있다. 쉬운 스테이지는 보상도 적다.
+         2. 병사 확인 : 병사들을 확인하고 효과를 볼 수 있다.
+         3. 상점 : 인게임에서 상시 적용되는 아이템을 구매 가능하다.
+         4. 스토리 선택 (행동포인트 차감):
+             1. 메인급이면 스토리 직결 (행동포인트 보전)
+             2. 병사 징집 혹은 인사이동 (카드추가)
+             3. 일시적인 버프 (다음게임 적용, 정말 거의쓸모없어야함)
+       - Phase Screen
+           1. 레디 페이즈
 
-## Gradle
+              보유 (혹은 사용가능) 카드의 UI, COST, 목표 급설량, 마카보드에 대충 끄적거린듯한 게임판
+              게임판은 n*n그리드며 지역 특성별로 색이 나뉘어져있다
 
-This project uses [Gradle](http://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+           2. 액션 페이즈
+              게임판은 실제 모형들로 바뀌면서 병사들은 맡겨진 일을 하게 된다. 현 페이즈에서 플레이어는 주로 감상만 할 수 있지만 랜덤으로 이벤트를 만나면서 소소한 버프 혹은 패널티를 얻을 수 있다. 이는 선택하기 전에는 *어느정도 알 수 있다.
+           3. 레디 페이즈와 액션페이즈를 3-4회 왕복하며 할당량을 모두 제설하면 클리어(초과 제설가능 하지만 의미없음, 전 스테이지를 초과제설하면 뭐… 업적?), 타임아웃까지 못하면 게임오버(영구적인 죽음)
+4. 카드 : ****1레디페이즈+1액션페이즈 = 1페이즈, 1페이즈~끝까지 = 1스테이지, 1스테이지~게임오버 = 1게임**
+    1. 병사 : 그리드에 랜덤배치되며 적설
+        - 하나하나 고유한 이름과 효과가 있으며 100종 정도 있어야하지않을까
+        - 예) 도시에 배치되면 제설량 +5, 바다에 배치되면 적대세력영향 -3, 덱에 행보관 존재시 -10
+    2. 마법(가칭이며 바꾸는게 좋을듯) : 랜덤배치되는 병사를 임의 조정할 수 있는 정도의 카드. 스테이지당 1회성
+    3. 내통 (마법의 카테고리이나 편의상 나눔, 나중에 나눠도됨) :적 대세력과 내통, 하이리스크 하이리턴
+5. 훈련교본(가칭, 슬더스의 유물, 게임 내 영구적인 효과)
+    1. 하나하나 고유한 이름과 효과가 있으며 100종 정도 있어야하지않을까
+    2. 예) 바다에 3명이상 배치시 제설량 +30, 배급된 눈의 양 -50, 리트가능,
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `android:lint`: performs Android project validation.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `idea`: generates IntelliJ project data.
-- `lwjgl3:jar`: builds application's runnable jar, which can be found at `lwjgl3/build/libs`.
-- `lwjgl3:run`: starts the application.
-- `test`: runs unit tests (if any).
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+마법이나 훈련교본이 너무 겹친다 싶을 경우 통일하던지 바꾸는게 좋겠다
+
+[병사]
+```
+/**
+ * 카드 id. 군번도 가능할까?
+ */
+private String ID;
+/**
+ * 소속
+ */
+private Affiliation affiliation;
+/**
+ * 직급
+ */
+private Rank rank;
+/**
+ * 이름
+ */
+private String name;
+/**
+ * 병과
+ */
+private Branch branch;
+/**
+ * 선호 지형
+ */
+privateList<Short> preferenceTerrain;
+/**
+ * 한마디?
+ */
+private String description;
+/**
+ * 텍스쳐 관련
+ */
+private String texturePath;
+/**
+ * 속도
+ */
+private int speed;
+/**
+ * 특수한 가로세로 범위
+ */
+private boolean isUncommonRange;
+/**
+ * 가로 범위
+ */
+private int rangeX;
+/**
+ * 세로 범위
+ */
+private int rangeY;
+/**
+ * 뺑끼 확률 (아직안씀)
+ */
+private float runAwayProbability;
+```
+
+[훈련교본]
+```
+/**
+ * ID String
+ */
+private String ID;
+/**
+ * 텍스쳐 경로
+ */
+private String texturePath;
+/**
+ * 사용 비용
+ */
+private int cost;
+/**
+ * 윗선에게 영향을 미치는 정도
+ */
+private int affectToUp;
+/**
+ * 인간계에게 영향을 미치는 정도
+ */
+private int affectToMiddle;
+/**
+ * 하계에 영향을 미치는 정도
+ */
+private int affectToDown;
+/**
+ * 게임내 지속 효과 인지
+ */
+private boolean isPersistentEffect;
+/**
+ * 재사용 여부
+ */
+private boolean isReusable;
+/**
+ * 하계 관련인지
+ */
+private boolean isEvil;
+/**
+ * 대상 : 플레이어, 병사
+ */
+private Target target;
+```
+
+[마법]
+미구현..
