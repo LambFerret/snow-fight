@@ -13,7 +13,6 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.AbstractScreen;
-import com.lambferret.game.screen.event.Tutorial;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;

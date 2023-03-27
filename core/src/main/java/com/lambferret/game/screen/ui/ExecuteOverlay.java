@@ -42,6 +42,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
         imageButtonStyle.font = GlobalSettings.font;
         imageButtonStyle.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
         executeButton = new ImageTextButton("Execute", imageButtonStyle);
+        this.executeButton.setPosition(0, 0);
         this.setActor(executeButton);
     }
 
@@ -80,8 +81,10 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
-                pen.setVisible(true);
-                show();
+                if (pointer == -1) {
+                    pen.setVisible(true);
+                    show();
+                }
             }
 
             @Override
@@ -119,7 +122,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
     private void hide() {
         if (isHide) return;
         this.executeButton.addAction(
-            Actions.moveBy(this.getWidth() * 2 / 3.0F, 0, ANIMATION_DURATION)
+            Actions.moveBy(this.getWidth() * 2 / 3.0F + PADDING, 0, ANIMATION_DURATION)
         );
         isHide = true;
     }
@@ -127,7 +130,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
     private void show() {
         if (!isHide) return;
         this.executeButton.addAction(
-            Actions.moveBy(-(this.getWidth() * 2 / 3.0F), 0, ANIMATION_DURATION)
+            Actions.moveBy(-(this.getWidth() * 2 / 3.0F + PADDING), 0, ANIMATION_DURATION)
         );
         isHide = false;
     }

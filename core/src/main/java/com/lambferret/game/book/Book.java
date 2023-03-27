@@ -23,15 +23,45 @@ import org.apache.logging.log4j.Logger;
 public abstract class Book implements Comparable<Book> {
     private static final Logger logger = LogManager.getLogger(Book.class.getName());
 
+    /**
+     * ID String
+     */
     private String ID;
+    /**
+     * 텍스쳐 경로
+     */
     private String texturePath;
+    /**
+     * 사용 비용
+     */
     private int cost;
+    /**
+     * 윗선에게 영향을 미치는 정도
+     */
     private int affectToUp;
+    /**
+     * 인간계에게 영향을 미치는 정도
+     */
     private int affectToMiddle;
+    /**
+     * 하계에 영향을 미치는 정도
+     */
     private int affectToDown;
+    /**
+     * 게임내 지속 효과 인지
+     */
     private boolean isPersistentEffect;
+    /**
+     * 재사용 여부
+     */
     private boolean isReusable;
+    /**
+     * 하계 관련인지
+     */
     private boolean isEvil;
+    /**
+     * 대상 : 플레이어, 병사
+     */
     private Target target;
     private int itemCount = 0;
 

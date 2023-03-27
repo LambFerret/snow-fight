@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -98,8 +97,6 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 //Hover Information
-                logger.info("enter |  🐳  | " + event);
-                logger.info("enter |  🐳  | " + pointer);
             }
 
             @Override
