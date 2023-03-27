@@ -53,6 +53,10 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     @Override
     public void onPlayerReady() {
         player = SnowFight.player;
+        initiation();
+    }
+
+    public static void initiation() {
         for (AbstractGround ground : groundListener) {
             ground.init(player);
         }

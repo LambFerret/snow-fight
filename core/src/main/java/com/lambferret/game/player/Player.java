@@ -1,6 +1,7 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.book.Book;
+import com.lambferret.game.book.ExampleBook;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.magic.Bunkering;
 import com.lambferret.game.magic.Magic;
@@ -51,6 +52,7 @@ public class Player {
             soldiers.add(new SilvanusPark());
         }
         magics.add(new Bunkering());
+        books.add(new ExampleBook());
         //=-=-=-=-=-=--=-=//
 
         this.currentRegion = Region.URBAN;

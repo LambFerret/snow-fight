@@ -18,4 +18,22 @@ public abstract class Book implements Comparable<Book> {
      * 설명
      */
     private String description;
+    private byte stack;
+
+    public Book(
+        String ID,
+        String texturePath,
+        String description,
+        byte stack
+    ) {
+        this.ID = ID;
+        this.texturePath = texturePath;
+        this.description = description;
+        this.stack = stack;
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return this.ID.compareTo(o.ID);
+    }
 }
