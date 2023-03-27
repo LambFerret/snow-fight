@@ -103,8 +103,6 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
                 //unHover Information
-                logger.info("exit |  🐳  | " + event);
-                logger.info("exit |  🐳  | " + pointer);
             }
         });
         return soldierButton;

@@ -1,6 +1,6 @@
-package com.lambferret.game.book;
+package com.lambferret.game.magic;
 
-public class FieldInstructor extends Book {
+public class FieldInstructor extends Magic {
 
     static {
 //        text = LocalizeConfig.soldierText;

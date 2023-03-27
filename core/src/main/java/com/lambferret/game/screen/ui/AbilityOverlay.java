@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.lambferret.game.book.Book;
+import com.lambferret.game.magic.Magic;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
@@ -49,7 +49,7 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
 
     @Override
     public void init(Player player) {
-        makeAbilityContainer(player.getBooks());
+        makeAbilityContainer(player.getMagics());
         instantHide();
 
         scrollPane.addListener(new InputListener() {
@@ -75,17 +75,17 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         });
     }
 
-    private void makeAbilityContainer(List<Book> books) {
+    private void makeAbilityContainer(List<Magic> magics) {
         Table table = new Table();
-        for (Book book : books) {
-            table.add(renderBook(book));
+        for (Magic magic : magics) {
+            table.add(renderBook(magic));
             table.row().pad(10);
         }
         this.scrollPane.setActor(table);
     }
 
-    private ImageTextButton renderBook(Book book) {
-        ImageTextButton bookButton = new ImageTextButton("book", soldierButtonStyle(book));
+    private ImageTextButton renderBook(Magic magic) {
+        ImageTextButton bookButton = new ImageTextButton("book", soldierButtonStyle(magic));
         bookButton.setSize(scrollPane.getWidth(), scrollPane.getHeight() / 3.0F);
         bookButton.addListener(new ClickListener() {
             @Override
@@ -103,17 +103,15 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
                 //unHover Information
-                logger.info("exit |  🐳  | " + event);
-                logger.info("exit |  🐳  | " + pointer);
             }
         });
         return bookButton;
     }
 
-    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Book book) {
+    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Magic magic) {
         var a = new ImageTextButton.ImageTextButtonStyle();
         a.font = GlobalSettings.font;
-        a.up = new TextureRegionDrawable(book.renderSimple());
+        a.up = new TextureRegionDrawable(magic.renderSimple());
         return a;
     }
 

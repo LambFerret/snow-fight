@@ -58,7 +58,6 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
     public void init(Player player) {
         this.level = PhaseScreen.level;
         this.player = player;
-        hide();
 
         this.addListener(new InputListener() {
 

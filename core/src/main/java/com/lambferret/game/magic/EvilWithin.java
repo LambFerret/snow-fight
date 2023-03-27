@@ -1,6 +1,6 @@
-package com.lambferret.game.book;
+package com.lambferret.game.magic;
 
-public class EvilWithin extends Book {
+public class EvilWithin extends Magic {
 
     static {
 //        text = LocalizeConfig.soldierText;

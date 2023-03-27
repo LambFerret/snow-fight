@@ -2,8 +2,8 @@ package com.lambferret.game.screen.event;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.book.EvilWithin;
 import com.lambferret.game.constant.StoryType;
+import com.lambferret.game.magic.EvilWithin;
 import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
 import org.apache.logging.log4j.LogManager;

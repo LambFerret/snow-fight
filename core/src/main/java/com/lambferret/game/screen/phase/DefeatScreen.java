@@ -31,10 +31,8 @@ public class DefeatScreen implements AbstractPhase {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                logger.info("clicked |  🐳 i am alive | ");
             }
         });
-//    stage.addActor(this);
     }
 
     @Override

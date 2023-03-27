@@ -1,10 +1,9 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.book.Book;
-import com.lambferret.game.book.Bunkering;
-import com.lambferret.game.book.EvilWithin;
-import com.lambferret.game.book.FieldInstructor;
 import com.lambferret.game.constant.Region;
+import com.lambferret.game.magic.Bunkering;
+import com.lambferret.game.magic.Magic;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.soldier.Soldier;
@@ -23,6 +22,7 @@ public class Player {
     private static final Logger logger = LogManager.getLogger(Player.class.getName());
     private final String name;
     private final List<Soldier> soldiers;
+    private final List<Magic> magics;
     private final List<Book> books;
     private int money;
     private Map<AFFINITY, Integer> affinity;
@@ -43,15 +43,14 @@ public class Player {
         this.hellAffinity = 10;
         this.humanAffinity = 50;
         this.soldiers = new ArrayList<>();
+        this.magics = new ArrayList<>();
         this.books = new ArrayList<>();
 
         //=-=-=-=-=-=--=-=//
         for (int i = 0; i < 11; i++) {
             soldiers.add(new SilvanusPark());
         }
-        books.add(new Bunkering());
-        books.add(new EvilWithin());
-        books.add(new FieldInstructor());
+        magics.add(new Bunkering());
         //=-=-=-=-=-=--=-=//
 
         this.currentRegion = Region.URBAN;
@@ -105,12 +104,12 @@ public class Player {
         soldiers.add(soldier);
     }
 
-    public List<Book> getBooks() {
-        return books;
+    public List<Magic> getMagics() {
+        return magics;
     }
 
-    public void addBook(Book book) {
-        this.books.add(book);
+    public void addBook(Magic magic) {
+        this.magics.add(magic);
     }
 
     public Region getCurrentRegion() {
@@ -131,8 +130,7 @@ public class Player {
 
     public void setMoneyBy(int amount) {
         this.money += amount;
-    };
-
+    }
 
     public enum AFFINITY {
         HUMAN, HELL
