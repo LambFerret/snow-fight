@@ -21,13 +21,11 @@ import java.util.List;
 
 public class AbilityOverlay extends Container<ScrollPane> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(AbilityOverlay.class.getName());
-    public static final int HIDE_BUTTON_WIDTH = 50;
-    public static final int HIDE_BUTTON_HEIGHT = 50;
+
     private final Stage stage;
     private final ScrollPane scrollPane;
-    private List<Book> book;
+    private ImageButton hideButton;
     private boolean isHide = false;
-    ImageButton hideButton;
 
 
     public AbilityOverlay(Stage stage) {
@@ -35,7 +33,6 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         this.stage.addActor(this);
         this.scrollPane = new ScrollPane(new Table());
         this.setActor(this.scrollPane);
-        stage.setKeyboardFocus(this);
     }
 
     public void create() {
@@ -43,7 +40,7 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         this.setSize(OVERLAY_WIDTH, GlobalSettings.currHeight - OVERLAY_HEIGHT - BAR_HEIGHT);
         this.setDebug(true, true);
 
-        hideButton = hideSwitch();
+        this.hideButton = hideSwitch();
         stage.addActor(hideButton);
 
         scrollPane.setScrollingDisabled(true, false);
@@ -70,15 +67,6 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
                 }
                 super.exit(event, x, y, pointer, toActor);
             }
-
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode == Input.Keys.I) {
-                    logger.info("keyDown |  🐳 111 | ");
-//                    changeContainer(player);
-                }
-                return super.keyDown(event, keycode);
-            }
         });
         this.addListener(new ClickListener() {
             @Override
@@ -98,7 +86,7 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
     }
 
     private ImageTextButton renderBook(Book book) {
-        var bookButton = new ImageTextButton("book", soldierButtonStyle(book));
+        ImageTextButton bookButton = new ImageTextButton("book", soldierButtonStyle(book));
         bookButton.setSize(scrollPane.getWidth(), scrollPane.getHeight() / 3.0F);
         bookButton.addListener(new ClickListener() {
             @Override
@@ -199,4 +187,9 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         isHide = false;
     }
 
+    @Override
+    public void setVisible(boolean visible) {
+        this.hideButton.setVisible(visible);
+        super.setVisible(visible);
+    }
 }

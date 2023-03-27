@@ -1,12 +1,12 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -19,43 +19,38 @@ import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
+public class ExecuteOverlay extends Container<ImageTextButton> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
 
-
-    private static final ImageTextButtonStyle imageButtonStyle;
+    private final ImageTextButton executeButton;
     private final Stage stage;
-    private final Image pen;
-    private boolean isHide;
-
+    private Image pen;
+    private boolean isHide = false;
     Level level;
     Player player;
 
-    static {
-        imageButtonStyle = GlobalSettings.imageButtonStyle;
-        imageButtonStyle.font = GlobalSettings.font;
-    }
-
     public ExecuteOverlay(Stage stage) {
-        super("execute", imageButtonStyle);
+        if (GlobalSettings.isDev) this.setDebug(true, true);
         this.stage = stage;
+        stage.addActor(this);
+        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, 0);
+        this.setSize(OVERLAY_WIDTH, OVERLAY_HEIGHT);
+        this.fill();
+        stage.setKeyboardFocus(this);
+
+        ImageTextButton.ImageTextButtonStyle imageButtonStyle = GlobalSettings.imageButtonStyle;
+        imageButtonStyle.font = GlobalSettings.font;
         imageButtonStyle.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
-        pen = new Image(AssetFinder.getTexture("pen"));
-        pen.setSize(50, 60);
-        pen.setVisible(false);
+        executeButton = new ImageTextButton("Execute", imageButtonStyle);
+        this.setActor(executeButton);
     }
 
     public void create() {
-        stage.addActor(this);
+        pen = new Image(AssetFinder.getTexture("pen"));
+        pen.setSize(50, 60);
+        pen.setPosition(-100, -100);
+        pen.setVisible(false);
         stage.addActor(pen);
-
-        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, 0);
-        this.setSize(OVERLAY_WIDTH, OVERLAY_HEIGHT);
-        this.setColor(Color.RED);
-
-
-        this.setBackground(GlobalSettings.debugTexture);
-        this.setColor(GlobalSettings.debugColorGreen);
     }
 
     @Override
@@ -64,8 +59,6 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
         this.player = player;
         hide();
 
-        var xOff = this.getX();
-        var yOff = this.getY();
         this.addListener(new InputListener() {
 
             /*
@@ -104,8 +97,6 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                logger.info("keyDown |  🐳  | " + event);
-                logger.info("keyDown |  🐳 keycode | " + keycode);
                 if (keycode == Input.Keys.SPACE) {
                     screenChanger();
                 }
@@ -114,14 +105,12 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
             @Override
             public boolean keyUp(InputEvent event, int keycode) {
-                logger.info("keyUp |  🐳  | " + event);
-                logger.info("keyUp |  🐳 keycode | " + keycode);
                 return super.keyUp(event, keycode);
             }
 
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                pen.setPosition(xOff + x + pen.getWidth(), yOff + y + getHeight());
+                pen.setPosition(x + getX() + PADDING, y + getY() + PADDING);
                 return super.mouseMoved(event, x, y);
             }
         });
@@ -129,7 +118,7 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
     private void hide() {
         if (isHide) return;
-        this.addAction(
+        this.executeButton.addAction(
             Actions.moveBy(this.getWidth() * 2 / 3.0F, 0, ANIMATION_DURATION)
         );
         isHide = true;
@@ -137,7 +126,7 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
 
     private void show() {
         if (!isHide) return;
-        this.addAction(
+        this.executeButton.addAction(
             Actions.moveBy(-(this.getWidth() * 2 / 3.0F), 0, ANIMATION_DURATION)
         );
         isHide = false;
@@ -174,6 +163,5 @@ public class ExecuteOverlay extends ImageTextButton implements AbstractOverlay {
             }
         }
     }
-
 
 }

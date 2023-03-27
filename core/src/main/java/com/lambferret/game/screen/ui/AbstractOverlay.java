@@ -37,6 +37,8 @@ public interface AbstractOverlay {
     float BAR_HEIGHT = 50.0F;
     float PADDING = 5.0F;
     float ANIMATION_DURATION = 0.1F;
+    float HIDE_BUTTON_WIDTH = 50;
+    float HIDE_BUTTON_HEIGHT = 50;
 
     void create();
 
