@@ -56,7 +56,7 @@ public class AssetLoader {
 
 
     public void load() {
-        GlobalSettings.skin = new Skin(Gdx.files.internal("./data/uiskin.json"));
+        GlobalSettings.skin = new Skin(Gdx.files.internal("./data/expeeui/expee-ui.json"));
 
         for (AssetDescriptor descriptor : assets) {
             FileHandle folder = resolver.resolve("").child(descriptor.folder);
