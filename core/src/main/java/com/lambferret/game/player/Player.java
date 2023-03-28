@@ -6,8 +6,8 @@ import com.lambferret.game.constant.Region;
 import com.lambferret.game.magic.Bunkering;
 import com.lambferret.game.magic.Magic;
 import com.lambferret.game.save.SaveLoader;
-import com.lambferret.game.soldier.SilvanusPark;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.soldier.Vanilla;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -35,25 +35,29 @@ public class Player {
     private int hellAffinity;
     private Region currentRegion;
     private int levelNumber;
+    private List<String> eventList;
 
     public Player() {
         // TODO : save 와 연동
 
         name = SaveLoader.currentSave.getName();
 
-        this.hellAffinity = 10;
-        this.humanAffinity = 50;
         this.soldiers = new ArrayList<>();
         this.magics = new ArrayList<>();
         this.books = new ArrayList<>();
-
         //=-=-=-=-=-=--=-=//
         for (int i = 0; i < 11; i++) {
-            soldiers.add(new SilvanusPark());
+            soldiers.add(new Vanilla());
         }
         magics.add(new Bunkering());
         books.add(new ExampleBook());
         //=-=-=-=-=-=--=-=//
+
+        this.money = 1000;
+
+        this.hellAffinity = 10;
+        this.humanAffinity = 50;
+        this.eventList = new ArrayList<>();
 
         this.currentRegion = Region.URBAN;
         this.levelNumber = 1;

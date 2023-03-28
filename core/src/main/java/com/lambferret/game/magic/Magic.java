@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
@@ -63,6 +64,14 @@ public abstract class Magic implements Comparable<Magic> {
      * 대상 : 플레이어, 병사
      */
     private Target target;
+    /**
+     * 희귀도
+     */
+    private Rarity rarity;
+    /**
+     * 가격
+     */
+    private int price;
     private int itemCount = 0;
 
     public Magic(

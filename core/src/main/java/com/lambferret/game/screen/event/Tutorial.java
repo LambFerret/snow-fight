@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.magic.EvilWithin;
-import com.lambferret.game.soldier.SilvanusPark;
+import com.lambferret.game.soldier.Vanilla;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -92,7 +92,7 @@ public class Tutorial extends EventWindow {
                     case 0 -> {
                     }
                     case 1 -> SnowFight.player.addBook(new EvilWithin());
-                    case 2 -> SnowFight.player.addSoldier(new SilvanusPark());
+                    case 2 -> SnowFight.player.addSoldier(new Vanilla());
                 }
                 break;
             case 1:

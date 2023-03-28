@@ -18,13 +18,13 @@ import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
 public class GroundScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(GroundScreen.class.getName());
     private static final List<AbstractGround> groundListener;
+    private static Player player;
     private static Overlay overlay;
-    public static Screen currentScreen;
     private static final RecruitScreen recruitScreen;
     private static final ShopScreen shopScreen;
     private static final TrainingGroundScreen trainingGroundScreen;
+    public static Screen currentScreen;
     GroundText text;
-    private static Player player;
 
     static {
         recruitScreen = new RecruitScreen();

@@ -8,10 +8,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.lambferret.game.constant.Affiliation;
 import com.lambferret.game.constant.Branch;
+import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rank;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.text.dto.SoldierInfo;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.TextureFinder;
 import lombok.Getter;
@@ -26,29 +27,13 @@ import java.util.List;
 public abstract class Soldier implements Comparable<Soldier> {
     private static final Logger logger = LogManager.getLogger(Soldier.class.getName());
     /**
-     * 카드 id. 군번도 가능할까?
+     * ID, 밑으로 기본적인 정보들
      */
     private String ID;
-    /**
-     * 소속
-     */
-    private Affiliation affiliation;
-    /**
-     * 직급
-     */
-    private Rank rank;
     /**
      * 이름
      */
     private String name;
-    /**
-     * 병과
-     */
-    private Branch branch;
-    /**
-     * 선호 지형
-     */
-    private List<Short> preferenceTerrain;
     /**
      * 한마디?
      */
@@ -58,9 +43,14 @@ public abstract class Soldier implements Comparable<Soldier> {
      */
     private String texturePath;
     /**
-     * 속도
+     * 선호 지형
      */
-    private int speed;
+    private List<Short> preferenceTerrain;
+
+    /**
+     * 속도, 밑으로 수치관련 정보
+     */
+    private short speed;
     /**
      * 특수한 가로세로 범위
      */
@@ -68,41 +58,78 @@ public abstract class Soldier implements Comparable<Soldier> {
     /**
      * 가로 범위
      */
-    private int rangeX;
+    private byte rangeX;
     /**
      * 세로 범위
      */
-    private int rangeY;
+    private byte rangeY;
+    /**
+     * 현재 강화 수치
+     */
+    private EmpowerLevel empowerLevel;
+
+    /**
+     * 직급, 밑으로 능력관련 정보
+     */
+    private Rank rank;
+    /**
+     * 병과
+     */
+    private Branch branch;
+    /**
+     * 재능 관련 설명
+     */
+    private String talent;
+    /**
+     * 강화
+     */
+    private String empower;
+    /**
+     * 약화
+     */
+    private String weaken;
     /**
      * 뺑끼 확률 (아직안씀)
      */
-    private float runAwayProbability;
+    private byte runAwayProbability;
 
+    //인게임 정보 관련
+    private SoldierInfo info;
     private Texture texture;
-    private float locationX;
-    private float locationY;
     private Texture simpleTexture;
     private BitmapFont font = new BitmapFont();
     private boolean isFront = true;
     private boolean isDetail = false;
 
     public Soldier(
-        String ID, Affiliation affiliation, Rank rank, String name, Branch branch,
-        List<Short> preferenceTerrain, String description, String texturePath,
-        int speed, boolean isUncommonRange, int rangeX, int rangeY
+        String ID,
+        SoldierInfo info,
+        Rank rank,
+        Branch branch,
+        List<Short> preferenceTerrain,
+        boolean isUncommonRange,
+        short speed,
+        byte rangeX,
+        byte rangeY,
+        byte runAwayProbability
     ) {
         this.ID = ID;
-        this.affiliation = affiliation;
+        this.name = info.getName();
+        this.description = info.getDescription();
+        this.texturePath = ID;
         this.rank = rank;
-        this.name = name;
         this.branch = branch;
+        this.talent = info.getTalent();
+        this.empower = info.getEmpower();
+        this.weaken = info.getWeaken();
         this.preferenceTerrain = preferenceTerrain;
-        this.description = description;
-        this.texturePath = texturePath;
-        this.speed = speed;
         this.isUncommonRange = isUncommonRange;
+        this.speed = speed;
         this.rangeX = rangeX;
         this.rangeY = rangeY;
+        this.runAwayProbability = runAwayProbability;
+        empowerLevel(EmpowerLevel.NEUTRAL);
+
     }
 
     private void renderSimple() {
@@ -169,6 +196,23 @@ public abstract class Soldier implements Comparable<Soldier> {
 //        batch.draw(AssetFinder.getTexture("3by3"), x, y + height / 2.0F, width, height / 2.0F);
 //        font.draw(batch, this.description, x + 5.0F, y + height / 2.0F);
     }
+
+    public void empowerLevel(EmpowerLevel level) {
+        this.empowerLevel = level;
+        switch (level) {
+            case WEAKEN -> this.weaken();
+            case EMPOWERED -> this.empowered();
+            case NEUTRAL -> this.neutralized();
+        }
+    }
+
+    public abstract void talent();
+
+    public abstract void empowered();
+
+    public abstract void neutralized();
+
+    public abstract void weaken();
 
     public String getName() {
         return name;
