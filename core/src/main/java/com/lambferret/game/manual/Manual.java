@@ -20,6 +20,10 @@ public abstract class Manual implements Comparable<Manual> {
      */
     private String name;
     /**
+     * 텍스쳐 경로
+     */
+    private String texturePath;
+    /**
      * 설명
      */
     private String description;
@@ -27,11 +31,6 @@ public abstract class Manual implements Comparable<Manual> {
      * 효과 설명
      */
     private String effectDescription;
-
-    /**
-     * 텍스쳐 경로
-     */
-    private String texturePath;
     /**
      * 희귀도
      */
@@ -51,8 +50,8 @@ public abstract class Manual implements Comparable<Manual> {
     ) {
         this.ID = ID;
         this.name = info.getName();
-        this.description = info.getDescription();
         this.texturePath = ID;
+        this.description = info.getDescription();
         this.rarity = rarity;
         this.price = price;
     }

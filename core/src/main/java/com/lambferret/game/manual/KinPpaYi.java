@@ -10,15 +10,13 @@ public class KinPpaYi extends Manual {
     public static final ManualInfo INFO;
 
     static {
-        rarity = Rarity.RARE;
         price = 1000;
     }
 
     public KinPpaYi() {
-        super(ID, INFO, rarity, price);
+        super(ID, INFO, Rarity.RARE, price);
     }
 
-    private static final Rarity rarity;
     private static final int price;
 
     static {

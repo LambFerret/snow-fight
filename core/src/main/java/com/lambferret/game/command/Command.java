@@ -13,6 +13,7 @@ import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.text.dto.CommandInfo;
 import com.lambferret.game.util.AssetFinder;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,13 +30,41 @@ public abstract class Command implements Comparable<Command> {
      */
     private String ID;
     /**
+     * 이름
+     */
+    private String name;
+    /**
      * 텍스쳐 경로
      */
     private String texturePath;
     /**
+     * 설명
+     */
+    private String description;
+    /**
+     * 효과 설명
+     */
+    private String effectDescription;
+    /**
+     * 종류
+     */
+    private Type type;
+    /**
      * 사용 비용
      */
     private int cost;
+    /**
+     * 대상 : 플레이어, 병사
+     */
+    private Target target;
+    /**
+     * 희귀도
+     */
+    private Rarity rarity;
+    /**
+     * 가격
+     */
+    private int price;
     /**
      * 윗선에게 영향을 미치는 정도
      */
@@ -56,47 +85,42 @@ public abstract class Command implements Comparable<Command> {
      * 재사용 여부
      */
     private boolean isReusable;
-    /**
-     * 하계 관련인지
-     */
-    private boolean isEvil;
-    /**
-     * 대상 : 플레이어, 병사
-     */
-    private Target target;
-    /**
-     * 희귀도
-     */
-    private Rarity rarity;
-    /**
-     * 가격
-     */
-    private int price;
     private int itemCount = 0;
 
+    // TODO 여기 호감도 시스템 어케할건지 확인요함
     public Command(
         String ID,
-        String texturePath,
+        CommandInfo info,
+        Type type,
         int cost,
+        Target target,
+        Rarity rarity,
+        int price,
+
         int affectToUp,
         int affectToMiddle,
         int affectToDown,
         boolean isPersistentEffect,
-        boolean isReusable,
-        boolean isEvil,
-        Target target
+        boolean isReusable
     ) {
         this.ID = ID;
-        this.texturePath = texturePath;
+        this.name = info.getName();
+        this.texturePath = ID;
+        this.description = info.getDescription();
+        this.effectDescription = info.getEffectDescription();
+        this.type = type;
         this.cost = cost;
+        this.target = target;
+        this.rarity = rarity;
+        this.price = price;
+
         this.affectToUp = affectToUp;
         this.affectToMiddle = affectToMiddle;
         this.affectToDown = affectToDown;
         this.isPersistentEffect = isPersistentEffect;
         this.isReusable = isReusable;
-        this.isEvil = isEvil;
-        this.target = target;
     }
+
 
     public void execute() {
         switch (this.target) {
@@ -151,6 +175,21 @@ public abstract class Command implements Comparable<Command> {
 
     enum Target {
         PLAYER, SOLDIER, UI, ENEMY
+    }
+
+    public enum Type {
+        /**
+         * 작전
+         */
+        OPERATION,
+        /**
+         * 포상
+         */
+        REWARD,
+        /**
+         * 내통
+         */
+        BETRAYAL,
     }
 
 }

@@ -5,10 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.lambferret.game.command.Bunkering;
+import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.command.Command;
-import com.lambferret.game.command.EvilWithin;
-import com.lambferret.game.command.FieldInstructor;
+import com.lambferret.game.command.CupNoodle;
+import com.lambferret.game.command.TricksOfTheTrade;
 import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
@@ -47,7 +47,7 @@ public class ShopScreen implements AbstractGround {
     @Override
     public void init(Player player) {
         this.player = player;
-        List<Command> allCommand = List.of(new FieldInstructor(), new EvilWithin(), new Bunkering());
+        List<Command> allCommand = List.of(new TricksOfTheTrade(), new CupNoodle(), new ThreeShift());
         List<Manual> allManual = List.of(new DisciplineAndPunish());
         this.table.clear();
         fillCommandStock(allCommand);

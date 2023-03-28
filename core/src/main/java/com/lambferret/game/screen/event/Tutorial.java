@@ -2,7 +2,7 @@ package com.lambferret.game.screen.event;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.command.EvilWithin;
+import com.lambferret.game.command.CupNoodle;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.soldier.Vanilla;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
@@ -91,7 +91,7 @@ public class Tutorial extends EventWindow {
                 switch (optionNumber) {
                     case 0 -> {
                     }
-                    case 1 -> SnowFight.player.addManual(new EvilWithin());
+                    case 1 -> SnowFight.player.addManual(new CupNoodle());
                     case 2 -> SnowFight.player.addSoldier(new Vanilla());
                 }
                 break;

@@ -32,7 +32,7 @@ public class LocalizeConfig {
     public static UIText uiText;
     public static OptionText optionText;
     public static SoldierText soldierText;
-
+    public static CommandText commandText;
     public static ManualText manualText;
 
     public static DialogText dialogText;
@@ -49,6 +49,7 @@ public class LocalizeConfig {
         optionText = gson.fromJson(getTextFromJSON(Context.OPTION), OptionText.class);
         uiText = gson.fromJson(getTextFromJSON(Context.UI), UIText.class);
         soldierText = gson.fromJson(getTextFromJSON(Context.SOLDIER), SoldierText.class);
+        commandText = gson.fromJson(getTextFromJSON(Context.COMMAND), CommandText.class);
         manualText = gson.fromJson(getTextFromJSON(Context.MANUAL), ManualText.class);
         dialogText = gson.fromJson(getTextFromJSON(Context.DIALOGUE), DialogText.class);
     }

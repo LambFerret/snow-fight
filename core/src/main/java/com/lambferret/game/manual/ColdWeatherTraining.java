@@ -10,15 +10,13 @@ public class ColdWeatherTraining extends Manual {
     public static final ManualInfo INFO;
 
     static {
-        rarity = Rarity.COMMON;
         price = 50;
     }
 
     public ColdWeatherTraining() {
-        super(ID, INFO, rarity, price);
+        super(ID, INFO, Rarity.COMMON, price);
     }
 
-    private static final Rarity rarity;
     private static final int price;
 
     static {

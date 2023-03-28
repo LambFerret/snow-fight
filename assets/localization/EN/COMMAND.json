@@ -1,0 +1,19 @@
+{
+  "ID" : {
+    "ThreeShift" : {
+      "name" : "3교대",
+      "description" :"우리 부대는 3교대로 쉰다",
+      "effectDescription" : "이번 페이즈 배치 가용인원 2배, 이후 절반"
+    },
+    "TricksOfTheTrade" : {
+      "name" : "속임수 거래",
+      "description" :"악마가 뽑은 계약시 듣기 싫은말 1위! : 폰트는 10으로 통일해주세요",
+      "effectDescription" : "현재 남은 배급량 -20%, 상부 호감도 하락"
+    },
+    "CupNoodle" : {
+      "name" : "컵라면",
+      "description" :"컵라면 (못참음)",
+      "effectDescription" : "병사 강화, 담탐 확률 +10%"
+    }
+  }
+}

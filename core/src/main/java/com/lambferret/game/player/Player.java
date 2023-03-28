@@ -1,7 +1,7 @@
 package com.lambferret.game.player;
 
-import com.lambferret.game.command.Bunkering;
 import com.lambferret.game.command.Command;
+import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
@@ -49,7 +49,7 @@ public class Player {
         for (int i = 0; i < 11; i++) {
             soldiers.add(new Vanilla());
         }
-        commands.add(new Bunkering());
+        commands.add(new ThreeShift());
         manuals.add(new DisciplineAndPunish());
         //=-=-=-=-=-=--=-=//
 

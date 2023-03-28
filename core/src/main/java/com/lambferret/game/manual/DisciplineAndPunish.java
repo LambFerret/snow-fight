@@ -10,22 +10,18 @@ public class DisciplineAndPunish extends Manual {
     public static final ManualInfo INFO;
 
     static {
-        rarity = Rarity.COMMON;
         price = 100;
     }
 
-
     public DisciplineAndPunish() {
-        super(ID, INFO, rarity, price);
+        super(ID, INFO, Rarity.COMMON, price);
     }
 
-    private static final Rarity rarity;
     private static final int price;
 
     static {
         ID = DisciplineAndPunish.class.getSimpleName();
         INFO = LocalizeConfig.manualText.getID().get(ID);
     }
-
 
 }
