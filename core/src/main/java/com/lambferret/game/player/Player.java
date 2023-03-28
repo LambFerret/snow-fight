@@ -1,7 +1,7 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.manual.Manual;
-import com.lambferret.game.manual.ExampleManual;
+import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.command.Bunkering;
 import com.lambferret.game.command.Command;
@@ -50,7 +50,7 @@ public class Player {
             soldiers.add(new Vanilla());
         }
         commands.add(new Bunkering());
-        manuals.add(new ExampleManual());
+        manuals.add(new DisciplineAndPunish());
         //=-=-=-=-=-=--=-=//
 
         this.money = 1000;

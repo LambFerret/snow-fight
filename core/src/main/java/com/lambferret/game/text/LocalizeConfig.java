@@ -32,7 +32,9 @@ public class LocalizeConfig {
     public static UIText uiText;
     public static OptionText optionText;
     public static SoldierText soldierText;
+
     public static ManualText manualText;
+
     public static DialogText dialogText;
     private static final Gson gson = new GsonBuilder().create();
 
@@ -47,7 +49,7 @@ public class LocalizeConfig {
         optionText = gson.fromJson(getTextFromJSON(Context.OPTION), OptionText.class);
         uiText = gson.fromJson(getTextFromJSON(Context.UI), UIText.class);
         soldierText = gson.fromJson(getTextFromJSON(Context.SOLDIER), SoldierText.class);
-        manualText = gson.fromJson(getTextFromJSON(Context.BOOK), ManualText.class);
+        manualText = gson.fromJson(getTextFromJSON(Context.MANUAL), ManualText.class);
         dialogText = gson.fromJson(getTextFromJSON(Context.DIALOGUE), DialogText.class);
     }
 
@@ -59,6 +61,6 @@ public class LocalizeConfig {
 
     // UI, OPTION 등등 현지화 작업이 필요한 분류의 폴더명
     private enum Context {
-        UI, OPTION, SOLDIER, BOOK, DIALOGUE,
+        UI, OPTION, SOLDIER, MANUAL, COMMAND, DIALOGUE,
     }
 }

@@ -11,11 +11,6 @@ import java.util.Map;
 @Getter
 @ToString
 public class ManualText {
-    private Map<Rank, String> rank;
-    private Map<Affiliation, String> affiliation;
-    private Map<String, String> name;
-    private Map<Branch, String> branch;
-
+    private Map<String, ManualInfo> ID;
 }
-
 

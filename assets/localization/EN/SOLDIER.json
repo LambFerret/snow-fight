@@ -27,7 +27,7 @@
     "LIEUTENANT_GENERAL": "lieutenant_general",
     "GENERAL": "general"
   },
-  "name": {
+  "ID": {
     "Vanilla": {
       "name": "Vanilla",
       "description":"강하게 살아남으렴 바닐라쨩!",

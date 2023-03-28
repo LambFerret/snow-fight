@@ -1,6 +1,7 @@
 package com.lambferret.game.manual;
 
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.text.dto.ManualInfo;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -10,19 +11,27 @@ import org.apache.logging.log4j.Logger;
 @Setter
 public abstract class Manual implements Comparable<Manual> {
     private static final Logger logger = LogManager.getLogger(Manual.class.getName());
-
     /**
      * ID String
      */
     private String ID;
     /**
-     * 텍스쳐 경로
+     * 이름
      */
-    private String texturePath;
+    private String name;
     /**
      * 설명
      */
     private String description;
+    /**
+     * 효과 설명
+     */
+    private String effectDescription;
+
+    /**
+     * 텍스쳐 경로
+     */
+    private String texturePath;
     /**
      * 희귀도
      */
@@ -36,18 +45,16 @@ public abstract class Manual implements Comparable<Manual> {
 
     public Manual(
         String ID,
-        String texturePath,
-        String description,
+        ManualInfo info,
         Rarity rarity,
-        int price,
-        byte stack
+        int price
     ) {
         this.ID = ID;
-        this.texturePath = texturePath;
-        this.description = description;
+        this.name = info.getName();
+        this.description = info.getDescription();
+        this.texturePath = ID;
         this.rarity = rarity;
         this.price = price;
-        this.stack = stack;
     }
 
     @Override
