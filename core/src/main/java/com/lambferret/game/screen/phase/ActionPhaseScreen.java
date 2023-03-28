@@ -63,7 +63,7 @@ public class ActionPhaseScreen implements AbstractPhase {
         Random random = new Random();
         Set<Soldier> soldierSet = new HashSet<>();
         List<Soldier> hand = player.getSoldiers();
-        List<Soldier> result = new ArrayList<>();
+        List<Soldier> result;
         if (number > player.getSoldiers().size()) {
             result = hand;
         } else {

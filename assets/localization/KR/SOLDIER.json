@@ -27,12 +27,39 @@
     "LIEUTENANT_GENERAL": "중장",
     "GENERAL": "대장"
   },
-  "name": {
-    "SilvanusPark": "갑상박"
+  "ID": {
+    "Vanilla": {
+      "name": "Vanilla",
+      "description": "강하게 살아남으렴 바닐라쨩!",
+      "talent": "무재능이 재능",
+      "empower": "X 범위가 1 증가",
+      "weaken": "X 범위가 1 하락"
+    },
+    "Choco": {
+      "name": "Choco",
+      "description": "자네가 소위인가?",
+      "talent": "한 페이즈 동안 보급병 하나의 속도 +100%, 이후 -80%",
+      "empower": "X 범위가 1 증가",
+      "weaken": "X 범위가 1 하락"
+    },
+    "Chili": {
+      "name": "Chili",
+      "description": "정승같이 일하고 개같이 노는편",
+      "talent": "자신의 직급이 제일 높을 시 본인과 본인 직급의 담탐확률 100%",
+      "empower": "X 범위가 1 증가",
+      "weaken": "X 범위가 1 하락"
+    },
+    "Coffee": {
+      "name": "Coffee",
+      "description": "네? 제가요? 왜요?",
+      "talent": "자신보다 높은 직급의 병사와 범위가 겹칠 경우 그 병사를 약화",
+      "empower": "X 범위가 1 증가",
+      "weaken": "X 범위가 1 하락"
+    }
   },
   "branch": {
     "SNIPER": "저격병",
-    "ADMINISTRATIVE" : "행정병",
+    "ADMINISTRATIVE": "행정병",
     "COOK": "취사병"
   }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +15,7 @@ public class PrePhaseScreen implements AbstractPhase {
     TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
     Container<Table> mapContainer;
     TextButton textButton;
-    BitmapFont font = new BitmapFont();
+    BitmapFont font = GlobalSettings.font;
     Stage stage;
     Player player;
 

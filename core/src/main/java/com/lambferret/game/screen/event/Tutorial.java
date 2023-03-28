@@ -94,13 +94,11 @@ public class Tutorial extends EventWindow {
                     case 1 -> SnowFight.player.addManual(new CupNoodle());
                     case 2 -> SnowFight.player.addSoldier(new Vanilla());
                 }
-                break;
             case 1:
                 switch (optionNumber) {
                     case 0 -> SnowFight.player.setMoneyBy(50);
                     case 1 -> SnowFight.player.setMoneyBy(-100);
                 }
-                break;
         }
     }
 }

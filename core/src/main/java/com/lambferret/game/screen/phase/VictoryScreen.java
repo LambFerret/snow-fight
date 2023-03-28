@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.ground.GroundScreen;
+import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,7 @@ public class VictoryScreen implements AbstractPhase {
 
     public VictoryScreen() {
         this.stage = new Stage();
-        font = new BitmapFont();
+        font = GlobalSettings.font;
         style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("VictoryScreen", style);

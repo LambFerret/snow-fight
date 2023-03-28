@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.*;
-import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,12 +38,7 @@ public class LocalizeConfig {
     private static final Gson gson = new GsonBuilder().create();
 
     public static void init() {
-        GlobalSettings.font = switch (GlobalSettings.language) {
-            case KR -> AssetFinder.getFont("KR_nanumBold");
-            case EN -> AssetFinder.getFont("EN_Archivo_Condensed-Light");
-            case JP -> AssetFinder.getFont("JP_ShipporiSans");
-            case RU -> AssetFinder.getFont("RU_kremlin");
-        };
+
 
         optionText = gson.fromJson(getTextFromJSON(Context.OPTION), OptionText.class);
         uiText = gson.fromJson(getTextFromJSON(Context.UI), UIText.class);

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +19,7 @@ public class DefeatScreen implements AbstractPhase {
 
     public DefeatScreen() {
         this.stage = new Stage();
-        font = new BitmapFont();
+        font = GlobalSettings.font;
         style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("DefeatScreen", style);

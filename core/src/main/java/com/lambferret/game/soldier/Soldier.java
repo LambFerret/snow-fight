@@ -97,7 +97,6 @@ public abstract class Soldier implements Comparable<Soldier> {
     private SoldierInfo info;
     private Texture texture;
     private Texture simpleTexture;
-    private BitmapFont font = new BitmapFont();
     private boolean isFront = true;
     private boolean isDetail = false;
 

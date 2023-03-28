@@ -19,7 +19,7 @@ public class RecruitScreen implements AbstractGround {
 
     public RecruitScreen() {
         this.stage = new Stage();
-        font = new BitmapFont();
+        font = GlobalSettings.font;
         style = new TextButton.TextButtonStyle();
         style.font = font;
         textButton = new TextButton("RECRUIT", style);
