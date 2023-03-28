@@ -1,4 +1,4 @@
-package com.lambferret.game.book;
+package com.lambferret.game.manual;
 
 import com.lambferret.game.constant.Rarity;
 import lombok.Getter;
@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 @Getter
 @Setter
-public abstract class Book implements Comparable<Book> {
-    private static final Logger logger = LogManager.getLogger(Book.class.getName());
+public abstract class Manual implements Comparable<Manual> {
+    private static final Logger logger = LogManager.getLogger(Manual.class.getName());
 
     /**
      * ID String
@@ -34,7 +34,7 @@ public abstract class Book implements Comparable<Book> {
 
     private byte stack;
 
-    public Book(
+    public Manual(
         String ID,
         String texturePath,
         String description,
@@ -51,7 +51,7 @@ public abstract class Book implements Comparable<Book> {
     }
 
     @Override
-    public int compareTo(Book o) {
+    public int compareTo(Manual o) {
         return this.ID.compareTo(o.ID);
     }
 }

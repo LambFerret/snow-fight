@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Getter
 @ToString
-public class BookText {
+public class ManualText {
     private Map<Rank, String> rank;
     private Map<Affiliation, String> affiliation;
     private Map<String, String> name;

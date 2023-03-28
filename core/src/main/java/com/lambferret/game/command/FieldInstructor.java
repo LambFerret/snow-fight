@@ -1,22 +1,21 @@
-package com.lambferret.game.magic;
+package com.lambferret.game.command;
 
-public class EvilWithin extends Magic {
+public class FieldInstructor extends Command {
 
     static {
 //        text = LocalizeConfig.soldierText;
-        texturePath = "evilWithin";
-        cost = 2;
-        affectToUp = -30;
-        affectToMiddle = -10;
-        affectToDown = 30;
-        isPersistentEffect = false;
-        isReusable = false;
-        isEvil = true;
-        target = Target.PLAYER;
-
+        texturePath = "fieldInstructor";
+        cost = 1;
+        affectToUp = 10;
+        affectToMiddle = 0;
+        affectToDown = -10;
+        isPersistentEffect = true;
+        isReusable = true;
+        isEvil = false;
+        target = Target.SOLDIER;
     }
 
-    public static final String ID = EvilWithin.class.getSimpleName();
+    public static final String ID = FieldInstructor.class.getSimpleName();
     //    private static final SoldierText text;
     static String texturePath;
     static int cost;
@@ -28,7 +27,8 @@ public class EvilWithin extends Magic {
     static boolean isEvil;
     static Target target;
 
-    public EvilWithin() {
+
+    public FieldInstructor() {
         super(
             ID,
             texturePath,

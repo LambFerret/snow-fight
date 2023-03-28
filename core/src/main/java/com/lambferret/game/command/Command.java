@@ -1,4 +1,4 @@
-package com.lambferret.game.magic;
+package com.lambferret.game.command;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,8 +21,8 @@ import org.apache.logging.log4j.Logger;
 
 @Setter
 @Getter
-public abstract class Magic implements Comparable<Magic> {
-    private static final Logger logger = LogManager.getLogger(Magic.class.getName());
+public abstract class Command implements Comparable<Command> {
+    private static final Logger logger = LogManager.getLogger(Command.class.getName());
 
     /**
      * ID String
@@ -74,7 +74,7 @@ public abstract class Magic implements Comparable<Magic> {
     private int price;
     private int itemCount = 0;
 
-    public Magic(
+    public Command(
         String ID,
         String texturePath,
         int cost,
@@ -145,7 +145,7 @@ public abstract class Magic implements Comparable<Magic> {
     }
 
     @Override
-    public int compareTo(Magic o) {
+    public int compareTo(Command o) {
         return this.ID.compareTo(o.ID);
     }
 

@@ -1,12 +1,12 @@
-package com.lambferret.game.book;
+package com.lambferret.game.manual;
 
 import com.lambferret.game.constant.Rarity;
 
-public class ExampleBook extends Book {
+public class ExampleManual extends Manual {
     static {
-        ID = "ExampleBook";
-        texturePath = "exampleBook";
-        description = "This is an example book.";
+        ID = "ExampleManual";
+        texturePath = "exampleManual";
+        description = "This is an example manual.";
         rarity = Rarity.COMMON;
         price = 100;
     }
@@ -18,7 +18,7 @@ public class ExampleBook extends Book {
     static int price;
 
 
-    public ExampleBook() {
+    public ExampleManual() {
         super(ID, texturePath, description, rarity, price, (byte) 0);
     }
 }

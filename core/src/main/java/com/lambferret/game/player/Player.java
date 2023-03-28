@@ -1,10 +1,10 @@
 package com.lambferret.game.player;
 
-import com.lambferret.game.book.Book;
-import com.lambferret.game.book.ExampleBook;
+import com.lambferret.game.manual.Manual;
+import com.lambferret.game.manual.ExampleManual;
 import com.lambferret.game.constant.Region;
-import com.lambferret.game.magic.Bunkering;
-import com.lambferret.game.magic.Magic;
+import com.lambferret.game.command.Bunkering;
+import com.lambferret.game.command.Command;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.soldier.Vanilla;
@@ -23,8 +23,8 @@ public class Player {
     private static final Logger logger = LogManager.getLogger(Player.class.getName());
     private final String name;
     private final List<Soldier> soldiers;
-    private final List<Magic> magics;
-    private final List<Book> books;
+    private final List<Command> commands;
+    private final List<Manual> manuals;
     private int money;
     private Map<AFFINITY, Integer> affinity;
     private int maxCost;
@@ -43,14 +43,14 @@ public class Player {
         name = SaveLoader.currentSave.getName();
 
         this.soldiers = new ArrayList<>();
-        this.magics = new ArrayList<>();
-        this.books = new ArrayList<>();
+        this.commands = new ArrayList<>();
+        this.manuals = new ArrayList<>();
         //=-=-=-=-=-=--=-=//
         for (int i = 0; i < 11; i++) {
             soldiers.add(new Vanilla());
         }
-        magics.add(new Bunkering());
-        books.add(new ExampleBook());
+        commands.add(new Bunkering());
+        manuals.add(new ExampleManual());
         //=-=-=-=-=-=--=-=//
 
         this.money = 1000;
@@ -110,12 +110,12 @@ public class Player {
         soldiers.add(soldier);
     }
 
-    public List<Magic> getMagics() {
-        return magics;
+    public List<Command> getCommands() {
+        return commands;
     }
 
-    public void addBook(Magic magic) {
-        this.magics.add(magic);
+    public void addManual(Command command) {
+        this.commands.add(command);
     }
 
     public Region getCurrentRegion() {

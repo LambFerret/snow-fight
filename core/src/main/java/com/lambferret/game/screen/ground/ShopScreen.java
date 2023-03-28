@@ -5,12 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.lambferret.game.book.Book;
-import com.lambferret.game.book.ExampleBook;
-import com.lambferret.game.magic.Bunkering;
-import com.lambferret.game.magic.EvilWithin;
-import com.lambferret.game.magic.FieldInstructor;
-import com.lambferret.game.magic.Magic;
+import com.lambferret.game.manual.Manual;
+import com.lambferret.game.manual.ExampleManual;
+import com.lambferret.game.command.Bunkering;
+import com.lambferret.game.command.EvilWithin;
+import com.lambferret.game.command.FieldInstructor;
+import com.lambferret.game.command.Command;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
@@ -26,8 +26,8 @@ public class ShopScreen implements AbstractGround {
 
     Stage stage;
     Table table = new Table();
-    List<Book> bookStock = new ArrayList<>();
-    List<Magic> magicStock = new ArrayList<>();
+    List<Manual> manualStock = new ArrayList<>();
+    List<Command> commandStock = new ArrayList<>();
     Player player;
 
     public ShopScreen() {
@@ -47,34 +47,34 @@ public class ShopScreen implements AbstractGround {
     @Override
     public void init(Player player) {
         this.player = player;
-        List<Magic> allMagic = List.of(new FieldInstructor(), new EvilWithin(), new Bunkering());
-        List<Book> allBook = List.of(new ExampleBook());
+        List<Command> allCommand = List.of(new FieldInstructor(), new EvilWithin(), new Bunkering());
+        List<Manual> allManual = List.of(new ExampleManual());
         this.table.clear();
-        fillMagicStock(allMagic);
+        fillCommandStock(allCommand);
         table.row();
-        fillBookStock(allBook);
+        fillManualStock(allManual);
     }
 
-    private void fillMagicStock(List<Magic> allMagic) {
-        this.magicStock.clear();
-        while (magicStock.size() < MAGIC_STOCK_AMOUNT) {
-            int random = (int) (Math.random() * allMagic.size());
-            if (!magicStock.contains(allMagic.get(random))) {
-                magicStock.add(allMagic.get(random));
+    private void fillCommandStock(List<Command> allCommand) {
+        this.commandStock.clear();
+        while (commandStock.size() < MAGIC_STOCK_AMOUNT) {
+            int random = (int) (Math.random() * allCommand.size());
+            if (!commandStock.contains(allCommand.get(random))) {
+                commandStock.add(allCommand.get(random));
             }
-            if (allMagic.size() < MAGIC_STOCK_AMOUNT) break;
+            if (allCommand.size() < MAGIC_STOCK_AMOUNT) break;
         }
 
-        for (Magic magic : magicStock) {
+        for (Command command : commandStock) {
             ImageTextButton imageButton = new ImageTextButton("", GlobalSettings.imageButtonStyle);
-            imageButton.setText(magic.getID());
+            imageButton.setText(command.getID());
             imageButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (imageButton.isDisabled()) return;
-                    if (player.getMoney() >= magic.getPrice()) {
-                        player.setMoney(player.getMoney() - magic.getPrice());
-                        player.getMagics().add(magic);
+                    if (player.getMoney() >= command.getPrice()) {
+                        player.setMoney(player.getMoney() - command.getPrice());
+                        player.getCommands().add(command);
                         imageButton.setDisabled(true);
 //                        updateMoney();
                         logger.info("clicked |  🐳  money last | " + player.getMoney());
@@ -87,25 +87,25 @@ public class ShopScreen implements AbstractGround {
         }
     }
 
-    private void fillBookStock(List<Book> allBook) {
-        this.bookStock.clear();
-        while (bookStock.size() < BOOK_STOCK_AMOUNT) {
-            int random = (int) (Math.random() * allBook.size());
-            if (!bookStock.contains(allBook.get(random))) {
-                bookStock.add(allBook.get(random));
+    private void fillManualStock(List<Manual> allManual) {
+        this.manualStock.clear();
+        while (manualStock.size() < BOOK_STOCK_AMOUNT) {
+            int random = (int) (Math.random() * allManual.size());
+            if (!manualStock.contains(allManual.get(random))) {
+                manualStock.add(allManual.get(random));
             }
-            if (allBook.size() < BOOK_STOCK_AMOUNT) break;
+            if (allManual.size() < BOOK_STOCK_AMOUNT) break;
         }
-        for (Book book : bookStock) {
+        for (Manual manual : manualStock) {
             ImageTextButton imageButton = new ImageTextButton("", GlobalSettings.imageButtonStyle);
-            imageButton.setText(book.getID());
+            imageButton.setText(manual.getID());
             imageButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (imageButton.isDisabled()) return;
-                    if (player.getMoney() >= book.getPrice()) {
-                        player.setMoney(player.getMoney() - book.getPrice());
-                        player.getBooks().add(book);
+                    if (player.getMoney() >= manual.getPrice()) {
+                        player.setMoney(player.getMoney() - manual.getPrice());
+                        player.getManuals().add(manual);
                         imageButton.setDisabled(true);
                         logger.info("clicked |  🐳  money last | " + player.getMoney());
 

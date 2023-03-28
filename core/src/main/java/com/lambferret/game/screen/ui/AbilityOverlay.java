@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.lambferret.game.magic.Magic;
+import com.lambferret.game.command.Command;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
@@ -49,7 +49,7 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
 
     @Override
     public void init(Player player) {
-        makeAbilityContainer(player.getMagics());
+        makeAbilityContainer(player.getCommands());
         instantHide();
 
         scrollPane.addListener(new InputListener() {
@@ -75,19 +75,19 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         });
     }
 
-    private void makeAbilityContainer(List<Magic> magics) {
+    private void makeAbilityContainer(List<Command> commands) {
         Table table = new Table();
-        for (Magic magic : magics) {
-            table.add(renderBook(magic));
+        for (Command command : commands) {
+            table.add(renderManual(command));
             table.row().pad(10);
         }
         this.scrollPane.setActor(table);
     }
 
-    private ImageTextButton renderBook(Magic magic) {
-        ImageTextButton bookButton = new ImageTextButton("book", soldierButtonStyle(magic));
-        bookButton.setSize(scrollPane.getWidth(), scrollPane.getHeight() / 3.0F);
-        bookButton.addListener(new ClickListener() {
+    private ImageTextButton renderManual(Command command) {
+        ImageTextButton manualButton = new ImageTextButton("manual", soldierButtonStyle(command));
+        manualButton.setSize(scrollPane.getWidth(), scrollPane.getHeight() / 3.0F);
+        manualButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
@@ -105,13 +105,13 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
                 //unHover Information
             }
         });
-        return bookButton;
+        return manualButton;
     }
 
-    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Magic magic) {
+    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Command command) {
         var a = new ImageTextButton.ImageTextButtonStyle();
         a.font = GlobalSettings.font;
-        a.up = new TextureRegionDrawable(magic.renderSimple());
+        a.up = new TextureRegionDrawable(command.renderSimple());
         return a;
     }
 

@@ -1,6 +1,6 @@
-package com.lambferret.game.magic;
+package com.lambferret.game.command;
 
-public class Bunkering extends Magic {
+public class Bunkering extends Command {
 
     static {
 //        text = LocalizeConfig.soldierText;
