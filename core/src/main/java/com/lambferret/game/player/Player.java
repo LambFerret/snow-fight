@@ -1,10 +1,10 @@
 package com.lambferret.game.player;
 
-import com.lambferret.game.manual.Manual;
-import com.lambferret.game.manual.DisciplineAndPunish;
-import com.lambferret.game.constant.Region;
 import com.lambferret.game.command.Bunkering;
 import com.lambferret.game.command.Command;
+import com.lambferret.game.constant.Region;
+import com.lambferret.game.manual.DisciplineAndPunish;
+import com.lambferret.game.manual.Manual;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.soldier.Vanilla;
