@@ -63,11 +63,17 @@ public class ActionPhaseScreen implements AbstractPhase {
         Random random = new Random();
         Set<Soldier> soldierSet = new HashSet<>();
         List<Soldier> hand = player.getSoldiers();
-        while (soldierSet.size() < number) {
-            int randInt = random.nextInt(hand.size());
-            soldierSet.add(hand.get(randInt));
+        List<Soldier> result = new ArrayList<>();
+        if (number > player.getSoldiers().size()) {
+            result = hand;
+        } else {
+            while (soldierSet.size() < number) {
+                int randInt = random.nextInt(hand.size());
+                soldierSet.add(hand.get(randInt));
+            }
+            result = soldierSet.stream().toList();
         }
-        return soldierSet.stream().toList();
+        return result;
     }
 
     private void happyWorking(Soldier soldier) {

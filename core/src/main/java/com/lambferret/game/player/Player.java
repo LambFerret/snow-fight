@@ -1,15 +1,16 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.command.Command;
+import com.lambferret.game.command.CupNoodle;
 import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.save.SaveLoader;
-import com.lambferret.game.soldier.Soldier;
-import com.lambferret.game.soldier.Vanilla;
+import com.lambferret.game.soldier.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @Getter
 @Setter
+@ToString
 public class Player {
     private static final Logger logger = LogManager.getLogger(Player.class.getName());
     private final String name;
@@ -46,10 +48,12 @@ public class Player {
         this.commands = new ArrayList<>();
         this.manuals = new ArrayList<>();
         //=-=-=-=-=-=--=-=//
-        for (int i = 0; i < 11; i++) {
-            soldiers.add(new Vanilla());
-        }
+        soldiers.add(new Vanilla());
+        soldiers.add(new Choco());
+        soldiers.add(new Chili());
+        soldiers.add(new Coffee());
         commands.add(new ThreeShift());
+        commands.add(new CupNoodle());
         manuals.add(new DisciplineAndPunish());
         //=-=-=-=-=-=--=-=//
 
