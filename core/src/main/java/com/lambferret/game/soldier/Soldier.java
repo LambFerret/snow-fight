@@ -94,6 +94,13 @@ public abstract class Soldier implements Comparable<Soldier> {
     private byte runAwayProbability;
 
     //인게임 정보 관련
+
+    List<Short> initialPreferenceTerrain;
+    boolean initialIsUncommonRange;
+    short initialSpeed;
+    byte initialRangeX;
+    byte initialRangeY;
+    byte initialRunAwayProbability;
     private SoldierInfo info;
     private Texture texture;
     private Texture simpleTexture;
@@ -121,14 +128,23 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.talent = info.getTalent();
         this.empower = info.getEmpower();
         this.weaken = info.getWeaken();
-        this.preferenceTerrain = preferenceTerrain;
-        this.isUncommonRange = isUncommonRange;
-        this.speed = speed;
-        this.rangeX = rangeX;
-        this.rangeY = rangeY;
-        this.runAwayProbability = runAwayProbability;
-        empowerLevel(EmpowerLevel.NEUTRAL);
+        this.initialPreferenceTerrain = preferenceTerrain;
+        this.initialIsUncommonRange = isUncommonRange;
+        this.initialSpeed = speed;
+        this.initialRangeX = rangeX;
+        this.initialRangeY = rangeY;
+        this.initialRunAwayProbability = runAwayProbability;
+        initValue();
+    }
 
+    public void initValue() {
+        this.preferenceTerrain = this.initialPreferenceTerrain;
+        this.isUncommonRange = this.initialIsUncommonRange;
+        this.speed = this.initialSpeed;
+        this.rangeX = this.initialRangeX;
+        this.rangeY = this.initialRangeY;
+        this.runAwayProbability = this.initialRunAwayProbability;
+        empowerLevel(EmpowerLevel.NEUTRAL);
     }
 
     private void renderSimple() {

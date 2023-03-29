@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
 import com.lambferret.game.command.Command;
-import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
@@ -35,7 +34,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static Screen currentScreen;
     public static Player player;
     public static Level level;
-    public static Map<Command, List<Soldier>> commandToSoldier = new HashMap<>();
+    public static Map<Command, List<Soldier>> commands = new HashMap<>();
     public static List<Buff> buffList = new ArrayList<>();
     private static final List<AbstractPhase> phaseListener;
     private static final AbstractPhase actionPhaseScreen;
@@ -84,7 +83,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         for (AbstractPhase phase : phaseListener) {
             phase.init(player);
         }
-        commandToSoldier = new LinkedHashMap<>();
+        commands = new LinkedHashMap<>();
         buffList = new ArrayList<>();
 
     }
@@ -122,15 +121,19 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         return button;
     }
 
+    public static Map<Command, List<Soldier>> getCommands() {
+        return commands;
+    }
+
     public static Screen getCurrentScreen() {
         return currentScreen;
     }
 
     public static void screenInitToP() {
-        prePhaseScreen.startPhase();
-
-        commandToSoldier.clear();
+        commands.clear();
         buffList.clear();
+
+        prePhaseScreen.startPhase();
 
         changeCurrentInputProcessor(prePhaseScreen.getStage());
         currentScreen = Screen.PRE;
@@ -142,9 +145,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
         player.setSnowAmount(level.getSnowMax());
         level.initCurrentIteration();
-
-        var a = new ThreeShift();
-        a.execute();
 
         readyPhaseScreen.startPhase();
         changeCurrentInputProcessor(readyPhaseScreen.getStage());
@@ -164,7 +164,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
         player.setCurrentCost(player.getMaxCost());
         level.toNextIteration();
-        commandToSoldier.clear();
+        commands.clear();
         for (Buff buff : buffList) {
             buff.nextTurn();
             if (buff.isExpired()) {

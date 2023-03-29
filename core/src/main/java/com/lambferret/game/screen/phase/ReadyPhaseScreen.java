@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +37,9 @@ public class ReadyPhaseScreen implements AbstractPhase {
     @Override
     public void executePhase() {
         // irreversible execute transaction
+        for (Soldier soldier : player.getSoldiers()) {
+            soldier.initValue();
+        }
 
     }
 
