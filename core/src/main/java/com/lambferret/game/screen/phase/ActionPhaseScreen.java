@@ -3,6 +3,7 @@ package com.lambferret.game.screen.phase;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.lambferret.game.buff.Buff;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.soldier.Soldier;
@@ -42,6 +43,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     @Override
     public void startPhase() {
         setMembers();
+        setCommand();
     }
 
     @Override
@@ -74,6 +76,14 @@ public class ActionPhaseScreen implements AbstractPhase {
             result = soldierSet.stream().toList();
         }
         return result;
+    }
+
+    private void setCommand() {
+        List<Buff> buffList = PhaseScreen.buffList;
+        logger.info("setCommand |  🐳     | " + buffList);
+        for (Buff buff : buffList) {
+            buff.effect();
+        }
     }
 
     private void happyWorking(Soldier soldier) {

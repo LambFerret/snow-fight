@@ -8,9 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.lambferret.game.SnowFight;
 import com.lambferret.game.constant.Rarity;
-import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.dto.CommandInfo;
@@ -19,6 +17,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -121,26 +122,10 @@ public abstract class Command implements Comparable<Command> {
         this.isReusable = isReusable;
     }
 
+    public abstract void execute(List<Soldier> soldiers);
 
     public void execute() {
-        switch (this.target) {
-            case PLAYER -> {
-                executeToPlayer();
-            }
-            case SOLDIER -> {
-//                executeToPlayer();
-            }
-            case UI, ENEMY -> {
-            }
-        }
-    }
-
-    public void executeToPlayer() {
-        Player player = SnowFight.player;
-    }
-
-    public void executeToSoldier(Soldier soldier) {
-
+        execute(new ArrayList<>());
     }
 
     public TextureRegion renderSimple() {

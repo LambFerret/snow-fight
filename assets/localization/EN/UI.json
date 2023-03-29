@@ -15,5 +15,14 @@
     "shop" : "SHOP",
     "trainingGround" :  "TRAINING_GROUND",
     "stage": "STAGE"
+  },
+  "phaseText": {
+    "buffCapacity" : "this map's capacity is {isIncreased} by {turn} turn",
+    "buffCost" : "this cost is {isIncreased} by {turn} turn",
+    "buffSoldierX" :"this soldier's X is {isIncreased} by {turn} turn",
+    "buffSoldierY" : "this soldier's Y is {isIncreased} by {turn} turn",
+    "buffSoldierSpeed" :"this soldier's speed is {isIncreased} by {turn} turn",
+    "increased" : "increased",
+    "decreased" : "decreased"
   }
 }

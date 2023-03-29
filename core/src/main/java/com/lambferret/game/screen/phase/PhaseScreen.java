@@ -5,6 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.buff.Buff;
+import com.lambferret.game.command.Command;
+import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
@@ -13,11 +16,11 @@ import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
 
@@ -32,7 +35,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static Screen currentScreen;
     public static Player player;
     public static Level level;
-
+    public static Map<Command, List<Soldier>> commandToSoldier = new HashMap<>();
+    public static List<Buff> buffList = new ArrayList<>();
     private static final List<AbstractPhase> phaseListener;
     private static final AbstractPhase actionPhaseScreen;
     private static final AbstractPhase readyPhaseScreen;
@@ -71,7 +75,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         mapContainer.setSize(MAP_WIDTH, MAP_HEIGHT);
 
         mapContainer.setDebug(true, true);
-
     }
 
     public void onPlayerReady() {
@@ -81,6 +84,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         for (AbstractPhase phase : phaseListener) {
             phase.init(player);
         }
+        commandToSoldier = new LinkedHashMap<>();
+        buffList = new ArrayList<>();
+
     }
 
     private Table makeMap() {
@@ -123,6 +129,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenInitToP() {
         prePhaseScreen.startPhase();
 
+        commandToSoldier.clear();
+        buffList.clear();
+
         changeCurrentInputProcessor(prePhaseScreen.getStage());
         currentScreen = Screen.PRE;
     }
@@ -133,6 +142,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
         player.setSnowAmount(level.getSnowMax());
         level.initCurrentIteration();
+
+        var a = new ThreeShift();
+        a.execute();
 
         readyPhaseScreen.startPhase();
         changeCurrentInputProcessor(readyPhaseScreen.getStage());
@@ -152,6 +164,13 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
         player.setCurrentCost(player.getMaxCost());
         level.toNextIteration();
+        commandToSoldier.clear();
+        for (Buff buff : buffList) {
+            buff.nextTurn();
+            if (buff.isExpired()) {
+                buffList.remove(buff);
+            }
+        }
 
         readyPhaseScreen.startPhase();
         changeCurrentInputProcessor(readyPhaseScreen.getStage());

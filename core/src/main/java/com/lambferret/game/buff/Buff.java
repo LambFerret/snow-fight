@@ -1,0 +1,263 @@
+package com.lambferret.game.buff;
+
+import com.lambferret.game.level.Level;
+import com.lambferret.game.player.Player;
+import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.text.dto.PhaseText;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+public class Buff {
+    private static final Logger logger = LogManager.getLogger(Buff.class.getName());
+
+    private int turn;
+    private int turnAfter;
+    private Figure figure;
+    private int value;
+    private Operation operation;
+    private List<Soldier> soldiers;
+    private Level level;
+    private Player player;
+
+    private Buff(SetFigure fig) {
+        this.figure = fig.figure;
+        this.turn = fig.turn;
+        this.turnAfter = fig.turnAfter;
+        this.value = fig.value;
+        this.operation = fig.operation;
+        this.soldiers = fig.soldiers;
+        this.level = fig.level;
+        this.player = fig.player;
+    }
+
+    public void effect() {
+        if (turnAfter > 0) return;
+        switch (figure) {
+            case SOLDIER_X -> {
+                switch (operation) {
+                    case ADD -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeX((byte) (soldier.getRangeX() + value));
+                        }
+                    }
+                    case SUB -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeX((byte) (soldier.getRangeX() - value));
+                        }
+                    }
+                    case MUL -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeX((byte) (soldier.getRangeX() * value));
+                        }
+                    }
+                    case DIV -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeX((byte) (soldier.getRangeX() / value));
+                        }
+                    }
+                }
+            }
+            case SOLDIER_Y -> {
+                switch (operation) {
+                    case ADD -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeY((byte) (soldier.getRangeY() + value));
+                        }
+                    }
+                    case SUB -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeY((byte) (soldier.getRangeY() - value));
+                        }
+                    }
+                    case MUL -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeY((byte) (soldier.getRangeY() * value));
+                        }
+                    }
+                    case DIV -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setRangeY((byte) (soldier.getRangeY() / value));
+                        }
+                    }
+                }
+            }
+            case SOLDIER_SPEED -> {
+                switch (operation) {
+                    case ADD -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setSpeed((byte) (soldier.getSpeed() + value));
+                        }
+                    }
+                    case SUB -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setSpeed((byte) (soldier.getSpeed() - value));
+                        }
+                    }
+                    case MUL -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setSpeed((byte) (soldier.getSpeed() * value));
+                        }
+                    }
+                    case DIV -> {
+                        for (Soldier soldier : soldiers) {
+                            soldier.setSpeed((byte) (soldier.getSpeed() / value));
+                        }
+                    }
+                }
+            }
+            case CAPACITY -> {
+                switch (operation) {
+                    case ADD -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() + value);
+                    case SUB -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() - value);
+                    case MUL -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() * value);
+                    case DIV -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() / value);
+                }
+            }
+        }
+    }
+
+    public static SetFigure figure(Figure figure) {
+        return new SetFigure(figure);
+    }
+
+    public static class SetFigure {
+        private Figure figure;
+        private int turn;
+        private int turnAfter;
+        private int value;
+        private Operation operation;
+        private List<Soldier> soldiers = new ArrayList<>();
+        private Level level = null;
+        private Player player = null;
+
+        public SetFigure(Figure figure) {
+            this.figure = figure;
+        }
+
+        public SetFigure turn(int turn) {
+            this.turn = turn;
+            return this;
+        }
+
+        public SetFigure turnAfter(int turnAfter) {
+            this.turnAfter = turnAfter;
+            return this;
+        }
+
+        public SetFigure operation(Operation operation) {
+            this.operation = operation;
+            return this;
+        }
+
+        public SetFigure to(List<Soldier> soldiers) {
+            this.soldiers = soldiers;
+            return this;
+        }
+
+        public SetFigure to(Level level) {
+            this.level = level;
+            return this;
+        }
+
+        public SetFigure to(Player player) {
+            this.player = player;
+            return this;
+        }
+
+        private boolean verify() {
+            List<Object> a = Arrays.asList(soldiers, level, player);
+
+            long nonNullCount = a.stream()
+                .filter(Objects::nonNull)
+                .filter(obj -> !(obj instanceof String) || !((String) obj).isEmpty())
+                .filter(obj -> !(obj instanceof List) || !((List<?>) obj).isEmpty())
+                .count();
+
+            return nonNullCount == 1;
+        }
+
+        public Buff value(int value) {
+            this.value = value;
+            if (verify()) return new Buff(this);
+            else throw new IllegalStateException("Buff 를 생성할 수 없습니다.");
+        }
+    }
+
+    public void nextTurn() {
+        this.turn--;
+        this.turnAfter--;
+    }
+
+    public boolean isExpired() {
+        return this.turn <= 0;
+    }
+
+    public String getDescription() {
+        var description = this.figure.description;
+        var isIncreased =
+            (this.operation == Operation.ADD || this.operation == Operation.MUL) ?
+                text.getIncreased() : text.getDecreased();
+        description = description.replace("{isIncreased}", isIncreased)
+            .replace("{turn}", String.valueOf(this.turn));
+        return description;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder a = new StringBuilder("\n BUFF | ");
+        if (turnAfter > 0) {
+            a.append("after ").append(turnAfter).append(" turn, ");
+        }
+        a.append(figure).append(" Buff ").append(turn).append(" turn left ")
+            .append("operation ").append(operation).append(" by value ").append(value);
+        if (!soldiers.isEmpty()) {
+            a.append(" to SOLDIERS : ").append(soldiers);
+        }
+        if (level != null) {
+            a.append(" to current LEVEL ").append(level.getClass().getSimpleName());
+        }
+        if (player != null) {
+            a.append(" to current PLAYER ");
+        }
+
+        return a.toString();
+    }
+
+    public enum Operation {
+        ADD,
+        SUB,
+        MUL,
+        DIV,
+        ;
+    }
+
+    private static final PhaseText text;
+
+    static {
+        text = LocalizeConfig.uiText.getPhaseText();
+    }
+
+    public enum Figure {
+        COST(text.getBuffCost()),
+        CAPACITY(text.getBuffCapacity()),
+        SOLDIER_X(text.getBuffSoldierX()),
+        SOLDIER_Y(text.getBuffSoldierY()),
+        SOLDIER_SPEED(text.getBuffSoldierSpeed()),
+        ;
+        final String description;
+
+        Figure(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+}

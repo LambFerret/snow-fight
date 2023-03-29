@@ -1,8 +1,12 @@
 package com.lambferret.game.command;
 
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.CommandInfo;
+
+import java.util.List;
 
 public class TricksOfTheTrade extends Command {
     public static final String ID;
@@ -31,6 +35,11 @@ public class TricksOfTheTrade extends Command {
             true,
             false
         );
+    }
+
+    @Override
+    public void execute(List<Soldier> soldiers) {
+        SnowFight.player.setSnowAmount(SnowFight.player.getSnowAmount() * 4 / 5);
     }
 
     private static final int cost;

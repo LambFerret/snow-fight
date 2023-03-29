@@ -1,8 +1,11 @@
 package com.lambferret.game.command;
 
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.CommandInfo;
+
+import java.util.List;
 
 public class CupNoodle extends Command {
     public static final String ID;
@@ -33,6 +36,15 @@ public class CupNoodle extends Command {
         );
     }
 
+    @Override
+    public void execute(List<Soldier> soldiers) {
+        for (Soldier soldier : soldiers) {
+            soldier.empowered();
+            soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() + 10));
+        }
+
+    }
+
     private static final int cost;
     private static final int price;
     private static final int affectToUp;
@@ -43,4 +55,5 @@ public class CupNoodle extends Command {
         ID = CupNoodle.class.getSimpleName();
         INFO = LocalizeConfig.commandText.getID().get(ID);
     }
+
 }
