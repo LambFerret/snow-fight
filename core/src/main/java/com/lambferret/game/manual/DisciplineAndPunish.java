@@ -13,6 +13,11 @@ public class DisciplineAndPunish extends Manual {
         price = 100;
     }
 
+    @Override
+    public void effect() {
+//        player.getSummonList().add(new Turret());
+    }
+
     public DisciplineAndPunish() {
         super(ID, INFO, Rarity.COMMON, price);
     }

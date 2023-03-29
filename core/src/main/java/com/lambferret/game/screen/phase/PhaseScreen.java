@@ -169,12 +169,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         player.setCurrentCost(player.getMaxCost());
         level.toNextIteration();
         commands.clear();
-        for (Buff buff : buffList) {
-            buff.nextTurn();
-            if (buff.isExpired()) {
-                buffList.remove(buff);
-            }
-        }
+        buffList.removeIf(Buff::isExpired);
 
         readyPhaseScreen.startPhase();
         changeCurrentInputProcessor(readyPhaseScreen.getStage());

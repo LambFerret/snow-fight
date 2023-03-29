@@ -159,8 +159,6 @@ public abstract class Soldier implements Comparable<Soldier> {
 //        this.box.render();
     }
 
-
-    //
 //    public void setOffset(Hitbox plate, boolean isDetail) {
 //        this.isDetail = isDetail;
 //        box.move(plate.getX(), plate.getY());
@@ -178,22 +176,22 @@ public abstract class Soldier implements Comparable<Soldier> {
 
         TextureData backgroundFrame = AssetFinder.getTexture("soldierFront").getTextureData();
         TextureData portrait = AssetFinder.getTexture(this.texturePath).getTextureData();
-        TextureData rank = TextureFinder.rank(this.rank).getTextureData();
+//        TextureData rank = TextureFinder.rank(this.rank).getTextureData();
 
         backgroundFrame.prepare();
         portrait.prepare();
-        rank.prepare();
+//        rank.prepare();
 
         Pixmap backgroundFramePix = backgroundFrame.consumePixmap();
         Pixmap portraitPix = portrait.consumePixmap();
-        Pixmap rankPix = rank.consumePixmap();
+//        Pixmap rankPix = rank.consumePixmap();
 
         Label rankNameLabel = new Label(this.rank.name(), skin);
         Label nameLabel = new Label(this.getName(), skin);
         Group group = new Group();
 
         backgroundFramePix.drawPixmap(portraitPix, 50, 60);
-        backgroundFramePix.drawPixmap(rankPix, 0, 0);
+//        backgroundFramePix.drawPixmap(rankPix, 0, 0);
         return new TextureRegion(new Texture(backgroundFramePix));
 
 
@@ -217,6 +215,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     }
 
     public void empowerLevel(EmpowerLevel level) {
+        if (level != EmpowerLevel.NEUTRAL) logger.info("empowerLevel | " + this.name + " is empowered as " + level);
         this.empowerLevel = level;
         switch (level) {
             case WEAKEN -> this.weaken();

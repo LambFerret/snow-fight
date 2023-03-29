@@ -30,7 +30,7 @@ public class Choco extends Soldier {
         super(
             ID,
             INFO,
-            Rank.RECRUIT,
+            Rank.CORPORAL,
             Branch.ADMINISTRATIVE,
             List.of(Terrain.LAKE),
             false,

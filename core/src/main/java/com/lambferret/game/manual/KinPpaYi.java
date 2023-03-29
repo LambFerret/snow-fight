@@ -13,6 +13,11 @@ public class KinPpaYi extends Manual {
         price = 1000;
     }
 
+    @Override
+    public void effect() {
+//        cost about;
+    }
+
     public KinPpaYi() {
         super(ID, INFO, Rarity.RARE, price);
     }

@@ -56,6 +56,8 @@ public abstract class Manual implements Comparable<Manual> {
         this.price = price;
     }
 
+    public abstract void effect();
+
     @Override
     public int compareTo(Manual o) {
         return this.ID.compareTo(o.ID);
