@@ -1,12 +1,17 @@
 package com.lambferret.game.soldier;
 
+import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
+import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rank;
 import com.lambferret.game.constant.Terrain;
+import com.lambferret.game.level.Level;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.SoldierInfo;
 
 import java.util.List;
+import java.util.Map;
 
 public class Coffee extends Soldier {
 
@@ -36,21 +41,26 @@ public class Coffee extends Soldier {
     }
 
     @Override
-    public void talent() {
+    public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
+        for (Soldier soldier : s) {
+            if (soldier.compareTo(this) > 0) {
+                soldier.setEmpowerLevel(EmpowerLevel.WEAKEN);
+            }
+        }
     }
 
     @Override
-    public void empowered() {
+    protected void empowered() {
         this.setRangeX((byte) (neutralRangeX + 1));
     }
 
     @Override
-    public void neutralized() {
+    protected void neutralized() {
         this.setRangeX(neutralRangeX);
     }
 
     @Override
-    public void weaken() {
+    protected void weaken() {
         this.setRangeX((byte) (neutralRangeX - 1));
     }
 

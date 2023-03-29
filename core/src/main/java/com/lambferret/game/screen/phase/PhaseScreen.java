@@ -35,7 +35,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static Player player;
     public static Level level;
     public static Map<Command, List<Soldier>> commands = new HashMap<>();
-    public static List<Buff> buffList = new ArrayList<>();
+    private static List<Buff> buffList = new ArrayList<>();
     private static final List<AbstractPhase> phaseListener;
     private static final AbstractPhase actionPhaseScreen;
     private static final AbstractPhase readyPhaseScreen;
@@ -123,6 +123,10 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     public static Map<Command, List<Soldier>> getCommands() {
         return commands;
+    }
+
+    public static void addBuff(Buff... buff) {
+        buffList.addAll(Arrays.asList(buff));
     }
 
     public static Screen getCurrentScreen() {

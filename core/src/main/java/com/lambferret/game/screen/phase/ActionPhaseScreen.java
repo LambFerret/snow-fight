@@ -22,7 +22,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     List<Soldier> regularForEntireGameMember = new ArrayList<>();
     List<Soldier> regularForOnceMember = new ArrayList<>();
     List<Soldier> actionMember = new ArrayList<>();
-
+    Map<Command, List<Soldier>> commandMap;
 
     public ActionPhaseScreen(Container<Table> mapContainer) {
         this.stage = new Stage();
@@ -49,8 +49,9 @@ public class ActionPhaseScreen implements AbstractPhase {
     @Override
     public void executePhase() {
         for (Soldier soldier : actionMember) {
-            soldier.talent();
+            soldier.talent(actionMember, commandMap, level, player);
         }
+        executeCommand();
         for (Soldier soldier : actionMember) {
             happyWorking(soldier);
         }
@@ -82,7 +83,10 @@ public class ActionPhaseScreen implements AbstractPhase {
     }
 
     private void setCommand() {
-        Map<Command, List<Soldier>> commandMap = PhaseScreen.getCommands();
+        this.commandMap = PhaseScreen.getCommands();
+    }
+
+    private void executeCommand() {
         for (Command command : commandMap.keySet()) {
             var value = commandMap.get(command);
             if (value == null) {

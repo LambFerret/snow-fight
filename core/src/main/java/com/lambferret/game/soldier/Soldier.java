@@ -8,9 +8,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rank;
+import com.lambferret.game.level.Level;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.SoldierInfo;
 import com.lambferret.game.util.AssetFinder;
@@ -21,6 +24,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Map;
 
 @Setter
 @Getter
@@ -221,13 +225,13 @@ public abstract class Soldier implements Comparable<Soldier> {
         }
     }
 
-    public abstract void talent();
+    public abstract void talent(List<Soldier> soldiers, Map<Command, List<Soldier>> commands, Level level, Player player);
 
-    public abstract void empowered();
+    protected abstract void empowered();
 
-    public abstract void neutralized();
+    protected abstract void neutralized();
 
-    public abstract void weaken();
+    protected abstract void weaken();
 
     public String getName() {
         return name;
@@ -235,7 +239,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     @Override
     public int compareTo(Soldier o) {
-        return this.ID.compareTo(o.ID);
+        return this.rank.getValue() - o.rank.getValue();
     }
 
 }

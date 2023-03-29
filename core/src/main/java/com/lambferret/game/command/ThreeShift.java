@@ -56,9 +56,7 @@ public class ThreeShift extends Command {
             .operation(Buff.Operation.DIV)
             .to(PhaseScreen.level)
             .value(2);
-
-        PhaseScreen.buffList.add(first);
-        PhaseScreen.buffList.add(second);
+        PhaseScreen.addBuff(first, second);
     }
 
     private static final int cost;
