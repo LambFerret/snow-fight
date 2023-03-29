@@ -68,7 +68,6 @@ public class GlobalSettings {
         loadDisplayConfig();
         loadSoundConfig();
         loadGamePlayConfig();
-        FontConfig.init();
         SaveLoader.init();
 
         logger.info("GlobalSettings | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
