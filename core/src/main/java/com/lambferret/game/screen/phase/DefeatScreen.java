@@ -12,10 +12,9 @@ import org.apache.logging.log4j.Logger;
 public class DefeatScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(DefeatScreen.class.getName());
     TextButton textButton;
-    Stage stage;
+    public static final Stage stage = new Stage();
 
     public DefeatScreen() {
-        this.stage = new Stage();
         textButton = new TextButton("DefeatScreen", GlobalSettings.skin);
         textButton.setPosition(300, 300);
         stage.addActor(textButton);
@@ -44,15 +43,14 @@ public class DefeatScreen implements AbstractPhase {
 
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
-
+    @Override
     public void render() {
         stage.draw();
     }
 
+    @Override
     public void update() {
         stage.act();
     }
+
 }

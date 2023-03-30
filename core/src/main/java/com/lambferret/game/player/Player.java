@@ -38,6 +38,8 @@ public class Player {
     private List<String> eventList;
 
     public Player() {
+        GlobalSettings.loadAllInGameStructure();
+
         // TODO : save 와 연동
 
         name = SaveLoader.currentSave.getName();

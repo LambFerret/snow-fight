@@ -14,7 +14,7 @@ import java.util.*;
 
 public class ActionPhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(ActionPhaseScreen.class.getName());
-    Stage stage;
+    public static final Stage stage = new Stage();
     Table map;
     Container<Table> mapContainer;
     Player player;
@@ -25,9 +25,8 @@ public class ActionPhaseScreen implements AbstractPhase {
     Map<Command, List<Soldier>> commandMap;
 
     public ActionPhaseScreen(Container<Table> mapContainer) {
-        this.stage = new Stage();
         this.mapContainer = mapContainer;
-        this.stage.addActor(this.mapContainer);
+        stage.addActor(this.mapContainer);
         this.map = mapContainer.getActor();
     }
 
@@ -52,7 +51,7 @@ public class ActionPhaseScreen implements AbstractPhase {
             soldier.talent(actionMember, commandMap, level, player);
         }
         executeCommand();
-        System.out.println(actionMember);
+        logger.info("these are today's victim : " + actionMember);
         for (Soldier soldier : actionMember) {
             happyWorking(soldier);
         }
@@ -99,15 +98,18 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     private void happyWorking(Soldier soldier) {
         logger.info("=========================================");
-        logger.info("최소 적설량 : " + level.getSnowMin());
         logger.info("플레이어가 가진 남은 적설량 : " + player.getSnowAmount());
-        logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩 ");
+        logger.info("최소 적설량 : " + level.getSnowMin());
+        logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩");
 
         Random random = new Random();
 
         double randomValue = Math.floor(random.nextDouble() * 100);
         if (randomValue < soldier.getRunAwayProbability()) {
-            logger.info(soldier.getRunAwayProbability() + " 확률에 " + randomValue + " 만큼이 걸려 군인 " + soldier.getName() + " 떠났습니다.");
+            logger.info(
+                soldier.getRunAwayProbability() + " 확률에 "
+                    + randomValue + " 만큼이 걸려 군인 " + soldier.getName() + " 떠났습니다."
+            );
             return;
         }
 
@@ -123,8 +125,8 @@ public class ActionPhaseScreen implements AbstractPhase {
         int topLeftCol = random.nextInt(cols - i + 1);
         int topLeftRow = random.nextInt(rows - j + 1);
 
-        logger.info("좌표 : " + -(topLeftCol - cols) + ", " + topLeftRow);
-        logger.info("범위 : " + i + ", " + j);
+        logger.info("좌표 : " + (topLeftCol + 1) + ", " + (topLeftRow + 1));
+        logger.info("범위 : " + soldier.getRangeX() + ", " + soldier.getRangeY());
         logger.info("속도 : " + speed);
 
         int usedSnowAmount = 0;
@@ -140,8 +142,11 @@ public class ActionPhaseScreen implements AbstractPhase {
         }
 
         System.out.println();
+        for (int k = currentAmountSnowInMap.length; k > 0; k--) {
+            System.out.println(Arrays.toString(currentAmountSnowInMap[k - 1]));
+
+        }
         for (int[] row : currentAmountSnowInMap) {
-            System.out.println(Arrays.toString(row));
         }
 
         System.out.println();

@@ -1,7 +1,6 @@
 package com.lambferret.game.setting;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
@@ -16,10 +15,9 @@ import org.apache.logging.log4j.Logger;
 
 public class ScreenConfig {
     private static final Logger logger = LogManager.getLogger(ScreenConfig.class.getName());
-    private static AddedScreen currentScreen;
-    public static AddedScreen changeScreen;
+    private static AddedScreen currentScreen = AddedScreen.TITLE_SCREEN;
+    public static AddedScreen changeScreen = currentScreen;
     private static ScreenManager<ManagedScreen, ScreenTransition> screenManager;
-    private static InputProcessor currentInputProcessor;
     private static TitleScreen titleScreen;
     private static GroundScreen groundScreen;
     private static PhaseScreen phaseScreen;
@@ -38,8 +36,8 @@ public class ScreenConfig {
         addScreen();
         addTransition();
 
+        Gdx.input.setInputProcessor(titleScreen.getStage());
         screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), TransitionEffect.BLENDING.name());
-
         logger.info("screenConfig | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
     }
 
@@ -47,29 +45,26 @@ public class ScreenConfig {
      * 스크린을 바꾸는 쪽에서 모든 관련 인자를 넘겨주어야 함
      */
     public static void screenChanger() {
-        if (changeScreen == null) {
-            currentScreen = AddedScreen.TITLE_SCREEN;
-            Gdx.input.setInputProcessor(titleScreen.getStage());
-            return;
-        }
         if (currentScreen == changeScreen) return;
         logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
+
         String te = null; // effect.name(); TODO: 각각 원하는 changer effect 사용
 //        if (effect == TransitionEffect.NULL) te = null;
         screenManager.pushScreen(changeScreen.name(), te);
+
         switch (changeScreen) {
             case TITLE_SCREEN -> {
-                currentInputProcessor = titleScreen.getStage();
-                Gdx.input.setInputProcessor(currentInputProcessor);
+                Gdx.input.setInputProcessor(titleScreen.getStage());
+                titleScreen.initDisplay();
             }
             case GROUND_SCREEN -> {
-                Overlay.setGroundUI();
-                GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
+                Overlay.setVisibleGroundUI();
+                Overlay.changeGroundInputProcessor();
                 groundScreen.onPlayerReady();
                 Overlay.getInstance().onPlayerReady();
             }
             case PHASE_SCREEN -> {
-                Overlay.setPhaseUI();
+                Overlay.setVisiblePhaseUI();
                 PhaseScreen.screenInitToP();
                 phaseScreen.onPlayerReady();
                 Overlay.getInstance().onPlayerReady();

@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
@@ -13,17 +12,17 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
-
 public class GroundScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(GroundScreen.class.getName());
+
     private static final List<AbstractGround> groundListener;
-    private static Player player;
-    private static Overlay overlay;
     private static final RecruitScreen recruitScreen;
     private static final ShopScreen shopScreen;
     private static final TrainingGroundScreen trainingGroundScreen;
-    public static Screen currentScreen;
+
+    private static Screen currentScreen = Screen.TRAINING_GROUND;
+    private static Player player;
+    private static Overlay overlay;
     GroundText text;
 
     static {
@@ -44,7 +43,7 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
 
     @Override
     public void create() {
-        Overlay.setGroundUI();
+        Overlay.setVisibleGroundUI();
         for (AbstractGround ground : groundListener) {
             ground.create();
         }
@@ -53,32 +52,21 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     @Override
     public void onPlayerReady() {
         player = SnowFight.player;
-        initiation();
-    }
-
-    public static void initiation() {
         for (AbstractGround ground : groundListener) {
             ground.init(player);
         }
     }
 
     public static void changeScreen(Screen screen) {
+        // 여기 사실 이 조건절 없어도 됨
         if (currentScreen != screen) {
-            Stage currentStage = null;
-            switch (screen) {
-                case RECRUIT -> {
-                    currentStage = recruitScreen.getStage();
-                }
-                case SHOP -> {
-                    currentStage = shopScreen.getStage();
-                }
-                case TRAINING_GROUND -> {
-                    currentStage = trainingGroundScreen.getStage();
-                }
-            }
-            changeCurrentInputProcessor(currentStage);
             currentScreen = screen;
+            Overlay.changeGroundInputProcessor();
         }
+    }
+
+    public static Screen getCurrentScreen() {
+        return currentScreen;
     }
 
     @Override

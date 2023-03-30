@@ -26,7 +26,6 @@ public class TitleScreen extends AbstractScreen {
 
     private final SelectSaveWindow selectSaveWindow;
     private final SelectLoadWindow selectLoadWindow;
-    public static Screen currentScreen;
     private final Stage stage;
     TitleMenuText text;
     BitmapFont font;
@@ -41,11 +40,9 @@ public class TitleScreen extends AbstractScreen {
         stage.addActor(selectSaveWindow);
         stage.addActor(selectLoadWindow);
 
-        currentScreen = Screen.TITLE;
     }
 
-
-    private void initDisplay() {
+    public void initDisplay() {
         selectLoadWindow.setVisible(false);
         selectSaveWindow.setVisible(false);
     }
@@ -53,7 +50,7 @@ public class TitleScreen extends AbstractScreen {
     @Override
     public void create() {
         font = GlobalSettings.font;
-//        stage.addActor(backGroundImage());
+        stage.addActor(backGroundImage());
         stage.addActor(createTable());
         selectSaveWindow.create();
         selectLoadWindow.create();

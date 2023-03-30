@@ -164,6 +164,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TITLE_SCREEN;
             }
         }
+        Overlay.changePhaseInputProcessor();
     }
 
 }

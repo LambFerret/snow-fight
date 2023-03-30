@@ -21,8 +21,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-import static com.lambferret.game.screen.ui.Overlay.changeCurrentInputProcessor;
-
 public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
     public static final float MAP_X = 50.0F;
@@ -65,7 +63,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     @Override
     public void create() {
-        Overlay.setPhaseUI();
+        Overlay.setVisiblePhaseUI();
         for (AbstractPhase phase : phaseListener) {
             phase.create();
         }
@@ -139,7 +137,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
         prePhaseScreen.startPhase();
 
-        changeCurrentInputProcessor(prePhaseScreen.getStage());
         currentScreen = Screen.PRE;
     }
 
@@ -151,7 +148,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         level.initCurrentIteration();
 
         readyPhaseScreen.startPhase();
-        changeCurrentInputProcessor(readyPhaseScreen.getStage());
         currentScreen = Screen.READY;
     }
 
@@ -159,7 +155,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         readyPhaseScreen.executePhase();
 
         actionPhaseScreen.startPhase();
-        changeCurrentInputProcessor(actionPhaseScreen.getStage());
         currentScreen = Screen.ACTION;
     }
 
@@ -172,7 +167,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         buffList.removeIf(Buff::isExpired);
 
         readyPhaseScreen.startPhase();
-        changeCurrentInputProcessor(readyPhaseScreen.getStage());
         currentScreen = Screen.READY;
     }
 
@@ -180,7 +174,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         actionPhaseScreen.executePhase();
 
         defeatScreen.startPhase();
-        changeCurrentInputProcessor(defeatScreen.getStage());
         currentScreen = Screen.DEFEAT;
     }
 
@@ -188,7 +181,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         actionPhaseScreen.executePhase();
 
         victoryScreen.startPhase();
-        changeCurrentInputProcessor(victoryScreen.getStage());
         currentScreen = Screen.VICTORY;
     }
 

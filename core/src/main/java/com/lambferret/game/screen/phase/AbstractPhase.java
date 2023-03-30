@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.soldier.Soldier;
 
@@ -28,8 +27,6 @@ public interface AbstractPhase {
      * 본 Phase 를 마치고 넘겨주는 즉시 호출
      */
     void executePhase();
-
-    Stage getStage();
 
     void render();
 

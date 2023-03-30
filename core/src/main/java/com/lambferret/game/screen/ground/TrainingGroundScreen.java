@@ -13,13 +13,14 @@ import org.apache.logging.log4j.Logger;
 
 public class TrainingGroundScreen implements AbstractGround {
     private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
-    private final Stage stage;
+    public static final Stage stage = new Stage();
     private Skin skin;
 
     public TrainingGroundScreen() {
-        this.stage = new Stage();
+
     }
 
+    @Override
     public void create() {
         skin = GlobalSettings.skin;
         stage.addActor(makeButton());
@@ -42,15 +43,14 @@ public class TrainingGroundScreen implements AbstractGround {
         return button;
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
-
+    @Override
     public void render() {
         stage.draw();
     }
 
+    @Override
     public void update() {
         stage.act();
     }
+
 }

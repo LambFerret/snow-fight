@@ -6,6 +6,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.PlayerObserver;
+import com.lambferret.game.screen.ground.GroundScreen;
+import com.lambferret.game.screen.ground.RecruitScreen;
+import com.lambferret.game.screen.ground.ShopScreen;
+import com.lambferret.game.screen.ground.TrainingGroundScreen;
+import com.lambferret.game.screen.phase.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -49,7 +54,6 @@ public class Overlay implements PlayerObserver {
 
     public static Overlay getInstance() {
         if (instance == null) {
-            changeCurrentInputProcessor(currentSpriteBatch);
             instance = new Overlay();
             create();
         }
@@ -69,14 +73,31 @@ public class Overlay implements PlayerObserver {
         }
     }
 
-    public static void changeCurrentInputProcessor(InputProcessor processor) {
+    public static void changePhaseInputProcessor() {
         inputManager.clear();
+        switch (PhaseScreen.getCurrentScreen()) {
+            case PRE -> inputManager.addProcessor(PrePhaseScreen.stage);
+            case READY -> inputManager.addProcessor(ReadyPhaseScreen.stage);
+            case ACTION -> inputManager.addProcessor(ActionPhaseScreen.stage);
+            case VICTORY -> inputManager.addProcessor(VictoryScreen.stage);
+            case DEFEAT -> inputManager.addProcessor(DefeatScreen.stage);
+        }
         inputManager.addProcessor(uiSpriteBatch);
-        inputManager.addProcessor(processor);
         Gdx.input.setInputProcessor(inputManager);
     }
 
-    public static void setPhaseUI() {
+    public static void changeGroundInputProcessor() {
+        inputManager.clear();
+        switch (GroundScreen.getCurrentScreen()) {
+            case RECRUIT -> inputManager.addProcessor(RecruitScreen.stage);
+            case SHOP -> inputManager.addProcessor(ShopScreen.stage);
+            case TRAINING_GROUND -> inputManager.addProcessor(TrainingGroundScreen.stage);
+        }
+        inputManager.addProcessor(uiSpriteBatch);
+        Gdx.input.setInputProcessor(inputManager);
+    }
+
+    public static void setVisiblePhaseUI() {
         for (AbstractOverlay overlay : groundUIList) {
             overlay.setVisible(false);
         }
@@ -85,7 +106,7 @@ public class Overlay implements PlayerObserver {
         }
     }
 
-    public static void setGroundUI() {
+    public static void setVisibleGroundUI() {
         for (AbstractOverlay overlay : phaseUIList) {
             overlay.setVisible(false);
         }

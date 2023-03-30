@@ -21,20 +21,21 @@ import java.util.List;
 
 public class ShopScreen implements AbstractGround {
     private static final Logger logger = LogManager.getLogger(ShopScreen.class.getName());
+
+    public static final Stage stage = new Stage();
     public static final int MANUAL_STOCK_AMOUNT = 2;
     public static final int COMMAND_STOCK_AMOUNT = 2;
 
-    Stage stage;
     Table table = new Table();
     List<Manual> manualStock = new ArrayList<>();
     List<Command> commandStock = new ArrayList<>();
     Player player;
 
     public ShopScreen() {
-        this.stage = new Stage();
         stage.addActor(table);
     }
 
+    @Override
     public void create() {
         table.setDebug(true, true);
 
@@ -118,14 +119,12 @@ public class ShopScreen implements AbstractGround {
         }
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
-
+    @Override
     public void render() {
         stage.draw();
     }
 
+    @Override
     public void update() {
         stage.act();
     }

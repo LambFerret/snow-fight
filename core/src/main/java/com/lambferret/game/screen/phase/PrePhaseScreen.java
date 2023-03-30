@@ -13,11 +13,10 @@ public class PrePhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
     Container<Table> mapContainer;
     TextButton textButton;
-    Stage stage;
+    public static final Stage stage = new Stage();
     Player player;
 
     public PrePhaseScreen(Container<Table> mapContainer) {
-        this.stage = new Stage();
         this.mapContainer = mapContainer;
         textButton = new TextButton("PrePhaseScreen", GlobalSettings.skin);
         stage.addActor(textButton);
@@ -43,15 +42,14 @@ public class PrePhaseScreen implements AbstractPhase {
 
     }
 
-    public Stage getStage() {
-        return this.stage;
-    }
-
+    @Override
     public void render() {
         stage.draw();
     }
 
+    @Override
     public void update() {
         stage.act();
     }
+
 }
