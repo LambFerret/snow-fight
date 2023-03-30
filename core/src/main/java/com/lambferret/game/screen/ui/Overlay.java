@@ -2,7 +2,6 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.PlayerObserver;

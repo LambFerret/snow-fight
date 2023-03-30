@@ -61,13 +61,12 @@ public class ScreenConfig {
                 Overlay.setVisibleGroundUI();
                 Overlay.changeGroundInputProcessor();
                 groundScreen.onPlayerReady();
+                phaseScreen.onPlayerReady();
                 Overlay.getInstance().onPlayerReady();
             }
             case PHASE_SCREEN -> {
                 Overlay.setVisiblePhaseUI();
                 PhaseScreen.screenInitToP();
-                phaseScreen.onPlayerReady();
-                Overlay.getInstance().onPlayerReady();
             }
         }
         currentScreen = changeScreen;

@@ -26,7 +26,6 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
     private final Stage stage;
     private Image pen;
     private boolean isHide = false;
-    Level level;
     Player player;
 
     public ExecuteOverlay(Stage stage) {
@@ -56,7 +55,6 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
 
     @Override
     public void init(Player player) {
-        this.level = PhaseScreen.level;
         this.player = player;
 
         this.addListener(new InputListener() {
@@ -135,6 +133,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
     }
 
     private void screenChanger() {
+        Level level = PhaseScreen.level;
         switch (PhaseScreen.getCurrentScreen()) {
             case PRE -> {
                 PhaseScreen.screenPtoR();
