@@ -86,14 +86,14 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     }
 
-    private Table makeMap() {
+    protected Table makeMap() {
         Table map = new Table();
         map.setFillParent(true);
 
         map.setSkin(GlobalSettings.skin);
         for (int i = 0; i < level.ROWS; i++) {
             for (int j = 0; j < level.COLUMNS; j++) {
-                map.add(makeMapElement(level.getMap()[i][j]));
+                map.add(makeMapElement(level.getTerrainMaxCurrentInfo(i, j)));
             }
             map.row();
         }
@@ -101,22 +101,28 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         return map;
     }
 
-    private ImageButton makeMapElement(int terrain) {
+    private ImageButton makeMapElement(int[] terrainMaxCurrent) {
         ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
         style.up = GlobalSettings.debugTexture;
         ImageButton button = new ImageButton(style);
-        Color color = switch (terrain) {
+        float transparency = (float) terrainMaxCurrent[2] / terrainMaxCurrent[1];
+        Color color = switch (terrainMaxCurrent[0]) {
             case Terrain.NULL -> Color.BLACK;
-            case Terrain.LAKE -> Color.ORANGE;
-            case Terrain.MOUNTAIN -> Color.YELLOW;
-            case Terrain.SEA -> Color.GREEN;
-            case Terrain.TOWN -> Color.CHARTREUSE;
+            case Terrain.LAKE -> new Color(255, 69, 0, transparency); //Color.ORANGE.;
+            case Terrain.MOUNTAIN -> new Color(255, 192, 203, transparency); //Color.YELLOW;
+            case Terrain.SEA -> new Color(127, 255, 0, transparency); //Color.GREEN;
+            case Terrain.TOWN -> new Color(0, 128, 128, transparency); //Color.CHARTREUSE;
             default -> Color.VIOLET;
         };
         button.setColor(color);
         button.setSize(MAP_WIDTH / level.COLUMNS, MAP_HEIGHT / level.ROWS);
 
         return button;
+    }
+
+    private void updateMap() {
+        Table map = makeMap();
+        mapContainer.setActor(map);
     }
 
     public static Map<Command, List<Soldier>> getCommands() {

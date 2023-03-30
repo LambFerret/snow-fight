@@ -135,4 +135,8 @@ public class Level {
         return result;
     }
 
+    public int[] getTerrainMaxCurrentInfo(int i, int j) {
+        return new int[]{map[i][j], maxAmountMap[i][j], currentAmount[i][j]};
+    }
+
 }
