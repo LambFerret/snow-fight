@@ -12,17 +12,12 @@ import org.apache.logging.log4j.Logger;
 public class RecruitScreen implements AbstractGround {
     private static final Logger logger = LogManager.getLogger(RecruitScreen.class.getName());
 
-    TextButton.TextButtonStyle style;
     TextButton textButton;
-    BitmapFont font;
     Stage stage;
 
     public RecruitScreen() {
         this.stage = new Stage();
-        font = GlobalSettings.font;
-        style = new TextButton.TextButtonStyle();
-        style.font = font;
-        textButton = new TextButton("RECRUIT", style);
+        textButton = new TextButton("RECRUIT", GlobalSettings.skin);
         stage.addActor(textButton);
     }
 

@@ -12,18 +12,15 @@ import org.apache.logging.log4j.Logger;
 
 public class PrePhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
-    TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
     Container<Table> mapContainer;
     TextButton textButton;
-    BitmapFont font = GlobalSettings.font;
     Stage stage;
     Player player;
 
     public PrePhaseScreen(Container<Table> mapContainer) {
         this.stage = new Stage();
         this.mapContainer = mapContainer;
-        style.font = font;
-        textButton = new TextButton("PrePhaseScreen", style);
+        textButton = new TextButton("PrePhaseScreen", GlobalSettings.skin);
         stage.addActor(textButton);
         stage.addActor(mapContainer);
     }

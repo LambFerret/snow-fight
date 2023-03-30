@@ -12,17 +12,12 @@ import org.apache.logging.log4j.Logger;
 
 public class DefeatScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(DefeatScreen.class.getName());
-    TextButton.TextButtonStyle style;
     TextButton textButton;
-    BitmapFont font;
     Stage stage;
 
     public DefeatScreen() {
         this.stage = new Stage();
-        font = GlobalSettings.font;
-        style = new TextButton.TextButtonStyle();
-        style.font = font;
-        textButton = new TextButton("DefeatScreen", style);
+        textButton = new TextButton("DefeatScreen", GlobalSettings.skin);
         textButton.setPosition(300, 300);
         stage.addActor(textButton);
     }

@@ -11,17 +11,12 @@ import org.apache.logging.log4j.Logger;
 
 public class VictoryScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(VictoryScreen.class.getName());
-    TextButton.TextButtonStyle style;
     TextButton textButton;
-    BitmapFont font;
     Stage stage;
 
     public VictoryScreen() {
         this.stage = new Stage();
-        font = GlobalSettings.font;
-        style = new TextButton.TextButtonStyle();
-        style.font = font;
-        textButton = new TextButton("VictoryScreen", style);
+        textButton = new TextButton("VictoryScreen", GlobalSettings.skin);
         stage.addActor(textButton);
     }
 
