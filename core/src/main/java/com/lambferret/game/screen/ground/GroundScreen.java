@@ -58,11 +58,8 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public static void changeScreen(Screen screen) {
-        // 여기 사실 이 조건절 없어도 됨
-        if (currentScreen != screen) {
             currentScreen = screen;
             Overlay.changeGroundInputProcessor();
-        }
     }
 
     public static Screen getCurrentScreen() {

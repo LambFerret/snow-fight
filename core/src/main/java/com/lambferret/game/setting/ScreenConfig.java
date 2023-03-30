@@ -54,19 +54,20 @@ public class ScreenConfig {
 
         switch (changeScreen) {
             case TITLE_SCREEN -> {
+                Overlay.disposeInstance();
                 Gdx.input.setInputProcessor(titleScreen.getStage());
                 titleScreen.initDisplay();
             }
             case GROUND_SCREEN -> {
-                Overlay.setVisibleGroundUI();
-                Overlay.changeGroundInputProcessor();
                 groundScreen.onPlayerReady();
                 phaseScreen.onPlayerReady();
                 Overlay.getInstance().onPlayerReady();
+                Overlay.setVisibleGroundUI();
+                Overlay.changeGroundInputProcessor();
             }
             case PHASE_SCREEN -> {
-                Overlay.setVisiblePhaseUI();
                 PhaseScreen.screenInitToP();
+                Overlay.setVisiblePhaseUI();
             }
         }
         currentScreen = changeScreen;

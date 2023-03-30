@@ -23,10 +23,13 @@ public class Overlay implements PlayerObserver {
     private static final List<AbstractOverlay> groundUIList = new ArrayList<>();
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
     public static Stage uiSpriteBatch = new Stage();
-    public static Stage currentSpriteBatch = new Stage();
     private static final InputMultiplexer inputManager = new InputMultiplexer();
 
     private Overlay() {
+        allOverlay.clear();
+        groundUIList.clear();
+        phaseUIList.clear();
+        uiSpriteBatch = new Stage();
         AbstractOverlay map = new MapOverlay(uiSpriteBatch);
         AbstractOverlay bar = new BarOverlay(uiSpriteBatch);
         AbstractOverlay score = new ScoreOverlay(uiSpriteBatch);
@@ -57,6 +60,10 @@ public class Overlay implements PlayerObserver {
             create();
         }
         return instance;
+    }
+
+    public static void disposeInstance() {
+        instance = null;
     }
 
     private static void create() {
