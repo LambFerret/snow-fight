@@ -1,13 +1,11 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.command.Command;
-import com.lambferret.game.command.CupNoodle;
-import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.constant.Region;
-import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.save.SaveLoader;
-import com.lambferret.game.soldier.*;
+import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.soldier.Soldier;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -47,14 +45,12 @@ public class Player {
         this.soldiers = new ArrayList<>();
         this.commands = new ArrayList<>();
         this.manuals = new ArrayList<>();
+
         //=-=-=-=-=-=--=-=//
-        soldiers.add(new Vanilla());
-        soldiers.add(new Choco());
-        soldiers.add(new Chili());
-        soldiers.add(new Coffee());
-        commands.add(new ThreeShift());
-        commands.add(new CupNoodle());
-        manuals.add(new DisciplineAndPunish());
+        soldiers.add(GlobalSettings.popSoldier());
+        soldiers.add(GlobalSettings.popSoldier());
+        commands.add(GlobalSettings.popCommand());
+        manuals.add(GlobalSettings.popManual());
         //=-=-=-=-=-=--=-=//
 
         this.money = 1000;

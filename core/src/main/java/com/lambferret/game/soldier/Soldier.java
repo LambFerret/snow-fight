@@ -17,7 +17,6 @@ import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.SoldierInfo;
 import com.lambferret.game.util.AssetFinder;
-import com.lambferret.game.util.TextureFinder;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;

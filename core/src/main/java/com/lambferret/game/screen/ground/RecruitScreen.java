@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ground;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.player.Player;

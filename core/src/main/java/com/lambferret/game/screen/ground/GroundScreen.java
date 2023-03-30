@@ -64,11 +64,18 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
 
     public static void changeScreen(Screen screen) {
         if (currentScreen != screen) {
-            Stage currentStage = switch (screen) {
-                case RECRUIT -> recruitScreen.getStage();
-                case SHOP -> shopScreen.getStage();
-                case TRAINING_GROUND -> trainingGroundScreen.getStage();
-            };
+            Stage currentStage = null;
+            switch (screen) {
+                case RECRUIT -> {
+                    currentStage = recruitScreen.getStage();
+                }
+                case SHOP -> {
+                    currentStage = shopScreen.getStage();
+                }
+                case TRAINING_GROUND -> {
+                    currentStage = trainingGroundScreen.getStage();
+                }
+            }
             changeCurrentInputProcessor(currentStage);
             currentScreen = screen;
         }

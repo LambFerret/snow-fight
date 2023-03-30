@@ -9,7 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lambferret.game.command.Command;
+import com.lambferret.game.manual.Manual;
 import com.lambferret.game.save.SaveLoader;
+import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.util.GsonDateFormatAdapter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +22,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Constructor;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class GlobalSettings {
     private static final Logger logger = LogManager.getLogger(GlobalSettings.class.getName());
@@ -124,5 +132,57 @@ public class GlobalSettings {
         var gameplay = settings.getGameplay();
         language = gameplay.getLanguage();
     }
+
+
+    private static final List<String> soldiers = new ArrayList<>();
+    private static final List<String> commands = new ArrayList<>();
+    private static final List<String> manuals = new ArrayList<>();
+
+    // TODO 바보같은지 획기적인지 분간이 안감
+    public static void loadAllInGameStructure() {
+        soldiers.addAll(LocalizeConfig.soldierText.getID().keySet());
+        commands.addAll(LocalizeConfig.commandText.getID().keySet());
+        manuals.addAll(LocalizeConfig.manualText.getID().keySet());
+        Collections.shuffle(soldiers);
+        Collections.shuffle(commands);
+        Collections.shuffle(manuals);
+    }
+
+    public static Soldier popSoldier() {
+        String id = soldiers.remove(0);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Soldier) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " Soldier load error", e);
+            throw new RuntimeException("Soldier load error");
+        }
+    }
+
+    public static Command popCommand() {
+        String id = commands.remove(0);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Command) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " command load error", e);
+            throw new RuntimeException("command load error");
+        }
+    }
+
+    public static Manual popManual() {
+        String id = manuals.remove(0);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Manual) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " manual load error", e);
+            throw new RuntimeException("manual load error");
+        }
+    }
+
 
 }

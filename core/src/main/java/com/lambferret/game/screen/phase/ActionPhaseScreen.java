@@ -98,6 +98,11 @@ public class ActionPhaseScreen implements AbstractPhase {
     }
 
     private void happyWorking(Soldier soldier) {
+        logger.info("=========================================");
+        logger.info("최소 적설량 : " + level.getSnowMin());
+        logger.info("플레이어가 가진 남은 적설량 : " + player.getSnowAmount());
+        logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩 ");
+
         Random random = new Random();
 
         double randomValue = Math.floor(random.nextDouble() * 100);
@@ -111,17 +116,20 @@ public class ActionPhaseScreen implements AbstractPhase {
         int rows = level.ROWS;
         int cols = level.COLUMNS;
 
-        int i = soldier.getRangeY();
-        int j = soldier.getRangeX();
+        int i = soldier.getRangeX() > cols ? cols : soldier.getRangeX();
+        int j = soldier.getRangeY() > rows ? rows : soldier.getRangeY();
         int speed = soldier.getSpeed();
 
-        int topLeftRow = random.nextInt(rows - i + 1);
-        int topLeftCol = random.nextInt(cols - j + 1);
+        int topLeftCol = random.nextInt(cols - i + 1);
+        int topLeftRow = random.nextInt(rows - j + 1);
 
+        logger.info("좌표 : " + -(topLeftCol - cols) + ", " + topLeftRow);
+        logger.info("범위 : " + i + ", " + j);
+        logger.info("속도 : " + speed);
 
         int usedSnowAmount = 0;
-        for (int row = topLeftRow; row < topLeftRow + i; row++) {
-            for (int col = topLeftCol; col < topLeftCol + j; col++) {
+        for (int row = topLeftRow; row < topLeftRow + j; row++) {
+            for (int col = topLeftCol; col < topLeftCol + i; col++) {
                 int result = currentAmountSnowInMap[row][col] + speed;
                 if (result > maxSnowCapacityMap[row][col]) {
                     result = maxSnowCapacityMap[row][col];
@@ -131,20 +139,14 @@ public class ActionPhaseScreen implements AbstractPhase {
             }
         }
 
-        System.out.println("-=-=-=-=-=-=-=-=-=-MAP-=-=-=-=-=-=-=-=-=-");
+        System.out.println();
         for (int[] row : currentAmountSnowInMap) {
             System.out.println(Arrays.toString(row));
         }
-        System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 
-        logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩 ");
-        logger.info("이동속도 : " + speed);
+        System.out.println();
         logger.info("이번턴 작업량 : " + usedSnowAmount);
-        logger.info("좌표 : " + topLeftCol + ", " + topLeftRow);
-        logger.info("범위 : " + j + ", " + i);
-        logger.info("");
-        logger.info("플레이어가 가진 남은 적설량 : " + player.getSnowAmount());
-        logger.info("최소 적설량 : " + level.getSnowMin());
+        logger.info("=========================================");
 
         player.setSnowAmount(player.getSnowAmount() - usedSnowAmount);
     }

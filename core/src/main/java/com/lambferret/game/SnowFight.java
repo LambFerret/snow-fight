@@ -39,6 +39,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         cameraConfig();
         assetConfig();
         LocalizeConfig.init();
+        GlobalSettings.loadAllInGameStructure();
         ScreenConfig.init(screenManager);
 
     }
