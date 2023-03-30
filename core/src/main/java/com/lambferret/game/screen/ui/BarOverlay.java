@@ -37,8 +37,4 @@ public class BarOverlay extends Table implements AbstractOverlay {
         this.money.setText("Money: " + this.player.getMoney());
     }
 
-    public void updateMoney() {
-        money.setText("Money: " + this.player.getMoney());
-    }
-
 }

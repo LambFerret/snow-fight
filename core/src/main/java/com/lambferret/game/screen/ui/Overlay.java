@@ -115,10 +115,6 @@ public class Overlay implements PlayerObserver {
         }
     }
 
-    public static InputProcessor getInput() {
-        return inputManager;
-    }
-
     public void render() {
         uiSpriteBatch.draw();
     }

@@ -77,7 +77,6 @@ public class ShopScreen implements AbstractGround {
                         player.setMoney(player.getMoney() - command.getPrice());
                         player.getCommands().add(command);
                         imageButton.setDisabled(true);
-//                        updateMoney();
                         logger.info("clicked |  🐳  money last | " + player.getMoney());
                     } else {
                         logger.info("돈이 부족합니다.");
