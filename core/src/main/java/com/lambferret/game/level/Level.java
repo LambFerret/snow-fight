@@ -2,16 +2,12 @@ package com.lambferret.game.level;
 
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Map;
 
 /**
  * 맵에 대한 정보만 저장할 것!
  */
-@Setter
-@Getter
 public class Level {
     /**
      * 전체 지도의 좌표
@@ -32,11 +28,11 @@ public class Level {
     /**
      * 할당된 제설량
      */
-    private int snowMax;
+    private int assignedSnow;
     /**
      * 클리어 최소량
      */
-    private int snowMin;
+    private int minSnowForClear;
     /**
      * 행 (가로)
      */
@@ -62,13 +58,13 @@ public class Level {
      */
     private int maxSoldierCapacity;
 
-    public Level(Region region, short[][] map, int[][] maxAmountMap, int snowMin, int snowMax, int maxSoldierCapacity) {
+    public Level(Region region, short[][] map, int[][] maxAmountMap, int minSnowForClear, int assignedSnow, int maxSoldierCapacity) {
         checkMap(map, maxAmountMap);
         this.region = region;
         this.map = map;
         this.maxAmountMap = maxAmountMap;
-        this.snowMin = snowMin;
-        this.snowMax = snowMax;
+        this.minSnowForClear = minSnowForClear;
+        this.assignedSnow = assignedSnow;
         this.ROWS = map.length;
         this.COLUMNS = map[0].length;
         this.currentAmount = new int[ROWS][COLUMNS];
@@ -101,6 +97,28 @@ public class Level {
         };
     }
 
+    public void initCurrentIteration() {
+        this.currentIteration = 0;
+    }
+
+    public void toNextIteration() {
+        ++this.currentIteration;
+    }
+
+    public int getSnowAmountInMap() {
+        int result = 0;
+        for (int[] ints : currentAmount) {
+            for (int anInt : ints) {
+                result += anInt;
+            }
+        }
+        return result;
+    }
+
+    public int[] getTerrainMaxCurrentInfo(int i, int j) {
+        return new int[]{map[i][j], maxAmountMap[i][j], currentAmount[i][j]};
+    }
+
     public short[][] getMap() {
         return map;
     }
@@ -113,30 +131,48 @@ public class Level {
         return region;
     }
 
+    public int getAssignedSnow() {
+        return assignedSnow;
+    }
+
+    public void setAssignedSnow(int assignedSnow) {
+        this.assignedSnow = assignedSnow;
+    }
+
+    public int getMinSnowForClear() {
+        return minSnowForClear;
+    }
+
+    public void setMinSnowForClear(int minSnowForClear) {
+        this.minSnowForClear = minSnowForClear;
+    }
+
     public int[][] getCurrentAmount() {
         return currentAmount;
     }
 
-    public void initCurrentIteration() {
-        this.currentIteration = 0;
+    public void setCurrentAmount(int[][] currentAmount) {
+        this.currentAmount = currentAmount;
     }
 
-    public void toNextIteration() {
-        ++this.currentIteration;
+    public short getMaxIteration() {
+        return maxIteration;
     }
 
-    public int getSnowAmountInMap() {
-        int result = 0;
-        for (int i = 0; i < currentAmount.length; i++) {
-            for (int j = 0; j < currentAmount[i].length; j++) {
-                result += currentAmount[i][j];
-            }
-        }
-        return result;
+    public void setMaxIteration(short maxIteration) {
+        this.maxIteration = maxIteration;
     }
 
-    public int[] getTerrainMaxCurrentInfo(int i, int j) {
-        return new int[]{map[i][j], maxAmountMap[i][j], currentAmount[i][j]};
+    public short getCurrentIteration() {
+        return currentIteration;
+    }
+
+    public int getMaxSoldierCapacity() {
+        return maxSoldierCapacity;
+    }
+
+    public void setMaxSoldierCapacity(int maxSoldierCapacity) {
+        this.maxSoldierCapacity = maxSoldierCapacity;
     }
 
 }

@@ -137,7 +137,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.initialRangeX = rangeX;
         this.initialRangeY = rangeY;
         this.initialRunAwayProbability = runAwayProbability;
-        initValue();
+        empowerLevel(EmpowerLevel.NEUTRAL);
     }
 
     public void initValue() {

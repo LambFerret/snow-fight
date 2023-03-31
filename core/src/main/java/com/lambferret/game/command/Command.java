@@ -29,27 +29,27 @@ public abstract class Command implements Comparable<Command> {
     /**
      * ID String
      */
-    private String ID;
+    private final String ID;
     /**
      * 이름
      */
-    private String name;
+    private final String name;
     /**
      * 텍스쳐 경로
      */
-    private String texturePath;
+    private final String texturePath;
     /**
      * 설명
      */
-    private String description;
+    private final String description;
     /**
      * 효과 설명
      */
-    private String effectDescription;
+    private final String effectDescription;
     /**
      * 종류
      */
-    private Type type;
+    private final Type type;
     /**
      * 사용 비용
      */
@@ -57,11 +57,11 @@ public abstract class Command implements Comparable<Command> {
     /**
      * 대상 : 플레이어, 병사
      */
-    private Target target;
+    private final Target target;
     /**
      * 희귀도
      */
-    private Rarity rarity;
+    private final Rarity rarity;
     /**
      * 가격
      */
@@ -86,6 +86,14 @@ public abstract class Command implements Comparable<Command> {
      * 재사용 여부
      */
     private boolean isReusable;
+
+    private int initialCost;
+    private int initialPrice;
+    private int initialAffectToUp;
+    private int initialAffectToMiddle;
+    private int initialAffectToDown;
+
+
     private int itemCount = 0;
 
     // TODO 여기 호감도 시스템 어케할건지 확인요함
@@ -120,6 +128,20 @@ public abstract class Command implements Comparable<Command> {
         this.affectToDown = affectToDown;
         this.isPersistentEffect = isPersistentEffect;
         this.isReusable = isReusable;
+
+        this.initialCost = cost;
+        this.initialPrice = price;
+        this.initialAffectToUp = affectToUp;
+        this.initialAffectToMiddle = affectToMiddle;
+        this.initialAffectToDown = affectToDown;
+    }
+
+    public void initValue() {
+        this.cost = this.initialCost;
+        this.price = this.initialPrice;
+        this.affectToUp = this.initialAffectToUp;
+        this.affectToMiddle = this.initialAffectToMiddle;
+        this.affectToDown = this.initialAffectToDown;
     }
 
     public abstract void execute(List<Soldier> soldiers);

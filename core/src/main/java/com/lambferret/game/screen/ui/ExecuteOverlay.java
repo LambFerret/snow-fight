@@ -145,7 +145,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
                 if (level.getMaxIteration() > level.getCurrentIteration()) {
                     PhaseScreen.screenAtoR();
                 } else if (level.getMaxIteration() == level.getCurrentIteration()) {
-                    if (player.getSnowAmount() > level.getSnowMin()) {
+                    if (player.getSnowAmount() > level.getMinSnowForClear()) {
                         PhaseScreen.screenAtoD();
                     } else {
                         PhaseScreen.screenAtoV();
