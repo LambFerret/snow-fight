@@ -237,7 +237,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     @Override
     public int compareTo(Soldier o) {
-        return this.rank.getValue() - o.rank.getValue();
+        return this.rank.ordinal() - o.rank.ordinal();
     }
 
 }

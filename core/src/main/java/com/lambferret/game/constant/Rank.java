@@ -5,100 +5,90 @@ public enum Rank {
     /**
      * 훈련병
      */
-    RECRUIT(0),
+    RECRUIT,
     /**
      * 이등병
      */
-    PRIVATE(1),
+    PRIVATE,
     /**
      * 일등병
      */
-    PRIVATE_FIRST_CLASS(2),
+    PRIVATE_FIRST_CLASS,
     /**
      * 상병
      */
-    CORPORAL(3),
+    CORPORAL,
     /**
      * 병장
      */
-    SERGEANT(4),
+    SERGEANT,
     /**
      * 하사
      */
-    STAFF_SERGEANT(5),
+    STAFF_SERGEANT,
     /**
      * 중사
      */
-    SERGEANT_FIRST_CLASS(6),
+    SERGEANT_FIRST_CLASS,
     /**
      * 상사
      */
-    FIRST_SERGEANT(7),
+    FIRST_SERGEANT,
     /**
      * 원사
      */
-    SERGENT_MAJOR(8),
+    SERGENT_MAJOR,
     /**
      * 주임원사
      */
-    COMMAND_SERGEANT_MAJOR(9),
+    COMMAND_SERGEANT_MAJOR,
     /**
      * 육군주임원사
      */
-    SERGEANT_MAJOR_OF_THE_ARMY(10),
+    SERGEANT_MAJOR_OF_THE_ARMY,
     /**
      * 준위
      */
-    MASTER_WARRANT_OFFICER(11),
+    MASTER_WARRANT_OFFICER,
     /**
      * 소위
      */
-    SECOND_LIEUTENANT(12),
+    SECOND_LIEUTENANT,
     /**
      * 중위
      */
-    FIRST_LIEUTENANT(13),
+    FIRST_LIEUTENANT,
     /**
      * 대위
      */
-    CAPTAIN(14),
+    CAPTAIN,
     /**
      * 소령
      */
-    MAJOR(15),
+    MAJOR,
     /**
      * 중령
      */
-    LIEUTENANT_COLONEL(16),
+    LIEUTENANT_COLONEL,
     /**
      * 대령
      */
-    COLONEL(17),
+    COLONEL,
     /**
      * 준장
      */
-    BRIGADIER_GENERAL(18),
+    BRIGADIER_GENERAL,
     /**
      * 소장
      */
-    MAJOR_GENERAL(19),
+    MAJOR_GENERAL,
     /**
      * 중장
      */
-    LIEUTENANT_GENERAL(20),
+    LIEUTENANT_GENERAL,
     /**
      * 대장
      */
-    GENERAL(21),
+    GENERAL,
     ;
-    final int value;
-
-    Rank(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
 }
