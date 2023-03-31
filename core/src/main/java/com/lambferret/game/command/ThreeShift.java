@@ -41,22 +41,11 @@ public class ThreeShift extends Command {
 
     @Override
     public void execute(List<Soldier> soldiers) {
-
-        var level = PhaseScreen.level;
-        level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() * 2);
-        Buff first = Buff
-            .figure(Buff.Figure.CAPACITY)
-            .turn(1)
-            .operation(Buff.Operation.MUL)
-            .to(PhaseScreen.level)
-            .value(2);
-        Buff second = Buff
-            .figure(Buff.Figure.CAPACITY)
-            .turnAfter(1).turn(99)
-            .operation(Buff.Operation.DIV)
-            .to(PhaseScreen.level)
-            .value(2);
-        PhaseScreen.addBuff(first, second);
+        PhaseScreen.addBuff(
+            Buff.figure(Buff.Figure.CAPACITY).turn(1).operation(Buff.Operation.MUL)
+                .to(PhaseScreen.level).value(2),
+            Buff.figure(Buff.Figure.CAPACITY).turnAfter(1).operation(Buff.Operation.DIV).permanently()
+                .to(PhaseScreen.level).value(2));
     }
 
     private static final int cost;

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
@@ -67,12 +68,6 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
                 super.exit(event, x, y, pointer, toActor);
             }
         });
-        this.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                logger.info("clicked |  🐳 ? | " + event);
-            }
-        });
     }
 
     private void makeAbilityContainer(List<Command> commands) {
@@ -90,13 +85,23 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         manualButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
+                    logger.info("command Info |  🐳 | " + command.getName() + " is active ");
+                    PhaseScreen.getCommands().put(command, null);
+                    manualButton.remove();
+                } else {
+                    logger.info("clicked |  🐳 not ready phase currently | ");
+                }
                 super.clicked(event, x, y);
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
-                //Hover Information
+                if (pointer == -1) {
+                    logger.info("command Info | 🐳 | " + command.getName());
+                    logger.info("command Info | 🐳 | " + command.getEffectDescription());
+                }
             }
 
             @Override

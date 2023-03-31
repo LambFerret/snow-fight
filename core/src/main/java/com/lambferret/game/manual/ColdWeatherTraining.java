@@ -19,9 +19,10 @@ public class ColdWeatherTraining extends Manual {
     public void effect() {
         var a = SnowFight.player.getSoldiers();
         a.forEach(soldier -> {
-            soldier.setSpeed((short) (soldier.getSpeed() / 2));
+            soldier.setInitialSpeed((short) (soldier.getSpeed() * 1.5F));
             soldier.setEmpowerLevel(EmpowerLevel.WEAKEN);
         });
+        isDisable = true;
     }
 
     public ColdWeatherTraining() {

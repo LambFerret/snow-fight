@@ -13,6 +13,7 @@ import com.lambferret.game.text.dto.SoldierInfo;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class Choco extends Soldier {
 
@@ -44,11 +45,11 @@ public class Choco extends Soldier {
     @Override
     public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
         for (Soldier soldier : s) {
-            if (soldier.getBranch() == Branch.ADMINISTRATIVE) {
+            if (soldier.getBranch() == Branch.ADMINISTRATIVE && !Objects.equals(soldier.getID(), this.getID())) {
                 PhaseScreen.addBuff(
                     Buff.figure(Buff.Figure.SOLDIER_SPEED).to(List.of(soldier)).turn(1)
                         .operation(Buff.Operation.MUL).value(2),
-                    Buff.figure(Buff.Figure.SOLDIER_SPEED).to(List.of(soldier)).turn(99).turnAfter(1)
+                    Buff.figure(Buff.Figure.SOLDIER_SPEED).to(List.of(soldier)).permanently().turnAfter(1)
                         .operation(Buff.Operation.DIV).value(5)
                 );
             }

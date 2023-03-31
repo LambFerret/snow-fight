@@ -42,6 +42,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     @Override
     public void startPhase() {
         setCommand();
+        executeCommand();
         setMembers();
     }
 
@@ -50,7 +51,6 @@ public class ActionPhaseScreen implements AbstractPhase {
         for (Soldier soldier : actionMember) {
             soldier.talent(actionMember, commandMap, level, player);
         }
-        executeCommand();
         logger.info("these are today's victim : " + actionMember);
         for (Soldier soldier : actionMember) {
             happyWorking(soldier);
@@ -91,8 +91,9 @@ public class ActionPhaseScreen implements AbstractPhase {
             var value = commandMap.get(command);
             if (value == null) {
                 command.execute();
+            } else {
+                command.execute(value);
             }
-            command.execute(commandMap.get(command));
         }
     }
 

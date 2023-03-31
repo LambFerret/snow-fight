@@ -10,6 +10,7 @@ import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
+import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.screen.AbstractScreen;
@@ -33,7 +34,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static Player player;
     public static Level level;
     public static Map<Command, List<Soldier>> commands = new HashMap<>();
-    private static List<Buff> buffList = new ArrayList<>();
+    public static List<Buff> buffList = new ArrayList<>();
+    private static List<Manual> manualList = new ArrayList<>();
     private static final List<AbstractPhase> phaseListener;
     private static final AbstractPhase actionPhaseScreen;
     private static final AbstractPhase readyPhaseScreen;
@@ -83,6 +85,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         }
         commands = new LinkedHashMap<>();
         buffList = new ArrayList<>();
+        manualList = player.getManuals();
 
     }
 
@@ -140,6 +143,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenInitToP() {
         commands.clear();
         buffList.clear();
+        manualList.forEach(Manual::effect);
 
         prePhaseScreen.startPhase();
 
@@ -170,6 +174,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         player.setCurrentCost(player.getMaxCost());
         level.toNextIteration();
         commands.clear();
+        buffList.forEach(Buff::setEnable);
         buffList.removeIf(Buff::isExpired);
 
         readyPhaseScreen.startPhase();

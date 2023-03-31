@@ -42,6 +42,8 @@ public abstract class Manual implements Comparable<Manual> {
 
     private byte stack;
 
+    protected boolean isDisable;
+
     public Manual(
         String ID,
         ManualInfo info,

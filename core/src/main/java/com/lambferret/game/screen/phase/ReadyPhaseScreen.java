@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.lambferret.game.buff.Buff;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
@@ -86,8 +87,10 @@ public class ReadyPhaseScreen implements AbstractPhase {
 
     @Override
     public void startPhase() {
-        mapContainer.setActor(makeMap());
         //각종 플레이어의 덱이나 능력을 확인하거나 일단 작동시킴 즉 transaction 이 일어나기 전 모든 행동들
+        mapContainer.setActor(makeMap());
+        PhaseScreen.buffList.forEach(Buff::effect);
+        logger.info("startPhase |  🐳 buff 목록 | " + PhaseScreen.buffList);
 
     }
 

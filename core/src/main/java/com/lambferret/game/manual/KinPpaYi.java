@@ -15,7 +15,7 @@ public class KinPpaYi extends Manual {
 
     @Override
     public void effect() {
-//        cost about;
+        // 코스트 이월 가능
     }
 
     public KinPpaYi() {

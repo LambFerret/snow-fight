@@ -1,7 +1,9 @@
 package com.lambferret.game.buff;
 
+import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.PhaseText;
@@ -24,6 +26,11 @@ public class Buff {
     private List<Soldier> soldiers;
     private Level level;
     private Player player;
+    private boolean isPermanent;
+    private boolean isManual;
+    private EmpowerLevel empowerLevel;
+    private boolean isEnable = true;
+
 
     private Buff(SetFigure fig) {
         this.figure = fig.figure;
@@ -34,92 +41,119 @@ public class Buff {
         this.soldiers = fig.soldiers;
         this.level = fig.level;
         this.player = fig.player;
+        this.isPermanent = fig.isPermanent;
+        this.isManual = fig.isManual;
+        this.empowerLevel = fig.empowerLevel;
+        // experimental feature
+        effect();
     }
 
     public void effect() {
-        if (turnAfter > 0) return;
-        switch (figure) {
-            case SOLDIER_X -> {
-                switch (operation) {
-                    case ADD -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeX((byte) (soldier.getRangeX() + value));
+        if (!isEnable) {
+            logger.info("effect |  🐳 버프 비활성화됨 | " + this);
+            return;
+        }
+
+        if (turnAfter > 0) {
+            logger.info("effect |  🐳 버프 지금 발현 타이밍아님 | " + this);
+            this.turnAfter--;
+            return;
+        }
+        System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=버프 발현-=-=-=-=-=-=-=-=-=-=-=-=-=");
+        logger.info("effect |  🐳 버프 발현 | " + this);
+        logger.info("effect |  🐳 타이밍 | " + PhaseScreen.getCurrentScreen());
+        System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
+
+        if (empowerLevel != null) {
+            for (Soldier soldier : soldiers) {
+                soldier.setEmpowerLevel(empowerLevel);
+            }
+        } else {
+            switch (figure) {
+                case SOLDIER_X -> {
+                    switch (operation) {
+                        case ADD -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeX((byte) (soldier.getRangeX() + value));
+                            }
                         }
-                    }
-                    case SUB -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeX((byte) (soldier.getRangeX() - value));
+                        case SUB -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeX((byte) (soldier.getRangeX() - value));
+                            }
                         }
-                    }
-                    case MUL -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeX((byte) (soldier.getRangeX() * value));
+                        case MUL -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeX((byte) (soldier.getRangeX() * value));
+                            }
                         }
-                    }
-                    case DIV -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeX((byte) (soldier.getRangeX() / value));
+                        case DIV -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeX((byte) (soldier.getRangeX() / value));
+                            }
                         }
                     }
                 }
-            }
-            case SOLDIER_Y -> {
-                switch (operation) {
-                    case ADD -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeY((byte) (soldier.getRangeY() + value));
+                case SOLDIER_Y -> {
+                    switch (operation) {
+                        case ADD -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeY((byte) (soldier.getRangeY() + value));
+                            }
                         }
-                    }
-                    case SUB -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeY((byte) (soldier.getRangeY() - value));
+                        case SUB -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeY((byte) (soldier.getRangeY() - value));
+                            }
                         }
-                    }
-                    case MUL -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeY((byte) (soldier.getRangeY() * value));
+                        case MUL -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeY((byte) (soldier.getRangeY() * value));
+                            }
                         }
-                    }
-                    case DIV -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setRangeY((byte) (soldier.getRangeY() / value));
-                        }
-                    }
-                }
-            }
-            case SOLDIER_SPEED -> {
-                switch (operation) {
-                    case ADD -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setSpeed((byte) (soldier.getSpeed() + value));
-                        }
-                    }
-                    case SUB -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setSpeed((byte) (soldier.getSpeed() - value));
-                        }
-                    }
-                    case MUL -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setSpeed((byte) (soldier.getSpeed() * value));
-                        }
-                    }
-                    case DIV -> {
-                        for (Soldier soldier : soldiers) {
-                            soldier.setSpeed((byte) (soldier.getSpeed() / value));
+                        case DIV -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setRangeY((byte) (soldier.getRangeY() / value));
+                            }
                         }
                     }
                 }
-            }
-            case CAPACITY -> {
-                switch (operation) {
-                    case ADD -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() + value);
-                    case SUB -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() - value);
-                    case MUL -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() * value);
-                    case DIV -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() / value);
+                case SOLDIER_SPEED -> {
+                    switch (operation) {
+                        case ADD -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setSpeed((byte) (soldier.getSpeed() + value));
+                            }
+                        }
+                        case SUB -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setSpeed((byte) (soldier.getSpeed() - value));
+                            }
+                        }
+                        case MUL -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setSpeed((byte) (soldier.getSpeed() * value));
+                            }
+                        }
+                        case DIV -> {
+                            for (Soldier soldier : soldiers) {
+                                soldier.setSpeed((byte) (soldier.getSpeed() / value));
+                            }
+                        }
+                    }
+                }
+                case CAPACITY -> {
+                    switch (operation) {
+                        case ADD -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() + value);
+                        case SUB -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() - value);
+                        case MUL -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() * value);
+                        case DIV -> level.setMaxSoldierCapacity(level.getMaxSoldierCapacity() / value);
+                    }
                 }
             }
         }
+        this.turn--;
+        isEnable = false;
     }
 
     public static SetFigure figure(Figure figure) {
@@ -132,9 +166,12 @@ public class Buff {
         private int turnAfter;
         private int value;
         private Operation operation;
+        private boolean isPermanent;
+        private boolean isManual = false;
         private List<Soldier> soldiers = new ArrayList<>();
         private Level level = null;
         private Player player = null;
+        private EmpowerLevel empowerLevel;
 
         public SetFigure(Figure figure) {
             this.figure = figure;
@@ -170,6 +207,17 @@ public class Buff {
             return this;
         }
 
+        public SetFigure permanently() {
+            this.turn = 9999;
+            this.isPermanent = true;
+            return this;
+        }
+
+        public SetFigure isManual() {
+            this.isManual = true;
+            return this;
+        }
+
         private boolean verify() {
             List<Object> a = Arrays.asList(soldiers, level, player);
 
@@ -187,15 +235,20 @@ public class Buff {
             if (verify()) return new Buff(this);
             else throw new IllegalStateException("Buff 를 생성할 수 없습니다.");
         }
-    }
 
-    public void nextTurn() {
-        this.turn--;
-        this.turnAfter--;
+        public Buff empower(EmpowerLevel level) {
+            this.empowerLevel = level;
+            if (verify() && !soldiers.isEmpty()) return new Buff(this);
+            else throw new IllegalStateException("Buff 를 생성할 수 없습니다.");
+        }
     }
 
     public boolean isExpired() {
         return this.turn <= 0;
+    }
+
+    public void setEnable() {
+        isEnable = true;
     }
 
     public String getDescription() {
