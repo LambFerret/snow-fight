@@ -3,7 +3,6 @@ package com.lambferret.game.player;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.constant.Region;
-import com.lambferret.game.manual.ColdWeatherTraining;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
@@ -63,10 +62,13 @@ public class Player {
         soldiers.add(new Vanilla());
         soldiers.add(new Choco());
         commands.add(new ThreeShift());
-        manuals.add(new ColdWeatherTraining());
+//        manuals.add(new ColdWeatherTraining());
         //=-=-=-=-=-=--=-=//
 
         this.money = 1000;
+
+        this.maxCost = 3;
+        this.currentCost = maxCost;
 
         this.hellAffinity = 10;
         this.humanAffinity = 50;
@@ -75,14 +77,6 @@ public class Player {
         this.currentRegion = Region.URBAN;
         this.levelNumber = 1;
 
-    }
-
-    public static void init() {
-
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getAffinity(AFFINITY affinity) {
@@ -115,40 +109,25 @@ public class Player {
         }
     }
 
-    public List<Soldier> getSoldiers() {
-        return soldiers;
-    }
-
     public void addSoldier(Soldier soldier) {
         soldiers.add(soldier);
-    }
-
-    public List<Command> getCommands() {
-        return commands;
     }
 
     public void addManual(Command command) {
         this.commands.add(command);
     }
 
-    public Region getCurrentRegion() {
-        return currentRegion;
-    }
-
-    public void setCurrentRegion(Region currentRegion) {
-        this.currentRegion = currentRegion;
-    }
-
-    public int getLevelNumber() {
-        return levelNumber;
-    }
-
-    public void setLevelNumber(int levelNumber) {
-        this.levelNumber = levelNumber;
-    }
-
     public void setMoneyBy(int amount) {
         this.money += amount;
+    }
+
+    public boolean useCost(int cost) {
+        if (currentCost < cost) {
+            return false;
+        } else {
+            currentCost -= cost;
+            return true;
+        }
     }
 
     public enum AFFINITY {

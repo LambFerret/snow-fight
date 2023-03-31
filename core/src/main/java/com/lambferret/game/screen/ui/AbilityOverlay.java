@@ -25,6 +25,7 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
     private final Stage stage;
     private final ScrollPane scrollPane;
     private ImageButton hideButton;
+    private Player player;
     private boolean isHide = false;
 
 
@@ -50,8 +51,9 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
 
     @Override
     public void init(Player player) {
+        this.player = player;
         makeAbilityContainer(player.getCommands());
-        instantHide();
+//        instantHide();
 
         scrollPane.addListener(new InputListener() {
             @Override
@@ -85,8 +87,10 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         manualButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
+                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY
+                    && player.useCost(command.getCost())) {
                     logger.info("command Info |  🐳 | " + command.getName() + " is active ");
+                    logger.info("cost info    |  🐳 | " + command.getCost() + " is used and" + player.getCurrentCost() + " is left");
                     PhaseScreen.getCommands().put(command, null);
                     manualButton.remove();
                 } else {

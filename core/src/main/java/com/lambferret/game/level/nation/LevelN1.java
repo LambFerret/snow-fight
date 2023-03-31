@@ -24,7 +24,7 @@ public class LevelN1 extends Level {
     };
     private static final int snowMin = 400;
     private static final int snowMax = 500;
-    public static final int MAX_SOLDIER_CAPACITY = 1;
+    public static final int MAX_SOLDIER_CAPACITY = 2;
 
     public LevelN1() {
         super(Region.RURAL, map, maxAmountMap, snowMin, snowMax, MAX_SOLDIER_CAPACITY);
