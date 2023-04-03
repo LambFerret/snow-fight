@@ -88,13 +88,13 @@ public class SelectSaveWindow extends Window {
         Dialog dialog = new Dialog("Confirmation", skin) {
             {
                 text("Are you sure?");
-                button("Yes", "YES");
-                button("No", "NO");
+                button("Yes", true);
+                button("No", false);
             }
 
             @Override
             protected void result(Object object) {
-                if ("YES".equals(object)) {
+                if (object.equals(true)) {
                     SaveLoader.makeNewSave(index);
                     SaveLoader.load(index);
                     SnowFight.setPlayer();

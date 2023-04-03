@@ -4,6 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.lambferret.game.SnowFight;
+import com.lambferret.game.command.Command;
+import com.lambferret.game.manual.Manual;
+import com.lambferret.game.player.Player;
+import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.GsonDateFormatAdapter;
 import org.apache.logging.log4j.LogManager;
@@ -11,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.lambferret.game.setting.GlobalSettings.MAXIMUM_SAVE;
 
@@ -59,16 +66,37 @@ public class SaveLoader {
     }
 
     public static void save() {
+        Player player = SnowFight.player;
         int saveFileNumber = currentSaveSlot;
         String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
+        List<Item> items = new ArrayList<>();
+        for (Soldier soldier : player.getSoldiers()) {
+            items.add(new Item(Item.TYPE.SOLDIER, soldier.getID()));
+        }
+        for (Manual manual : player.getManuals()) {
+            items.add(new Item(Item.TYPE.MANUAL, manual.getID()));
+        }
+        for (Command command : player.getCommands()) {
+            items.add(new Item(Item.TYPE.COMMAND, command.getID()));
+        }
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
             .create();
         Save save = Save.builder()
-            // some saving stuff
 //            .time(BarOverlay.time)
-            .name("Rutheni")
-            .init(true)
+            .isInitialized(true)
+            .name(player.getName())
+            .allItems(items)
+            .day(player.getDay())
+            .money(player.getMoney())
+            .affinity(player.getAffinity())
+            .maxCost(player.getMaxCost())
+            .currentCost(player.getCurrentCost())
+            .difficulty(player.getDifficulty())
+            .snowAmount(player.getSnowAmount())
+            .humanAffinity(player.getHumanAffinity())
+            .hellAffinity(player.getHellAffinity())
+            .eventList(player.getEventList())
             .build();
         try (FileWriter file = new FileWriter(fileName)) {
             file.append(GlobalUtil.encrypt(gson.toJson(save)));
@@ -89,7 +117,7 @@ public class SaveLoader {
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
             .create();
-        Save newSave = Save.builder().time(0).build();
+        Save newSave = Save.builder().isInitialized(false).time(0).build();
         try (FileWriter file = new FileWriter(fileName)) {
             file.append(GlobalUtil.encrypt(gson.toJson(newSave)));
         } catch (IOException ex) {

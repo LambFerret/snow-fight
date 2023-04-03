@@ -184,5 +184,41 @@ public class GlobalSettings {
         }
     }
 
+    public static Soldier popSoldier(String id) {
+        soldiers.remove(id);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Soldier) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " Soldier load error", e);
+            throw new RuntimeException("Soldier load error");
+        }
+    }
+
+    public static Command popCommand(String id) {
+        commands.remove(id);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Command) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " command load error", e);
+            throw new RuntimeException("command load error");
+        }
+    }
+
+    public static Manual popManual(String id) {
+        manuals.remove(id);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Manual) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " manual load error", e);
+            throw new RuntimeException("manual load error");
+        }
+    }
+
 
 }
