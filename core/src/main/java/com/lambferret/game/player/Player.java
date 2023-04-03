@@ -2,7 +2,6 @@ package com.lambferret.game.player;
 
 import com.lambferret.game.command.Command;
 import com.lambferret.game.command.ThreeShift;
-import com.lambferret.game.constant.Region;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
@@ -28,6 +27,7 @@ public class Player {
     private final List<Soldier> soldiers;
     private final List<Command> commands;
     private final List<Manual> manuals;
+    private int day;
     private int money;
     private Map<AFFINITY, Integer> affinity;
     private int maxCost;
@@ -36,8 +36,6 @@ public class Player {
     private int snowAmount;
     private int humanAffinity;
     private int hellAffinity;
-    private Region currentRegion;
-    private int levelNumber;
     private List<String> eventList;
 
     public Player() {
@@ -74,9 +72,7 @@ public class Player {
         this.humanAffinity = 50;
         this.eventList = new ArrayList<>();
 
-        this.currentRegion = Region.URBAN;
-        this.levelNumber = 1;
-
+        this.day = 0;
     }
 
     public int getAffinity(AFFINITY affinity) {

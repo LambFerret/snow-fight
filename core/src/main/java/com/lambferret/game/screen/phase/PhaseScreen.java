@@ -78,7 +78,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     public void onPlayerReady() {
         player = SnowFight.player;
-        level = LevelFinder.get(player.getCurrentRegion(), player.getLevelNumber());
+        level = LevelFinder.get(player.getDay());
         mapContainer.setActor(makeMap());
         for (AbstractPhase phase : phaseListener) {
             phase.init(player);

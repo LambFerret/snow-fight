@@ -1,6 +1,5 @@
 package com.lambferret.game.level;
 
-import com.lambferret.game.constant.Region;
 import com.lambferret.game.level.nation.LevelN1;
 
 public class LevelFinder {
@@ -9,25 +8,50 @@ public class LevelFinder {
     public LevelFinder() {
     }
 
-    public static Level get(Region region, int levelNumber) {
-        return new LevelN1();
+    public static Level get(int levelNumber) {
+        return LevelTier.values()[levelNumber].getTier();
+    }
 
-//        return switch (region) {
-//            case NATION -> switch (levelNumber) {
-//                case 1 -> new LevelN1();
-//                case 2 -> new LevelN2();
-//                default -> throw new RuntimeException("no level : " + levelNumber + " in " + region);
-//            };
-//            case RURAL -> switch (levelNumber) {
-//                case 1 -> new LevelR1();
-//                case 2 -> new LevelR2();
-//                default -> throw new RuntimeException("no level : " + levelNumber + " in " + region);
-//            };
-//            case URBAN -> switch (levelNumber) {
-//                case 1 -> new LevelU1();
-//                case 2 -> new LevelU2();
-//                default -> throw new RuntimeException("no level : " + levelNumber + " in " + region);
-//            };
-//        };
+    public enum LevelTier {
+        NATION_1(new LevelN1()),
+        NATION_2(new LevelN1()),
+        NATION_3(new LevelN1()),
+        NATION_4(new LevelN1()),
+        NATION_5(new LevelN1()),
+        NATION_6(new LevelN1()),
+        NATION_7(new LevelN1()),
+        NATION_8(new LevelN1()),
+        NATION_9(new LevelN1()),
+        NATION_10(new LevelN1()),
+        RURAL_1(new LevelN1()),
+        RURAL_2(new LevelN1()),
+        RURAL_3(new LevelN1()),
+        RURAL_4(new LevelN1()),
+        RURAL_5(new LevelN1()),
+        RURAL_6(new LevelN1()),
+        RURAL_7(new LevelN1()),
+        RURAL_8(new LevelN1()),
+        RURAL_9(new LevelN1()),
+        RURAL_10(new LevelN1()),
+        URBAN_1(new LevelN1()),
+        URBAN_2(new LevelN1()),
+        URBAN_3(new LevelN1()),
+        URBAN_4(new LevelN1()),
+        URBAN_5(new LevelN1()),
+        URBAN_6(new LevelN1()),
+        URBAN_7(new LevelN1()),
+        URBAN_8(new LevelN1()),
+        URBAN_9(new LevelN1()),
+        URBAN_10(new LevelN1()),
+        ;
+        final Level tier;
+
+        LevelTier(Level tier) {
+            this.tier = tier;
+        }
+
+        public Level getTier() {
+            return tier;
+        }
     }
 }
