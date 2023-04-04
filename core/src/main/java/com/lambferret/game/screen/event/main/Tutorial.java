@@ -1,4 +1,4 @@
-package com.lambferret.game.screen.event;
+package com.lambferret.game.screen.event.main;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class Tutorial extends EventWindow {
+public class Tutorial extends StoryWindow {
     private static final Logger logger = LogManager.getLogger(Tutorial.class.getName());
 
     private static final String ID = "TUTORIAL";
@@ -20,12 +20,11 @@ public class Tutorial extends EventWindow {
     private static final String ME = "me";
     private static final String SOMEONE = "someone";
     private static final String SOMEONE_2 = "someone2";
-    private final DialogueNode dialogueNode;
-    private final List<String> leftActor = List.of(
+    private static final List<String> leftActor = List.of(
         G_MAN,
         HELL_HOUND
     );
-    private final List<String> rightActor = List.of(
+    private static final List<String> rightActor = List.of(
         ME,
         SOMEONE,
         SOMEONE_2
@@ -33,10 +32,6 @@ public class Tutorial extends EventWindow {
 
     public Tutorial(Skin skin) {
         super(ID, skin, StoryType.MAIN, false);
-        this.dialogueNode = currentEvent.getDialogueNode();
-
-        //TODO : 우야면좋을꼬
-        setContext();
     }
 
     @Override
