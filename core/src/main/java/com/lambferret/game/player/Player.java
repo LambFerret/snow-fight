@@ -97,7 +97,7 @@ public class Player {
         this.hellAffinity = save.getHellAffinity();
         this.humanAffinity = save.getHumanAffinity();
         this.eventList = save.getEventList();
-        for (Item item: save.getAllItems()) {
+        for (Item item : save.getAllItems()) {
             switch (item.getType()) {
                 case SOLDIER -> {
                     soldiers.add(GlobalSettings.popSoldier(item.getID()));
