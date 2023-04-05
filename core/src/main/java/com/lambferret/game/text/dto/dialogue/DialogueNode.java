@@ -18,6 +18,7 @@ public class DialogueNode {
     private final List<DialogueNode> children;
     private final String characterName;
     private final Expression characterExpression;
+    private String backgroundName;
     private boolean isDialog;
     private int dialogNumber;
 
@@ -62,6 +63,10 @@ public class DialogueNode {
 
     public boolean isEnd() {
         return children.isEmpty();
+    }
+
+    public void setBackgroundName(String backgroundName) {
+        this.backgroundName = backgroundName;
     }
 
     public int getDialogNumber() {

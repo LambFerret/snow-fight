@@ -21,9 +21,11 @@ public abstract class StoryWindow extends EventWindow {
     private final Container<Dialog> dialogContainer = new Container<>();
     private List<Option> options;
     private int optionNumber;
+    private StoryType storyType;
 
     public StoryWindow(String dialogueID, Skin skin, StoryType storyType, boolean repeatable) {
         super(dialogueID, skin);
+        this.storyType = storyType;
 
         this.addActor(rightSpeakers);
         this.addActor(leftSpeakers);
@@ -57,6 +59,7 @@ public abstract class StoryWindow extends EventWindow {
         List<String> leftActor = getLeftActor();
         List<String> rightActor = getRightActor();
 
+        // TODO : make this as Character
         TextButton button;
         leftSpeakers.setDebug(true, true);
         rightSpeakers.setDebug(true, true);
@@ -78,10 +81,11 @@ public abstract class StoryWindow extends EventWindow {
         }
     }
 
+    @Override
     protected void setDialog(int number) {
         dialogContainer.setVisible(true);
         conversationContainer.setVisible(false);
-        var dialog = new Dialog("dialog", GlobalSettings.skin) {
+        Dialog dialog = new Dialog("dialog", GlobalSettings.skin) {
             @Override
             protected void result(Object object) {
                 optionNumber = (int) object;
