@@ -15,6 +15,7 @@ public abstract class EndingWindow extends EventWindow {
         conversationContainer.setSize(ENDING_TEXT_WIDTH, ENDING_TEXT_HEIGHT);
         conversationContainer.setPosition(0, 0);
 
+        this.textLabel.setVisible(false);
     }
 
     protected abstract DialogueNode getDialogueNode();

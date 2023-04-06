@@ -1,5 +1,6 @@
 package com.lambferret.game.screen.event.main;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -22,6 +23,8 @@ public abstract class StoryWindow extends EventWindow {
     private final Container<Dialog> dialogContainer = new Container<>();
     private int optionNumber;
     private final StoryType storyType;
+    List<Character> leftActor = getLeftActor();
+    List<Character> rightActor = getRightActor();
 
     public StoryWindow(String dialogueID, Skin skin, StoryType storyType, boolean repeatable) {
         super(dialogueID, skin);
@@ -45,7 +48,6 @@ public abstract class StoryWindow extends EventWindow {
         dialogContainer.setVisible(false);
 
         setContext();
-
     }
 
     protected void setContext() {
@@ -54,10 +56,6 @@ public abstract class StoryWindow extends EventWindow {
     }
 
     private void setSpeakers() {
-        List<Character> leftActor = getLeftActor();
-        List<Character> rightActor = getRightActor();
-
-        // TODO : make this as Character
         ImageTextButton characterPlate;
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.font = GlobalSettings.font;
@@ -95,7 +93,7 @@ public abstract class StoryWindow extends EventWindow {
                 solveEvent(number, optionNumber);
                 dialogContainer.setVisible(false);
                 conversationContainer.setVisible(true);
-                textLabel.startTyping();
+                typewriteText.startTyping();
                 setTypewriter(dialogueNode.select(optionNumber));
             }
         };
@@ -116,21 +114,35 @@ public abstract class StoryWindow extends EventWindow {
     @Override
     protected void setTypewriter(DialogueNode node) {
         super.setTypewriter(node);
-//        highlightSpeaker(node.getCharacter());
+        highlightSpeaker(node.getCharacter());
+    }
+
+    private void highlight(Actor actor) {
+        actor.setColor(Color.RED);
+        actor.setVisible(true);
+    }
+
+    private void blur(Actor actor) {
+        actor.setVisible(false);
+        actor.setColor(Color.BROWN);
     }
 
     private void highlightSpeaker(Character character) {
-        for (Actor speaker : leftSpeakers.getChildren()) {
-            speaker.setVisible(false);
+        for (int i = 0; i < leftActor.size() + rightActor.size(); i++) {
+            if (i < leftActor.size()) {
+                if (leftActor.get(i).equals(character)) {
+                    highlight(leftSpeakers.getChild(i));
+                } else {
+                    blur(leftSpeakers.getChild(i));
+                }
+            } else {
+                if (rightActor.get(i - leftActor.size()).equals(character)) {
+                    highlight(rightSpeakers.getChild(i - leftActor.size()));
+                } else {
+                    blur(rightSpeakers.getChild(i - leftActor.size()));
+                }
+            }
         }
-        for (Actor speaker : rightSpeakers.getChildren()) {
-            speaker.setVisible(false);
-        }
-//        if (index < 0) {
-//            leftSpeakers.get.getChild().setVisible(true);
-//        } else {
-//            rightSpeakers.getChild(index).setVisible(true);
-//        }
     }
 
     public boolean isFirstTime() {

@@ -78,7 +78,7 @@ public abstract class QuestWindow extends EventWindow {
                 solveEvent(optionNumber);
                 dialogContainer.setVisible(false);
                 conversationContainer.setVisible(true);
-                textLabel.startTyping();
+                typewriteText.startTyping();
                 setTypewriter(dialogueNode.select(optionNumber));
             }
         };
