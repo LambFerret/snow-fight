@@ -143,6 +143,8 @@ public class GlobalSettings {
         soldiers.addAll(LocalizeConfig.soldierText.getID().keySet());
         commands.addAll(LocalizeConfig.commandText.getID().keySet());
         manuals.addAll(LocalizeConfig.manualText.getID().keySet());
+
+        // TODO : seed randomize
         Collections.shuffle(soldiers);
         Collections.shuffle(commands);
         Collections.shuffle(manuals);

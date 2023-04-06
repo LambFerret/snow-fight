@@ -12,7 +12,7 @@ public abstract class EndingWindow extends EventWindow {
     public EndingWindow(String endingID, Skin skin) {
         super(endingID, skin);
 
-        conversationContainer.setSize(ENDING_TEXT_HEIGHT, ENDING_TEXT_WIDTH);
+        conversationContainer.setSize(ENDING_TEXT_WIDTH, ENDING_TEXT_HEIGHT);
         conversationContainer.setPosition(0, 0);
 
     }

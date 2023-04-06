@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.event;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -9,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.component.TypewriterLabel;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.text.dto.dialogue.Dialogue;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +25,6 @@ public abstract class EventWindow extends Window {
     protected static final float ENDING_TEXT_WIDTH = GlobalSettings.currWidth;
 
     protected final Skin skin;
-    protected final Dialogue currentEvent;
     protected DialogueNode dialogueNode;
     protected final Container<Label> conversationContainer = new Container<>();
     protected TypewriterLabel textLabel;
@@ -35,7 +34,6 @@ public abstract class EventWindow extends Window {
         super(eventID, skin);
         this.clear();
         this.skin = skin;
-        this.currentEvent = DialogueFinder.get(eventID);
         this.dialogueNode = getDialogueNode();
 
         if (GlobalSettings.isDev) this.setDebug(true, true);
@@ -43,6 +41,13 @@ public abstract class EventWindow extends Window {
         this.setPosition(0, 0);
         this.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
         this.setColor(0, 0, 0, 0.3F);
+
+        this.addListener(new InputListener() {
+            @Override
+            public boolean mouseMoved(InputEvent event, float x, float y) {
+                return true;
+            }
+        });
 
     }
 
@@ -83,10 +88,6 @@ public abstract class EventWindow extends Window {
                 }
             }
         });
-    }
-
-    protected String getContextByIndex(int index) {
-        return this.currentEvent.getContext().get(index);
     }
 
     private void exitEvent() {

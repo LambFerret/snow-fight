@@ -1,5 +1,6 @@
 package com.lambferret.game.text.dto.dialogue;
 
+import com.lambferret.game.character.Character;
 import com.lambferret.game.constant.Expression;
 import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
@@ -16,31 +17,31 @@ public class DialogueNode {
 
     private final String text;
     private final List<DialogueNode> children;
-    private final String characterName;
+    private final Character character;
     private final Expression characterExpression;
     private String backgroundName;
     private boolean isDialog;
     private int dialogNumber;
 
-    public DialogueNode(String text, String characterName, Expression characterExpression) {
+    public DialogueNode(String text, Character character, Expression characterExpression) {
         this.text = text;
         this.children = new ArrayList<>();
-        this.characterName = characterName;
+        this.character = character;
         this.characterExpression = characterExpression;
         this.isDialog = false;
         this.dialogNumber = -1;
     }
 
-    public DialogueNode(String text, String characterName) {
-        this(text, characterName, IDLE);
+    public DialogueNode(String text, Character character) {
+        this(text, character, IDLE);
     }
 
-    public DialogueNode(String text, String characterName, int dialogNumber) {
-        this(text, characterName, IDLE, dialogNumber);
+    public DialogueNode(String text, Character character, int dialogNumber) {
+        this(text, character, IDLE, dialogNumber);
     }
 
-    public DialogueNode(String text, String characterName, Expression characterExpression, int dialogNumber) {
-        this(text, characterName, characterExpression);
+    public DialogueNode(String text, Character character, Expression characterExpression, int dialogNumber) {
+        this(text, character, characterExpression);
         isDialog = true;
         this.dialogNumber = dialogNumber;
     }
@@ -67,6 +68,10 @@ public class DialogueNode {
 
     public void setBackgroundName(String backgroundName) {
         this.backgroundName = backgroundName;
+    }
+
+    public Character getCharacter() {
+        return character;
     }
 
     public int getDialogNumber() {

@@ -1,6 +1,8 @@
 package com.lambferret.game.screen.event.quest;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.character.Character;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
@@ -17,7 +19,8 @@ public abstract class QuestWindow extends EventWindow {
     private final Container<Dialog> dialogContainer = new Container<>();
     private List<Option> options;
     private int optionNumber;
-    private StoryType storyType;
+    private final StoryType storyType;
+
     public QuestWindow(String eventID, Skin skin) {
         super(eventID, skin);
 
@@ -42,23 +45,24 @@ public abstract class QuestWindow extends EventWindow {
     }
 
     protected void setContext() {
-        this.options = currentEvent.getOption();
-
         setSpeakers();
         setConversationBox();
     }
 
     private void setSpeakers() {
-        List<String> actor = getActor();
+        List<Character> actor = getActor();
 
-        // TODO : make this as Character
-        TextButton button;
+        ImageTextButton characterPlate;
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.font = GlobalSettings.font;
 
         for (int i = actor.size() - 1; i >= 0; i--) {
-            button = new TextButton(actor.get(i), skin);
-            button.setPosition(20, 0);
-            button.setSize(300, 500);
-            leftSpeakers.addActor(button);
+            Character character = actor.get(i);
+            style.imageUp = new TextureRegionDrawable(character.render());
+            characterPlate = new ImageTextButton(character.getName(), style);
+            characterPlate.setPosition(20, 0);
+            characterPlate.setSize(300, 500);
+            leftSpeakers.addActor(characterPlate);
             leftSpeakers.pad(5);
         }
     }
@@ -88,7 +92,7 @@ public abstract class QuestWindow extends EventWindow {
         dialog.setResizable(false);
     }
 
-    abstract protected List<String> getActor();
+    abstract protected List<Character> getActor();
 
     abstract protected void solveEvent(int optionNumber);
 

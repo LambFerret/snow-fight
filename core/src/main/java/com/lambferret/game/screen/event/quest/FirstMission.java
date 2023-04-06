@@ -1,13 +1,15 @@
 package com.lambferret.game.screen.event.quest;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.lambferret.game.character.Character;
+import com.lambferret.game.character.Me;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
 
 import java.util.List;
 
 public class FirstMission extends QuestWindow {
 
-    private static final List<String> actors = List.of("Lamb");
+    private static final List<Character> actors = List.of(new Me());
 
     public FirstMission(String eventID, Skin skin) {
         super(eventID, skin);
@@ -19,7 +21,7 @@ public class FirstMission extends QuestWindow {
     }
 
     @Override
-    protected List<String> getActor() {
+    protected List<Character> getActor() {
         return actors;
     }
 
