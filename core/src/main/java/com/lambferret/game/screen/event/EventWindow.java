@@ -48,7 +48,7 @@ public abstract class EventWindow extends Window {
         this.setColor(0, 0, 0, 0.3F);
 
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("wei"));
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("TODO NAMEPLATE TEXTURE"));
         style.font = GlobalSettings.font;
         textLabel = new ImageTextButton("", style);
         textLabel.setPosition(NAMEPLATE_X, NAMEPLATE_Y);
