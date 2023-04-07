@@ -31,7 +31,7 @@ public class Overlay implements PlayerObserver {
         phaseUIList.clear();
         uiSpriteBatch = new Stage();
         AbstractOverlay map = new MapOverlay(uiSpriteBatch);
-        AbstractOverlay bar = new BarOverlay(uiSpriteBatch);
+        AbstractOverlay bar = new SnowBarOverlay(uiSpriteBatch);
         AbstractOverlay score = new ScoreOverlay(uiSpriteBatch);
         AbstractOverlay ability = new AbilityOverlay(uiSpriteBatch);
         AbstractOverlay execute = new ExecuteOverlay(uiSpriteBatch);
