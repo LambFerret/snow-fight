@@ -144,6 +144,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         commands.clear();
         buffList.clear();
         manualList.forEach(Manual::effect);
+        player.setSnowAmount(level.getAssignedSnow());
 
         prePhaseScreen.startPhase();
 
@@ -154,7 +155,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenPtoR() {
         prePhaseScreen.executePhase();
 
-        player.setSnowAmount(level.getAssignedSnow());
         level.initCurrentIteration();
 
         readyPhaseScreen.startPhase();

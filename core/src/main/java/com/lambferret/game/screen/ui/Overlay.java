@@ -45,7 +45,6 @@ public class Overlay implements PlayerObserver {
         allOverlay.add(soldier);
 
         groundUIList.add(map);
-        groundUIList.add(bar);
         groundUIList.add(score);
 
         phaseUIList.add(bar);
