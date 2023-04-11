@@ -22,7 +22,7 @@ public class LevelN1 extends Level {
         {30, 20, 10, 0, 0, 10},
         {10, 20, 10, 10, 0, 10},
     };
-    private static final int minSnowForClear = 400;
+    private static final int minSnowForClear = 250;
     private static final int assignedSnow = 500;
     public static final int MAX_SOLDIER_CAPACITY = 2;
 

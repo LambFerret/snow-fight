@@ -12,6 +12,8 @@ public class Item {
     public enum TYPE {
         SOLDIER,
         COMMAND,
-        MANUAL
+        MANUAL,
+        QUEST,
+        EVENT,
     }
 }

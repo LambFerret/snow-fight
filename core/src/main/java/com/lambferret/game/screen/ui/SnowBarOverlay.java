@@ -63,9 +63,6 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         clearThresholdXLabel.setSize(THRESHOLD_LABEL_WIDTH, THRESHOLD_LABEL_HEIGHT);
         clearThresholdXLabel.setPosition(-999, this.getY() + this.getHeight());
 
-//        labelDescription.setSize(THRESHOLD_LABEL_WIDTH, THRESHOLD_LABEL_HEIGHT);
-        labelDescription.setPosition(clearThresholdXLabel.getX(), clearThresholdXLabel.getY() + clearThresholdXLabel.getHeight());
-
         barLabel.setSize(20, 20);
         barLabel.setPosition(this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2);
     }
@@ -76,10 +73,14 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         setLabelProperty();
     }
 
-    private void setLabelProperty() {
+    private void setLabelX() {
         float thresholdX = ((this.getWidth() * (assignedSnow - snowAmountToClear)) / assignedSnow);
         clearThresholdXLabel.setX(thresholdX - clearThresholdXLabel.getWidth() / 2);
         clearThresholdXLabel.setText(snowAmountToClear + "");
+
+        labelDescription.setSize(30, 15);
+        labelDescription.setPosition(clearThresholdXLabel.getX(), clearThresholdXLabel.getY() + clearThresholdXLabel.getHeight());
+        clearThresholdXLabel.clearListeners();
 
         clearThresholdXLabel.addListener(new InputListener() {
             @Override
@@ -98,7 +99,10 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
                 }
             }
         });
+    }
 
+    private void setLabelProperty() {
+        setLabelX();
         this.addListener(new InputListener() {
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
@@ -147,6 +151,7 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         snowAmountToClear = PhaseScreen.level.getMinSnowForClear();
         playerCurrentSnow = assignedSnow;
         isOverlayOn = true;
+        setLabelX();
     }
 
     private void stop() {

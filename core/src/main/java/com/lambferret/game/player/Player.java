@@ -3,6 +3,8 @@ package com.lambferret.game.player;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.manual.Manual;
+import com.lambferret.game.quest.Quest;
+import com.lambferret.game.quest.TutorialQuest;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.save.Save;
 import com.lambferret.game.save.SaveLoader;
@@ -29,6 +31,7 @@ public class Player {
     private List<Soldier> soldiers;
     private List<Command> commands;
     private List<Manual> manuals;
+    private List<Quest> quests;
     private int day;
     private int money;
     private Map<AFFINITY, Integer> affinity;
@@ -52,6 +55,7 @@ public class Player {
         this.soldiers = new ArrayList<>();
         this.commands = new ArrayList<>();
         this.manuals = new ArrayList<>();
+        this.quests = new ArrayList<>();
 
         this.day = 0;
         this.money = 1000;
@@ -76,6 +80,7 @@ public class Player {
         soldiers.add(new Vanilla());
         soldiers.add(new Choco());
         commands.add(new ThreeShift());
+        quests.add(new TutorialQuest());
 //        manuals.add(new ColdWeatherTraining());
         //=-=-=-=-=-=--=-=//
 
@@ -88,6 +93,7 @@ public class Player {
         this.commands = new ArrayList<>();
         this.manuals = new ArrayList<>();
         this.eventList = new ArrayList<>();
+        this.quests = new ArrayList<>();
 
         this.day = save.getDay();
         this.money = save.getMoney();
@@ -107,6 +113,11 @@ public class Player {
                 }
                 case MANUAL -> {
                     manuals.add(GlobalSettings.popManual(item.getID()));
+                }
+                case EVENT -> {
+                }
+                case QUEST -> {
+                    quests.add(GlobalSettings.popQuest(item.getID()));
                 }
             }
         }

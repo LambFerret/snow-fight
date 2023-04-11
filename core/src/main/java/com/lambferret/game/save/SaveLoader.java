@@ -8,6 +8,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.quest.Quest;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.GsonDateFormatAdapter;
@@ -78,6 +79,9 @@ public class SaveLoader {
         }
         for (Command command : player.getCommands()) {
             items.add(new Item(Item.TYPE.COMMAND, command.getID()));
+        }
+        for (Quest quest : player.getQuests()) {
+            items.add(new Item(Item.TYPE.QUEST, quest.getID()));
         }
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())

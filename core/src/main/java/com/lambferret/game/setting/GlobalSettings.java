@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.manual.Manual;
+import com.lambferret.game.quest.Quest;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
@@ -137,17 +138,20 @@ public class GlobalSettings {
     private static final List<String> soldiers = new ArrayList<>();
     private static final List<String> commands = new ArrayList<>();
     private static final List<String> manuals = new ArrayList<>();
+    private static final List<String> quests = new ArrayList<>();
 
     // TODO 바보같은지 획기적인지 분간이 안감
     public static void loadAllInGameStructure() {
         soldiers.addAll(LocalizeConfig.soldierText.getID().keySet());
         commands.addAll(LocalizeConfig.commandText.getID().keySet());
         manuals.addAll(LocalizeConfig.manualText.getID().keySet());
+        quests.addAll(LocalizeConfig.questText.getID().keySet());
 
         // TODO : seed randomize
         Collections.shuffle(soldiers);
         Collections.shuffle(commands);
         Collections.shuffle(manuals);
+        Collections.shuffle(quests);
     }
 
     public static Soldier popSoldier() {
@@ -186,6 +190,18 @@ public class GlobalSettings {
         }
     }
 
+    public static Quest popQuest() {
+        String id = quests.remove(0);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Quest) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " quest load error", e);
+            throw new RuntimeException("quest load error");
+        }
+    }
+
     public static Soldier popSoldier(String id) {
         soldiers.remove(id);
         try {
@@ -219,6 +235,18 @@ public class GlobalSettings {
         } catch (Exception e) {
             logger.error(id + " manual load error", e);
             throw new RuntimeException("manual load error");
+        }
+    }
+
+    public static Quest popQuest(String id) {
+        quests.remove(id);
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Quest) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " quest load error", e);
+            throw new RuntimeException("quest load error");
         }
     }
 
