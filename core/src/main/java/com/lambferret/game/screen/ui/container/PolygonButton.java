@@ -32,8 +32,13 @@ public class PolygonButton extends ImageTextButton {
     }
 
     @Override
+    public void setX(float x) {
+        super.setX(x);
+        polygon.setPosition(x, polygon.getY());
+    }
+
+    @Override
     public void moveBy(float x, float y) {
-        logger.info("moveBy |  🐳 ? | " + x + " | " + y);
         polygon.setPosition(polygon.getX() + x, polygon.getY() + y);
         super.moveBy(x, y);
     }
@@ -41,7 +46,6 @@ public class PolygonButton extends ImageTextButton {
     @Override
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        // Scale the polygon to match the button size
         if (polygon == null) return;
         polygon.setScale(
             width / polygon.getBoundingRectangle().width,

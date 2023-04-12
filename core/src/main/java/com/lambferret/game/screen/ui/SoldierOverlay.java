@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -11,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.ui.container.PolygonButton;
@@ -23,19 +23,21 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class SoldierOverlay extends Container<ScrollPane> implements AbstractOverlay {
-    public static final float[] VERTICES = new float[]{0, 0, 100, 50, 100, 350, 0, 400};
     private static final Logger logger = LogManager.getLogger(SoldierOverlay.class.getName());
-    public static final int CARD_PAD = 5;
-    public static final int SCROLL_PAD = 300;
-    public static final int BUTTON_WIDTH = 200;
-    public static final int BUTTON_HEIGHT = 200;
-    public static final int BUTTON_Y = 300;
+    protected static final float[] VERTICES = new float[]{0, 0, 100, 50, 100, 350, 0, 400};
+    protected static final int CARD_PAD = 5;
+    protected static final int SCROLL_PAD = 300;
+    protected static final int BUTTON_WIDTH = 200;
+    protected static final int BUTTON_HEIGHT = 200;
+    protected static final int BUTTON_Y = 300;
+    protected static final int HIDE_THRESHOLD_X = 200;
+
 
     private final Stage stage;
     private final ScrollPane scrollPane;
     private final PolygonButton hideButton;
     private boolean isSimple = true;
-    public boolean isHide = false;
+    private boolean isHide = false;
 
 
     public SoldierOverlay(Stage stage) {
@@ -57,32 +59,35 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
         hideButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
         hideButton.setPosition(GlobalSettings.currWidth - BUTTON_WIDTH, BUTTON_Y);
-
         this.setSize(GlobalSettings.currWidth - BUTTON_WIDTH, GlobalSettings.currHeight);
+
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setPosition(this.getX(), this.getY());
         scrollPane.setSize(this.getWidth(), this.getHeight());
     }
 
-    private Vector2 lastMousePosition = new Vector2();
-    private boolean drawerOpen = false;
-    private float drawerBorder = 100;
-
-
     @Override
     public void init(Player player) {
         makeSoldierContainer(player.getSoldiers());
-        instantHide();
+        hide(true);
 
-        hideButton.addListener(new ClickListener() {
+        var overlay = this;
+        hideButton.addListener(new DragListener() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (isHide) {
+            public void drag(InputEvent event, float x, float y, int pointer) {
+                hideButton.moveBy(x - getDragStartX(), 0);
+                overlay.moveBy(x - getDragStartX(), 0);
+            }
+
+            @Override
+            public void dragStop(InputEvent event, float x, float y, int pointer) {
+                if (hideButton.getX() > HIDE_THRESHOLD_X && isHide) {
                     show();
+                } else if (hideButton.getX() < overlay.getWidth() - HIDE_THRESHOLD_X && !isHide) {
+                    hide(false);
                 } else {
-                    hide();
+                    resetLocation();
                 }
-                logger.info("clicked |  🐳 yes you clicked me | ");
             }
         });
 
@@ -101,6 +106,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
                 super.exit(event, x, y, pointer, toActor);
             }
         });
+
         this.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -150,35 +156,37 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         return soldierButton;
     }
 
-    private void hide() {
-        hide(false);
-    }
-
-    private void instantHide() {
-        hide(true);
-    }
-
     private void hide(boolean isInstant) {
-        if (isHide) return;
-        float instant = isInstant ? 0.0F : ANIMATION_DURATION;
-        this.addAction(
-            Actions.moveBy(-(this.getWidth() + PADDING), 0, instant)
-        );
-        hideButton.addAction(
-            Actions.moveBy(-(this.getWidth() + PADDING), 0, instant)
-        );
+        if (isInstant) {
+            hideButton.setX(0);
+            this.setX(-this.getWidth());
+        } else {
+            hideButton.addAction(
+                Actions.moveBy(-hideButton.getX(), 0, ANIMATION_DURATION)
+            );
+            this.addAction(
+                Actions.moveTo(-this.getWidth(), 0, ANIMATION_DURATION)
+            );
+        }
         isHide = true;
     }
 
     private void show() {
-        if (!isHide) return;
         this.addAction(
-            Actions.moveBy((this.getWidth() + PADDING), 0, ANIMATION_DURATION)
+            Actions.moveTo(0, 0, ANIMATION_DURATION)
         );
         hideButton.addAction(
-            Actions.moveBy((this.getWidth() + PADDING), 0, ANIMATION_DURATION)
+            Actions.moveBy(this.getWidth() - hideButton.getX(), 0, ANIMATION_DURATION)
         );
         isHide = false;
+    }
+
+    private void resetLocation() {
+        if (isHide) {
+            hide(false);
+        } else {
+            show();
+        }
     }
 
     @Override
