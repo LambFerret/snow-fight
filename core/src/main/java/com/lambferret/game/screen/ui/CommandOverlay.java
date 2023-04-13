@@ -19,41 +19,60 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class AbilityOverlay extends Container<ScrollPane> implements AbstractOverlay {
-    private static final Logger logger = LogManager.getLogger(AbilityOverlay.class.getName());
+public class CommandOverlay extends Container<ScrollPane> implements AbstractOverlay {
+    private static final Logger logger = LogManager.getLogger(CommandOverlay.class.getName());
 
     private final Stage stage;
     private final ScrollPane scrollPane;
-    private ImageButton hideButton;
+    private final ImageButton hideButton;
     private Player player;
     private boolean isHide = false;
 
 
-    public AbilityOverlay(Stage stage) {
+    public CommandOverlay(Stage stage) {
         this.stage = stage;
-        this.stage.addActor(this);
         this.scrollPane = new ScrollPane(new Table());
+        hideButton = new ImageButton(hideButtonStyle());
+
         this.setActor(this.scrollPane);
+        this.stage.addActor(hideButton);
+        this.stage.addActor(this);
     }
 
     public void create() {
-        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, OVERLAY_HEIGHT);
-        this.setSize(OVERLAY_WIDTH, GlobalSettings.currHeight - OVERLAY_HEIGHT - BAR_HEIGHT);
+        this.setPosition(COMMAND_X, COMMAND_Y);
+        this.setSize(COMMAND_WIDTH, COMMAND_HEIGHT);
         this.setDebug(true, true);
 
-        this.hideButton = hideSwitch();
-        stage.addActor(hideButton);
+        hideButton.setSize(COMMAND_HIDE_BUTTON_WIDTH, COMMAND_HIDE_BUTTON_HEIGHT);
+        hideButton.setPosition(COMMAND_HIDE_BUTTON_X, COMMAND_HIDE_BUTTON_Y);
+        hideButton.setOrigin(Align.center);
 
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setPosition(this.getX(), this.getY());
         scrollPane.setSize(this.getWidth(), this.getHeight());
+
+        if (isHide) {
+            this.setX(COMMAND_HIDE_X);
+            hideButton.setX(COMMAND_HIDE_BUTTON_HIDE_X);
+        }
     }
 
     @Override
     public void init(Player player) {
         this.player = player;
-        makeAbilityContainer(player.getCommands());
-//        instantHide();
+        this.scrollPane.setActor(makeCommandContainer(player.getCommands()));
+
+        hideButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (isHide) {
+                    show();
+                } else {
+                    hide();
+                }
+            }
+        });
 
         scrollPane.addListener(new InputListener() {
             @Override
@@ -72,27 +91,27 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         });
     }
 
-    private void makeAbilityContainer(List<Command> commands) {
+    private Table makeCommandContainer(List<Command> commands) {
         Table table = new Table();
         for (Command command : commands) {
-            table.add(renderManual(command));
-            table.row().pad(10);
+            table.add(renderCommand(command));
+            table.row().pad(COMMAND_EACH_PADDING);
         }
-        this.scrollPane.setActor(table);
+        return table;
     }
 
-    private ImageTextButton renderManual(Command command) {
-        ImageTextButton manualButton = new ImageTextButton("manual", soldierButtonStyle(command));
-        manualButton.setSize(scrollPane.getWidth(), scrollPane.getHeight() / 3.0F);
-        manualButton.addListener(new ClickListener() {
+    private ImageTextButton renderCommand(Command command) {
+        ImageTextButton commandButton = new ImageTextButton(command.getName(), commandButtonStyle(command));
+
+        commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
+        commandButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY
-                    && player.useCost(command.getCost())) {
+                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY && player.useCost(command.getCost())) {
                     logger.info("command Info |  🐳 | " + command.getName() + " is active ");
                     logger.info("cost info    |  🐳 | " + command.getCost() + " is used and" + player.getCurrentCost() + " is left");
                     PhaseScreen.getCommands().put(command, null);
-                    manualButton.remove();
+                    commandButton.remove();
                 } else {
                     logger.info("clicked |  🐳 not ready phase currently | ");
                 }
@@ -114,80 +133,32 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
                 //unHover Information
             }
         });
-        return manualButton;
-    }
-
-    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Command command) {
-        var a = new ImageTextButton.ImageTextButtonStyle();
-        a.font = GlobalSettings.font;
-        a.up = new TextureRegionDrawable(command.renderSimple());
-        return a;
-    }
-
-    private ImageButton.ImageButtonStyle hideButtonStyle() {
-        var a = new ImageButton.ImageButtonStyle();
-        a.up = new TextureRegionDrawable(AssetFinder.getTexture("scrollPointer_H"));
-        return a;
-    }
-
-    private ImageButton hideSwitch() {
-        AbilityOverlay thisOverlay = this;
-        ImageButton hideSwitch = new ImageButton(hideButtonStyle());
-
-        hideSwitch.setSize(HIDE_BUTTON_WIDTH, HIDE_BUTTON_HEIGHT);
-        hideSwitch.setPosition(
-            thisOverlay.getX() - (hideSwitch.getWidth() + PADDING),
-            thisOverlay.getY() + PADDING
-        );
-        hideSwitch.setOrigin(Align.center);
-
-        hideSwitch.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (isHide) {
-                    show();
-                } else {
-                    hide();
-                }
-            }
-        });
-        return hideSwitch;
+        return commandButton;
     }
 
     private void hide() {
-        hide(false);
-    }
-
-    private void instantHide() {
-        hide(true);
-    }
-
-    private void hide(boolean isInstant) {
-        if (isHide) return;
-        float instant = isInstant ? 0.0F : ANIMATION_DURATION;
         this.addAction(
-            Actions.moveBy(this.getWidth() + PADDING, 0, instant)
+            Actions.moveTo(COMMAND_HIDE_X, COMMAND_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
         hideButton.addAction(
-            Actions.moveBy(this.getWidth() + PADDING, 0, instant)
+            Actions.moveTo(COMMAND_HIDE_BUTTON_HIDE_X, COMMAND_HIDE_BUTTON_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
-        hideButton.addAction(
-            Actions.rotateBy(90, instant)
-        );
+//        hideButton.addAction(
+//            Actions.rotateBy(90, ANIMATION_DURATION)
+//        );
         isHide = true;
     }
 
     private void show() {
-        if (!isHide) return;
         this.addAction(
-            Actions.moveBy(-(this.getWidth() + PADDING), 0, ANIMATION_DURATION)
+            Actions.moveTo(COMMAND_X, COMMAND_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
         hideButton.addAction(
-            Actions.moveBy(-(this.getWidth() + PADDING), 0, ANIMATION_DURATION)
+            Actions.moveTo(COMMAND_HIDE_BUTTON_X, COMMAND_HIDE_BUTTON_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
-        hideButton.addAction(
-            Actions.rotateBy(90, ANIMATION_DURATION)
-        );
+//        hideButton.addAction(
+//            Actions.rotateBy(90, ANIMATION_DURATION)
+//        );
         isHide = false;
     }
 
@@ -196,4 +167,18 @@ public class AbilityOverlay extends Container<ScrollPane> implements AbstractOve
         this.hideButton.setVisible(visible);
         super.setVisible(visible);
     }
+
+    private ImageButton.ImageButtonStyle hideButtonStyle() {
+        var style = new ImageButton.ImageButtonStyle();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("scrollPointer_H"));
+        return style;
+    }
+
+    private ImageTextButton.ImageTextButtonStyle commandButtonStyle(Command command) {
+        var style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(command.renderSimple());
+        style.font = GlobalSettings.font;
+        return style;
+    }
+
 }

@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.component.PolygonButton;
 import com.lambferret.game.player.Player;
-import com.lambferret.game.screen.ui.container.PolygonButton;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.AssetFinder;
@@ -24,29 +24,19 @@ import java.util.List;
 
 public class SoldierOverlay extends Container<ScrollPane> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(SoldierOverlay.class.getName());
-    protected static final float[] VERTICES = new float[]{0, 0, 100, 50, 100, 350, 0, 400};
-    protected static final int CARD_PAD = 5;
-    protected static final int SCROLL_PAD = 300;
-    protected static final int BUTTON_WIDTH = 200;
-    protected static final int BUTTON_HEIGHT = 200;
-    protected static final int BUTTON_Y = 300;
-    protected static final int HIDE_THRESHOLD_X = 200;
-
 
     private final Stage stage;
     private final ScrollPane scrollPane;
     private final PolygonButton hideButton;
+    private Player player;
     private boolean isSimple = true;
-    private boolean isHide = false;
+    private boolean isHide = true;
 
 
     public SoldierOverlay(Stage stage) {
         this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("fileIron"));
-        style.font = GlobalSettings.font;
-        hideButton = new PolygonButton("ui text todo", style, VERTICES);
+        hideButton = new PolygonButton("ui text todo", getHideButtonStyle(), SOLDIER_HIDE_BUTTON_VERTICES);
 
         stage.addActor(hideButton);
         stage.addActor(this);
@@ -54,24 +44,30 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     }
 
     public void create() {
-        this.setPosition(0, 0);
+        this.setPosition(SOLDIER_X, SOLDIER_Y);
+        this.setSize(SOLDIER_WIDTH, SOLDIER_HEIGHT);
         this.setDebug(true, true);
 
-        hideButton.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        hideButton.setPosition(GlobalSettings.currWidth - BUTTON_WIDTH, BUTTON_Y);
-        this.setSize(GlobalSettings.currWidth - BUTTON_WIDTH, GlobalSettings.currHeight);
+        hideButton.setPosition(SOLDIER_HIDE_BUTTON_X, SOLDIER_HIDE_BUTTON_Y);
+        hideButton.setSize(SOLDIER_HIDE_BUTTON_WIDTH, SOLDIER_HIDE_BUTTON_HEIGHT);
 
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setPosition(this.getX(), this.getY());
         scrollPane.setSize(this.getWidth(), this.getHeight());
+
+        if (isHide) {
+            this.setX(SOLDIER_HIDE_X);
+            hideButton.setX(SOLDIER_HIDE_BUTTON_HIDE_X);
+        }
     }
 
     @Override
     public void init(Player player) {
-        makeSoldierContainer(player.getSoldiers());
-        hide(true);
-
         var overlay = this;
+        this.player = player;
+
+        this.scrollPane.setActor(makeSoldierContainer(player.getSoldiers()));
+
         hideButton.addListener(new DragListener() {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
@@ -81,10 +77,10 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                if (hideButton.getX() > HIDE_THRESHOLD_X && isHide) {
+                if (hideButton.getX() > SOLDIER_HIDE_MOVEMENT_THRESHOLD_X && isHide) {
                     show();
-                } else if (hideButton.getX() < overlay.getWidth() - HIDE_THRESHOLD_X && !isHide) {
-                    hide(false);
+                } else if (hideButton.getX() < SOLDIER_WIDTH - SOLDIER_HIDE_MOVEMENT_THRESHOLD_X && !isHide) {
+                    hide();
                 } else {
                     resetLocation();
                 }
@@ -115,26 +111,24 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         });
     }
 
-    private void makeSoldierContainer(List<Soldier> soldiers) {
+    private Table makeSoldierContainer(List<Soldier> soldiers) {
         Table table = new Table();
         int i = 0;
         for (Soldier soldier : soldiers) {
             var card = renderSoldier(soldier);
-            table.add(card).pad(CARD_PAD);
-            if ((i++ + 1) * (card.getWidth() + CARD_PAD) > scrollPane.getWidth() - SCROLL_PAD) {
+            table.add(card).pad(SOLDIER_EACH_PAD);
+            if ((i++ + 1) * (card.getWidth() + SOLDIER_EACH_PAD) > scrollPane.getWidth() - SOLDIER_CARD_MARGIN) {
                 table.row();
                 i = 0;
             }
         }
-        this.scrollPane.setActor(table);
+        return table;
     }
 
     private ImageTextButton renderSoldier(Soldier soldier) {
-        var style = new ImageTextButton.ImageTextButtonStyle();
-        style.font = GlobalSettings.font;
-        style.up = new TextureRegionDrawable(soldier.renderFront());
-        ImageTextButton soldierButton = new ImageTextButton(soldier.getName(), style);
-        soldierButton.setSize(OVERLAY_HEIGHT * 2 / 3.0F, OVERLAY_HEIGHT);
+        ImageTextButton soldierButton = new ImageTextButton(soldier.getName(), soldierButtonStyle(soldier));
+
+        soldierButton.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
         soldierButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -156,34 +150,29 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         return soldierButton;
     }
 
-    private void hide(boolean isInstant) {
-        if (isInstant) {
-            hideButton.setX(0);
-            this.setX(-this.getWidth());
-        } else {
-            hideButton.addAction(
-                Actions.moveBy(-hideButton.getX(), 0, ANIMATION_DURATION)
-            );
-            this.addAction(
-                Actions.moveTo(-this.getWidth(), 0, ANIMATION_DURATION)
-            );
-        }
+    private void hide() {
+        this.addAction(
+            Actions.moveTo(SOLDIER_HIDE_X, SOLDIER_Y, SOLDIER_HIDE_ANIMATION_DURATION)
+        );
+        hideButton.addAction(
+            Actions.moveBy(-hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
+        );
         isHide = true;
     }
 
     private void show() {
         this.addAction(
-            Actions.moveTo(0, 0, ANIMATION_DURATION)
+            Actions.moveTo(SOLDIER_X, SOLDIER_Y, SOLDIER_HIDE_ANIMATION_DURATION)
         );
         hideButton.addAction(
-            Actions.moveBy(this.getWidth() - hideButton.getX(), 0, ANIMATION_DURATION)
+            Actions.moveBy(SOLDIER_WIDTH - hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
         );
         isHide = false;
     }
 
     private void resetLocation() {
         if (isHide) {
-            hide(false);
+            hide();
         } else {
             show();
         }
@@ -217,6 +206,20 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
             soldierContainer.row();
         }
         this.scrollPane.setActor(soldierContainer);
+    }
+
+    private ImageTextButton.ImageTextButtonStyle getHideButtonStyle() {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("fileIron"));
+        style.font = GlobalSettings.font;
+        return style;
+    }
+
+    private ImageTextButton.ImageTextButtonStyle soldierButtonStyle(Soldier soldier) {
+        var style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(soldier.renderFront());
+        style.font = GlobalSettings.font;
+        return style;
     }
 
 }

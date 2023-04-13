@@ -1,4 +1,4 @@
-package com.lambferret.game.screen.ui;
+package com.lambferret.game.component;
 
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;

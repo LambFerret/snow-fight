@@ -32,23 +32,23 @@ public class Overlay implements PlayerObserver {
         uiSpriteBatch = new Stage();
         AbstractOverlay map = new MapOverlay(uiSpriteBatch);
         AbstractOverlay bar = new SnowBarOverlay(uiSpriteBatch);
-        AbstractOverlay score = new ScoreOverlay(uiSpriteBatch);
-        AbstractOverlay ability = new AbilityOverlay(uiSpriteBatch);
+        AbstractOverlay quest = new QuestOverly(uiSpriteBatch);
+        AbstractOverlay command = new CommandOverlay(uiSpriteBatch);
         AbstractOverlay execute = new ExecuteOverlay(uiSpriteBatch);
         AbstractOverlay soldier = new SoldierOverlay(uiSpriteBatch);
 
         allOverlay.add(map);
         allOverlay.add(bar);
-        allOverlay.add(score);
-        allOverlay.add(ability);
+        allOverlay.add(quest);
+        allOverlay.add(command);
         allOverlay.add(execute);
         allOverlay.add(soldier);
 
         groundUIList.add(map);
-        groundUIList.add(score);
 
+        phaseUIList.add(quest);
         phaseUIList.add(bar);
-        phaseUIList.add(ability);
+        phaseUIList.add(command);
         phaseUIList.add(execute);
         phaseUIList.add(soldier);
     }

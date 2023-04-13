@@ -1,13 +1,16 @@
 package com.lambferret.game.screen.ui;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.level.Level;
@@ -21,36 +24,48 @@ import org.apache.logging.log4j.Logger;
 
 public class ExecuteOverlay extends Container<ImageTextButton> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
+    public static final float EXECUTE_X = GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH;
+    public static final int EXECUTE_Y = 0;
+    public static final float EXECUTE_WIDTH = OVERLAY_BORDERLINE_WIDTH;
+    public static final float EXECUTE_HIDE_BUTTON_RELATIVE_X = EXECUTE_WIDTH * 2 / 3;
+    public static final float EXECUTE_HIDE_X = EXECUTE_X + EXECUTE_WIDTH * 2 / 3.0F;
+    public static final float EXECUTE_HEIGHT = OVERLAY_BORDERLINE_HEIGHT;
+    public static final float EXECUTE_HIDE_ANIMATION_DURATION = 0.1F;
 
-    private final ImageTextButton executeButton;
     private final Stage stage;
-    private Image pen;
-    private boolean isHide = false;
+    private final ImageTextButton executeButton;
+
+    Cursor cursor;
     Player player;
+    private boolean isHide = true;
 
     public ExecuteOverlay(Stage stage) {
-        if (GlobalSettings.isDev) this.setDebug(true, true);
         this.stage = stage;
-        stage.addActor(this);
-        this.setPosition(GlobalSettings.currWidth - OVERLAY_WIDTH, 0);
-        this.setSize(OVERLAY_WIDTH, OVERLAY_HEIGHT);
-        this.fill();
-        stage.setKeyboardFocus(this);
+        executeButton = new ImageTextButton("Execute", executeButtonStyle());
+        Texture pen = AssetFinder.getTexture("pen");
+        pen.getTextureData().prepare();
+        Pixmap pixmapSrc = pen.getTextureData().consumePixmap();
+        Pixmap pixmapRGBA = new Pixmap(256, 256, Pixmap.Format.RGBA8888);
+        pixmapRGBA.drawPixmap(pixmapSrc, 0, 0);
 
-        ImageTextButton.ImageTextButtonStyle imageButtonStyle = GlobalSettings.imageButtonStyle;
-        imageButtonStyle.font = GlobalSettings.font;
-        imageButtonStyle.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
-        executeButton = new ImageTextButton("Execute", imageButtonStyle);
-        this.executeButton.setPosition(0, 0);
+        cursor = Gdx.graphics.newCursor(pixmapRGBA, 0, 0);
+
         this.setActor(executeButton);
+        this.stage.setKeyboardFocus(this);
+        this.stage.addActor(this);
     }
 
     public void create() {
-        pen = new Image(AssetFinder.getTexture("pen"));
-        pen.setSize(50, 60);
-        pen.setPosition(-100, -100);
-        pen.setVisible(false);
-        stage.addActor(pen);
+        this.setPosition(EXECUTE_X, EXECUTE_Y);
+        this.setSize(EXECUTE_WIDTH, EXECUTE_HEIGHT);
+        this.fill();
+
+        this.setDebug(true, true);
+
+        this.executeButton.setPosition(0, 0);
+        if (isHide) {
+            this.executeButton.setX(EXECUTE_HIDE_BUTTON_RELATIVE_X);
+        }
     }
 
     @Override
@@ -71,7 +86,6 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
                 super.exit(event, x, y, pointer, toActor);
                 if (pointer == -1) {
                     hide();
-                    pen.setVisible(false);
                 }
             }
 
@@ -79,7 +93,6 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 if (pointer == -1) {
-                    pen.setVisible(true);
                     show();
                 }
             }
@@ -91,45 +104,36 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
             }
 
             @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-
-            @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.SPACE) {
                     screenChanger();
                 }
                 return super.keyDown(event, keycode);
             }
-
-            @Override
-            public boolean keyUp(InputEvent event, int keycode) {
-                return super.keyUp(event, keycode);
-            }
-
-            @Override
-            public boolean mouseMoved(InputEvent event, float x, float y) {
-                pen.setPosition(x + getX() + PADDING, y + getY() + PADDING);
-                return super.mouseMoved(event, x, y);
-            }
         });
     }
 
     private void hide() {
-        if (isHide) return;
+        Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
         this.executeButton.addAction(
-            Actions.moveBy(this.getWidth() * 2 / 3.0F + PADDING, 0, ANIMATION_DURATION)
+            Actions.moveTo(EXECUTE_HIDE_BUTTON_RELATIVE_X, 0, SOLDIER_HIDE_ANIMATION_DURATION)
         );
         isHide = true;
     }
 
     private void show() {
-        if (!isHide) return;
+        Gdx.graphics.setCursor(cursor);
         this.executeButton.addAction(
-            Actions.moveBy(-(this.getWidth() * 2 / 3.0F + PADDING), 0, ANIMATION_DURATION)
+            Actions.moveTo(0, 0, EXECUTE_HIDE_ANIMATION_DURATION)
         );
         isHide = false;
+    }
+
+    private ImageTextButton.ImageTextButtonStyle executeButtonStyle() {
+        ImageTextButton.ImageTextButtonStyle style = GlobalSettings.imageButtonStyle;
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
+        style.font = GlobalSettings.font;
+        return style;
     }
 
     private void screenChanger() {
