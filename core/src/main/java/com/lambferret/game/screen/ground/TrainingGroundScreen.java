@@ -2,32 +2,41 @@ package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TrainingGroundScreen implements AbstractGround {
     private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
     public static final Stage stage = new Stage();
-    private Skin skin;
+    private final Skin skin;
 
     public TrainingGroundScreen() {
-
-    }
-
-    @Override
-    public void create() {
         skin = GlobalSettings.skin;
+        stage.addActor(background());
         stage.addActor(makeButton());
     }
 
     @Override
+    public void create() {
+
+    }
+
+    @Override
     public void init(Player player) {
+    }
+
+    public Image background() {
+        Image image = new Image(AssetFinder.getTexture("groundReal"));
+        image.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
+        return image;
     }
 
     private TextButton makeButton() {

@@ -21,12 +21,7 @@ public class DefeatScreen implements AbstractPhase {
     }
 
     public void create() {
-        textButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-            }
-        });
+
     }
 
     @Override

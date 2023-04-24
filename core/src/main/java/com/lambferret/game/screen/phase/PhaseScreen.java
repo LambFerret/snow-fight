@@ -197,7 +197,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     @Override
     public void render() {
-        overlay.render();
         switch (currentScreen) {
             case PRE -> prePhaseScreen.render();
             case READY -> readyPhaseScreen.render();
@@ -205,11 +204,11 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             case VICTORY -> victoryScreen.render();
             case DEFEAT -> defeatScreen.render();
         }
+        overlay.render();
     }
 
     @Override
     public void update() {
-        overlay.update();
         switch (currentScreen) {
             case PRE -> prePhaseScreen.update();
             case READY -> readyPhaseScreen.update();
@@ -217,6 +216,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             case VICTORY -> victoryScreen.update();
             case DEFEAT -> defeatScreen.update();
         }
+        overlay.update();
     }
 
     public enum Screen {

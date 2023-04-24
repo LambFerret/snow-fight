@@ -40,6 +40,9 @@ public class TitleScreen extends AbstractScreen {
         stage.addActor(selectSaveWindow);
         stage.addActor(selectLoadWindow);
 
+        font = GlobalSettings.font;
+        stage.addActor(backGroundImage());
+        stage.addActor(createTable());
     }
 
     public void initDisplay() {
@@ -49,12 +52,8 @@ public class TitleScreen extends AbstractScreen {
 
     @Override
     public void create() {
-        font = GlobalSettings.font;
-        stage.addActor(backGroundImage());
-        stage.addActor(createTable());
         selectSaveWindow.create();
         selectLoadWindow.create();
-
         initDisplay();
     }
 

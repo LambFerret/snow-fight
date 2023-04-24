@@ -21,8 +21,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
-    public static final float ANIMATION_DURATION = 1.0f;
     private static final Logger logger = LogManager.getLogger(SnowBarOverlay.class.getName());
+    public static final float ANIMATION_DURATION = 1.0f;
     public static final int THRESHOLD_LABEL_WIDTH = 50;
     public static final int THRESHOLD_LABEL_HEIGHT = 30;
     public static final UIText text;

@@ -68,22 +68,22 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
 
     @Override
     public void render() {
-        overlay.render();
         switch (currentScreen) {
             case RECRUIT -> recruitScreen.render();
             case SHOP -> shopScreen.render();
             case TRAINING_GROUND -> trainingGroundScreen.render();
         }
+        overlay.render();
     }
 
     @Override
     public void update() {
-        overlay.update();
         switch (currentScreen) {
             case RECRUIT -> recruitScreen.update();
             case SHOP -> shopScreen.update();
             case TRAINING_GROUND -> trainingGroundScreen.update();
         }
+        overlay.update();
     }
 
     public enum Screen {

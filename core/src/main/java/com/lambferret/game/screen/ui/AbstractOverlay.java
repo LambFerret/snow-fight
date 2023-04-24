@@ -3,34 +3,6 @@ package com.lambferret.game.screen.ui;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 
-/**
- * 작성 방법 (중요합니다)
- * <p>
- * field :
- * 최우선적으로 Logger (예외사항 : Manual 이나 Soldier 각자 객체엔 없음)
- * public static final
- * private static final
- * public
- * private
- * 순으로 작성하고 각각 life-cycle 이 먼저인 순으로, 크기가 큰순으로 정렬
- * static field :
- * 필드 선언 이후 작성. 예외적으로 Manual 이나 Soldier 각자 객체는 최상단으로 재배치
- * <p>
- * method :
- * public - private 순으로 작성하며
- * 그 안에서는 life-cycle 순서대로 작성
- * 예외적으로 단순 getter setter, render(), update() 는 맨 밑단에 차례로 배치
- * 보통은 static -> constructor -> create -> init -> ETC... -> render -> update
- * <p>
- * private enum :
- * 순서는 상관 없지만 클래스 변수가 아닐경우 enum class 를 constant directory 에 작성
- * <p>
- * constructor, create, init
- * constructor  : 외부와 관련된 설정들. constructor 의 parameter 와 관련된 설정, 작업 등을 시행하고 필드값을 초기화 한다
- * create       : 내부와 관련된 설정들. parameter 이외의 설정, 작업등을 시행한다.
- * (즉 init 과 constructor 에서 할 수 없는 설정을 한다)
- * init         : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
- */
 public interface AbstractOverlay {
     /**
      * UI 기준 너비
@@ -179,6 +151,27 @@ public interface AbstractOverlay {
      */
     float COMMAND_EACH_HEIGHT = COMMAND_HEIGHT / 3.0F;
 
+    /**
+     * 맵 정보 이미지 너비
+     */
+    int MAP_HOVER_IMAGE_WIDTH = 200;
+    /**
+     * 맵 정보 이미지 높이
+     */
+    int MAP_HOVER_IMAGE_HEIGHT = 300;
+    /**
+     * 맵 정보 이미지 Y 패딩
+     */
+    float MAP_HOVER_IMAGE_Y_PAD = 25.0F;
+    /**
+     * 맵 정보 이미지 X 패딩
+     */
+    float MAP_HOVER_IMAGE_X_PAD = 30.0F;
+    /**
+     * 맵 정보 이미지 호버 애니메이션 시간
+     */
+    float MAP_HOVER_IMAGE_ANIMATION_DURATION = 0.1F;
+
 
     void create();
 
@@ -186,3 +179,31 @@ public interface AbstractOverlay {
 
     void setVisible(boolean visible);
 }
+/*
+ * 작성 방법 (중요합니다)
+ * <p>
+ * field :
+ * 최우선적으로 Logger (예외사항 : Manual 이나 Soldier 각자 객체엔 없음)
+ * public static final
+ * private static final
+ * public
+ * private
+ * 순으로 작성하고 각각 life-cycle 이 먼저인 순으로, 크기가 큰순으로 정렬
+ * static field :
+ * 필드 선언 이후 작성. 예외적으로 Manual 이나 Soldier 각자 객체는 최상단으로 재배치
+ * <p>
+ * method :
+ * public - private 순으로 작성하며
+ * 그 안에서는 life-cycle 순서대로 작성
+ * 예외적으로 단순 getter setter, render(), update() 는 맨 밑단에 차례로 배치
+ * 보통은 static -> constructor -> create -> init -> ETC... -> render -> update
+ * <p>
+ * private enum :
+ * 순서는 상관 없지만 클래스 변수가 아닐경우 enum class 를 constant directory 에 작성
+ * <p>
+ * constructor, create, init
+ * constructor  : 외부와 관련된 설정들. constructor 의 parameter 와 관련된 설정, 작업 등을 시행하고 필드값을 초기화 한다
+ * create       : 내부와 관련된 설정들. parameter 이외의 설정, 작업등을 시행한다.
+ * (즉 init 과 constructor 에서 할 수 없는 설정을 한다)
+ * init         : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
+ */

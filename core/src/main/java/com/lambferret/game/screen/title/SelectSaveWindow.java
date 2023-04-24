@@ -29,11 +29,11 @@ public class SelectSaveWindow extends Window {
         this.stage = stage;
         this.font = GlobalSettings.font;
         this.skin = GlobalSettings.skin;
+        stage.addActor(this);
+        setWindowProperty(this);
     }
 
     public void create() {
-        stage.addActor(this);
-        setWindowProperty(this);
     }
 
     private void setWindowProperty(Window window) {

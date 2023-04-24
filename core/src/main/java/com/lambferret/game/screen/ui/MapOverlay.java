@@ -1,13 +1,10 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.player.Player;
@@ -19,59 +16,71 @@ import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class MapOverlay extends Table implements AbstractOverlay {
+public class MapOverlay extends Group implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(MapOverlay.class.getName());
-    private final Stage stage;
-    private final GroundText text;
+    private static final GroundText text;
+    private final Image hoveredImageGround;
+    private final Image hoveredImageShop;
+    private final Image hoveredImageRecruit;
 
 
     public MapOverlay(Stage stage) {
-        this.stage = stage;
+        this.setSize(OVERLAY_BORDERLINE_WIDTH, OVERLAY_BORDERLINE_HEIGHT);
+        this.setPosition(GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH, 0);
+
+        hoveredImageGround = makeHoverImage(GroundScreen.Screen.TRAINING_GROUND);
+        hoveredImageShop = makeHoverImage(GroundScreen.Screen.SHOP);
+        hoveredImageRecruit = makeHoverImage(GroundScreen.Screen.RECRUIT);
+
         stage.addActor(this);
-        text = LocalizeConfig.uiText.getGroundText();
+
+        this.addActor(hoveredImageGround);
+        this.addActor(hoveredImageShop);
+        this.addActor(hoveredImageRecruit);
     }
 
     public void create() {
-        this.add(button(GroundScreen.Screen.RECRUIT)).pad(10);
-        this.add(button(GroundScreen.Screen.SHOP)).pad(10);
-        this.add(button(GroundScreen.Screen.TRAINING_GROUND)).pad(10);
-        this.setPosition(GlobalSettings.currWidth - 100, 100);
+        this.setDebug(true, true);
+
+
     }
 
     @Override
     public void init(Player player) {
+        ImageTextButton recruit = button(GroundScreen.Screen.RECRUIT);
+        ImageTextButton shop = button(GroundScreen.Screen.SHOP);
+        ImageTextButton trainingGround = button(GroundScreen.Screen.TRAINING_GROUND);
+
+        recruit.setPosition(30, 30);
+        shop.setPosition(90, 90);
+        trainingGround.setPosition(150, 150);
+        recruit.setSize(50, 50);
+        shop.setSize(50, 50);
+        trainingGround.setSize(50, 50);
+
+        this.addActor(recruit);
+        this.addActor(shop);
+        this.addActor(trainingGround);
     }
 
-    private Image setHoverImage(GroundScreen.Screen screen) {
-        Texture texture = switch (screen) {
-            case RECRUIT -> AssetFinder.getTexture(GroundScreen.Screen.RECRUIT.name().toLowerCase());
-            case SHOP -> AssetFinder.getTexture(GroundScreen.Screen.SHOP.name().toLowerCase());
-            case TRAINING_GROUND -> AssetFinder.getTexture(GroundScreen.Screen.TRAINING_GROUND.name().toLowerCase());
-        };
-        Image mapHoverInfo = new Image(texture);
-
-        mapHoverInfo.setSize(300, 600);
-        mapHoverInfo.setPosition(100, 100);
-
-        return mapHoverInfo;
-    }
-
-    private ImageTextButton.ImageTextButtonStyle getButtonStyle() {
-        TextureRegionDrawable texture = GlobalSettings.debugTexture;
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = texture;
-        style.font = GlobalSettings.font;
-        return style;
+    private Image makeHoverImage(GroundScreen.Screen screen) {
+        Texture texture = AssetFinder.getTexture(screen.name().toLowerCase());
+        Image mapHoverImage = new Image(texture);
+        mapHoverImage.setSize(MAP_HOVER_IMAGE_WIDTH, MAP_HOVER_IMAGE_HEIGHT);
+        mapHoverImage.setPosition(this.getWidth(), this.getHeight() + MAP_HOVER_IMAGE_Y_PAD);
+        return mapHoverImage;
     }
 
     private ImageTextButton button(GroundScreen.Screen action) {
-        Image hoverImage = setHoverImage(action);
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("12"));
+        style.font = GlobalSettings.font;
         String label = switch (action) {
             case RECRUIT -> text.getRecruit();
             case SHOP -> text.getShop();
             case TRAINING_GROUND -> text.getTrainingGround();
         };
-        var button = new ImageTextButton(label, getButtonStyle());
+        var button = new ImageTextButton(label, style);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -81,15 +90,52 @@ public class MapOverlay extends Table implements AbstractOverlay {
         button.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                stage.addActor(hoverImage);
+                if (pointer == -1) {
+                    showHoverImage(action);
+                }
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                hoverImage.remove();
+                if (pointer == -1) {
+                    hideHoverImage(action);
+                }
             }
         });
         return button;
+    }
+
+    private void showHoverImage(GroundScreen.Screen screen) {
+        Image imageToShown = switch (screen) {
+            case RECRUIT -> hoveredImageRecruit;
+            case SHOP -> hoveredImageShop;
+            case TRAINING_GROUND -> hoveredImageGround;
+        };
+        imageToShown.addAction(
+            Actions.moveTo(
+                this.getWidth() - (MAP_HOVER_IMAGE_WIDTH + MAP_HOVER_IMAGE_X_PAD),
+                this.getHeight() + MAP_HOVER_IMAGE_Y_PAD,
+                MAP_HOVER_IMAGE_ANIMATION_DURATION
+            )
+        );
+
+        imageToShown.setZIndex(1);
+    }
+
+    private void hideHoverImage(GroundScreen.Screen screen) {
+        Image imageToHide = switch (screen) {
+            case RECRUIT -> hoveredImageRecruit;
+            case SHOP -> hoveredImageShop;
+            case TRAINING_GROUND -> hoveredImageGround;
+        };
+        imageToHide.addAction(
+            Actions.moveTo(
+                this.getWidth(),
+                this.getHeight() + MAP_HOVER_IMAGE_Y_PAD,
+                MAP_HOVER_IMAGE_ANIMATION_DURATION
+            )
+        );
+        imageToHide.setZIndex(0);
     }
 
     private void setAction(GroundScreen.Screen action) {
@@ -106,4 +152,7 @@ public class MapOverlay extends Table implements AbstractOverlay {
         }
     }
 
+    static {
+        text = LocalizeConfig.uiText.getGroundText();
+    }
 }
