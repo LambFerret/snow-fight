@@ -2,7 +2,12 @@ package com.lambferret.game.screen.event.main;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.constant.StoryType;
@@ -16,9 +21,12 @@ import java.util.List;
 
 public abstract class StoryWindow extends EventWindow {
     private static final Logger logger = LogManager.getLogger(StoryWindow.class.getName());
+    public static final int CHARACTER_IMAGE_WIDTH = 300;
+    public static final int CHARACTER_IMAGE_HEIGHT = 600;
+    public static final int CHARACTER_IMAGE_PAD = 30;
 
-    private final HorizontalGroup leftSpeakers = new HorizontalGroup();
-    private final HorizontalGroup rightSpeakers = new HorizontalGroup();
+    private final Group leftSpeakers = new Group();
+    private final Group rightSpeakers = new Group();
 
     private final Container<Dialog> dialogContainer = new Container<>();
     private int optionNumber;
@@ -26,14 +34,15 @@ public abstract class StoryWindow extends EventWindow {
     List<Character> leftActor = getLeftActor();
     List<Character> rightActor = getRightActor();
 
-    public StoryWindow(String dialogueID, Skin skin, StoryType storyType, boolean repeatable) {
-        super(dialogueID, skin);
+    public StoryWindow(String dialogueID, StoryType storyType) {
+        super(dialogueID);
         this.storyType = storyType;
 
         this.addActor(rightSpeakers);
         this.addActor(leftSpeakers);
         this.addActor(dialogContainer);
         this.addActor(conversationContainer);
+        this.addActor(namePlate);
 
         leftSpeakers.setSize(SPEAKERS_WIDTH, SPEAKERS_HEIGHT);
         rightSpeakers.setSize(SPEAKERS_WIDTH, SPEAKERS_HEIGHT);
@@ -42,8 +51,8 @@ public abstract class StoryWindow extends EventWindow {
 
         dialogContainer.setSize(DIALOGUE_WIDTH, DIALOGUE_HEIGHT);
         conversationContainer.setSize(DIALOGUE_WIDTH, DIALOGUE_HEIGHT);
-        dialogContainer.setPosition(0, 0);
-        conversationContainer.setPosition(0, 0);
+        dialogContainer.setPosition(DIALOGUE_X_PAD, DIALOGUE_Y_PAD);
+        conversationContainer.setPosition(DIALOGUE_X_PAD, DIALOGUE_Y_PAD);
 
         dialogContainer.setVisible(false);
 
@@ -56,29 +65,29 @@ public abstract class StoryWindow extends EventWindow {
     }
 
     private void setSpeakers() {
-        ImageTextButton characterPlate;
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.font = GlobalSettings.font;
+        ImageTextButton characterImage;
         leftSpeakers.setDebug(true, true);
         rightSpeakers.setDebug(true, true);
 
         for (int i = leftActor.size() - 1; i >= 0; i--) {
             Character character = leftActor.get(i);
-            style.imageUp = new TextureRegionDrawable(character.render());
-            characterPlate = new ImageTextButton(character.getName(), style);
-            characterPlate.setPosition(20, 0);
-            characterPlate.setSize(300, 500);
-            leftSpeakers.addActor(characterPlate);
-            leftSpeakers.pad(5);
+            ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+            style.font = GlobalSettings.font;
+            style.up = new TextureRegionDrawable(character.render());
+            characterImage = new ImageTextButton(character.getName(), style);
+            characterImage.setPosition(i * CHARACTER_IMAGE_PAD, 0);
+            characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
+            leftSpeakers.addActor(characterImage);
         }
-
+        int i = 0;
         for (Character character : rightActor) {
-            style.imageUp = new TextureRegionDrawable(character.render());
-            characterPlate = new ImageTextButton(character.getName(), style);
-            characterPlate.setPosition(20, 0);
-            characterPlate.setSize(300, 500);
-            rightSpeakers.addActor(characterPlate);
-            rightSpeakers.pad(5);
+            ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+            style.font = GlobalSettings.font;
+            style.up = new TextureRegionDrawable(character.render());
+            characterImage = new ImageTextButton(character.getName(), style);
+            characterImage.setPosition(i++ * CHARACTER_IMAGE_PAD, 0);
+            characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
+            rightSpeakers.addActor(characterImage);
         }
     }
 
@@ -103,10 +112,6 @@ public abstract class StoryWindow extends EventWindow {
         dialogContainer.setActor(dialog);
         dialog.setMovable(false);
         dialog.setResizable(false);
-
-//        thisDialog.getContentTable().add(speakerLabel).pad(10).row();
-//        thisDialog.getContentTable().add(textLabel).width(300).pad(10).row();
-
     }
 
     abstract void setOption(Dialog dialog, int number);
@@ -118,35 +123,33 @@ public abstract class StoryWindow extends EventWindow {
     }
 
     private void highlight(Actor actor) {
-        actor.setColor(Color.RED);
-        actor.setVisible(true);
+        actor.setColor(Color.WHITE);
+        actor.setZIndex(100);
     }
 
     private void blur(Actor actor) {
-        actor.setVisible(false);
-        actor.setColor(Color.BROWN);
+        actor.setZIndex(1);
+        actor.setColor(Color.GRAY);
     }
 
     private void highlightSpeaker(Character character) {
         for (int i = 0; i < leftActor.size() + rightActor.size(); i++) {
             if (i < leftActor.size()) {
                 if (leftActor.get(i).equals(character)) {
+                    setNameplatePos(true);
                     highlight(leftSpeakers.getChild(i));
                 } else {
                     blur(leftSpeakers.getChild(i));
                 }
             } else {
                 if (rightActor.get(i - leftActor.size()).equals(character)) {
+                    setNameplatePos(false);
                     highlight(rightSpeakers.getChild(i - leftActor.size()));
                 } else {
                     blur(rightSpeakers.getChild(i - leftActor.size()));
                 }
             }
         }
-    }
-
-    public boolean isFirstTime() {
-        return isFirstTime;
     }
 
     public abstract List<Character> getLeftActor();

@@ -3,7 +3,7 @@ package com.lambferret.game.character;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.lambferret.game.util.AssetFinder;
 
-public abstract class Character {
+public abstract class Character implements Comparable<Character> {
     private final String ID;
     private final String name;
     private final String texturePath;
@@ -23,4 +23,8 @@ public abstract class Character {
         return new TextureRegion(AssetFinder.getTexture(texturePath));
     }
 
+    @Override
+    public int compareTo(Character o) {
+        return this.ID.compareTo(o.ID);
+    }
 }

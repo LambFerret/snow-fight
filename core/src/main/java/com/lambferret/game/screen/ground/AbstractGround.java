@@ -8,6 +8,8 @@ public interface AbstractGround {
 
     void init(Player player);
 
+    void show();
+
     void render();
 
     void update();

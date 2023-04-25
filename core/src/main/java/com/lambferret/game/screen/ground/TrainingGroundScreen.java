@@ -33,6 +33,11 @@ public class TrainingGroundScreen implements AbstractGround {
     public void init(Player player) {
     }
 
+    @Override
+    public void show() {
+
+    }
+
     public Image background() {
         Image image = new Image(AssetFinder.getTexture("groundReal"));
         image.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);

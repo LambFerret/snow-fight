@@ -1,6 +1,9 @@
 package com.lambferret.game.screen.event.quest;
 
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.constant.StoryType;
@@ -21,8 +24,8 @@ public abstract class QuestWindow extends EventWindow {
     private int optionNumber;
     private final StoryType storyType;
 
-    public QuestWindow(String eventID, Skin skin) {
-        super(eventID, skin);
+    public QuestWindow(String eventID) {
+        super(eventID);
 
         this.storyType = StoryType.QUEST;
 

@@ -85,6 +85,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 setAction(action);
+                hideHoverImage(action);
             }
         });
         button.addListener(new InputListener() {

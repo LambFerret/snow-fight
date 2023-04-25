@@ -24,6 +24,7 @@ public class Overlay implements PlayerObserver {
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
     public static Stage uiSpriteBatch = new Stage();
     private static final InputMultiplexer inputManager = new InputMultiplexer();
+    private static boolean isPhaseUI = true;
 
     private Overlay() {
         allOverlay.clear();
@@ -103,6 +104,7 @@ public class Overlay implements PlayerObserver {
     }
 
     public static void setVisiblePhaseUI() {
+        isPhaseUI = true;
         for (AbstractOverlay overlay : groundUIList) {
             overlay.setVisible(false);
         }
@@ -112,11 +114,26 @@ public class Overlay implements PlayerObserver {
     }
 
     public static void setVisibleGroundUI() {
+        isPhaseUI = false;
         for (AbstractOverlay overlay : phaseUIList) {
             overlay.setVisible(false);
         }
         for (AbstractOverlay overlay : groundUIList) {
             overlay.setVisible(true);
+        }
+    }
+
+    public static void hideAll() {
+        for (AbstractOverlay overlay : allOverlay) {
+            overlay.setVisible(false);
+        }
+    }
+
+    public static void reset() {
+        if (isPhaseUI) {
+            setVisiblePhaseUI();
+        } else {
+            setVisibleGroundUI();
         }
     }
 

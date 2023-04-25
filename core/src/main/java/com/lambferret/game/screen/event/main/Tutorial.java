@@ -1,11 +1,9 @@
 package com.lambferret.game.screen.event.main;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.character.Character;
-import com.lambferret.game.character.ImmediateBoss;
-import com.lambferret.game.character.Me;
+import com.lambferret.game.character.*;
 import com.lambferret.game.command.CupNoodle;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.soldier.Vanilla;
@@ -21,18 +19,20 @@ import java.util.List;
 public class Tutorial extends StoryWindow {
     private static final Logger logger = LogManager.getLogger(Tutorial.class.getName());
 
-    private static final String ID;
+    public static final String ID;
     private static final Character ME = new Me();
     public static final Character BOSS = new ImmediateBoss();
+    public static final Character CHOCO = new Choco();
+    public static final Character CHILI = new Chili();
     private static final List<Character> leftActor = List.of(
-        ME
+        ME, CHOCO
     );
     private static final List<Character> rightActor = List.of(
-        BOSS
+        BOSS, CHILI
     );
 
-    public Tutorial(Skin skin) {
-        super(ID, skin, StoryType.MAIN, false);
+    public Tutorial() {
+        super(ID, StoryType.MAIN);
     }
 
     @Override
@@ -42,9 +42,9 @@ public class Tutorial extends StoryWindow {
         DialogueNode node1Option1 = new DialogueNode(context.get(2), ME);
         DialogueNode node1Option2 = new DialogueNode(context.get(3), ME);
         DialogueNode node1Option3 = new DialogueNode(context.get(4), ME);
-        DialogueNode node1Option1answer = new DialogueNode(context.get(5), ME);
-        DialogueNode node1Option2answer = new DialogueNode(context.get(6), ME);
-        DialogueNode node1Option3answer = new DialogueNode(context.get(7), ME);
+        DialogueNode node1Option1answer = new DialogueNode(context.get(5), BOSS);
+        DialogueNode node1Option2answer = new DialogueNode(context.get(6), BOSS);
+        DialogueNode node1Option3answer = new DialogueNode(context.get(7), BOSS);
         DialogueNode node8 = new DialogueNode(context.get(8), ME, 1);
         DialogueNode node9 = new DialogueNode(context.get(9), BOSS);
         DialogueNode node10 = new DialogueNode(context.get(10), ME);

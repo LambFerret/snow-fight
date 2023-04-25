@@ -2,12 +2,17 @@ package com.lambferret.game.player;
 
 import com.lambferret.game.command.Command;
 import com.lambferret.game.command.ThreeShift;
+import com.lambferret.game.constant.MainEvent;
+import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.quest.Quest;
 import com.lambferret.game.quest.TutorialQuest;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.save.Save;
 import com.lambferret.game.save.SaveLoader;
+import com.lambferret.game.screen.event.EventWindow;
+import com.lambferret.game.screen.event.main.StoryWindow;
+import com.lambferret.game.screen.event.main.Tutorial;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Choco;
 import com.lambferret.game.soldier.Soldier;
@@ -18,6 +23,7 @@ import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +38,7 @@ public class Player {
     private List<Command> commands;
     private List<Manual> manuals;
     private List<Quest> quests;
+    private int clearedMainQuestNumber;
     private int day;
     private int money;
     private Map<AFFINITY, Integer> affinity;
@@ -64,6 +71,7 @@ public class Player {
         this.currentCost = maxCost;
 
         this.difficulty = 0;
+        this.clearedMainQuestNumber = 0;
 
         this.hellAffinity = 10;
         this.humanAffinity = 50;
@@ -172,6 +180,43 @@ public class Player {
         } else {
             currentCost -= cost;
             return true;
+        }
+    }
+
+    public StoryWindow getPlayerMainEvent() {
+        if (clearedMainQuestNumber >= MainEvent.values().length) {
+            logger.info(" 🐳 this shows up when there is no more main event " + clearedMainQuestNumber);
+            return new Tutorial();
+        }
+        return switch (MainEvent.values()[clearedMainQuestNumber++]) {
+            case TUTORIAL -> new Tutorial();
+        };
+    }
+
+    public EventWindow getEvent(StoryType type, String event) {
+        String eventString = type.toString().toLowerCase() + "." + event;
+        try {
+            if (type == StoryType.MAIN && eventList.contains(eventString)) {
+                return null;
+            }
+            Class<?> clazz = Class.forName("com.lambferret.game.screen.event." + eventString);
+            Constructor<?> constructor = clazz.getConstructor();
+            EventWindow storyWindow = (EventWindow) constructor.newInstance();
+            eventList.add(event);
+            return storyWindow;
+        } catch (Exception e) {
+            logger.error(event + " event load error", e);
+            throw new RuntimeException("event load error");
+        }
+    }
+
+    public boolean hasEvent(StoryType type, String event) {
+        String eventString = type.toString().toLowerCase() + "." + event;
+        if (eventList.contains(eventString)) {
+            return true;
+        } else {
+            eventList.add(eventString);
+            return false;
         }
     }
 

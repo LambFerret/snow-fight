@@ -1,12 +1,20 @@
 {
   "ID": {
     "Me": {
-      "name": "나",
-      "description": "레후..."
+      "name": "ME",
+      "description": "what the..."
     },
     "ImmediateBoss": {
-      "name": "중대장",
-      "description": "직속 상관"
+      "name": "MAJOR",
+      "description": "My immediate BOSS"
+    },
+    "Choco": {
+      "name": "CHOCO",
+      "description": "sweet"
+    },
+    "Chili": {
+      "name": "CHILI",
+      "description": "spicy"
     }
   }
 }

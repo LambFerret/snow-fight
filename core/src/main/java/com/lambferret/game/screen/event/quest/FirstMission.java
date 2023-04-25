@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.event.quest;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.character.Me;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
@@ -11,8 +10,8 @@ public class FirstMission extends QuestWindow {
 
     private static final List<Character> actors = List.of(new Me());
 
-    public FirstMission(String eventID, Skin skin) {
-        super(eventID, skin);
+    public FirstMission(String eventID) {
+        super(eventID);
     }
 
     @Override
