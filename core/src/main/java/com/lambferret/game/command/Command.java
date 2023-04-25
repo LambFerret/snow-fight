@@ -8,7 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.dto.CommandInfo;
@@ -150,8 +152,11 @@ public abstract class Command implements Comparable<Command> {
         execute(new ArrayList<>());
     }
 
+    public TextureRegionDrawable render() {
+        return new TextureRegionDrawable(new TextureRegion(AssetFinder.getTexture(this.texturePath)));
+    }
+
     public TextureRegion renderSimple() {
-        BitmapFont font = GlobalSettings.font;
         Skin skin = GlobalSettings.skin;
 
         TextureData backgroundFrame = AssetFinder.getTexture("execute").getTextureData();

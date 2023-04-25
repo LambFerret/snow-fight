@@ -1,7 +1,10 @@
 package com.lambferret.game.manual;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.text.dto.ManualInfo;
+import com.lambferret.game.util.AssetFinder;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -59,6 +62,10 @@ public abstract class Manual implements Comparable<Manual> {
     }
 
     public abstract void effect();
+
+    public TextureRegionDrawable render() {
+        return new TextureRegionDrawable(new TextureRegion(AssetFinder.getTexture(this.texturePath)));
+    }
 
     @Override
     public int compareTo(Manual o) {

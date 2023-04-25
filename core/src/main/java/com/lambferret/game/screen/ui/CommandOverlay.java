@@ -176,7 +176,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
 
     private ImageTextButton.ImageTextButtonStyle commandButtonStyle(Command command) {
         var style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(command.renderSimple());
+        style.up = new TextureRegionDrawable(command.render());
         style.font = GlobalSettings.font;
         return style;
     }

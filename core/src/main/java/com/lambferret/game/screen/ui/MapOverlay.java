@@ -80,7 +80,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
             case SHOP -> text.getShop();
             case TRAINING_GROUND -> text.getTrainingGround();
         };
-        var button = new ImageTextButton(label, style);
+        var button = new ImageTextButton("", style);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
