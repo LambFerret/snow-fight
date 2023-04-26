@@ -16,7 +16,7 @@ public class ThreeShift extends Command {
 
     static {
         cost = 3;
-        price = 20;
+        price = 20000;
         affectToUp = -20;
         affectToMiddle = +20;
         affectToDown = +20;

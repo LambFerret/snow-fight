@@ -178,6 +178,7 @@ public abstract class Command implements Comparable<Command> {
 
     public void renderInfo() {
 
+
     }
 
     @Override
