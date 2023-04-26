@@ -214,7 +214,7 @@ public class ShopScreen implements AbstractGround {
             ),
             Actions.repeat(2,
                 Actions.sequence(
-                    Actions.color(Color.RED, 0.1f),
+                    Actions.color(new Color(255, 0, 0, 0.6F), 0.1f),
                     Actions.color(Color.WHITE, 0.1f)
                 )
             )

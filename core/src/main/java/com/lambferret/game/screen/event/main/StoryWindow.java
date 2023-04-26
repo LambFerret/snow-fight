@@ -21,7 +21,11 @@ public abstract class StoryWindow extends EventWindow {
     private static final Logger logger = LogManager.getLogger(StoryWindow.class.getName());
     public static final int CHARACTER_IMAGE_WIDTH = 300;
     public static final int CHARACTER_IMAGE_HEIGHT = 600;
-    public static final int CHARACTER_IMAGE_PAD = 30;
+    public static final int CHARACTER_IMAGE_PAD = 100;
+    public static final float DIALOGUE_X = DIALOGUE_X_PAD;
+    public static final float SPEAKER_X = DIALOGUE_X;
+    public static final float DIALOGUE_Y = DIALOGUE_Y_PAD;
+    public static final float SPEAKER_Y = DIALOGUE_Y + DIALOGUE_HEIGHT;
 
     private final Group leftSpeakers = new Group();
     private final Group rightSpeakers = new Group();
@@ -44,13 +48,13 @@ public abstract class StoryWindow extends EventWindow {
 
         leftSpeakers.setSize(SPEAKERS_WIDTH, SPEAKERS_HEIGHT);
         rightSpeakers.setSize(SPEAKERS_WIDTH, SPEAKERS_HEIGHT);
-        leftSpeakers.setPosition(0, DIALOGUE_HEIGHT);
-        rightSpeakers.setPosition(DIALOGUE_WIDTH - SPEAKERS_WIDTH, DIALOGUE_HEIGHT);
+        leftSpeakers.setPosition(SPEAKER_X, SPEAKER_Y);
+        rightSpeakers.setPosition(GlobalSettings.currWidth - (SPEAKER_X + SPEAKERS_WIDTH), SPEAKER_Y);
 
         dialogContainer.setSize(DIALOGUE_WIDTH, DIALOGUE_HEIGHT);
         conversationContainer.setSize(DIALOGUE_WIDTH, DIALOGUE_HEIGHT);
-        dialogContainer.setPosition(DIALOGUE_X_PAD, DIALOGUE_Y_PAD);
-        conversationContainer.setPosition(DIALOGUE_X_PAD, DIALOGUE_Y_PAD);
+        dialogContainer.setPosition(DIALOGUE_X, DIALOGUE_Y);
+        conversationContainer.setPosition(DIALOGUE_X, DIALOGUE_Y);
 
         dialogContainer.setVisible(false);
 
@@ -126,8 +130,8 @@ public abstract class StoryWindow extends EventWindow {
     }
 
     private void blur(Actor actor) {
-        actor.setZIndex(1);
         actor.setColor(Color.GRAY);
+        actor.setZIndex(1);
     }
 
     private void highlightSpeaker(Character character) {
