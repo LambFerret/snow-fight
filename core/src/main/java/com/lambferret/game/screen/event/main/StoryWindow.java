@@ -12,6 +12,7 @@ import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
+import com.lambferret.game.text.dto.dialogue.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,7 @@ public abstract class StoryWindow extends EventWindow {
 
     private final Container<Dialog> dialogContainer = new Container<>();
     private int optionNumber;
+    protected static List<Option> options;
     private final StoryType storyType;
     List<Character> leftActor = getLeftActor();
     List<Character> rightActor = getRightActor();
@@ -97,7 +99,7 @@ public abstract class StoryWindow extends EventWindow {
     protected void setDialog(int number) {
         dialogContainer.setVisible(true);
         conversationContainer.setVisible(false);
-        Dialog dialog = new Dialog("dialog", GlobalSettings.skin) {
+        Dialog dialog = new Dialog(options.get(number).getDescription(), GlobalSettings.skin) {
             @Override
             protected void result(Object object) {
                 optionNumber = (int) object;
@@ -111,12 +113,18 @@ public abstract class StoryWindow extends EventWindow {
 
         setOption(dialog, number);
 
+        //TODO set dialog UI style here
         dialogContainer.setActor(dialog);
+        dialogContainer.fill();
         dialog.setMovable(false);
         dialog.setResizable(false);
     }
 
-    abstract void setOption(Dialog dialog, int number);
+    protected void setOption(Dialog dialog, int number) {
+        for (int i = 0; i < options.get(number).getElement().size(); i++) {
+            dialog.button(options.get(number).getElement().get(i), i);
+        }
+    }
 
     @Override
     protected void setTypewriter(DialogueNode node) {

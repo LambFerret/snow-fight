@@ -99,7 +99,6 @@ public abstract class EventWindow extends Group {
                 super.clicked(event, x, y);
                 if (typewriteText.isEnd()) {
                     if (dialogueNode.isDialog()) {
-                        setSpeakerLabel("TODO make this name or direct this");
                         setDialog(dialogueNode.getDialogNumber());
                     } else {
                         if (dialogueNode.isEnd()) {

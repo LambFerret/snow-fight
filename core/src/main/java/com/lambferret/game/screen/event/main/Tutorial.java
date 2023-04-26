@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.event.main;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.character.*;
@@ -10,7 +9,6 @@ import com.lambferret.game.soldier.Vanilla;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.dialogue.Dialogue;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
-import com.lambferret.game.text.dto.dialogue.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -97,16 +95,8 @@ public class Tutorial extends StoryWindow {
         }
     }
 
-    @Override
-    void setOption(Dialog dialog, int number) {
-        for (int i = 0; i < options.get(number).getElement().size(); i++) {
-            dialog.button(options.get(number).getElement().get(i), i);
-        }
-    }
-
     private static final Dialogue text;
     private static final List<String> context;
-    private static final List<Option> options;
 
     static {
         ID = Tutorial.class.getSimpleName();
