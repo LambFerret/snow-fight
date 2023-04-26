@@ -120,10 +120,12 @@ public class TitleScreen extends AbstractScreen {
             case NEW -> {
                 selectSaveWindow.setVisible(true);
                 selectSaveWindow.toFront();
+                selectSaveWindow.create();
             }
             case CONTINUE -> {
                 selectLoadWindow.setVisible(true);
                 selectLoadWindow.toFront();
+                selectLoadWindow.create();
             }
             case LOAD -> {
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;

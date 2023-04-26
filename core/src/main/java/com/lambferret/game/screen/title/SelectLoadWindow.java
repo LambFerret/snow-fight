@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.ScreenConfig;
 import org.apache.logging.log4j.LogManager;
@@ -16,10 +15,6 @@ public class SelectLoadWindow extends LoadAndSaveWindow {
     public SelectLoadWindow(Stage stage) {
         super(stage, "load");
         this.stage = stage;
-    }
-
-    public void create() {
-
     }
 
     @Override

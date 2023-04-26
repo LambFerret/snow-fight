@@ -26,18 +26,24 @@ public abstract class LoadAndSaveWindow extends Window {
         super(stageName, GlobalSettings.skin);
         this.stage = stage;
         this.skin = GlobalSettings.skin;
-        stage.addActor(this);
 
         this.setSize(SAVE_WINDOW_WIDTH, SAVE_WINDOW_HEIGHT);
         this.setPosition(SAVE_WINDOW_X, SAVE_WINDOW_Y);
 
-        this.add(table);
+        create();
+        stage.addActor(this);
+    }
+
+    public void create() {
+        this.clear();
+        this.table.clear();
         makeTable();
+        this.add(table);
     }
 
     protected void makeTable() {
         for (int i = 0; i < 3; i++) {
-            table.add(asdf(i)).pad(10);
+            table.add(makeButton(i)).pad(10);
             table.row();
         }
     }
@@ -49,7 +55,7 @@ public abstract class LoadAndSaveWindow extends Window {
         return style;
     }
 
-    protected CustomButton asdf(int index) {
+    protected CustomButton makeButton(int index) {
         boolean isExist = SaveLoader.isSaveExist(index);
         String label = (isExist ? "load " : "new ") + index;
         CustomButton button = new CustomButton(label, getButtonStyle());
