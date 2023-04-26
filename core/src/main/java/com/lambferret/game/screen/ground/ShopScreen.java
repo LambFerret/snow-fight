@@ -208,14 +208,14 @@ public class ShopScreen implements AbstractGround {
         return Actions.parallel(
             Actions.repeat(4,
                 Actions.sequence(
-                    Actions.moveBy(5, 0, 0.1f),
-                    Actions.moveBy(-5, 0, 0.1f)
+                    Actions.moveBy(5, 0, 0.05f),
+                    Actions.moveBy(-5, 0, 0.05f)
                 )
             ),
             Actions.repeat(2,
                 Actions.sequence(
-                    Actions.color(Color.RED, 0.2f),
-                    Actions.color(Color.WHITE, 0.2f)
+                    Actions.color(Color.RED, 0.1f),
+                    Actions.color(Color.WHITE, 0.1f)
                 )
             )
         );
