@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.SnowBarStyle;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.phase.PhaseScreen;
@@ -26,8 +27,8 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     public static final int THRESHOLD_LABEL_WIDTH = 50;
     public static final int THRESHOLD_LABEL_HEIGHT = 30;
     public static final UIText text;
-    private final ImageTextButton clearThresholdXLabel;
-    private final ImageTextButton labelDescription;
+    private final CustomButton clearThresholdXLabel;
+    private final CustomButton labelDescription;
     private final Label barLabel;
     private boolean isOverlayOn = false;
     Player player;
@@ -45,8 +46,8 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         descriptionStyle.font = GlobalSettings.font;
         xLabel.up = new TextureRegionDrawable(AssetFinder.getTexture("silvanusParkDogTag"));
         xLabel.font = GlobalSettings.font;
-        clearThresholdXLabel = new ImageTextButton("", xLabel);
-        labelDescription = new ImageTextButton("UI String TODO", descriptionStyle);
+        clearThresholdXLabel = new CustomButton("", xLabel);
+        labelDescription = new CustomButton("UI String TODO", descriptionStyle);
         barLabel = new Label("", GlobalSettings.skin);
 
         stage.addActor(this);

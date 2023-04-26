@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -66,10 +67,10 @@ public class SelectSaveWindow extends Window {
         return style;
     }
 
-    private ImageTextButton makeButton(int index) {
+    private CustomButton makeButton(int index) {
         boolean isExist = SaveLoader.isSaveExist(index);
         String label = isExist ? "load " + index : "new " + index;
-        ImageTextButton button = new ImageTextButton(label, setButtonStyle());
+        CustomButton button = new CustomButton(label, setButtonStyle());
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

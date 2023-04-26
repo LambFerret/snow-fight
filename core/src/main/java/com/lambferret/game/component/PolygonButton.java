@@ -6,11 +6,10 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PolygonButton extends ImageTextButton {
+public class PolygonButton extends CustomButton {
     private static final Logger logger = LogManager.getLogger(PolygonButton.class.getName());
     Polygon polygon;
 

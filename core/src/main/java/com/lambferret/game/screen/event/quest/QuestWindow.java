@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
@@ -55,14 +56,14 @@ public abstract class QuestWindow extends EventWindow {
     private void setSpeakers() {
         List<Character> actor = getActor();
 
-        ImageTextButton characterPlate;
+        CustomButton characterPlate;
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.font = GlobalSettings.font;
 
         for (int i = actor.size() - 1; i >= 0; i--) {
             Character character = actor.get(i);
             style.imageUp = new TextureRegionDrawable(character.render());
-            characterPlate = new ImageTextButton(character.getName(), style);
+            characterPlate = new CustomButton(character.getName(), style);
             characterPlate.setPosition(20, 0);
             characterPlate.setSize(300, 500);
             leftSpeakers.addActor(characterPlate);

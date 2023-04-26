@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.command.Command;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
@@ -100,8 +101,8 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         return table;
     }
 
-    private ImageTextButton renderCommand(Command command) {
-        ImageTextButton commandButton = new ImageTextButton(command.getName(), commandButtonStyle(command));
+    private CustomButton renderCommand(Command command) {
+        CustomButton commandButton = new CustomButton(command.getName(), commandButtonStyle(command));
 
         commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
         commandButton.addListener(new ClickListener() {

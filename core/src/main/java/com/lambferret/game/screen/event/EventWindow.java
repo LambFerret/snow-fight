@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.TypewriterLabel;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.setting.GlobalSettings;
@@ -39,7 +40,7 @@ public abstract class EventWindow extends Group {
     protected DialogueNode dialogueNode;
     protected final Container<Label> conversationContainer = new Container<>();
     protected TypewriterLabel typewriteText;
-    protected ImageTextButton namePlate;
+    protected CustomButton namePlate;
     protected Image background;
 
 
@@ -61,7 +62,7 @@ public abstract class EventWindow extends Group {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = new TextureRegionDrawable(AssetFinder.getTexture("namePlate"));
         style.font = GlobalSettings.font;
-        namePlate = new ImageTextButton("", style);
+        namePlate = new CustomButton("", style);
         namePlate.setSize(NAMEPLATE_WIDTH, NAMEPLATE_HEIGHT);
 
         this.addListener(new InputListener() {

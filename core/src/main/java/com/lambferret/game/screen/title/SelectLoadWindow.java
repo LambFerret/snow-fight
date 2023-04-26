@@ -5,11 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton.ImageTextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -67,10 +71,10 @@ public class SelectLoadWindow extends Window {
         return style;
     }
 
-    private ImageTextButton button(int index) {
+    private CustomButton button(int index) {
         boolean isExist = SaveLoader.isSaveExist(index);
         String label = isExist ? "load " + index : "new " + index;
-        ImageTextButton button = new ImageTextButton(label, getButtonStyle());
+        CustomButton button = new CustomButton(label, getButtonStyle());
 
         button.addListener(new ClickListener() {
             @Override

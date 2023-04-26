@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.phase.PhaseScreen;
@@ -22,7 +23,7 @@ import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ExecuteOverlay extends Container<ImageTextButton> implements AbstractOverlay {
+public class ExecuteOverlay extends Container<CustomButton> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
     public static final float EXECUTE_X = GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH;
     public static final int EXECUTE_Y = 0;
@@ -33,7 +34,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
     public static final float EXECUTE_HIDE_ANIMATION_DURATION = 0.1F;
 
     private final Stage stage;
-    private final ImageTextButton executeButton;
+    private final CustomButton executeButton;
 
     Cursor cursor;
     Player player;
@@ -41,7 +42,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
 
     public ExecuteOverlay(Stage stage) {
         this.stage = stage;
-        executeButton = new ImageTextButton("Execute", executeButtonStyle());
+        executeButton = new CustomButton("Execute", executeButtonStyle());
         Texture pen = AssetFinder.getTexture("pen");
         pen.getTextureData().prepare();
         Pixmap pixmapSrc = pen.getTextureData().consumePixmap();
@@ -130,7 +131,7 @@ public class ExecuteOverlay extends Container<ImageTextButton> implements Abstra
     }
 
     private ImageTextButton.ImageTextButtonStyle executeButtonStyle() {
-        ImageTextButton.ImageTextButtonStyle style = GlobalSettings.imageButtonStyle;
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
         style.font = GlobalSettings.font;
         return style;

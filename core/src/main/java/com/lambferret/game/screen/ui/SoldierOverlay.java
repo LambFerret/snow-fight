@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.PolygonButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
@@ -125,8 +126,8 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         return table;
     }
 
-    private ImageTextButton renderSoldier(Soldier soldier) {
-        ImageTextButton soldierButton = new ImageTextButton(soldier.getName(), soldierButtonStyle(soldier));
+    private CustomButton renderSoldier(Soldier soldier) {
+        CustomButton soldierButton = new CustomButton(soldier.getName(), soldierButtonStyle(soldier));
 
         soldierButton.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
         soldierButton.addListener(new ClickListener() {

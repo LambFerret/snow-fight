@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
@@ -69,7 +70,7 @@ public abstract class StoryWindow extends EventWindow {
     }
 
     private void setSpeakers() {
-        ImageTextButton characterImage;
+        CustomButton characterImage;
         leftSpeakers.setDebug(true, true);
         rightSpeakers.setDebug(true, true);
 
@@ -78,7 +79,7 @@ public abstract class StoryWindow extends EventWindow {
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
             style.font = GlobalSettings.font;
             style.up = new TextureRegionDrawable(character.render());
-            characterImage = new ImageTextButton(character.getName(), style);
+            characterImage = new CustomButton(character.getName(), style);
             characterImage.setPosition(i * CHARACTER_IMAGE_PAD, 0);
             characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
             leftSpeakers.addActor(characterImage);
@@ -88,7 +89,7 @@ public abstract class StoryWindow extends EventWindow {
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
             style.font = GlobalSettings.font;
             style.up = new TextureRegionDrawable(character.render());
-            characterImage = new ImageTextButton(character.getName(), style);
+            characterImage = new CustomButton(character.getName(), style);
             characterImage.setPosition(i++ * CHARACTER_IMAGE_PAD, 0);
             characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
             rightSpeakers.addActor(characterImage);

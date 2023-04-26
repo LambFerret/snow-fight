@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.AbstractScreen;
@@ -96,7 +97,7 @@ public class TitleScreen extends AbstractScreen {
         return style;
     }
 
-    private ImageTextButton button(TitleAction action) {
+    private CustomButton button(TitleAction action) {
         String label = switch (action) {
             case NEW -> text.getNewGame();
             case CONTINUE -> text.getContinueGame();
@@ -105,7 +106,7 @@ public class TitleScreen extends AbstractScreen {
             case CREDIT -> text.getCredit();
             case EXIT -> text.getExit();
         };
-        var button = new ImageTextButton(label, getButtonStyle());
+        var button = new CustomButton(label, getButtonStyle());
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

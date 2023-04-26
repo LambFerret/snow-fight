@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.setting.GlobalSettings;
@@ -47,9 +48,9 @@ public class MapOverlay extends Group implements AbstractOverlay {
 
     @Override
     public void init(Player player) {
-        ImageTextButton recruit = button(GroundScreen.Screen.RECRUIT);
-        ImageTextButton shop = button(GroundScreen.Screen.SHOP);
-        ImageTextButton trainingGround = button(GroundScreen.Screen.TRAINING_GROUND);
+        CustomButton recruit = button(GroundScreen.Screen.RECRUIT);
+        CustomButton shop = button(GroundScreen.Screen.SHOP);
+        CustomButton trainingGround = button(GroundScreen.Screen.TRAINING_GROUND);
 
         recruit.setPosition(30, 30);
         shop.setPosition(90, 90);
@@ -71,7 +72,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
         return mapHoverImage;
     }
 
-    private ImageTextButton button(GroundScreen.Screen action) {
+    private CustomButton button(GroundScreen.Screen action) {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = new TextureRegionDrawable(AssetFinder.getTexture("12"));
         style.font = GlobalSettings.font;
@@ -80,7 +81,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
             case SHOP -> text.getShop();
             case TRAINING_GROUND -> text.getTrainingGround();
         };
-        var button = new ImageTextButton("", style);
+        var button = new CustomButton("", style);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
