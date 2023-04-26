@@ -53,8 +53,6 @@ public class TitleScreen extends AbstractScreen {
 
     @Override
     public void create() {
-        selectSaveWindow.create();
-        selectLoadWindow.create();
         initDisplay();
     }
 
