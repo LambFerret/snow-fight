@@ -19,18 +19,21 @@ import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
+import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.text.dto.OverlayText;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ExecuteOverlay extends Container<CustomButton> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
+    private static final OverlayText text = LocalizeConfig.uiText.getOverlayText();
     public static final float EXECUTE_X = GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH;
     public static final int EXECUTE_Y = 0;
     public static final float EXECUTE_WIDTH = OVERLAY_BORDERLINE_WIDTH;
-    public static final float EXECUTE_HIDE_BUTTON_RELATIVE_X = EXECUTE_WIDTH * 2 / 3;
-    public static final float EXECUTE_HIDE_X = EXECUTE_X + EXECUTE_WIDTH * 2 / 3.0F;
     public static final float EXECUTE_HEIGHT = OVERLAY_BORDERLINE_HEIGHT;
+    public static final float EXECUTE_HIDE_BUTTON_RELATIVE_X = EXECUTE_WIDTH * 2 / 3;
+    public static final float EXECUTE_HIDE_X = EXECUTE_X + EXECUTE_HIDE_BUTTON_RELATIVE_X;
     public static final float EXECUTE_HIDE_ANIMATION_DURATION = 0.1F;
 
     private final Stage stage;
@@ -42,7 +45,14 @@ public class ExecuteOverlay extends Container<CustomButton> implements AbstractO
 
     public ExecuteOverlay(Stage stage) {
         this.stage = stage;
-        executeButton = new CustomButton("Execute", executeButtonStyle());
+        executeButton = new CustomButton(text.getExecuteOverlayName(), executeButtonStyle());
+
+        this.setActor(executeButton);
+        this.stage.setKeyboardFocus(this);
+        this.stage.addActor(this);
+    }
+
+    private void setCursor() {
         Texture pen = AssetFinder.getTexture("pen");
         pen.getTextureData().prepare();
         Pixmap pixmapSrc = pen.getTextureData().consumePixmap();
@@ -50,10 +60,6 @@ public class ExecuteOverlay extends Container<CustomButton> implements AbstractO
         pixmapRGBA.drawPixmap(pixmapSrc, 0, 0);
 
         cursor = Gdx.graphics.newCursor(pixmapRGBA, 0, 0);
-
-        this.setActor(executeButton);
-        this.stage.setKeyboardFocus(this);
-        this.stage.addActor(this);
     }
 
     public void create() {
@@ -63,6 +69,7 @@ public class ExecuteOverlay extends Container<CustomButton> implements AbstractO
 
         this.setDebug(true, true);
 
+        setCursor();
         this.executeButton.setPosition(0, 0);
         if (isHide) {
             this.executeButton.setX(EXECUTE_HIDE_BUTTON_RELATIVE_X);

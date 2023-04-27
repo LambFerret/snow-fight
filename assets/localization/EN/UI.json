@@ -6,21 +6,19 @@
     "credit": "CREDIT",
     "option": "OPTION",
     "exit": "EXIT",
-
     "overrideSaveConfirm": "This will use this save slot. Are you sure?",
     "overrideDeleteSaveConfirm": "This will delete and overwrite this save slot. Are you sure?",
     "overrideLoadConfirm": "Start New Game. Are you sure?",
-
     "yes": "yes",
     "no": "no",
-
     "loadData": "LOAD",
     "saveData": "SAVE",
     "newData": "NEW",
     "emptyData": "EMPTY"
   },
   "overlayText": {
-    "TEST": "test_test"
+    "soldierOverlayName": "Soldier List",
+    "executeOverlayName": "execute phase!"
   },
   "groundText": {
     "recruit": "RECRUIT",
@@ -35,7 +33,6 @@
     "buffSoldierY": "this soldier's Y is {isIncreased} by {turn} turn",
     "buffSoldierSpeed": "this soldier's speed is {isIncreased} by {turn} turn",
     "increased": "increased",
-    "decreased": "decreased",
-    "soldierOverlay" : "bokmu kirock"
+    "decreased": "decreased"
   }
 }
