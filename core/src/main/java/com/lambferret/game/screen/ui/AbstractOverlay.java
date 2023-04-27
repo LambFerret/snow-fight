@@ -24,7 +24,7 @@ public interface AbstractOverlay {
     /**
      * 병사창 숨김 버튼 너비
      */
-    int SOLDIER_HIDE_BUTTON_WIDTH = 200;
+    int SOLDIER_HIDE_BUTTON_WIDTH = 100;
     /**
      * 병사창 X 좌표
      */
@@ -49,7 +49,7 @@ public interface AbstractOverlay {
     /**
      * 병사창 숨김 버튼 폴리곤 좌표
      */
-    float[] SOLDIER_HIDE_BUTTON_VERTICES = new float[]{0, 0, 100, 50, 100, 350, 0, 400};
+    float[] SOLDIER_HIDE_BUTTON_VERTICES = new float[]{0, 0, 100, 50, 100, 400, 0, 400};
     /**
      * 병사창 숨김 버튼 X 좌표
      */
@@ -61,7 +61,7 @@ public interface AbstractOverlay {
     /**
      * 병사창 숨김 버튼 높이
      */
-    int SOLDIER_HIDE_BUTTON_HEIGHT = 200;
+    int SOLDIER_HIDE_BUTTON_HEIGHT = 300;
     /**
      * 병사창 숨김버튼 숨김 X 좌표
      */

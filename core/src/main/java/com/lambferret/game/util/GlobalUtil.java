@@ -1,5 +1,8 @@
 package com.lambferret.game.util;
 
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.lambferret.game.util.crypt.j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,4 +35,11 @@ public class GlobalUtil {
 
         return var2;
     }
+
+    public static Pixmap readyPixmap(Texture texture) {
+        TextureData data = texture.getTextureData();
+        data.prepare();
+        return data.consumePixmap();
+    }
+
 }

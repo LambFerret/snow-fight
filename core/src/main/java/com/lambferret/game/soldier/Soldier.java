@@ -2,13 +2,18 @@ package com.lambferret.game.soldier;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.command.Command;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rank;
@@ -17,6 +22,8 @@ import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.SoldierInfo;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.TextureFinder;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -105,10 +112,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     byte initialRangeY;
     byte initialRunAwayProbability;
     private SoldierInfo info;
-    private Texture texture;
-    private Texture simpleTexture;
-    private boolean isFront = true;
-    private boolean isDetail = false;
+    private boolean isFront;
 
     public Soldier(
         String ID,
@@ -150,67 +154,103 @@ public abstract class Soldier implements Comparable<Soldier> {
         empowerLevel(EmpowerLevel.NEUTRAL);
     }
 
-    private void renderSimple() {
-//        batch.draw(AssetFinder.getTexture(texturePath + "DogTag"), offsetX, offsetY, width, height);
-//        batch.draw(TextureFinder.rank(rank), offsetX/* + 위치조정 */, offsetY, width / 3.0F, height);
-//        font.draw(batch, rank.name(), offsetX + width * 2 / 3.0F, offsetY + height / 2.0F);
-//        font.draw(batch, name, offsetX + width * 2 / 3.0F, offsetY + height);
-//        this.box.render();
-    }
-
-//    public void setOffset(Hitbox plate, boolean isDetail) {
-//        this.isDetail = isDetail;
-//        box.move(plate.getX(), plate.getY());
-//        box.resize(plate.getWidth(), plate.getHeight());
-//
-//        this.offsetX = plate.getX();
-//        this.offsetY = plate.getY();
-//        this.width = plate.getWidth();
-//        this.height = plate.getHeight();
-//    }
-
-    public TextureRegion renderFront() {
-        BitmapFont font = GlobalSettings.font;
-        Skin skin = GlobalSettings.skin;
-
-        TextureData backgroundFrame = AssetFinder.getTexture("soldierFront").getTextureData();
-        TextureData portrait = AssetFinder.getTexture(this.texturePath).getTextureData();
-//        TextureData rank = TextureFinder.rank(this.rank).getTextureData();
-
-        backgroundFrame.prepare();
-        portrait.prepare();
-//        rank.prepare();
-
-        Pixmap backgroundFramePix = backgroundFrame.consumePixmap();
-        Pixmap portraitPix = portrait.consumePixmap();
-//        Pixmap rankPix = rank.consumePixmap();
-
-        Label rankNameLabel = new Label(this.rank.name(), skin);
-        Label nameLabel = new Label(this.getName(), skin);
-        Group group = new Group();
-
-        backgroundFramePix.drawPixmap(portraitPix, 50, 60);
-//        backgroundFramePix.drawPixmap(rankPix, 0, 0);
-        return new TextureRegion(new Texture(backgroundFramePix));
-
+    public Container<Group> card() {
+        Container<Group> plate = new Container<>();
+        Group front = renderFrontPlate();
+        Group back = renderBackPlate();
+        plate.setActor(front);
+        isFront = true;
+        plate.fill();
+        plate.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (isFront) {
+                    isFront = false;
+                    plate.setActor(back);
+                } else {
+                    isFront = true;
+                    plate.setActor(front);
+                }
+            }
+        });
+        return plate;
 
     }
 
-    private void renderBack() {
-//        batch.draw(AssetFinder.getTexture("soldierBack"), offsetX, offsetY, width, height);
-//        batch.draw(AssetFinder.getTexture("3by3"), offsetX, offsetY + height / 2.0F, width, height / 2.0F);
-//        font.draw(batch, this.description, offsetX + 5.0F, offsetY + height / 2);
+    public Group renderFrontPlate() {
+        Group frontPlate = new Group();
 
+        CustomButton soldierButton = new CustomButton("", getFrontPlateStyle());
+        Label soldierName = new Label(this.name, GlobalSettings.skin);
+
+        frontPlate.setSize(soldierButton.getWidth(), soldierButton.getHeight());
+
+        soldierName.setPosition(frontPlate.getWidth() / 3, 0);
+        soldierName.setSize(frontPlate.getWidth() * 2 / 3, frontPlate.getHeight() / 3);
+        soldierName.setAlignment(Align.center);
+        soldierName.setTouchable(Touchable.disabled);
+
+        frontPlate.addActor(soldierButton);
+        frontPlate.addActor(soldierName);
+        return frontPlate;
     }
 
-    private void renderHover() {
-//        float x = CustomInputProcessor.getMouseLocationX();
-//        float y = CustomInputProcessor.getMouseLocationY();
-        float width = 300;
-        float height = 450;
-//        batch.draw(AssetFinder.getTexture("soldierBack"), x, y, width, height);
-//        batch.draw(AssetFinder.getTexture("3by3"), x, y + height / 2.0F, width, height / 2.0F);
-//        font.draw(batch, this.description, x + 5.0F, y + height / 2.0F);
+    private ImageTextButton.ImageTextButtonStyle getFrontPlateStyle() {
+        var style = new ImageTextButton.ImageTextButtonStyle();
+
+        Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
+        Pixmap portraitPix = GlobalUtil.readyPixmap(AssetFinder.getTexture(this.texturePath));
+        Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
+
+        framePix.drawPixmap(portraitPix, 0, 0, portraitPix.getWidth(), portraitPix.getHeight(),
+            0, 0, framePix.getWidth(), framePix.getWidth()
+        );
+        framePix.drawPixmap(rankPix, 0, 0, rankPix.getWidth(), rankPix.getHeight(),
+            0, framePix.getHeight() * 2 / 3, framePix.getWidth() / 3, framePix.getHeight() / 3
+        );
+
+        style.font = GlobalSettings.font;
+        style.up = new TextureRegionDrawable(new TextureRegion(new Texture(framePix)));
+
+        return style;
+    }
+
+    private Group renderBackPlate() {
+        Group backPlate = new Group();
+
+        CustomButton soldierButton = new CustomButton("", getBackPlateStyle());
+        Label soldierName = new Label(this.description, GlobalSettings.skin);
+
+        backPlate.setSize(soldierButton.getWidth(), soldierButton.getHeight());
+
+        soldierName.setPosition(backPlate.getWidth() / 3, 0);
+        soldierName.setSize(backPlate.getWidth() * 2 / 3, backPlate.getHeight() / 3);
+        soldierName.setAlignment(Align.center);
+        soldierName.setTouchable(Touchable.disabled);
+
+        backPlate.addActor(soldierButton);
+        backPlate.addActor(soldierName);
+        return backPlate;
+    }
+
+    private ImageTextButton.ImageTextButtonStyle getBackPlateStyle() {
+        var style = new ImageTextButton.ImageTextButtonStyle();
+
+        Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
+        Pixmap portraitPix = GlobalUtil.readyPixmap(AssetFinder.getTexture(this.texturePath));
+        Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
+
+        framePix.drawPixmap(portraitPix, 0, 0, portraitPix.getWidth(), portraitPix.getHeight(),
+            0, 0, framePix.getWidth(), framePix.getWidth()
+        );
+        framePix.drawPixmap(rankPix, 0, 0, rankPix.getWidth(), rankPix.getHeight(),
+            0, framePix.getHeight() * 2 / 3, framePix.getWidth() / 3, framePix.getHeight() / 3
+        );
+
+        style.font = GlobalSettings.font;
+        style.up = new TextureRegionDrawable(new TextureRegion(new Texture(framePix)));
+
+        return style;
     }
 
     public void empowerLevel(EmpowerLevel level) {
