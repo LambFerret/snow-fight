@@ -56,7 +56,7 @@ public class ScreenConfig {
             case TITLE_SCREEN -> {
                 Overlay.disposeInstance();
                 Gdx.input.setInputProcessor(titleScreen.getStage());
-                titleScreen.initDisplay();
+                titleScreen.create();
             }
             case GROUND_SCREEN -> {
                 groundScreen.onPlayerReady();

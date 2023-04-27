@@ -10,4 +10,15 @@ public class TitleMenuText {
     private String credit;
     private String option;
     private String exit;
+
+    private String overrideSaveConfirm;
+    private String overrideDeleteSaveConfirm;
+    private String overrideLoadConfirm;
+    private String yes;
+    private String no;
+
+    private String loadData;
+    private String saveData;
+    private String emptyData;
+    private String newData;
 }

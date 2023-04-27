@@ -129,4 +129,28 @@ public class SaveLoader {
             Gdx.app.exit();
         }
     }
+
+    public static void deleteSave(int saveFileNumber) {
+        String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
+        FileHandle f = Gdx.files.local(fileName);
+        f.delete();
+    }
+
+    public static int getRecentSave() {
+        int saveFileNumber = -1;
+        long mostRecentTime = -1;
+
+        for (int i = 0; i < MAXIMUM_SAVE; i++) {
+            String fileName = SAVE_FILE_PATH + FILE_PREFIX + i + SAVE_SUFFIX;
+            FileHandle file = Gdx.files.internal(fileName);
+            if (!file.exists()) continue;
+            long lastModified = file.lastModified();
+            if (lastModified > mostRecentTime) {
+                mostRecentTime = lastModified;
+                saveFileNumber = i;
+            }
+        }
+        return saveFileNumber;
+    }
+
 }

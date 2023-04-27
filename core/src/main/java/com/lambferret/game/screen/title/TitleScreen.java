@@ -24,36 +24,40 @@ import org.apache.logging.log4j.Logger;
 
 public class TitleScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(TitleScreen.class.getName());
+    private static final TitleMenuText text;
 
     private final SelectSaveWindow selectSaveWindow;
     private final SelectLoadWindow selectLoadWindow;
     private final Stage stage;
-    TitleMenuText text;
+    Table table;
     BitmapFont font;
 
     public TitleScreen() {
         stage = new Stage();
-        text = LocalizeConfig.uiText.getTitleMenuText();
 
         selectSaveWindow = new SelectSaveWindow(stage);
         selectLoadWindow = new SelectLoadWindow(stage);
+        table = new Table();
 
+        stage.addActor(backGroundImage());
         stage.addActor(selectSaveWindow);
         stage.addActor(selectLoadWindow);
+        stage.addActor(table);
 
         font = GlobalSettings.font;
-        stage.addActor(backGroundImage());
-        stage.addActor(createTable());
-    }
 
-    public void initDisplay() {
-        selectLoadWindow.setVisible(false);
-        selectSaveWindow.setVisible(false);
+        create();
     }
 
     @Override
     public void create() {
         initDisplay();
+        setTable();
+    }
+
+    public void initDisplay() {
+        selectLoadWindow.setVisible(false);
+        selectSaveWindow.setVisible(false);
     }
 
     private Image backGroundImage() {
@@ -69,22 +73,22 @@ public class TitleScreen extends AbstractScreen {
         return backgroundImage;
     }
 
-    private Table createTable() {
-        Table table = new Table();
+    private void setTable() {
         table.clear();
         table.add(button(TitleAction.NEW)).pad(10);
         table.row();
-        table.add(button(TitleAction.CONTINUE)).pad(10);
-        table.row();
-        table.add(button(TitleAction.LOAD)).pad(10);
-        table.row();
+        if (SaveLoader.getRecentSave() != -1) {
+            table.add(button(TitleAction.CONTINUE)).pad(10);
+            table.row();
+            table.add(button(TitleAction.LOAD)).pad(10);
+            table.row();
+        }
         table.add(button(TitleAction.OPTION)).pad(10);
         table.row();
         table.add(button(TitleAction.CREDIT)).pad(10);
         table.row();
         table.add(button(TitleAction.EXIT)).pad(10);
         table.setPosition(300, 300);
-        return table;
     }
 
     private ImageTextButton.ImageTextButtonStyle getButtonStyle() {
@@ -123,12 +127,15 @@ public class TitleScreen extends AbstractScreen {
                 selectSaveWindow.create();
             }
             case CONTINUE -> {
+                int recentSave = SaveLoader.getRecentSave();
+                SaveLoader.load(recentSave);
+                SnowFight.setPlayer();
+                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
+            }
+            case LOAD -> {
                 selectLoadWindow.setVisible(true);
                 selectLoadWindow.toFront();
                 selectLoadWindow.create();
-            }
-            case LOAD -> {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
             }
             case OPTION -> {
                 SaveLoader.load(0);
@@ -156,13 +163,6 @@ public class TitleScreen extends AbstractScreen {
         stage.act();
     }
 
-    public enum Screen {
-        TITLE,
-        SELECT_SAVE,
-        SELECT_LOAD,
-        ;
-    }
-
     enum TitleAction {
         NEW,
         CONTINUE,
@@ -171,4 +171,9 @@ public class TitleScreen extends AbstractScreen {
         CREDIT,
         EXIT
     }
+
+    static {
+        text = LocalizeConfig.uiText.getTitleMenuText();
+    }
+
 }

@@ -10,9 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.text.dto.TitleMenuText;
 import com.lambferret.game.util.AssetFinder;
 
 public abstract class LoadAndSaveWindow extends Window {
+    protected static final TitleMenuText text;
     public static final int SAVE_WINDOW_WIDTH = 800;
     public static final int SAVE_WINDOW_HEIGHT = 400;
     public static final int SAVE_WINDOW_X = (GlobalSettings.currWidth - SAVE_WINDOW_WIDTH) / 2;
@@ -57,12 +60,16 @@ public abstract class LoadAndSaveWindow extends Window {
 
     protected CustomButton makeButton(int index) {
         boolean isExist = SaveLoader.isSaveExist(index);
-        String label = (isExist ? "load " : "new ") + index;
+        String label = (isExist ? text.getLoadData() : text.getEmptyData()) + " : " + index;
         CustomButton button = new CustomButton(label, getButtonStyle());
         button.addListener(addLoadListener(index, isExist));
         return button;
     }
 
     abstract protected ClickListener addLoadListener(int index, boolean isExist);
+
+    static {
+        text = LocalizeConfig.uiText.getTitleMenuText();
+    }
 
 }

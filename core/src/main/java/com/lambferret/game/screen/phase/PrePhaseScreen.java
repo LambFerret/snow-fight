@@ -21,6 +21,7 @@ public class PrePhaseScreen implements AbstractPhase {
     public PrePhaseScreen(Container<Table> mapContainer) {
         this.mapContainer = mapContainer;
         Image background = new Image(AssetFinder.getTexture("prePhase"));
+        background.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
         textButton = new TextButton("PrePhaseScreen", GlobalSettings.skin);
 
         stage.addActor(background);

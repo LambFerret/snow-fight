@@ -1,28 +1,40 @@
 {
   "titleMenuText": {
-    "newGame": "NEW_GAME",
+    "newGame": "NEW GAME",
     "continueGame": "CONTINUE",
-    "loadGame": "LOAD_GAME",
+    "loadGame": "LOAD GAME",
     "credit": "CREDIT",
     "option": "OPTION",
-    "exit": "EXIT"
+    "exit": "EXIT",
+
+    "overrideSaveConfirm": "This will use this save slot. Are you sure?",
+    "overrideDeleteSaveConfirm": "This will delete and overwrite this save slot. Are you sure?",
+    "overrideLoadConfirm": "Start New Game. Are you sure?",
+
+    "yes": "yes",
+    "no": "no",
+
+    "loadData": "LOAD",
+    "saveData": "SAVE",
+    "newData": "NEW",
+    "emptyData": "EMPTY"
   },
   "overlayText": {
     "TEST": "test_test"
   },
   "groundText": {
-    "recruit" : "RECRUIT",
-    "shop" : "SHOP",
-    "trainingGround" :  "TRAINING_GROUND",
+    "recruit": "RECRUIT",
+    "shop": "SHOP",
+    "trainingGround": "TRAINING_GROUND",
     "stage": "STAGE"
   },
   "phaseText": {
-    "buffCapacity" : "this map's capacity is {isIncreased} by {turn} turn",
-    "buffCost" : "this cost is {isIncreased} by {turn} turn",
-    "buffSoldierX" :"this soldier's X is {isIncreased} by {turn} turn",
-    "buffSoldierY" : "this soldier's Y is {isIncreased} by {turn} turn",
-    "buffSoldierSpeed" :"this soldier's speed is {isIncreased} by {turn} turn",
-    "increased" : "increased",
-    "decreased" : "decreased"
+    "buffCapacity": "this map's capacity is {isIncreased} by {turn} turn",
+    "buffCost": "this cost is {isIncreased} by {turn} turn",
+    "buffSoldierX": "this soldier's X is {isIncreased} by {turn} turn",
+    "buffSoldierY": "this soldier's Y is {isIncreased} by {turn} turn",
+    "buffSoldierSpeed": "this soldier's speed is {isIncreased} by {turn} turn",
+    "increased": "increased",
+    "decreased": "decreased"
   }
 }
