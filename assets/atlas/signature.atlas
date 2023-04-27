@@ -1,0 +1,160 @@
+
+signature.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+signature01
+  rotate: false
+  xy: 0, 292
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature02
+  rotate: false
+  xy: 1038, 1752
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature03
+  rotate: false
+  xy: 519, 292
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature04
+  rotate: false
+  xy: 0, 584
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature05
+  rotate: false
+  xy: 519, 1752
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature06
+  rotate: false
+  xy: 1038, 876
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature07
+  rotate: false
+  xy: 519, 1168
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature08
+  rotate: false
+  xy: 519, 0
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature09
+  rotate: false
+  xy: 1038, 1168
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature10
+  rotate: false
+  xy: 519, 1460
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature11
+  rotate: false
+  xy: 0, 0
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature12
+  rotate: false
+  xy: 1038, 1460
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature13
+  rotate: false
+  xy: 0, 1460
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature14
+  rotate: false
+  xy: 519, 584
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature15
+  rotate: false
+  xy: 0, 876
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature16
+  rotate: false
+  xy: 1038, 584
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature17
+  rotate: false
+  xy: 519, 876
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature18
+  rotate: false
+  xy: 0, 1168
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature21
+  rotate: false
+  xy: 0, 1752
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature19
+  rotate: false
+  xy: 0, 1752
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature20
+  rotate: false
+  xy: 0, 1752
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1
+signature22
+  rotate: false
+  xy: 0, 1752
+  size: 519, 292
+  orig: 519, 292
+  offset: 0, 0
+  index: -1

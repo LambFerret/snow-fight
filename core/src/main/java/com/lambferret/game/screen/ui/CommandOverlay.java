@@ -52,6 +52,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setPosition(this.getX(), this.getY());
         scrollPane.setSize(this.getWidth(), this.getHeight());
+        this.background(new TextureRegionDrawable(AssetFinder.getTexture("conversationWindow")));
 
         if (isHide) {
             this.setX(COMMAND_HIDE_X);
@@ -144,9 +145,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         hideButton.addAction(
             Actions.moveTo(COMMAND_HIDE_BUTTON_HIDE_X, COMMAND_HIDE_BUTTON_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
-//        hideButton.addAction(
-//            Actions.rotateBy(90, ANIMATION_DURATION)
-//        );
         isHide = true;
     }
 
@@ -157,9 +155,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         hideButton.addAction(
             Actions.moveTo(COMMAND_HIDE_BUTTON_X, COMMAND_HIDE_BUTTON_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
-//        hideButton.addAction(
-//            Actions.rotateBy(90, ANIMATION_DURATION)
-//        );
         isHide = false;
     }
 

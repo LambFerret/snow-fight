@@ -84,7 +84,7 @@ public class AssetFinder {
     }
 
     public static TextureAtlas getAtlas(String name) {
-        return manager.get(ATLAS + name, TextureAtlas.class);
+        return manager.get(ATLAS + name + ".atlas", TextureAtlas.class);
     }
 
     public static ParticleEffect getEffect(String name) {
