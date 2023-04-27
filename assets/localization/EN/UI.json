@@ -35,6 +35,7 @@
     "buffSoldierY": "this soldier's Y is {isIncreased} by {turn} turn",
     "buffSoldierSpeed": "this soldier's speed is {isIncreased} by {turn} turn",
     "increased": "increased",
-    "decreased": "decreased"
+    "decreased": "decreased",
+    "soldierOverlay" : "bokmu kirock"
   }
 }

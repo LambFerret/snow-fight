@@ -17,6 +17,8 @@ import com.lambferret.game.component.PolygonButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.text.dto.PhaseText;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +27,7 @@ import java.util.List;
 
 public class SoldierOverlay extends Container<ScrollPane> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(SoldierOverlay.class.getName());
-
+    private static final PhaseText text;
     private final Stage stage;
     private final ScrollPane scrollPane;
     private final PolygonButton hideButton;
@@ -37,7 +39,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     public SoldierOverlay(Stage stage) {
         this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
-        hideButton = new PolygonButton("ui text todo", getHideButtonStyle(), SOLDIER_HIDE_BUTTON_VERTICES);
+        hideButton = new PolygonButton(text.getSoldierOverlay(), getHideButtonStyle(), SOLDIER_HIDE_BUTTON_VERTICES);
 
         stage.addActor(hideButton);
         stage.addActor(this);
@@ -85,6 +87,20 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
                 } else {
                     resetLocation();
                 }
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                if (!isDragging()) {
+                    if (isHide) {
+                        show();
+                    } else {
+                        hide();
+                    }
+                } else {
+                    dragStop(event, x, y, pointer);
+                }
+                cancel();
             }
         });
 
@@ -153,7 +169,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     private void hide() {
         this.addAction(
-            Actions.moveTo(SOLDIER_HIDE_X, SOLDIER_Y, SOLDIER_HIDE_ANIMATION_DURATION)
+            Actions.moveBy(-hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
         );
         hideButton.addAction(
             Actions.moveBy(-hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
@@ -163,7 +179,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     private void show() {
         this.addAction(
-            Actions.moveTo(SOLDIER_X, SOLDIER_Y, SOLDIER_HIDE_ANIMATION_DURATION)
+            Actions.moveBy(SOLDIER_WIDTH - hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
         );
         hideButton.addAction(
             Actions.moveBy(SOLDIER_WIDTH - hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
@@ -221,6 +237,10 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         style.up = new TextureRegionDrawable(soldier.renderFront());
         style.font = GlobalSettings.font;
         return style;
+    }
+
+    static {
+        text = LocalizeConfig.uiText.getPhaseText();
     }
 
 }

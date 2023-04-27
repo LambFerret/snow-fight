@@ -11,4 +11,5 @@ public class PhaseText {
     private String buffSoldierSpeed;
     private String increased;
     private String decreased;
+    private String soldierOverlay;
 }
