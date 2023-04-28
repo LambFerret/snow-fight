@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 public class ScreenConfig {
     private static final Logger logger = LogManager.getLogger(ScreenConfig.class.getName());
+    public static final String BLENDING = "BLENDING";
     private static AddedScreen currentScreen = AddedScreen.TITLE_SCREEN;
     public static AddedScreen changeScreen = currentScreen;
     private static ScreenManager<ManagedScreen, ScreenTransition> screenManager;
@@ -37,7 +38,7 @@ public class ScreenConfig {
         addTransition();
 
         Gdx.input.setInputProcessor(titleScreen.getStage());
-        screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), TransitionEffect.BLENDING.name());
+        screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), BLENDING);
         logger.info("screenConfig | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
     }
 
@@ -50,7 +51,7 @@ public class ScreenConfig {
 
         String te = null; // effect.name(); TODO: 각각 원하는 changer effect 사용
 //        if (effect == TransitionEffect.NULL) te = null;
-        screenManager.pushScreen(changeScreen.name(), te);
+        screenManager.pushScreen(changeScreen.name(), BLENDING);
 
         switch (changeScreen) {
             case TITLE_SCREEN -> {
@@ -94,18 +95,7 @@ public class ScreenConfig {
     private static void addTransition() {
         SpriteBatch batch = new SpriteBatch();
         var blending = new BlendingTransition(batch, 0.5F);
-        var slidingIn = new SlidingInTransition(batch, SlidingDirection.DOWN, 1.5F);
-        var slidingOut = new SlidingOutTransition(batch, SlidingDirection.DOWN, 1.5F);
-        var push = new PushTransition(batch, SlidingDirection.DOWN, 1.5F);
-        var horizontalSlicing = new HorizontalSlicingTransition(batch, 19, 1.5F);
-        var verticalSlicing = new VerticalSlicingTransition(batch, 19, 1.5F);
-
-        screenManager.addScreenTransition(TransitionEffect.BLENDING.name(), blending);
-        screenManager.addScreenTransition(TransitionEffect.SLIDING_IN.name(), slidingIn);
-        screenManager.addScreenTransition(TransitionEffect.SLIDING_OUT.name(), slidingOut);
-        screenManager.addScreenTransition(TransitionEffect.PUSH.name(), push);
-        screenManager.addScreenTransition(TransitionEffect.HORIZONTAL_SLICING.name(), horizontalSlicing);
-        screenManager.addScreenTransition(TransitionEffect.VERTICAL_SLICING.name(), verticalSlicing);
+        screenManager.addScreenTransition(BLENDING, blending);
     }
 
     public enum AddedScreen {
@@ -115,14 +105,4 @@ public class ScreenConfig {
         ;
     }
 
-    private enum TransitionEffect {
-        BLENDING,
-        SLIDING_IN,
-        SLIDING_OUT,
-        PUSH,
-        HORIZONTAL_SLICING,
-        VERTICAL_SLICING,
-        SHADER,
-        NULL
-    }
 }
