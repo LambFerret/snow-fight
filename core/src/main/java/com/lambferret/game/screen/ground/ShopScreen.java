@@ -53,7 +53,6 @@ public class ShopScreen implements AbstractGround {
 
     @Override
     public void create() {
-        forSaleList.setDebug(true, true);
     }
 
     @Override

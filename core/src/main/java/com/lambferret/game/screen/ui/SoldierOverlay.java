@@ -44,7 +44,6 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     public void create() {
         this.setPosition(SOLDIER_X, SOLDIER_Y);
         this.setSize(SOLDIER_WIDTH, SOLDIER_HEIGHT);
-        this.setDebug(true, true);
 
         hideButton.setPosition(SOLDIER_HIDE_BUTTON_X, SOLDIER_HIDE_BUTTON_Y);
         hideButton.setSize(SOLDIER_HIDE_BUTTON_WIDTH, SOLDIER_HIDE_BUTTON_HEIGHT);
@@ -52,6 +51,8 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setPosition(this.getX(), this.getY());
         scrollPane.setSize(this.getWidth(), this.getHeight());
+
+        this.background(new TextureRegionDrawable(AssetFinder.getTexture("")));
 
         if (isHide) {
             this.setX(SOLDIER_HIDE_X);

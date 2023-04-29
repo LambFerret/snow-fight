@@ -71,9 +71,6 @@ public abstract class StoryWindow extends EventWindow {
 
     private void setSpeakers() {
         CustomButton characterImage;
-        leftSpeakers.setDebug(true, true);
-        rightSpeakers.setDebug(true, true);
-
         for (int i = leftActor.size() - 1; i >= 0; i--) {
             Character character = leftActor.get(i);
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();

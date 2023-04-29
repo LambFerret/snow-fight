@@ -67,8 +67,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         mapContainer.fill();
         mapContainer.setPosition(MAP_X, MAP_Y);
         mapContainer.setSize(MAP_WIDTH, MAP_HEIGHT);
-
-        mapContainer.setDebug(true, true);
     }
 
     public void onPlayerReady() {

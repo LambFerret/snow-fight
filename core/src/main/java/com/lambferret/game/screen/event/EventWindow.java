@@ -50,8 +50,6 @@ public abstract class EventWindow extends Group {
 
         this.dialogueNode = getDialogueNode();
 
-        if (GlobalSettings.isDev) this.setDebug(true, true);
-
         this.setPosition(0, 0);
         this.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
 

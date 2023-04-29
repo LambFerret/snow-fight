@@ -43,7 +43,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     public void create() {
         this.setPosition(COMMAND_X, COMMAND_Y);
         this.setSize(COMMAND_WIDTH, COMMAND_HEIGHT);
-        this.setDebug(true, true);
 
         hideButton.setSize(COMMAND_HIDE_BUTTON_WIDTH, COMMAND_HIDE_BUTTON_HEIGHT);
         hideButton.setPosition(COMMAND_HIDE_BUTTON_X, COMMAND_HIDE_BUTTON_Y);

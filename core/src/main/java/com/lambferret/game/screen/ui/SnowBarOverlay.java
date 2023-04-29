@@ -60,7 +60,7 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         labelDescription.setVisible(false);
 
         this.setSize(GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH, SNOW_BAR_HEIGHT);
-        this.setPosition(0, 0);
+        this.setPosition(SNOW_BAR_X, SNOW_BAR_Y);
 
         clearThresholdXLabel.setSize(THRESHOLD_LABEL_WIDTH, THRESHOLD_LABEL_HEIGHT);
         clearThresholdXLabel.setPosition(-999, this.getY() + this.getHeight());

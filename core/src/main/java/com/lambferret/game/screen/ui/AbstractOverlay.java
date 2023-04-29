@@ -16,6 +16,8 @@ public interface AbstractOverlay {
      * 눈통 높이
      */
     float SNOW_BAR_HEIGHT = 50.0F;
+    float SNOW_BAR_X = 0;
+    float SNOW_BAR_Y = 0;
     /**
      * 패딩
      */
