@@ -3,6 +3,7 @@ package com.lambferret.game.util;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.lambferret.game.util.crypt.j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,6 +41,14 @@ public class GlobalUtil {
         TextureData data = texture.getTextureData();
         data.prepare();
         return data.consumePixmap();
+    }
+
+    public static Pixmap regionToPixmap(TextureAtlas.AtlasRegion region) {
+        Pixmap regionPixmap = readyPixmap(region.getTexture());
+        Pixmap result = new Pixmap(region.getRegionWidth(), region.getRegionHeight(), Pixmap.Format.RGBA8888);
+        result.drawPixmap(regionPixmap, 0, 0, region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight());
+        regionPixmap.dispose();
+        return result;
     }
 
 }
