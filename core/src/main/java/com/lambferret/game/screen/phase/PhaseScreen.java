@@ -1,13 +1,9 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
 import com.lambferret.game.command.Command;
-import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.manual.Manual;
@@ -15,7 +11,6 @@ import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
-import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +23,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static final float MAP_Y = 50.0F;
     public static final float MAP_WIDTH = 500.0F;
     public static final float MAP_HEIGHT = 500.0F;
-    public static final Container<Table> mapContainer = new Container<>();
+    public static final Container<Level> mapContainer = new Container<>();
     private static Overlay overlay;
     private static Screen currentScreen;
     public static Player player;
@@ -79,53 +74,14 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public void onPlayerReady() {
         player = SnowFight.player;
         level = LevelFinder.get(player.getDay());
-        mapContainer.setActor(makeMap());
+        mapContainer.setActor(level);
+        mapContainer.fill();
         for (AbstractPhase phase : phaseListener) {
             phase.init(player);
         }
         commands = new LinkedHashMap<>();
         buffList = new ArrayList<>();
         manualList = player.getManuals();
-
-    }
-
-    protected Table makeMap() {
-        Table map = new Table();
-        map.setFillParent(true);
-
-        map.setSkin(GlobalSettings.skin);
-        for (int i = 0; i < level.ROWS; i++) {
-            for (int j = 0; j < level.COLUMNS; j++) {
-                map.add(makeMapElement(level.getTerrainMaxCurrentInfo(i, j)));
-            }
-            map.row();
-        }
-        map.setSize(MAP_WIDTH, MAP_HEIGHT);
-        return map;
-    }
-
-    private ImageButton makeMapElement(int[] terrainMaxCurrent) {
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = GlobalSettings.debugTexture;
-        ImageButton button = new ImageButton(style);
-        float transparency = (float) terrainMaxCurrent[2] / terrainMaxCurrent[1];
-        Color color = switch (terrainMaxCurrent[0]) {
-            case Terrain.NULL -> Color.BLACK;
-            case Terrain.LAKE -> new Color(255, 69, 0, transparency); //Color.ORANGE.;
-            case Terrain.MOUNTAIN -> new Color(255, 192, 203, transparency); //Color.YELLOW;
-            case Terrain.SEA -> new Color(127, 255, 0, transparency); //Color.GREEN;
-            case Terrain.TOWN -> new Color(0, 128, 128, transparency); //Color.CHARTREUSE;
-            default -> Color.VIOLET;
-        };
-        button.setColor(color);
-        button.setSize(MAP_WIDTH / level.COLUMNS, MAP_HEIGHT / level.ROWS);
-
-        return button;
-    }
-
-    private void updateMap() {
-        Table map = makeMap();
-        mapContainer.setActor(map);
     }
 
     public static Map<Command, List<Soldier>> getCommands() {

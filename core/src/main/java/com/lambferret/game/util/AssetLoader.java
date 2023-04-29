@@ -65,6 +65,9 @@ public class AssetLoader {
             }
 
             for (FileHandle asset : folder.list()) {
+                if (asset.name().contains(".DS_Store")) {
+                    continue;
+                }
                 assetManager.load(asset.path(), descriptor.assetType);
             }
         }

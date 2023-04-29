@@ -17,6 +17,7 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rank;
+import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
@@ -55,7 +56,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     /**
      * 선호 지형
      */
-    private List<Short> preferenceTerrain;
+    private List<Terrain> preferenceTerrain;
 
     /**
      * 속도, 밑으로 수치관련 정보
@@ -105,7 +106,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     //인게임 정보 관련
 
-    List<Short> initialPreferenceTerrain;
+    List<Terrain> initialPreferenceTerrain;
     boolean initialIsUncommonRange;
     short initialSpeed;
     byte initialRangeX;
@@ -119,7 +120,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         SoldierInfo info,
         Rank rank,
         Branch branch,
-        List<Short> preferenceTerrain,
+        List<Terrain> preferenceTerrain,
         boolean isUncommonRange,
         short speed,
         byte rangeX,

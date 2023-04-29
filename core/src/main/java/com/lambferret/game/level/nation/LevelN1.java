@@ -7,12 +7,12 @@ public class LevelN1 extends Level {
 
     public static final float SCALED_MULTIPLY = 0.3F;
     private static final short[][] map = {
-        {1, 2, 1, 1, -1, 1},
-        {1, 2, 1, -1, -1, 1},
-        {3, 2, 1, -1, -1, 1},
-        {3, 2, 1, -1, -1, 1},
-        {3, 2, 1, -1, -1, 1},
-        {1, 2, 1, 1, -1, 1},
+        {1, 2, 1, 1, 0, 1},
+        {1, 2, 1, 0, 0, 1},
+        {3, 2, 1, 0, 0, 1},
+        {3, 2, 1, 0, 0, 1},
+        {3, 2, 1, 0, 0, 1},
+        {1, 2, 1, 1, 0, 1},
     };
     private static final int[][] maxAmountMap = {
         {10, 20, 10, 10, 0, 10},

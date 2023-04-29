@@ -9,7 +9,7 @@ import com.lambferret.game.screen.ui.Overlay;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.ScreenManager;
 import de.eskalon.commons.screen.transition.ScreenTransition;
-import de.eskalon.commons.screen.transition.impl.*;
+import de.eskalon.commons.screen.transition.impl.BlendingTransition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.GlobalSettings;
@@ -45,6 +46,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     public static void setPlayer() {
         player = new Player();
+        LevelFinder.createTiledMapTileSet();
         logger.info("player loaded | " + player.getName());
     }
 
