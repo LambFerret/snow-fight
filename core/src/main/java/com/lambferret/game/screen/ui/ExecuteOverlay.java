@@ -8,10 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -30,7 +27,7 @@ import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ExecuteOverlay extends Container<CustomButton> implements AbstractOverlay {
+public class ExecuteOverlay extends Group implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
     private static final OverlayText text = LocalizeConfig.uiText.getOverlayText();
     public static final float EXECUTE_X = GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH;
@@ -54,24 +51,25 @@ public class ExecuteOverlay extends Container<CustomButton> implements AbstractO
     public ExecuteOverlay(Stage stage) {
         this.stage = stage;
         executeButton = new CustomButton(text.getExecuteOverlayName(), executeButtonStyle());
+        this.setDebug(true, true);
 
-        this.setActor(executeButton);
-        this.stage.setKeyboardFocus(this);
+        setCursor();
+        setSignatureAnimation();
+
+        this.addActor(executeButton);
+        this.stage.setKeyboardFocus(this.executeButton);
         this.stage.addActor(this);
     }
 
     public void create() {
         this.setPosition(EXECUTE_X, EXECUTE_Y);
         this.setSize(EXECUTE_WIDTH, EXECUTE_HEIGHT);
-        this.fill();
 
-        this.setDebug(true, true);
-
-        setCursor();
-        setSignatureAnimation();
+        executeButton.setPosition(0, 0);
+        executeButton.setSize(EXECUTE_WIDTH, EXECUTE_HEIGHT);
 
         if (isHide) {
-            this.executeButton.setX(EXECUTE_HIDE_X);
+            this.executeButton.setX(EXECUTE_HIDE_BUTTON_RELATIVE_X);
         }
     }
 
@@ -79,7 +77,7 @@ public class ExecuteOverlay extends Container<CustomButton> implements AbstractO
     public void init(Player player) {
         this.player = player;
 
-        this.addListener(new InputListener() {
+        executeButton.addListener(new InputListener() {
 
             /*
             욕나오는 부분
