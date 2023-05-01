@@ -155,7 +155,13 @@ public class GlobalSettings {
     }
 
     public static Soldier popSoldier() {
-        String id = soldiers.remove(0);
+        String id;
+        try {
+            id = soldiers.remove(0);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("Soldier pop error", e);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -167,7 +173,13 @@ public class GlobalSettings {
     }
 
     public static Command popCommand() {
-        String id = commands.remove(0);
+        String id;
+        try {
+            id = commands.remove(0);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("commands pop error", e);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -179,7 +191,13 @@ public class GlobalSettings {
     }
 
     public static Manual popManual() {
-        String id = manuals.remove(0);
+        String id;
+        try {
+            id = manuals.remove(0);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("manuals pop error", e);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -191,7 +209,13 @@ public class GlobalSettings {
     }
 
     public static Quest popQuest() {
-        String id = quests.remove(0);
+        String id;
+        try {
+            id = quests.remove(0);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("quests pop error", e);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -203,7 +227,13 @@ public class GlobalSettings {
     }
 
     public static Soldier popSoldier(String id) {
-        soldiers.remove(id);
+        try {
+            soldiers.remove(id);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("Soldier pop error", e);
+            logger.info("popSoldier id" + id);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -215,7 +245,12 @@ public class GlobalSettings {
     }
 
     public static Command popCommand(String id) {
-        commands.remove(id);
+        try {
+            commands.remove(id);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("commands pop error", e);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -227,7 +262,12 @@ public class GlobalSettings {
     }
 
     public static Manual popManual(String id) {
-        manuals.remove(id);
+        try {
+            manuals.remove(id);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("manuals pop error", e);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -239,7 +279,12 @@ public class GlobalSettings {
     }
 
     public static Quest popQuest(String id) {
-        quests.remove(id);
+        try {
+            quests.remove(id);
+        } catch (IndexOutOfBoundsException e) {
+            logger.error("quests pop error", e);
+            return null;
+        }
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -250,5 +295,48 @@ public class GlobalSettings {
         }
     }
 
+    public static Soldier getSoldier(String id) {
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Soldier) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " Soldier load error", e);
+            throw new RuntimeException("Soldier load error");
+        }
+    }
+
+    public static Command getCommand(String id) {
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Command) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " command load error", e);
+            throw new RuntimeException("command load error");
+        }
+    }
+
+    public static Manual getManual(String id) {
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Manual) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " manual load error", e);
+            throw new RuntimeException("manual load error");
+        }
+    }
+
+    public static Quest getQuest(String id) {
+        try {
+            Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Quest) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error(id + " quest load error", e);
+            throw new RuntimeException("quest load error");
+        }
+    }
 
 }

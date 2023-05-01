@@ -18,8 +18,6 @@ import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
 public class CommandOverlay extends Container<ScrollPane> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(CommandOverlay.class.getName());
 
@@ -62,8 +60,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     @Override
     public void init(Player player) {
         this.player = player;
-        this.scrollPane.setActor(makeCommandContainer(player.getCommands()));
-
+        makeCommandContainer();
         hideButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -92,13 +89,13 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         });
     }
 
-    private Table makeCommandContainer(List<Command> commands) {
+    public void makeCommandContainer() {
         Table table = new Table();
-        for (Command command : commands) {
+        for (Command command : player.getCommands()) {
             table.add(renderCommand(command));
             table.row().pad(COMMAND_EACH_PADDING);
         }
-        return table;
+        this.scrollPane.setActor(table);
     }
 
     private CustomButton renderCommand(Command command) {
@@ -174,6 +171,16 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         style.up = new TextureRegionDrawable(command.render());
         style.font = GlobalSettings.font;
         return style;
+    }
+
+    @Override
+    public void onPlayerReady() {
+
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+        makeCommandContainer();
     }
 
 }

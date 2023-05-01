@@ -71,6 +71,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     public void onPlayerReady() {
         player = SnowFight.player;
+        SnowFight.player.addSoldierObserver(this);
         level = LevelFinder.get(player.getDay());
         mapContainer.setActor(level);
         mapContainer.fill();
@@ -80,6 +81,11 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         commands = new LinkedHashMap<>();
         buffList = new ArrayList<>();
         manualList = player.getManuals();
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
     }
 
     public static Map<Command, List<Soldier>> getCommands() {

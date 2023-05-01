@@ -176,4 +176,14 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         text = LocalizeConfig.uiText;
     }
 
+    @Override
+    public void onPlayerReady() {
+
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
+    }
+
 }

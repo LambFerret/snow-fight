@@ -11,8 +11,11 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.save.Save;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.event.EventWindow;
+import com.lambferret.game.screen.event.main.First;
 import com.lambferret.game.screen.event.main.StoryWindow;
 import com.lambferret.game.screen.event.main.Tutorial;
+import com.lambferret.game.screen.ui.CommandOverlay;
+import com.lambferret.game.screen.ui.SoldierOverlay;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Choco;
 import com.lambferret.game.soldier.Soldier;
@@ -38,6 +41,7 @@ public class Player {
     private List<Command> commands;
     private List<Manual> manuals;
     private List<Quest> quests;
+    private List<PlayerObserver> listeners;
     private int clearedMainQuestNumber;
     private int day;
     private int money;
@@ -52,7 +56,7 @@ public class Player {
 
     public Player() {
         GlobalSettings.loadAllInGameStructure();
-
+        listeners = new ArrayList<>();
         if (SaveLoader.currentSave.isInitialized()) {
             loadSaveIntoPlayer();
             return;
@@ -162,12 +166,55 @@ public class Player {
         }
     }
 
-    public void addSoldier(Soldier soldier) {
-        soldiers.add(soldier);
+    private void playerUpdate(Item.TYPE item) {
+        switch (item) {
+            case SOLDIER -> {
+                for (PlayerObserver listener : listeners) {
+                    if (listener instanceof SoldierOverlay) {
+                        listener.onPlayerUpdate();
+                    }
+                }
+            }
+            case COMMAND, MANUAL -> {
+                for (PlayerObserver listener : listeners) {
+                    if (listener instanceof CommandOverlay) {
+                        listener.onPlayerUpdate();
+                    }
+                }
+            }
+            case QUEST, EVENT -> {
+            }
+        }
     }
 
-    public void addManual(Command command) {
-        this.commands.add(command);
+    public void addSoldier(Soldier soldier) {
+        soldiers.add(soldier);
+        playerUpdate(Item.TYPE.SOLDIER);
+    }
+
+    public void addCommand(Command command) {
+        commands.add(command);
+        playerUpdate(Item.TYPE.COMMAND);
+    }
+
+    public void addManual(Manual manual) {
+        manuals.add(manual);
+        playerUpdate(Item.TYPE.MANUAL);
+    }
+
+    public void deleteSoldier(Soldier soldier) {
+        soldiers.remove(soldier);
+        playerUpdate(Item.TYPE.SOLDIER);
+    }
+
+    public void deleteCommand(Command command) {
+        commands.remove(command);
+        playerUpdate(Item.TYPE.COMMAND);
+    }
+
+    public void deleteManual(Manual manual) {
+        manuals.remove(manual);
+        playerUpdate(Item.TYPE.MANUAL);
     }
 
     public void setMoneyBy(int amount) {
@@ -186,10 +233,11 @@ public class Player {
     public StoryWindow getPlayerMainEvent() {
         if (clearedMainQuestNumber >= MainEvent.values().length) {
             logger.info(" 🐳 this shows up when there is no more main event " + clearedMainQuestNumber);
-            return new Tutorial();
+            return new First();
         }
         return switch (MainEvent.values()[clearedMainQuestNumber++]) {
             case TUTORIAL -> new Tutorial();
+            case FIRST -> new First();
         };
     }
 
@@ -218,6 +266,14 @@ public class Player {
             eventList.add(eventString);
             return false;
         }
+    }
+
+    public void addSoldierObserver(PlayerObserver observer) {
+        listeners.add(observer);
+    }
+
+    public void removeSoldierObserver(PlayerObserver observer) {
+        listeners.remove(observer);
     }
 
     public enum AFFINITY {

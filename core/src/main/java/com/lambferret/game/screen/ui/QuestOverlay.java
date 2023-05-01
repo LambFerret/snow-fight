@@ -22,8 +22,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class QuestOverly extends Window implements AbstractOverlay {
-    private static final Logger logger = LogManager.getLogger(QuestOverly.class.getName());
+public class QuestOverlay extends Window implements AbstractOverlay {
+    private static final Logger logger = LogManager.getLogger(QuestOverlay.class.getName());
+    public static final int MIN_WINDOW_SIZE = 100;
     private final Stage stage;
     private ScrollPane scrollPane;
     private VerticalGroup verticalGroup;
@@ -51,7 +52,7 @@ public class QuestOverly extends Window implements AbstractOverlay {
 
     }
 
-    public QuestOverly(Stage stage) {
+    public QuestOverlay(Stage stage) {
         super("Quest", GlobalSettings.skin);
         setCursor();
         this.stage = stage;
@@ -63,7 +64,7 @@ public class QuestOverly extends Window implements AbstractOverlay {
         this.setMovable(true);
         this.setResizable(true);
         this.setKeepWithinStage(true);
-        this.setDebug(true, true);
+
         this.addListener(new InputListener() {
 
             @Override
@@ -73,21 +74,32 @@ public class QuestOverly extends Window implements AbstractOverlay {
 
                 boolean onLeftBoundary = x >= 0 && x <= boundaryThickness;
                 boolean onRightBoundary = x >= getWidth() - boundaryThickness && x <= getWidth();
-
-                boolean sideBoundary = onLeftBoundary || onRightBoundary;
                 boolean onBottomBoundary = y >= 0 && y <= boundaryThickness;
                 boolean onBottomLeftCorner = onLeftBoundary && onBottomBoundary;
                 boolean onBottomRightCorner = onRightBoundary && onBottomBoundary;
+
+                setResizable(true);
+                if (getX() == GlobalSettings.currWidth - (OVERLAY_BORDERLINE_WIDTH + getWidth())) {
+                    onRightBoundary = false;
+                    onBottomRightCorner = false;
+                } else if (getY() == SNOW_BAR_HEIGHT + SNOW_BAR_X) {
+                    onBottomLeftCorner = false;
+                    onBottomRightCorner = false;
+                    onBottomBoundary = false;
+                }
 
                 if (onBottomLeftCorner) {
                     Gdx.graphics.setCursor(leftUpResizeCursor);
                 } else if (onBottomRightCorner) {
                     Gdx.graphics.setCursor(leftDownResizeCursor);
-                } else if (sideBoundary) {
+                } else if (onLeftBoundary) {
+                    Gdx.graphics.setCursor(horizontalResizeCursor);
+                } else if (onRightBoundary) {
                     Gdx.graphics.setCursor(horizontalResizeCursor);
                 } else if (onBottomBoundary) {
                     Gdx.graphics.setCursor(verticalResizeCursor);
                 } else {
+                    setResizable(false);
                     Gdx.graphics.setSystemCursor(defaultCursor);
                 }
 
@@ -121,8 +133,30 @@ public class QuestOverly extends Window implements AbstractOverlay {
     }
 
     public void create() {
-        this.setPosition(500, 500);
+        this.setPosition(100, 500);
         this.setSize(100, 100);
+    }
+
+    @Override
+    public void setBounds(float x, float y, float width, float height) {
+        if (width < MIN_WINDOW_SIZE) {
+            width = MIN_WINDOW_SIZE;
+        }
+        if (height < MIN_WINDOW_SIZE) {
+            height = MIN_WINDOW_SIZE;
+        }
+        float yStartLimit = SNOW_BAR_HEIGHT + SNOW_BAR_X;
+        float xEndLimit = GlobalSettings.currWidth - (OVERLAY_BORDERLINE_WIDTH + getWidth());
+
+        if (x < 0 && y < yStartLimit) {
+            super.setBounds(0, yStartLimit, width, height);
+        } else if (x > xEndLimit && y < yStartLimit) {
+            super.setBounds(xEndLimit, yStartLimit, width, height);
+        } else if (x < 0) {
+            super.setBounds(0, y, width, height);
+        } else if (x > xEndLimit) {
+            super.setBounds(xEndLimit, y, width, height);
+        } else super.setBounds(x, Math.max(y, yStartLimit), width, height);
     }
 
     @Override
@@ -138,6 +172,16 @@ public class QuestOverly extends Window implements AbstractOverlay {
             verticalGroup.addActor(new TextButton(quest.getDescription(), style));
             verticalGroup.addActor(new TextButton(quest.getDescription(), style));
         }
+    }
+
+    @Override
+    public void onPlayerReady() {
+
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
     }
 
 }

@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
@@ -235,6 +234,16 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                 batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
             }
         }
+    }
+
+    @Override
+    public void onPlayerReady() {
+
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
     }
 
 }

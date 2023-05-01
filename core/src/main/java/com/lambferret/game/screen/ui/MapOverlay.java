@@ -154,6 +154,16 @@ public class MapOverlay extends Group implements AbstractOverlay {
         }
     }
 
+    @Override
+    public void onPlayerReady() {
+
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
+    }
+
     static {
         text = LocalizeConfig.uiText.getGroundText();
     }

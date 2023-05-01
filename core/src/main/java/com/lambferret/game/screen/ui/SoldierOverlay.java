@@ -18,8 +18,6 @@ import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
 public class SoldierOverlay extends Container<ScrollPane> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(SoldierOverlay.class.getName());
     private static final OverlayText text;
@@ -62,16 +60,15 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     @Override
     public void init(Player player) {
-        var overlay = this;
         this.player = player;
 
-        this.scrollPane.setActor(makeSoldierContainer(player.getSoldiers()));
+        makeSoldierContainer();
 
         hideButton.addListener(new DragListener() {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
                 hideButton.moveBy(x - getDragStartX(), 0);
-                overlay.moveBy(x - getDragStartX(), 0);
+                moveBy(x - getDragStartX(), 0);
             }
 
             @Override
@@ -117,19 +114,19 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         });
     }
 
-    private Table makeSoldierContainer(List<Soldier> soldiers) {
+    public void makeSoldierContainer() {
         Table table = new Table();
         int i = 0;
-        for (Soldier soldier : soldiers) {
+        for (Soldier soldier : player.getSoldiers()) {
             Container<Group> card = soldier.card();
             card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
             table.add(card).pad(SOLDIER_EACH_PAD);
-            if ((i++ + 1) * (card.getWidth() + SOLDIER_EACH_PAD) > scrollPane.getWidth() - SOLDIER_CARD_MARGIN) {
+            if (i++ == 6) {
                 table.row();
                 i = 0;
             }
         }
-        return table;
+        this.scrollPane.setActor(table);
     }
 
     private void hide() {
@@ -176,6 +173,16 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     static {
         text = LocalizeConfig.uiText.getOverlayText();
+    }
+
+    @Override
+    public void onPlayerReady() {
+
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+        makeSoldierContainer();
     }
 
 }

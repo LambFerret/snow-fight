@@ -25,18 +25,26 @@ public class Overlay implements PlayerObserver {
     public static Stage uiSpriteBatch = new Stage();
     private static final InputMultiplexer inputManager = new InputMultiplexer();
     private static boolean isPhaseUI = true;
+    AbstractOverlay map;
+    AbstractOverlay bar;
+    AbstractOverlay quest;
+    AbstractOverlay command;
+    AbstractOverlay execute;
+    AbstractOverlay soldier;
 
     private Overlay() {
         allOverlay.clear();
         groundUIList.clear();
         phaseUIList.clear();
+
         uiSpriteBatch = new Stage();
-        AbstractOverlay map = new MapOverlay(uiSpriteBatch);
-        AbstractOverlay bar = new SnowBarOverlay(uiSpriteBatch);
-        AbstractOverlay quest = new QuestOverly(uiSpriteBatch);
-        AbstractOverlay command = new CommandOverlay(uiSpriteBatch);
-        AbstractOverlay execute = new ExecuteOverlay(uiSpriteBatch);
-        AbstractOverlay soldier = new SoldierOverlay(uiSpriteBatch);
+
+        map = new MapOverlay(uiSpriteBatch);
+        bar = new SnowBarOverlay(uiSpriteBatch);
+        quest = new QuestOverlay(uiSpriteBatch);
+        command = new CommandOverlay(uiSpriteBatch);
+        execute = new ExecuteOverlay(uiSpriteBatch);
+        soldier = new SoldierOverlay(uiSpriteBatch);
 
         allOverlay.add(map);
         allOverlay.add(bar);
@@ -46,6 +54,7 @@ public class Overlay implements PlayerObserver {
         allOverlay.add(soldier);
 
         groundUIList.add(map);
+        groundUIList.add(soldier);
 
         phaseUIList.add(quest);
         phaseUIList.add(bar);
@@ -76,7 +85,12 @@ public class Overlay implements PlayerObserver {
     public void onPlayerReady() {
         for (AbstractOverlay overlay : allOverlay) {
             overlay.init(SnowFight.player);
+            SnowFight.player.addSoldierObserver(overlay);
         }
+    }
+
+    @Override
+    public void onPlayerUpdate() {
     }
 
     public static void changePhaseInputProcessor() {

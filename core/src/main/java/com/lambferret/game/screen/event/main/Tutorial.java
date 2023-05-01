@@ -3,8 +3,8 @@ package com.lambferret.game.screen.event.main;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.character.*;
-import com.lambferret.game.command.CupNoodle;
 import com.lambferret.game.constant.StoryType;
+import com.lambferret.game.manual.ColdWeatherTraining;
 import com.lambferret.game.soldier.Vanilla;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.dialogue.Dialogue;
@@ -84,7 +84,7 @@ public class Tutorial extends StoryWindow {
                 switch (optionNumber) {
                     case 0 -> {
                     }
-                    case 1 -> SnowFight.player.addManual(new CupNoodle());
+                    case 1 -> SnowFight.player.addManual(new ColdWeatherTraining());
                     case 2 -> SnowFight.player.addSoldier(new Vanilla());
                 }
             case 1:

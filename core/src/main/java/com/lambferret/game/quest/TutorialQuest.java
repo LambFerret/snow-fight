@@ -12,6 +12,11 @@ public class TutorialQuest extends Quest {
         super(ID, INFO.getName(), INFO.getDescription());
     }
 
+    @Override
+    public void getReword() {
+        player.setSnowAmount(player.getSnowAmount() - 100);
+    }
+
     static {
         ID = TutorialQuest.class.getSimpleName();
         INFO = LocalizeConfig.questText.getID().get(ID);

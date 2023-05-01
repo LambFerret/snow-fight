@@ -1,9 +1,10 @@
 package com.lambferret.game.screen.ui;
 
 import com.lambferret.game.player.Player;
+import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.setting.GlobalSettings;
 
-public interface AbstractOverlay {
+public interface AbstractOverlay extends PlayerObserver {
     /**
      * UI 기준 너비
      */
