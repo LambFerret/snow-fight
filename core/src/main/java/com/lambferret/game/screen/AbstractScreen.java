@@ -40,4 +40,5 @@ public abstract class AbstractScreen extends ManagedScreen {
     @Override
     public void resume() {
     }
+
 }

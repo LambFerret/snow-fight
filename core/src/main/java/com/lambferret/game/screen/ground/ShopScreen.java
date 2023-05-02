@@ -53,11 +53,6 @@ public class ShopScreen implements AbstractGround {
     }
 
     @Override
-    public void onPlayerUpdate() {
-
-    }
-
-    @Override
     public void onPlayerReady() {
         this.player = SnowFight.player;
 
@@ -73,6 +68,11 @@ public class ShopScreen implements AbstractGround {
         setPlayerMoney();
         fillCommandStock(allCommand);
         fillManualStock(allManual);
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
     }
 
     private void fillCommandStock(List<Command> allCommand) {

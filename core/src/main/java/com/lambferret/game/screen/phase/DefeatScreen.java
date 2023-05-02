@@ -18,17 +18,17 @@ public class DefeatScreen implements AbstractPhase {
     }
 
     @Override
-    public void startPhase() {
-
-    }
-
-    @Override
     public void onPlayerReady() {
 
     }
 
     @Override
     public void onPlayerUpdate() {
+
+    }
+
+    @Override
+    public void startPhase() {
 
     }
 

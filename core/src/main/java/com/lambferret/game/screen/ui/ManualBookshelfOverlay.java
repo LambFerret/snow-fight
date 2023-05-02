@@ -17,7 +17,6 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
     private static final float MANUAL_X = GlobalSettings.currWidth - (MANUAL_WIDTH + OVERLAY_BORDERLINE_WIDTH);
     private static final float MANUAL_Y = GlobalSettings.currHeight - MANUAL_HEIGHT;
 
-
     public ManualBookshelfOverlay(Stage stage) {
         this.setSize(MANUAL_WIDTH, MANUAL_HEIGHT);
         this.setPosition(MANUAL_X, MANUAL_Y);
@@ -39,4 +38,5 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
     static {
         text = LocalizeConfig.uiText.getGroundText();
     }
+
 }

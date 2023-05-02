@@ -86,6 +86,7 @@ public class Overlay implements PlayerObserver {
 
     @Override
     public void onPlayerUpdate() {
+
     }
 
     public static void changePhaseInputProcessor() {

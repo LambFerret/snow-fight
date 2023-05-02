@@ -77,4 +77,5 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         if (player != null) SaveLoader.save();
         super.dispose();
     }
+
 }

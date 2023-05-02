@@ -57,6 +57,11 @@ public class MapOverlay extends Group implements AbstractOverlay {
         this.addActor(trainingGround);
     }
 
+    @Override
+    public void onPlayerUpdate() {
+
+    }
+
     private Image makeHoverImage(GroundScreen.Screen screen) {
         Texture texture = AssetFinder.getTexture(screen.name().toLowerCase());
         Image mapHoverImage = new Image(texture);
@@ -147,12 +152,8 @@ public class MapOverlay extends Group implements AbstractOverlay {
         }
     }
 
-    @Override
-    public void onPlayerUpdate() {
-
-    }
-
     static {
         text = LocalizeConfig.uiText.getGroundText();
     }
+
 }

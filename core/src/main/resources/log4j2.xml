@@ -10,17 +10,17 @@
                 <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level %logger{35} - %msg%n</Pattern>
             </PatternLayout>
         </Console>
-<!--        <RollingFile name="rollingFile" fileName="${logPath}/app.log"-->
-<!--        filePattern="${logPath}/%d{yyyy-MM-dd}.log.zip">-->
-<!--            <PatternLayout>-->
-<!--                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level %logger{35} - %msg%n</Pattern>-->
-<!--            </PatternLayout>-->
-<!--            <Policies>-->
-<!--                <TimeBasedTriggeringPolicy interval="2" modulate="true"/>-->
-<!--                <SizeBasedTriggeringPolicy size="100 MB"/>-->
-<!--            </Policies>-->
-<!--            <DefaultRolloverStrategy max="5"/>-->
-<!--        </RollingFile>-->
+        <RollingFile name="rollingFile" fileName="${logPath}/app.log"
+                     filePattern="${logPath}/%d{yyyy-MM-dd}.log.zip">
+            <PatternLayout>
+                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level %logger{35} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="2" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>

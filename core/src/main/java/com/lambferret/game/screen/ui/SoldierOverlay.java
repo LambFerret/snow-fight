@@ -112,6 +112,11 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         });
     }
 
+    @Override
+    public void onPlayerUpdate() {
+        makeSoldierContainer();
+    }
+
     public void makeSoldierContainer() {
         Table table = new Table();
         int i = 0;
@@ -168,14 +173,8 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         return style;
     }
 
-
     static {
         text = LocalizeConfig.uiText.getOverlayText();
-    }
-
-    @Override
-    public void onPlayerUpdate() {
-        makeSoldierContainer();
     }
 
 }

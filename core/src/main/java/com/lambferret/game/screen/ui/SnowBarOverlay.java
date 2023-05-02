@@ -73,6 +73,11 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         setLabelProperty();
     }
 
+    @Override
+    public void onPlayerUpdate() {
+
+    }
+
     private void setLabelX() {
         float thresholdX = ((this.getWidth() * (assignedSnow - snowAmountToClear)) / assignedSnow);
         clearThresholdXLabel.setX(thresholdX - clearThresholdXLabel.getWidth() / 2);
@@ -134,18 +139,6 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         ((SnowBarStyle) getStyle()).updateAnimationFrame(oldValue);
     }
 
-    @Override
-    public void setVisible(boolean visible) {
-        isOverlayOn = visible;
-        clearThresholdXLabel.setVisible(visible);
-        if (visible) {
-            start();
-        } else {
-            stop();
-        }
-        super.setVisible(visible);
-    }
-
     private void start() {
         assignedSnow = PhaseScreen.level.getAssignedSnow();
         snowAmountToClear = PhaseScreen.level.getMinSnowForClear();
@@ -165,6 +158,18 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     }
 
     @Override
+    public void setVisible(boolean visible) {
+        isOverlayOn = visible;
+        clearThresholdXLabel.setVisible(visible);
+        if (visible) {
+            start();
+        } else {
+            stop();
+        }
+        super.setVisible(visible);
+    }
+
+    @Override
     public boolean setValue(float value) {
         animationTime = 0.0F;
         return super.setValue(value);
@@ -172,11 +177,6 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
 
     static {
         text = LocalizeConfig.uiText;
-    }
-
-    @Override
-    public void onPlayerUpdate() {
-
     }
 
 }

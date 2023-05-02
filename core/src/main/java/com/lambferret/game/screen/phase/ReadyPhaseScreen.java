@@ -36,14 +36,14 @@ public class ReadyPhaseScreen implements AbstractPhase {
     }
 
     @Override
-    public void onPlayerUpdate() {
-
-    }
-
-    @Override
     public void onPlayerReady() {
         this.player = SnowFight.player;
         this.level = PhaseScreen.level;
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
     }
 
     @Override

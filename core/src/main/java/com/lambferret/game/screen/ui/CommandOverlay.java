@@ -57,13 +57,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
             this.setX(COMMAND_HIDE_X);
             hideButton.setX(COMMAND_HIDE_BUTTON_HIDE_X);
         }
-    }
-
-    @Override
-    public void onPlayerReady() {
-        this.player = SnowFight.player;
-        this.player = SnowFight.player;
-        makeCommandContainer();
         hideButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -90,6 +83,12 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
                 super.exit(event, x, y, pointer, toActor);
             }
         });
+    }
+
+    @Override
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
+        makeCommandContainer();
     }
 
     public void makeCommandContainer() {

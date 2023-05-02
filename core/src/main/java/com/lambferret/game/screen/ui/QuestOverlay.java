@@ -35,23 +35,6 @@ public class QuestOverlay extends Window implements AbstractOverlay {
     private Cursor leftDownResizeCursor;
     private final Cursor.SystemCursor defaultCursor = Cursor.SystemCursor.Arrow;
 
-    private void setCursor() {
-        TextureAtlas atlas = AssetFinder.getAtlas("cursor");
-
-        Pixmap horizontalResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("horizontal"));
-        Pixmap verticalResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("vertical"));
-        Pixmap leftUpResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("rightUp"));
-        Pixmap leftDownResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("rightDown"));
-
-        int center = horizontalResizeCursorPix.getWidth() / 2;
-
-        horizontalResizeCursor = Gdx.graphics.newCursor(horizontalResizeCursorPix, center, center);
-        verticalResizeCursor = Gdx.graphics.newCursor(verticalResizeCursorPix, center, center);
-        leftUpResizeCursor = Gdx.graphics.newCursor(leftUpResizeCursorPix, center, center);
-        leftDownResizeCursor = Gdx.graphics.newCursor(leftDownResizeCursorPix, center, center);
-
-    }
-
     public QuestOverlay(Stage stage) {
         super("Quest", GlobalSettings.skin);
         setCursor();
@@ -133,6 +116,45 @@ public class QuestOverlay extends Window implements AbstractOverlay {
     }
 
     @Override
+    public void onPlayerReady() {
+
+        this.setPosition(100, 500);
+        this.setSize(100, 100);
+        quests = SnowFight.player.getQuests();
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = GlobalSettings.font;
+        for (Quest quest : quests) {
+            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+        }
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+
+    }
+
+    private void setCursor() {
+        TextureAtlas atlas = AssetFinder.getAtlas("cursor");
+
+        Pixmap horizontalResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("horizontal"));
+        Pixmap verticalResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("vertical"));
+        Pixmap leftUpResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("rightUp"));
+        Pixmap leftDownResizeCursorPix = GlobalUtil.regionToPixmap(atlas.findRegion("rightDown"));
+
+        int center = horizontalResizeCursorPix.getWidth() / 2;
+
+        horizontalResizeCursor = Gdx.graphics.newCursor(horizontalResizeCursorPix, center, center);
+        verticalResizeCursor = Gdx.graphics.newCursor(verticalResizeCursorPix, center, center);
+        leftUpResizeCursor = Gdx.graphics.newCursor(leftUpResizeCursorPix, center, center);
+        leftDownResizeCursor = Gdx.graphics.newCursor(leftDownResizeCursorPix, center, center);
+    }
+
+    @Override
     public void setBounds(float x, float y, float width, float height) {
         if (width < MIN_WINDOW_SIZE) {
             width = MIN_WINDOW_SIZE;
@@ -152,30 +174,6 @@ public class QuestOverlay extends Window implements AbstractOverlay {
         } else if (x > xEndLimit) {
             super.setBounds(xEndLimit, y, width, height);
         } else super.setBounds(x, Math.max(y, yStartLimit), width, height);
-    }
-
-    @Override
-    public void onPlayerReady() {
-
-        this.setPosition(100, 500);
-        this.setSize(100, 100);
-        quests = SnowFight.player.getQuests();
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = GlobalSettings.font;
-        for (Quest quest : quests) {
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-        }
-    }
-
-
-    @Override
-    public void onPlayerUpdate() {
-
     }
 
 }

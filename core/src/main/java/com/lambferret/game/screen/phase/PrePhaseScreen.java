@@ -31,6 +31,11 @@ public class PrePhaseScreen implements AbstractPhase {
     }
 
     @Override
+    public void onPlayerUpdate() {
+
+    }
+
+    @Override
     public void startPhase() {
 
     }
@@ -46,8 +51,4 @@ public class PrePhaseScreen implements AbstractPhase {
         stage.act();
     }
 
-    @Override
-    public void onPlayerUpdate() {
-
-    }
 }

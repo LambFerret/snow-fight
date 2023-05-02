@@ -18,6 +18,7 @@ public class VictoryScreen implements AbstractPhase {
 
     @Override
     public void onPlayerReady() {
+
     }
 
     @Override

@@ -42,26 +42,24 @@ public class RecruitScreen implements AbstractGround {
     public RecruitScreen() {
         Image background = new Image(AssetFinder.getTexture("recruitReal"));
         background.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
-        stage.addActor(background);
         soldierCreateTable = new Table(GlobalSettings.skin);
         CommandCreateTable = new Table(GlobalSettings.skin);
         ManualCreateTable = new Table(GlobalSettings.skin);
         soldierDeleteTable = new Table(GlobalSettings.skin);
         CommandDeleteTable = new Table(GlobalSettings.skin);
         ManualDeleteTable = new Table(GlobalSettings.skin);
+
         label = new Label("Recruit", GlobalSettings.skin);
         label.setSize(200, 100);
         label.setPosition(GlobalSettings.currWidth / 2F, label.getHeight());
-
         guideLabel = new Label("", GlobalSettings.skin);
         guideLabel.setSize(200, 100);
         guideLabel.setPosition(GlobalSettings.currWidth / 2F, label.getHeight() + guideLabel.getHeight());
 
-
         testAddTableList = List.of(soldierCreateTable, CommandCreateTable, ManualCreateTable);
         testDeleteTableList = List.of(soldierDeleteTable, CommandDeleteTable, ManualDeleteTable);
 
-
+        stage.addActor(background);
         stage.addActor(soldierCreateTable);
         stage.addActor(CommandCreateTable);
         stage.addActor(ManualCreateTable);
@@ -97,7 +95,6 @@ public class RecruitScreen implements AbstractGround {
     @Override
     public void onPlayerReady() {
         this.player = SnowFight.player;
-        player.addPlayerObserver(this);
 
         switchTable();
 

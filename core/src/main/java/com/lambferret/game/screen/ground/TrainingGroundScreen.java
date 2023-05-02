@@ -30,6 +30,7 @@ public class TrainingGroundScreen implements AbstractGround {
 
     @Override
     public void onPlayerReady() {
+
     }
 
 

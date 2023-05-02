@@ -129,6 +129,11 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         });
     }
 
+    @Override
+    public void onPlayerUpdate() {
+
+    }
+
     private void setCursor() {
         int penWidth = 128, penHeight = 256;
         Pixmap srcPix = GlobalUtil.readyPixmap(AssetFinder.getTexture("pen"));
@@ -232,11 +237,6 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                 batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
             }
         }
-    }
-
-    @Override
-    public void onPlayerUpdate() {
-
     }
 
 }

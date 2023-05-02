@@ -148,18 +148,12 @@ public class ActionPhaseScreen implements AbstractPhase {
             System.out.println(Arrays.toString(currentAmountSnowInMap[k - 1]));
 
         }
-        for (int[] row : currentAmountSnowInMap) {
-        }
 
         System.out.println();
         logger.info("이번턴 작업량 : " + usedSnowAmount);
         logger.info("=========================================");
 
         player.setSnowAmount(player.getSnowAmount() - usedSnowAmount);
-    }
-
-    public Stage getStage() {
-        return this.stage;
     }
 
     public void render() {
