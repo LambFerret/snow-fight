@@ -20,4 +20,5 @@ public class CustomButton extends ImageTextButton {
         super.setPosition(x, y);
         this.setOrigin(Align.center);
     }
+
 }

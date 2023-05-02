@@ -20,15 +20,15 @@ public class Buff {
 
     private int turn;
     private int turnAfter;
-    private Figure figure;
-    private int value;
-    private Operation operation;
-    private List<Soldier> soldiers;
-    private Level level;
-    private Player player;
-    private boolean isPermanent;
-    private boolean isManual;
-    private EmpowerLevel empowerLevel;
+    private final Figure figure;
+    private final int value;
+    private final Operation operation;
+    private final List<Soldier> soldiers;
+    private final Level level;
+    private final Player player;
+    private final boolean isPermanent;
+    private final boolean isManual;
+    private final EmpowerLevel empowerLevel;
     private boolean isEnable = true;
 
 
@@ -44,7 +44,7 @@ public class Buff {
         this.isPermanent = fig.isPermanent;
         this.isManual = fig.isManual;
         this.empowerLevel = fig.empowerLevel;
-        // experimental feature
+        // TODO experimental feature
         effect();
     }
 
@@ -161,7 +161,7 @@ public class Buff {
     }
 
     public static class SetFigure {
-        private Figure figure;
+        private final Figure figure;
         private int turn;
         private int turnAfter;
         private int value;
@@ -249,6 +249,14 @@ public class Buff {
 
     public void setEnable() {
         isEnable = true;
+    }
+
+    public boolean isPermanent() {
+        return isPermanent;
+    }
+
+    public boolean isManual() {
+        return isManual;
     }
 
     public String getDescription() {

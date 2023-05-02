@@ -90,7 +90,6 @@ public class Level extends Actor {
         createTiledMap();
     }
 
-
     public void createTiledMap() {
         tiledMap = new TiledMap();
         tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);

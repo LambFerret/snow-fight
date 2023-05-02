@@ -8,7 +8,6 @@ public abstract class Character implements Comparable<Character> {
     private final String name;
     private final String texturePath;
 
-
     protected Character(String ID, String name) {
         this.ID = ID;
         this.name = name;
@@ -27,4 +26,5 @@ public abstract class Character implements Comparable<Character> {
     public int compareTo(Character o) {
         return this.ID.compareTo(o.ID);
     }
+
 }

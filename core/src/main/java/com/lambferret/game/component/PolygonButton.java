@@ -62,11 +62,11 @@ public class PolygonButton extends CustomButton {
         return null;
     }
 
-
     @Override
     public void drawDebug(ShapeRenderer shapes) {
         shapes.set(ShapeRenderer.ShapeType.Line);
         shapes.setColor(Color.RED);
         shapes.polygon(polygon.getTransformedVertices());
     }
+
 }

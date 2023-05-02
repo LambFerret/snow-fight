@@ -71,4 +71,5 @@ public abstract class Manual implements Comparable<Manual> {
     public int compareTo(Manual o) {
         return this.ID.compareTo(o.ID);
     }
+
 }
