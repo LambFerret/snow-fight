@@ -2,14 +2,15 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.command.Command;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.PolygonButton;
+import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
@@ -24,11 +25,14 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     private static final OverlayText text;
     private final Stage stage;
     private final ScrollPane scrollPane;
+    private Table soldierTable = new Table();
+    private Table commandTable = new Table();
+    private Table manualTable = new Table();
+    private Table radioButtonTable = new Table();
+    ButtonGroup<CustomButton> radio = new ButtonGroup<>();
     private final PolygonButton hideButton;
     private Player player;
-    private boolean isSimple = true;
     private boolean isHide = true;
-
 
     public SoldierOverlay(Stage stage) {
         this.stage = stage;
@@ -38,10 +42,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         stage.addActor(hideButton);
         stage.addActor(this);
         this.setActor(this.scrollPane);
-    }
 
-    @Override
-    public void onPlayerReady() {
         this.setPosition(SOLDIER_X, SOLDIER_Y);
         this.setSize(SOLDIER_WIDTH, SOLDIER_HEIGHT);
 
@@ -57,10 +58,22 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         if (isHide) {
             this.setX(SOLDIER_HIDE_X);
             hideButton.setX(SOLDIER_HIDE_BUTTON_HIDE_X);
+            radioButtonTable.setPosition(-(GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH) / 2, SNOW_BAR_HEIGHT);
         }
+
+
+    }
+
+    @Override
+    public void onPlayerReady() {
         this.player = SnowFight.player;
 
         makeSoldierContainer();
+        makeManualContainer();
+        makeCommandContainer();
+        makeRadioButtonContainer();
+
+        this.scrollPane.setActor(soldierTable);
 
         hideButton.addListener(new DragListener() {
             @Override
@@ -117,19 +130,103 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         makeSoldierContainer();
     }
 
-    public void makeSoldierContainer() {
-        Table table = new Table();
+    private void makeSoldierContainer() {
+        soldierTable = new Table();
         int i = 0;
         for (Soldier soldier : player.getSoldiers()) {
             Container<Group> card = soldier.card();
             card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
-            table.add(card).pad(SOLDIER_EACH_PAD);
+            soldierTable.add(card).pad(SOLDIER_EACH_PAD);
             if (i++ == 6) {
-                table.row();
+                soldierTable.row();
                 i = 0;
             }
         }
-        this.scrollPane.setActor(table);
+    }
+
+    private void makeCommandContainer() {
+        commandTable = new Table();
+        int i = 0;
+        for (Command command : player.getCommands()) {
+            Group card = command.renderSimple();
+            card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
+            commandTable.add(card).pad(SOLDIER_EACH_PAD);
+            if (i++ == 6) {
+                commandTable.row();
+                i = 0;
+            }
+        }
+
+    }
+
+    private void makeManualContainer() {
+        manualTable = new Table();
+        int i = 0;
+        for (Manual manual : player.getManuals()) {
+            Image card = new Image(manual.render());
+            card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
+            manualTable.add(card).pad(SOLDIER_EACH_PAD);
+            if (i++ == 6) {
+                manualTable.row();
+                i = 0;
+            }
+        }
+    }
+
+
+    private void makeRadioButtonContainer() {
+        radioButtonTable = new Table();
+        radioButtonTable.setDebug(true, true);
+        CustomButton soldierButton = makeRadioButton(Type.SOLDIER);
+        CustomButton commandButton = makeRadioButton(Type.COMMAND);
+        CustomButton manualButton = makeRadioButton(Type.MANUAL);
+
+        radio.add(soldierButton, commandButton, manualButton);
+        radioButtonTable.add(soldierButton, commandButton, manualButton);
+        radio.setMaxCheckCount(1);
+        radio.setMinCheckCount(1);
+        radio.setUncheckLast(true);
+
+        stage.addActor(radioButtonTable);
+
+        radioButtonTable.setPosition((GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH) / 2, SNOW_BAR_HEIGHT);
+        radioButtonTable.setSize(OVERLAY_BORDERLINE_WIDTH / 5, OVERLAY_BORDERLINE_HEIGHT / 2);
+    }
+
+    private CustomButton makeRadioButton(Type type) {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("button/checkbox_unchecked"));
+        style.down = new TextureRegionDrawable(AssetFinder.getTexture("button/checkbox_checked"));
+        style.font = GlobalSettings.font;
+        CustomButton button = new CustomButton(type.name(), style);
+        switch (type) {
+            case SOLDIER -> {
+                button.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        scrollPane.setActor(soldierTable);
+                    }
+                });
+            }
+            case COMMAND -> {
+                button.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        scrollPane.setActor(commandTable);
+
+                    }
+                });
+            }
+            case MANUAL -> {
+                button.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        scrollPane.setActor(manualTable);
+                    }
+                });
+            }
+        }
+        return button;
     }
 
     private void hide() {
@@ -138,6 +235,9 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         );
         hideButton.addAction(
             Actions.moveBy(-hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
+        );
+        radioButtonTable.addAction(
+            Actions.moveTo(-(GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH) / 2, SNOW_BAR_HEIGHT, SOLDIER_HIDE_ANIMATION_DURATION)
         );
         isHide = true;
     }
@@ -148,6 +248,9 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         );
         hideButton.addAction(
             Actions.moveBy(SOLDIER_WIDTH - hideButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
+        );
+        radioButtonTable.addAction(
+            Actions.moveTo((GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH) / 2, SNOW_BAR_HEIGHT, SOLDIER_HIDE_ANIMATION_DURATION)
         );
         isHide = false;
     }
@@ -175,6 +278,10 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     static {
         text = LocalizeConfig.uiText.getOverlayText();
+    }
+
+    enum Type {
+        SOLDIER, COMMAND, MANUAL
     }
 
 }

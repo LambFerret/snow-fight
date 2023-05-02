@@ -72,16 +72,16 @@ public class SaveLoader {
         String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
         List<Item> items = new ArrayList<>();
         for (Soldier soldier : player.getSoldiers()) {
-            items.add(new Item(Item.TYPE.SOLDIER, soldier.getID()));
+            items.add(new Item(Item.Type.SOLDIER, soldier.getID()));
         }
         for (Manual manual : player.getManuals()) {
-            items.add(new Item(Item.TYPE.MANUAL, manual.getID()));
+            items.add(new Item(Item.Type.MANUAL, manual.getID()));
         }
         for (Command command : player.getCommands()) {
-            items.add(new Item(Item.TYPE.COMMAND, command.getID()));
+            items.add(new Item(Item.Type.COMMAND, command.getID()));
         }
         for (Quest quest : player.getQuests()) {
-            items.add(new Item(Item.TYPE.QUEST, quest.getID()));
+            items.add(new Item(Item.Type.QUEST, quest.getID()));
         }
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())

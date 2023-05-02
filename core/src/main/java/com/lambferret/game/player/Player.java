@@ -45,7 +45,7 @@ public class Player {
     private int clearedMainQuestNumber;
     private int day;
     private int money;
-    private Map<AFFINITY, Integer> affinity;
+    private Map<Affinity, Integer> affinity;
     private int maxCost;
     private int currentCost;
     private int difficulty;
@@ -136,7 +136,7 @@ public class Player {
 
     }
 
-    public int getAffinity(AFFINITY affinity) {
+    public int getAffinity(Affinity affinity) {
         switch (affinity) {
             case HUMAN -> {
                 return humanAffinity;
@@ -151,7 +151,7 @@ public class Player {
         }
     }
 
-    public void setAffinity(AFFINITY affinity, int amount) {
+    public void setAffinity(Affinity affinity, int amount) {
         switch (affinity) {
             case HUMAN -> {
                 humanAffinity += amount;
@@ -166,7 +166,7 @@ public class Player {
         }
     }
 
-    private void playerUpdate(Item.TYPE item) {
+    private void playerUpdate(Item.Type item) {
         switch (item) {
             case SOLDIER -> {
                 for (PlayerObserver listener : listeners) {
@@ -189,32 +189,32 @@ public class Player {
 
     public void addSoldier(Soldier soldier) {
         soldiers.add(soldier);
-        playerUpdate(Item.TYPE.SOLDIER);
+        playerUpdate(Item.Type.SOLDIER);
     }
 
     public void addCommand(Command command) {
         commands.add(command);
-        playerUpdate(Item.TYPE.COMMAND);
+        playerUpdate(Item.Type.COMMAND);
     }
 
     public void addManual(Manual manual) {
         manuals.add(manual);
-        playerUpdate(Item.TYPE.MANUAL);
+        playerUpdate(Item.Type.MANUAL);
     }
 
     public void deleteSoldier(Soldier soldier) {
         soldiers.remove(soldier);
-        playerUpdate(Item.TYPE.SOLDIER);
+        playerUpdate(Item.Type.SOLDIER);
     }
 
     public void deleteCommand(Command command) {
         commands.remove(command);
-        playerUpdate(Item.TYPE.COMMAND);
+        playerUpdate(Item.Type.COMMAND);
     }
 
     public void deleteManual(Manual manual) {
         manuals.remove(manual);
-        playerUpdate(Item.TYPE.MANUAL);
+        playerUpdate(Item.Type.MANUAL);
     }
 
     public void setMoneyBy(int amount) {
@@ -276,7 +276,7 @@ public class Player {
         listeners.remove(observer);
     }
 
-    public enum AFFINITY {
+    public enum Affinity {
         HUMAN, HELL
     }
 

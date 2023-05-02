@@ -20,7 +20,7 @@ public class Save {
     private List<Item> allItems;
     private int day;
     private int money;
-    private Map<Player.AFFINITY, Integer> affinity;
+    private Map<Player.Affinity, Integer> affinity;
     private int maxCost;
     private int currentCost;
     private int difficulty;

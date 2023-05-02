@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 @Builder
 public class Item {
-    public TYPE type;
+    public Type type;
     public String ID;
 
-    public enum TYPE {
+    public enum Type {
         SOLDIER,
         COMMAND,
         MANUAL,

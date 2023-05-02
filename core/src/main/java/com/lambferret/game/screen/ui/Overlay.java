@@ -31,6 +31,7 @@ public class Overlay implements PlayerObserver {
     AbstractOverlay command;
     AbstractOverlay execute;
     AbstractOverlay soldier;
+    AbstractOverlay manual;
 
     private Overlay() {
         allOverlay.clear();
