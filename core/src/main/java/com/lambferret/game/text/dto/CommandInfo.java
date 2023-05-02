@@ -8,5 +8,6 @@ import lombok.ToString;
 public class CommandInfo {
     private String name;
     private String description;
-    private String effectDescription;
+    private String effect;
+    private String shortDescription;
 }

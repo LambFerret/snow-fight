@@ -1,19 +1,22 @@
 {
   "ID" : {
     "ThreeShift" : {
-      "name" : "3교대",
-      "description" :"우리 부대는 3교대로 쉰다",
-      "effectDescription" : "이번 페이즈 배치 가용인원 2배, 이후 절반"
+      "name" : "Three Shift",
+      "description" :"Our troops are off in three shifts.",
+      "effect" : "Twice the manpower in this phase, and half the manpower in the next phase",
+      "shortDescription" : "twice the manpower, and then half"
     },
     "TricksOfTheTrade" : {
-      "name" : "속임수 거래",
-      "description" :"악마가 뽑은 계약시 듣기 싫은말 1위 : 폰트는 10으로 통일해주세요",
-      "effectDescription" : "현재 남은 배급량 -20%, 상부 호감도 하락"
+      "name" : "Tricks of the Trade",
+      "description" :"No. 1 words that thy don't want to hear when signing a contract : \"Font size minimum 10. Please.\"",
+      "effect" : "Current remaining snow -20%, reduce upper favor -20",
+      "shortDescription" : "reduce remaining snow and upper favor"
     },
     "CupNoodle" : {
-      "name" : "컵라면",
-      "description" :"컵라면 (못참음)",
-      "effectDescription" : "병사 강화, 담탐 확률 +10%"
+      "name" : "Cup Noodle",
+      "description" :"Cup Noodle. The Devil Flavor.",
+      "effect" : "Reinforce Soldier this phase, but increase chance of runaway +10%",
+      "shortDescription" : "Reinforce the soldier. increase chance of runaway"
     }
   }
 }

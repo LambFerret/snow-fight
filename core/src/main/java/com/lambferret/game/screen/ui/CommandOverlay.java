@@ -1,9 +1,6 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -24,6 +21,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     private final Stage stage;
     private final ScrollPane scrollPane;
     private final ImageButton hideButton;
+    private final Container<CustomButton> infoContainer = new Container<>();
     private Player player;
     private boolean isHide = false;
 
@@ -32,9 +30,11 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
         hideButton = new ImageButton(hideButtonStyle());
+        infoContainer.setVisible(false);
 
         this.setActor(this.scrollPane);
         this.stage.addActor(hideButton);
+        this.stage.addActor(infoContainer);
         this.stage.addActor(this);
     }
 
@@ -45,6 +45,10 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         hideButton.setSize(COMMAND_HIDE_BUTTON_WIDTH, COMMAND_HIDE_BUTTON_HEIGHT);
         hideButton.setPosition(COMMAND_HIDE_BUTTON_X, COMMAND_HIDE_BUTTON_Y);
         hideButton.setOrigin(Align.center);
+
+        // TODO set position this
+        infoContainer.setSize(100, 100);
+        infoContainer.setPosition(100, 100);
 
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setPosition(this.getX(), this.getY());
@@ -98,16 +102,16 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         this.scrollPane.setActor(table);
     }
 
-    private CustomButton renderCommand(Command command) {
-        CustomButton commandButton = new CustomButton(command.getName(), commandButtonStyle(command));
+    private Group renderCommand(Command command) {
+        Group commandButton = command.renderSimple();
+        CustomButton infoButton = command.renderInfo();
+        infoContainer.setActor(infoButton);
 
         commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
         commandButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY && player.useCost(command.getCost())) {
-                    logger.info("command Info |  🐳 | " + command.getName() + " is active ");
-                    logger.info("cost info    |  🐳 | " + command.getCost() + " is used and" + player.getCurrentCost() + " is left");
                     PhaseScreen.getCommands().put(command, null);
                     commandButton.remove();
                 } else {
@@ -120,15 +124,15 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 if (pointer == -1) {
-                    logger.info("command Info | 🐳 | " + command.getName());
-                    logger.info("command Info | 🐳 | " + command.getEffectDescription());
+                    infoContainer.setVisible(true);
+                    infoContainer.setActor(infoButton);
                 }
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
-                //unHover Information
+                infoContainer.setVisible(false);
             }
         });
         return commandButton;
@@ -168,7 +172,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
 
     private ImageTextButton.ImageTextButtonStyle commandButtonStyle(Command command) {
         var style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(command.render());
+        style.up = new TextureRegionDrawable(command.renderIcon());
         style.font = GlobalSettings.font;
         return style;
     }

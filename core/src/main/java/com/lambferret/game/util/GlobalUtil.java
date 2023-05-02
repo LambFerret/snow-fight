@@ -3,7 +3,10 @@ package com.lambferret.game.util;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
+import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.lambferret.game.util.crypt.j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +52,10 @@ public class GlobalUtil {
         result.drawPixmap(regionPixmap, 0, 0, region.getRegionX(), region.getRegionY(), region.getRegionWidth(), region.getRegionHeight());
         regionPixmap.dispose();
         return result;
+    }
+
+    public static NinePatchDrawable getNinePatchDrawable(String name, int pad) {
+        return new NinePatchDrawable(new NinePatch(new TextureRegion(AssetFinder.getTexture(name + ".9")), pad, pad, pad, pad));
     }
 
 }

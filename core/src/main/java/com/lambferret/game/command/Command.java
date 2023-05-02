@@ -2,17 +2,22 @@ package com.lambferret.game.command;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.dto.CommandInfo;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -43,9 +48,13 @@ public abstract class Command implements Comparable<Command> {
      */
     private final String description;
     /**
+     * 간단 설명
+     */
+    private final String shortDescription;
+    /**
      * 효과 설명
      */
-    private final String effectDescription;
+    private final String effectText;
     /**
      * 종류
      */
@@ -93,7 +102,6 @@ public abstract class Command implements Comparable<Command> {
     private int initialAffectToMiddle;
     private int initialAffectToDown;
 
-
     private int itemCount = 0;
 
     // TODO 여기 호감도 시스템 어케할건지 확인요함
@@ -113,10 +121,11 @@ public abstract class Command implements Comparable<Command> {
         boolean isReusable
     ) {
         this.ID = ID;
-        this.name = info.getName();
         this.texturePath = ID;
+        this.name = info.getName();
         this.description = info.getDescription();
-        this.effectDescription = info.getEffectDescription();
+        this.effectText = info.getEffect();
+        this.shortDescription = info.getShortDescription();
         this.type = type;
         this.cost = cost;
         this.target = target;
@@ -150,33 +159,69 @@ public abstract class Command implements Comparable<Command> {
         execute(new ArrayList<>());
     }
 
-    public TextureRegionDrawable render() {
+    public TextureRegionDrawable renderIcon() {
         return new TextureRegionDrawable(new TextureRegion(AssetFinder.getTexture(this.texturePath)));
     }
 
-    public TextureRegion renderSimple() {
+    public Group renderSimple() {
+        // 이름 아이콘(코스트) 간단설명
         Skin skin = GlobalSettings.skin;
 
-        TextureData backgroundFrame = AssetFinder.getTexture("execute").getTextureData();
-        TextureData portrait = AssetFinder.getTexture("dojang").getTextureData();
-
-        backgroundFrame.prepare();
-        portrait.prepare();
-
-        Pixmap backgroundFramePix = backgroundFrame.consumePixmap();
-        Pixmap portraitPix = portrait.consumePixmap();
-
         Label nameLabel = new Label(this.ID, skin);
-        Group group = new Group();
+        Label descriptionLabel = new Label(this.shortDescription, skin);
+        Label costLabel = new Label("cost: " + this.cost, skin);
 
-        backgroundFramePix.drawPixmap(portraitPix, 10, 10);
-        return new TextureRegion(new Texture(backgroundFramePix));
+        Group group = new Group() {
+            @Override
+            protected void sizeChanged() {
+                super.sizeChanged();
 
+                nameLabel.setSize(getWidth() / 3F, getHeight() / 3F);
+                descriptionLabel.setSize(getWidth() / 3F, getHeight() / 3F);
+                costLabel.setSize(getWidth() / 5F, getHeight() / 5F);
+
+                nameLabel.setPosition((getWidth() * 4 / 4F) - nameLabel.getWidth(), (getHeight() * 3 / 4F) - nameLabel.getHeight());
+                descriptionLabel.setPosition((getWidth() * 3 / 4F) - descriptionLabel.getWidth(), (getHeight() / 4F) - descriptionLabel.getHeight());
+                costLabel.setPosition((getWidth() / 4F) - costLabel.getWidth(), (getHeight() / 4F) - costLabel.getHeight());
+
+            }
+        };
+        Pixmap plate = GlobalUtil.readyPixmap(AssetFinder.getTexture("itemUI_plate"));
+        Pixmap icon = GlobalUtil.readyPixmap(AssetFinder.getTexture(this.texturePath));
+
+        plate.drawPixmap(icon, 0, 0, icon.getWidth(), icon.getHeight(), 0, 0, plate.getWidth() / 2, plate.getHeight());
+        Image background = new Image(new Texture(plate));
+        background.setFillParent(true);
+        group.addActor(background);
+        group.addActor(nameLabel);
+        group.addActor(descriptionLabel);
+        group.addActor(costLabel);
+
+        descriptionLabel.setTouchable(Touchable.disabled);
+        nameLabel.setTouchable(Touchable.disabled);
+        costLabel.setTouchable(Touchable.disabled);
+
+        icon.dispose();
+        plate.dispose();
+
+        return group;
     }
 
-    public void renderInfo() {
+    public CustomButton renderInfo() {
+        // 이름 자세히설명 종류 코스트 타겟 한마디
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.effectText).append("\n");
+        sb.append("cost: ").append(this.cost).append("\n");
+        sb.append("target: ").append(this.target.toString()).append("\n");
+        sb.append("type: ").append(this.type.toString()).append("\n");
+        sb.append(this.description);
 
+        NinePatchDrawable ninePatchDrawable = GlobalUtil.getNinePatchDrawable("itemUI_description", 5);
 
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = ninePatchDrawable;
+        style.font = GlobalSettings.font;
+        return new CustomButton(sb.toString(), style);
     }
 
     @Override
