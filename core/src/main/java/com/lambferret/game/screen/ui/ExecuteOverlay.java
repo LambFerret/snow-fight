@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
@@ -58,9 +59,6 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         this.addActor(executeButton);
         this.stage.setKeyboardFocus(this.executeButton);
         this.stage.addActor(this);
-    }
-
-    public void create() {
         this.setPosition(EXECUTE_X, EXECUTE_Y);
         this.setSize(EXECUTE_WIDTH, EXECUTE_HEIGHT);
 
@@ -73,8 +71,8 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
     }
 
     @Override
-    public void init(Player player) {
-        this.player = player;
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
 
         executeButton.addListener(new InputListener() {
 
@@ -234,11 +232,6 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                 batch.draw(currentFrame, getX(), getY(), getWidth(), getHeight());
             }
         }
-    }
-
-    @Override
-    public void onPlayerReady() {
-
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
@@ -73,11 +74,6 @@ public class RecruitScreen implements AbstractGround {
         soldiers = new ArrayList<>(LocalizeConfig.soldierText.getID().keySet());
         commands = new ArrayList<>(LocalizeConfig.commandText.getID().keySet());
         manuals = new ArrayList<>(LocalizeConfig.manualText.getID().keySet());
-    }
-
-    @Override
-    public void create() {
-
         int index = 0;
         for (Table table : testAddTableList) {
             table.setSize(100, 100);
@@ -99,8 +95,9 @@ public class RecruitScreen implements AbstractGround {
     }
 
     @Override
-    public void init(Player player) {
-        this.player = player;
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
+        player.addPlayerObserver(this);
 
         switchTable();
 
@@ -114,6 +111,13 @@ public class RecruitScreen implements AbstractGround {
                 switchTable();
             }
         });
+    }
+
+    @Override
+    public void onPlayerUpdate() {
+        setTestDeleteSoldierTableList();
+        setTestDeleteCommandTableList();
+        setTestDeleteManualTableList();
     }
 
     private void switchTable() {
@@ -260,20 +264,8 @@ public class RecruitScreen implements AbstractGround {
     }
 
     @Override
-    public void show() {
-//        stage.addActor(SnowFight.player.getPlayerMainEvent());
-        setTestDeleteSoldierTableList();
-        setTestDeleteCommandTableList();
-        setTestDeleteManualTableList();
-    }
-
-    @Override
     public void render() {
         stage.draw();
-    }
-
-    @Override
-    public void update() {
         stage.act();
     }
 

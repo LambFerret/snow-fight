@@ -2,7 +2,6 @@ package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,12 +16,13 @@ public class VictoryScreen implements AbstractPhase {
         stage.addActor(textButton);
     }
 
-    public void create() {
-//    stage.addActor(this);
+    @Override
+    public void onPlayerReady() {
     }
 
     @Override
-    public void init(Player player) {
+    public void onPlayerUpdate() {
+
     }
 
     @Override
@@ -37,11 +37,8 @@ public class VictoryScreen implements AbstractPhase {
     @Override
     public void render() {
         stage.draw();
-    }
-
-    @Override
-    public void update() {
         stage.act();
+
     }
 
 }

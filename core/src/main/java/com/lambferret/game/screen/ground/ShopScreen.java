@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.command.CupNoodle;
 import com.lambferret.game.command.ThreeShift;
@@ -52,12 +53,13 @@ public class ShopScreen implements AbstractGround {
     }
 
     @Override
-    public void create() {
+    public void onPlayerUpdate() {
+
     }
 
     @Override
-    public void init(Player player) {
-        this.player = player;
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
 
         forSaleList.setSize(STAND_WIDTH, STAND_HEIGHT);
         forSaleList.setPosition(STAND_X, STAND_Y);
@@ -71,11 +73,6 @@ public class ShopScreen implements AbstractGround {
         setPlayerMoney();
         fillCommandStock(allCommand);
         fillManualStock(allManual);
-    }
-
-    @Override
-    public void show() {
-
     }
 
     private void fillCommandStock(List<Command> allCommand) {
@@ -240,10 +237,6 @@ public class ShopScreen implements AbstractGround {
     @Override
     public void render() {
         stage.draw();
-    }
-
-    @Override
-    public void update() {
         stage.act();
     }
 

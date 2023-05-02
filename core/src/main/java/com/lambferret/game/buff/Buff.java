@@ -1,5 +1,6 @@
 package com.lambferret.game.buff;
 
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
@@ -203,7 +204,7 @@ public class Buff {
         }
 
         public SetFigure to(Player player) {
-            this.player = player;
+            this.player = SnowFight.player;
             return this;
         }
 

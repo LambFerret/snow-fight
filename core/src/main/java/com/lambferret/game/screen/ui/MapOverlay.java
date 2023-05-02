@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.component.CustomButton;
-import com.lambferret.game.player.Player;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
@@ -40,14 +39,8 @@ public class MapOverlay extends Group implements AbstractOverlay {
         this.addActor(hoveredImageRecruit);
     }
 
-    public void create() {
-        this.setDebug(true, true);
-
-
-    }
-
     @Override
-    public void init(Player player) {
+    public void onPlayerReady() {
         CustomButton recruit = button(GroundScreen.Screen.RECRUIT);
         CustomButton shop = button(GroundScreen.Screen.SHOP);
         CustomButton trainingGround = button(GroundScreen.Screen.TRAINING_GROUND);
@@ -152,11 +145,6 @@ public class MapOverlay extends Group implements AbstractOverlay {
                 GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
             }
         }
-    }
-
-    @Override
-    public void onPlayerReady() {
-
     }
 
     @Override

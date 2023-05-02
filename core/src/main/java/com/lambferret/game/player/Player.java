@@ -268,11 +268,11 @@ public class Player {
         }
     }
 
-    public void addSoldierObserver(PlayerObserver observer) {
+    public void addPlayerObserver(PlayerObserver observer) {
         listeners.add(observer);
     }
 
-    public void removeSoldierObserver(PlayerObserver observer) {
+    public void removePlayerObserver(PlayerObserver observer) {
         listeners.remove(observer);
     }
 

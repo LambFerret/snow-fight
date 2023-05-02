@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
@@ -34,12 +35,14 @@ public class ReadyPhaseScreen implements AbstractPhase {
         stage.addActor(a);
     }
 
-    public void create() {
+    @Override
+    public void onPlayerUpdate() {
+
     }
 
     @Override
-    public void init(Player player) {
-        this.player = player;
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
         this.level = PhaseScreen.level;
     }
 
@@ -63,11 +66,8 @@ public class ReadyPhaseScreen implements AbstractPhase {
     @Override
     public void render() {
         stage.draw();
-    }
-
-    @Override
-    public void update() {
         stage.act();
     }
+
 
 }

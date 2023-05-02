@@ -66,7 +66,6 @@ public class Overlay implements PlayerObserver {
     public static Overlay getInstance() {
         if (instance == null) {
             instance = new Overlay();
-            create();
         }
         return instance;
     }
@@ -75,18 +74,14 @@ public class Overlay implements PlayerObserver {
         instance = null;
     }
 
-    private static void create() {
-        for (AbstractOverlay overlay : allOverlay) {
-            overlay.create();
-        }
-    }
 
     @Override
     public void onPlayerReady() {
         for (AbstractOverlay overlay : allOverlay) {
-            overlay.init(SnowFight.player);
-            SnowFight.player.addSoldierObserver(overlay);
+            SnowFight.player.addPlayerObserver(overlay);
+            overlay.onPlayerReady();
         }
+        changeGroundInputProcessor();
     }
 
     @Override
@@ -153,9 +148,6 @@ public class Overlay implements PlayerObserver {
 
     public void render() {
         uiSpriteBatch.draw();
-    }
-
-    public void update() {
         uiSpriteBatch.act();
     }
 

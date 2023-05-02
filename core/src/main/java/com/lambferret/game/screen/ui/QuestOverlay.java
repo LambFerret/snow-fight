@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.lambferret.game.player.Player;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.quest.Quest;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
@@ -132,11 +132,6 @@ public class QuestOverlay extends Window implements AbstractOverlay {
         });
     }
 
-    public void create() {
-        this.setPosition(100, 500);
-        this.setSize(100, 100);
-    }
-
     @Override
     public void setBounds(float x, float y, float width, float height) {
         if (width < MIN_WINDOW_SIZE) {
@@ -160,8 +155,11 @@ public class QuestOverlay extends Window implements AbstractOverlay {
     }
 
     @Override
-    public void init(Player player) {
-        quests = player.getQuests();
+    public void onPlayerReady() {
+
+        this.setPosition(100, 500);
+        this.setSize(100, 100);
+        quests = SnowFight.player.getQuests();
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.font = GlobalSettings.font;
         for (Quest quest : quests) {
@@ -174,10 +172,6 @@ public class QuestOverlay extends Window implements AbstractOverlay {
         }
     }
 
-    @Override
-    public void onPlayerReady() {
-
-    }
 
     @Override
     public void onPlayerUpdate() {

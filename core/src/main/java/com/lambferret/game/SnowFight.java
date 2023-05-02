@@ -47,7 +47,6 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
     public static void setPlayer() {
         player = new Player();
         LevelFinder.createTiledMapTileSet();
-        logger.info("player loaded | " + player.getName());
     }
 
     private static void cameraConfig() {

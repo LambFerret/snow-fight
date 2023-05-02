@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.SnowBarStyle;
 import com.lambferret.game.player.Player;
@@ -54,9 +55,6 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         stage.addActor(barLabel);
         stage.addActor(clearThresholdXLabel);
         stage.addActor(labelDescription);
-    }
-
-    public void create() {
         labelDescription.setVisible(false);
 
         this.setSize(GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH, SNOW_BAR_HEIGHT);
@@ -70,8 +68,8 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     }
 
     @Override
-    public void init(Player player) {
-        this.player = player;
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
         setLabelProperty();
     }
 
@@ -174,11 +172,6 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
 
     static {
         text = LocalizeConfig.uiText;
-    }
-
-    @Override
-    public void onPlayerReady() {
-
     }
 
     @Override

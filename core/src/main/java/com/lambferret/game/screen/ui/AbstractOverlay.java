@@ -1,6 +1,5 @@
 package com.lambferret.game.screen.ui;
 
-import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.setting.GlobalSettings;
 
@@ -175,12 +174,8 @@ public interface AbstractOverlay extends PlayerObserver {
      */
     float MAP_HOVER_IMAGE_ANIMATION_DURATION = 0.1F;
 
-
-    void create();
-
-    void init(Player player);
-
     void setVisible(boolean visible);
+
 }
 /*
  * 작성 방법 (중요합니다)

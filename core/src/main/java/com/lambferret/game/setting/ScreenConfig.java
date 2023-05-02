@@ -49,8 +49,6 @@ public class ScreenConfig {
         if (currentScreen == changeScreen) return;
         logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
 
-        String te = null; // effect.name(); TODO: 각각 원하는 changer effect 사용
-//        if (effect == TransitionEffect.NULL) te = null;
         screenManager.pushScreen(changeScreen.name(), BLENDING);
 
         switch (changeScreen) {
@@ -61,12 +59,11 @@ public class ScreenConfig {
             }
             case GROUND_SCREEN -> {
                 groundScreen.onPlayerReady();
-                phaseScreen.onPlayerReady();
                 Overlay.getInstance().onPlayerReady();
                 Overlay.setVisibleGroundUI();
-                Overlay.changeGroundInputProcessor();
             }
             case PHASE_SCREEN -> {
+                phaseScreen.onPlayerReady();
                 PhaseScreen.screenInitToP();
                 Overlay.setVisiblePhaseUI();
             }

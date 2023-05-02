@@ -1,17 +1,9 @@
 package com.lambferret.game.screen.ground;
 
-import com.lambferret.game.player.Player;
+import com.lambferret.game.player.PlayerObserver;
 
-public interface AbstractGround {
-
-    void create();
-
-    void init(Player player);
-
-    void show();
+public interface AbstractGround extends PlayerObserver {
 
     void render();
-
-    void update();
 
 }

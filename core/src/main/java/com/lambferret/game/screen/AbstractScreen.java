@@ -14,16 +14,11 @@ public abstract class AbstractScreen extends ManagedScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        this.render();
-        this.update();
     }
 
-    public abstract void create();
-
-    public abstract void render();
-
-    public abstract void update();
+    @Override
+    protected void create() {
+    }
 
     @Override
     public void resize(int width, int height) {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.util.AssetFinder;
@@ -25,18 +24,14 @@ public class TrainingGroundScreen implements AbstractGround {
     }
 
     @Override
-    public void create() {
+    public void onPlayerUpdate() {
 
     }
 
     @Override
-    public void init(Player player) {
+    public void onPlayerReady() {
     }
 
-    @Override
-    public void show() {
-
-    }
 
     public Image background() {
         Image image = new Image(AssetFinder.getTexture("groundReal"));
@@ -60,10 +55,6 @@ public class TrainingGroundScreen implements AbstractGround {
     @Override
     public void render() {
         stage.draw();
-    }
-
-    @Override
-    public void update() {
         stage.act();
     }
 

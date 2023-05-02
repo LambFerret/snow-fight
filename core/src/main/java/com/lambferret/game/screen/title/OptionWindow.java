@@ -14,7 +14,4 @@ public class OptionWindow extends Window {
         super(title, skin);
     }
 
-    public void create() {
-    }
-
 }

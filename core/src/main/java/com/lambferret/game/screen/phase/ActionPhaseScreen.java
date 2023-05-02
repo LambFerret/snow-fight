@@ -2,6 +2,7 @@ package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
@@ -27,13 +28,16 @@ public class ActionPhaseScreen implements AbstractPhase {
         stage.addActor(this.mapContainer);
     }
 
-    public void create() {
+
+    @Override
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
+        this.level = PhaseScreen.level;
     }
 
     @Override
-    public void init(Player player) {
-        this.player = player;
-        this.level = PhaseScreen.level;
+    public void onPlayerUpdate() {
+
     }
 
     @Override
@@ -160,9 +164,6 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     public void render() {
         stage.draw();
-    }
-
-    public void update() {
         stage.act();
     }
 

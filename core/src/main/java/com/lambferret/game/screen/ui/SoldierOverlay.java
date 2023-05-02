@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.PolygonButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
@@ -39,7 +40,8 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         this.setActor(this.scrollPane);
     }
 
-    public void create() {
+    @Override
+    public void onPlayerReady() {
         this.setPosition(SOLDIER_X, SOLDIER_Y);
         this.setSize(SOLDIER_WIDTH, SOLDIER_HEIGHT);
 
@@ -56,11 +58,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
             this.setX(SOLDIER_HIDE_X);
             hideButton.setX(SOLDIER_HIDE_BUTTON_HIDE_X);
         }
-    }
-
-    @Override
-    public void init(Player player) {
-        this.player = player;
+        this.player = SnowFight.player;
 
         makeSoldierContainer();
 
@@ -173,11 +171,6 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
 
     static {
         text = LocalizeConfig.uiText.getOverlayText();
-    }
-
-    @Override
-    public void onPlayerReady() {
-
     }
 
     @Override

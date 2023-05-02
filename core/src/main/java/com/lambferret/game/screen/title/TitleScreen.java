@@ -155,11 +155,10 @@ public class TitleScreen extends AbstractScreen {
         return stage;
     }
 
-    public void render() {
+    @Override
+    public void render(float delta) {
+        super.render(delta);
         stage.draw();
-    }
-
-    public void update() {
         stage.act();
     }
 

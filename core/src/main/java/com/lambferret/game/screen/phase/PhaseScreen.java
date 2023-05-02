@@ -24,14 +24,15 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static final float MAP_WIDTH = 500.0F;
     public static final float MAP_HEIGHT = 500.0F;
     public static final Container<Level> mapContainer = new Container<>();
-    private static Overlay overlay;
+    private static final Overlay overlay = Overlay.getInstance();
+
     private static Screen currentScreen;
     public static Player player;
     public static Level level;
     public static Map<Command, List<Soldier>> commands = new HashMap<>();
     public static List<Buff> buffList = new ArrayList<>();
     private static List<Manual> manualList = new ArrayList<>();
-    private static final List<AbstractPhase> phaseListener;
+    private static final List<AbstractPhase> phaseScreenList;
     private static final AbstractPhase actionPhaseScreen;
     private static final AbstractPhase readyPhaseScreen;
     private static final AbstractPhase defeatScreen;
@@ -45,41 +46,32 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         readyPhaseScreen = new ReadyPhaseScreen(mapContainer);
         defeatScreen = new DefeatScreen();
         victoryScreen = new VictoryScreen();
-        phaseListener = new ArrayList<>();
-        phaseListener.add(actionPhaseScreen);
-        phaseListener.add(readyPhaseScreen);
-        phaseListener.add(defeatScreen);
-        phaseListener.add(prePhaseScreen);
-        phaseListener.add(victoryScreen);
+        phaseScreenList = List.of(
+            actionPhaseScreen,
+            readyPhaseScreen,
+            defeatScreen,
+            prePhaseScreen,
+            victoryScreen
+        );
     }
 
     public PhaseScreen() {
-//        text = LocalizeConfig.uiText.getGroundText();
-        overlay = Overlay.getInstance();
-    }
-
-    @Override
-    public void create() {
-        Overlay.setVisiblePhaseUI();
-        for (AbstractPhase phase : phaseListener) {
-            phase.create();
-        }
         mapContainer.fill();
         mapContainer.setPosition(MAP_X, MAP_Y);
         mapContainer.setSize(MAP_WIDTH, MAP_HEIGHT);
+        commands = new LinkedHashMap<>();
+        buffList = new ArrayList<>();
     }
 
     public void onPlayerReady() {
         player = SnowFight.player;
-        SnowFight.player.addSoldierObserver(this);
         level = LevelFinder.get(player.getDay());
+        Overlay.setVisiblePhaseUI();
         mapContainer.setActor(level);
-        mapContainer.fill();
-        for (AbstractPhase phase : phaseListener) {
-            phase.init(player);
+        for (AbstractPhase phase : phaseScreenList) {
+            phase.onPlayerReady();
+            player.addPlayerObserver(phase);
         }
-        commands = new LinkedHashMap<>();
-        buffList = new ArrayList<>();
         manualList = player.getManuals();
     }
 
@@ -156,7 +148,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     @Override
-    public void render() {
+    public void render(float delta) {
+        super.render(delta);
         switch (currentScreen) {
             case PRE -> prePhaseScreen.render();
             case READY -> readyPhaseScreen.render();
@@ -165,18 +158,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             case DEFEAT -> defeatScreen.render();
         }
         overlay.render();
-    }
-
-    @Override
-    public void update() {
-        switch (currentScreen) {
-            case PRE -> prePhaseScreen.update();
-            case READY -> readyPhaseScreen.update();
-            case ACTION -> actionPhaseScreen.update();
-            case VICTORY -> victoryScreen.update();
-            case DEFEAT -> defeatScreen.update();
-        }
-        overlay.update();
     }
 
     public enum Screen {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
@@ -36,9 +37,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         this.stage.addActor(hideButton);
         this.stage.addActor(infoContainer);
         this.stage.addActor(this);
-    }
-
-    public void create() {
         this.setPosition(COMMAND_X, COMMAND_Y);
         this.setSize(COMMAND_WIDTH, COMMAND_HEIGHT);
 
@@ -62,8 +60,9 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     }
 
     @Override
-    public void init(Player player) {
-        this.player = player;
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
+        this.player = SnowFight.player;
         makeCommandContainer();
         hideButton.addListener(new ClickListener() {
             @Override
@@ -175,11 +174,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         style.up = new TextureRegionDrawable(command.renderIcon());
         style.font = GlobalSettings.font;
         return style;
-    }
-
-    @Override
-    public void onPlayerReady() {
-
     }
 
     @Override
