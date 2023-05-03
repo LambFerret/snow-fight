@@ -1,8 +1,15 @@
 package com.lambferret.game.manual;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.ManualInfo;
 import com.lambferret.game.util.AssetFinder;
 import lombok.Getter;
@@ -43,8 +50,6 @@ public abstract class Manual implements Comparable<Manual> {
      */
     private int price;
 
-    private byte stack;
-
     protected boolean isDisable;
 
     public Manual(
@@ -65,6 +70,51 @@ public abstract class Manual implements Comparable<Manual> {
 
     public TextureRegionDrawable render() {
         return new TextureRegionDrawable(new TextureRegion(AssetFinder.getTexture(this.texturePath)));
+    }
+
+    public CustomButton renderFrontCover() {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("button/button_up"));
+        style.font = GlobalSettings.font;
+        CustomButton button = new CustomButton(this.name, style);
+        button.padBottom(30);
+        return button;
+    }
+
+    public Group renderSideCover() {
+        Label label = new Label(this.name, GlobalSettings.skin);
+        Image plate = new Image(AssetFinder.getTexture("book_sidecover_plate"));
+        Image image = new Image(AssetFinder.getTexture(this.texturePath));
+
+        Group group = new Group() {
+            @Override
+            protected void sizeChanged() {
+                super.sizeChanged();
+                label.setPosition(getWidth() / 2, getHeight() / 2, Align.center);
+                image.setPosition(0, getHeight());
+                image.setSize(getWidth(), getHeight() / 2);
+                plate.setPosition(0, 0);
+                plate.setSize(getWidth(), getHeight());
+            }
+        };
+        label.setOrigin(Align.center);
+        label.setRotation(90);
+
+        group.addActor(plate);
+        group.addActor(label);
+        group.addActor(image);
+
+        return group;
+    }
+
+    public CustomButton renderInfo() {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("button/button_up"));
+        String sb = this.name + "\n" +
+            this.effectDescription + "\n" +
+            this.description + "\n";
+        style.font = GlobalSettings.font;
+        return new CustomButton(sb, style);
     }
 
     @Override
