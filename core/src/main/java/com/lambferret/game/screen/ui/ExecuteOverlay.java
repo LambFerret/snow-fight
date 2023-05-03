@@ -17,6 +17,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
@@ -130,7 +131,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

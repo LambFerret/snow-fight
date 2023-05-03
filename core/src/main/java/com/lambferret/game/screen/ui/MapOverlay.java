@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
@@ -58,7 +59,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

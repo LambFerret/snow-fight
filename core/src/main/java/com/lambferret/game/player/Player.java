@@ -15,6 +15,7 @@ import com.lambferret.game.screen.event.main.First;
 import com.lambferret.game.screen.event.main.StoryWindow;
 import com.lambferret.game.screen.event.main.Tutorial;
 import com.lambferret.game.screen.ui.CommandOverlay;
+import com.lambferret.game.screen.ui.ManualBookshelfOverlay;
 import com.lambferret.game.screen.ui.SoldierOverlay;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Choco;
@@ -171,14 +172,21 @@ public class Player {
             case SOLDIER -> {
                 for (PlayerObserver listener : listeners) {
                     if (listener instanceof SoldierOverlay) {
-                        listener.onPlayerUpdate();
+                        listener.onPlayerUpdate(Item.Type.SOLDIER);
                     }
                 }
             }
-            case COMMAND, MANUAL -> {
+            case COMMAND -> {
                 for (PlayerObserver listener : listeners) {
-                    if (listener instanceof CommandOverlay) {
-                        listener.onPlayerUpdate();
+                    if (listener instanceof CommandOverlay || listener instanceof SoldierOverlay) {
+                        listener.onPlayerUpdate(Item.Type.COMMAND);
+                    }
+                }
+            }
+            case MANUAL -> {
+                for (PlayerObserver listener : listeners) {
+                    if (listener instanceof ManualBookshelfOverlay || listener instanceof SoldierOverlay) {
+                        listener.onPlayerUpdate(Item.Type.MANUAL);
                     }
                 }
             }

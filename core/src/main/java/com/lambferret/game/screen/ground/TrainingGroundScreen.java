@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.util.AssetFinder;
@@ -24,7 +25,7 @@ public class TrainingGroundScreen implements AbstractGround {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

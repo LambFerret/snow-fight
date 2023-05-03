@@ -9,6 +9,7 @@ import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.soldier.Soldier;
@@ -76,7 +77,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

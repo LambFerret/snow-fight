@@ -2,6 +2,7 @@ package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +24,7 @@ public class DefeatScreen implements AbstractPhase {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.level.Level;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
@@ -31,7 +32,7 @@ public class PrePhaseScreen implements AbstractPhase {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

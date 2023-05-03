@@ -6,6 +6,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +37,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

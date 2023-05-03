@@ -3,6 +3,7 @@ package com.lambferret.game.screen.ground;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import org.apache.logging.log4j.LogManager;
@@ -48,7 +49,7 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

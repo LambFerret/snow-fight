@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.PlayerObserver;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.ground.RecruitScreen;
 import com.lambferret.game.screen.ground.ShopScreen;
@@ -46,6 +47,7 @@ public class Overlay implements PlayerObserver {
         command = new CommandOverlay(uiSpriteBatch);
         execute = new ExecuteOverlay(uiSpriteBatch);
         soldier = new SoldierOverlay(uiSpriteBatch);
+        manual = new ManualBookshelfOverlay(uiSpriteBatch);
 
         allOverlay.add(map);
         allOverlay.add(bar);
@@ -53,6 +55,7 @@ public class Overlay implements PlayerObserver {
         allOverlay.add(command);
         allOverlay.add(execute);
         allOverlay.add(soldier);
+        allOverlay.add(manual);
 
         groundUIList.add(map);
         groundUIList.add(soldier);
@@ -62,6 +65,7 @@ public class Overlay implements PlayerObserver {
         phaseUIList.add(command);
         phaseUIList.add(execute);
         phaseUIList.add(soldier);
+        phaseUIList.add(manual);
     }
 
     public static Overlay getInstance() {
@@ -86,7 +90,7 @@ public class Overlay implements PlayerObserver {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

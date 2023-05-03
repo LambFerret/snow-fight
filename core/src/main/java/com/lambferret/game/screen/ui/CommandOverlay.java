@@ -10,6 +10,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
@@ -176,7 +177,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
         makeCommandContainer();
     }
 

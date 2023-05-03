@@ -9,6 +9,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
@@ -111,7 +112,7 @@ public class RecruitScreen implements AbstractGround {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
         setTestDeleteSoldierTableList();
         setTestDeleteCommandTableList();
         setTestDeleteManualTableList();

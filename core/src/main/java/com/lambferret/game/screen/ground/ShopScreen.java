@@ -16,6 +16,7 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
@@ -71,7 +72,7 @@ public class ShopScreen implements AbstractGround {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 

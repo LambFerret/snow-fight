@@ -9,6 +9,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
@@ -42,7 +43,7 @@ public class ReadyPhaseScreen implements AbstractPhase {
     }
 
     @Override
-    public void onPlayerUpdate() {
+    public void onPlayerUpdate(Item.Type type) {
 
     }
 
