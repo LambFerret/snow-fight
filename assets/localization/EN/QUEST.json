@@ -1,8 +1,10 @@
 {
-  "ID" : {
-    "TutorialQuest" : {
-      "name" : "tutorial",
-      "description" :"click confirm"
+  "ID": {
+    "TutorialQuest": {
+      "name": "tutorial",
+      "description": "click confirm",
+      "success": "you did it!",
+      "failure": "you failed!"
     }
   }
 }

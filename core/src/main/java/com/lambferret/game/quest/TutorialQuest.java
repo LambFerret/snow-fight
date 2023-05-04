@@ -9,7 +9,22 @@ public class TutorialQuest extends Quest {
     public static final QuestInfo INFO;
 
     public TutorialQuest() {
-        super(ID, INFO.getName(), INFO.getDescription());
+        super(ID, INFO.getName(), INFO.getDescription(), 3);
+    }
+
+    @Override
+    protected boolean checkSuccessCondition() {
+        return player.getSnowAmount() <= 100;
+    }
+
+    @Override
+    protected boolean checkFailCondition() {
+        return false;
+    }
+
+    @Override
+    protected void getPenalty() {
+        player.setSnowAmount(player.getSnowAmount() + 100);
     }
 
     @Override

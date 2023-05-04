@@ -8,4 +8,6 @@ import lombok.ToString;
 public class QuestInfo {
     private String name;
     private String description;
+    private String success;
+    private String failure;
 }

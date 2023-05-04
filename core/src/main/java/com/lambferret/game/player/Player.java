@@ -149,6 +149,11 @@ public class Player {
     }
 
     private void playerUpdate(Item.Type item) {
+        for (PlayerObserver listener : listeners) {
+            if (listener instanceof Quest) {
+                listener.onPlayerUpdate(item);
+            }
+        }
         switch (item) {
             case SOLDIER -> {
                 for (PlayerObserver listener : listeners) {
