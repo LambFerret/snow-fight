@@ -15,10 +15,6 @@ public class First extends StoryWindow {
     private static final Logger logger = LogManager.getLogger(First.class.getName());
 
     public static final String ID;
-    private static final Character ME = new Me();
-    public static final Character BOSS = new ImmediateBoss();
-    public static final Character CHOCO = new Choco();
-    public static final Character CHILI = new Chili();
     private static final List<Character> leftActor = List.of(
         ME, CHOCO
     );
@@ -55,13 +51,13 @@ public class First extends StoryWindow {
 
     }
 
-    private static final Dialogue text;
-    private static final List<String> context;
+    @Override
+    protected Dialogue setText() {
+        return LocalizeConfig.dialogText.getMAIN().get(ID);
+    }
 
     static {
         ID = First.class.getSimpleName();
-        text = LocalizeConfig.dialogText.getID().get(ID);
-        context = text.getContext();
-        options = text.getOption();
     }
+
 }

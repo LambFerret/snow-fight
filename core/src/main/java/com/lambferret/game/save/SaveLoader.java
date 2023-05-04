@@ -98,8 +98,9 @@ public class SaveLoader {
             .currentCost(player.getCurrentCost())
             .difficulty(player.getDifficulty())
             .snowAmount(player.getSnowAmount())
-            .humanAffinity(player.getHumanAffinity())
-            .hellAffinity(player.getHellAffinity())
+            .bossAffinity(player.getBossAffinity())
+            .downAffinity(player.getDownAffinity())
+            .upperAffinity(player.getUpperAffinity())
             .eventList(player.getEventList())
             .build();
         try (FileWriter file = new FileWriter(fileName)) {

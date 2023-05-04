@@ -1,5 +1,62 @@
 {
-  "ID": {
+  "MAIN": {
+    "Tutorial": {
+      "context": [
+        "i am who i am",
+        "who am i?",
+        "ok i am aaa",
+        "ok i am bbb",
+        "ok i am ccc",
+        "hello to me! aaa",
+        "hello to me! bbb",
+        "hello to me! ccc",
+        "i am G-man and you are?",
+        "hi ccc i am hell hound EOF",
+        "i am somebody 2222 EOF",
+        "i am somebody 1111",
+        "i am somebody 1111 answer EOF"
+      ],
+      "option": [
+        {
+          "description": "who am i??",
+          "element": [
+            "aaa",
+            "bbb",
+            "ccc"
+          ]
+        },
+        {
+          "description": "which somebody are you?",
+          "element": [
+            "111",
+            "222"
+          ]
+        }
+      ]
+    }
+  },
+  "QUEST": {
+    "FirstMission": {
+      "context": [
+        "hey, i'll give some work",
+        "It would be easy but you have to do it",
+        "OK sir.",
+        "OK I'll do it sir",
+        "fuck off"
+      ],
+      "option": [
+        {
+          "description": "when you success, i'll give you a gift",
+          "element": [
+            "ok",
+            "yes sir",
+            "sorry"
+          ]
+        }
+      ]
+    }
+  },
+  "ENDING": {
     "Tutorial": {
       "context": [
         "i am who i am",

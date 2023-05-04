@@ -25,7 +25,8 @@ public class Save {
     private int currentCost;
     private int difficulty;
     private int snowAmount;
-    private int humanAffinity;
-    private int hellAffinity;
+    private int downAffinity;
+    private int bossAffinity;
+    private int upperAffinity;
     private List<String> eventList;
 }

@@ -51,8 +51,9 @@ public class Player {
     private int currentCost;
     private int difficulty;
     private int snowAmount;
-    private int humanAffinity;
-    private int hellAffinity;
+    private int bossAffinity;
+    private int downAffinity;
+    private int upperAffinity;
     private List<String> eventList;
 
     public Player() {
@@ -78,8 +79,9 @@ public class Player {
         this.difficulty = 0;
         this.clearedMainQuestNumber = 0;
 
-        this.hellAffinity = 10;
-        this.humanAffinity = 50;
+        this.downAffinity = 10;
+        this.bossAffinity = 50;
+        this.upperAffinity = 10;
         this.eventList = new ArrayList<>();
 
         //=-=-=-=-=-=--=-=//
@@ -113,8 +115,9 @@ public class Player {
         this.maxCost = save.getMaxCost();
         this.currentCost = save.getCurrentCost();
         this.difficulty = save.getDifficulty();
-        this.hellAffinity = save.getHellAffinity();
-        this.humanAffinity = save.getHumanAffinity();
+        this.downAffinity = save.getDownAffinity();
+        this.bossAffinity = save.getBossAffinity();
+        this.upperAffinity = save.getUpperAffinity();
         this.eventList = save.getEventList();
         for (Item item : save.getAllItems()) {
             switch (item.getType()) {
@@ -138,33 +141,11 @@ public class Player {
     }
 
     public int getAffinity(Affinity affinity) {
-        switch (affinity) {
-            case HUMAN -> {
-                return humanAffinity;
-            }
-            case HELL -> {
-                return hellAffinity;
-            }
-            default -> {
-                logger.error("getAffinity | doesn't return anything ");
-                return -1;
-            }
-        }
-    }
-
-    public void setAffinity(Affinity affinity, int amount) {
-        switch (affinity) {
-            case HUMAN -> {
-                humanAffinity += amount;
-                if (humanAffinity < 0) humanAffinity = 0;
-                if (humanAffinity > 100) humanAffinity = 100;
-            }
-            case HELL -> {
-                hellAffinity += amount;
-                if (hellAffinity < 0) hellAffinity = 0;
-                if (hellAffinity > 100) hellAffinity = 100;
-            }
-        }
+        return switch (affinity) {
+            case UPPER -> upperAffinity;
+            case BOSS -> bossAffinity;
+            case DOWN -> downAffinity;
+        };
     }
 
     private void playerUpdate(Item.Type item) {
@@ -223,6 +204,47 @@ public class Player {
     public void deleteManual(Manual manual) {
         manuals.remove(manual);
         playerUpdate(Item.Type.MANUAL);
+    }
+
+    public void addQuest(Quest quest) {
+        quests.add(quest);
+        playerUpdate(Item.Type.QUEST);
+    }
+
+    public void setBossAffinityBy(int amount) {
+        bossAffinity += amount;
+        if (bossAffinity < 0) bossAffinity = 0;
+        if (bossAffinity > 100) bossAffinity = 100;
+    }
+
+    public void setUpperAffinityBy(int amount) {
+        upperAffinity += amount;
+        if (upperAffinity < 0) upperAffinity = 0;
+        if (upperAffinity > 100) upperAffinity = 100;
+    }
+
+    public void setDownAffinityBy(int amount) {
+        downAffinity += amount;
+        if (downAffinity < 0) downAffinity = 0;
+        if (downAffinity > 100) downAffinity = 100;
+    }
+
+    public void setBossAffinityTo(int amount) {
+        bossAffinity = amount;
+        if (bossAffinity < 0) bossAffinity = 0;
+        if (bossAffinity > 100) bossAffinity = 100;
+    }
+
+    public void setUpperAffinityTo(int amount) {
+        upperAffinity = amount;
+        if (upperAffinity < 0) upperAffinity = 0;
+        if (upperAffinity > 100) upperAffinity = 100;
+    }
+
+    public void setDownAffinityTo(int amount) {
+        downAffinity = amount;
+        if (downAffinity < 0) downAffinity = 0;
+        if (downAffinity > 100) downAffinity = 100;
     }
 
     public void setMoneyBy(int amount) {
@@ -285,7 +307,7 @@ public class Player {
     }
 
     public enum Affinity {
-        HUMAN, HELL
+        UPPER, BOSS, DOWN
     }
 
 }

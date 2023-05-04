@@ -13,7 +13,6 @@ import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
-import com.lambferret.game.text.dto.dialogue.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +33,6 @@ public abstract class StoryWindow extends EventWindow {
 
     private final Container<Dialog> dialogContainer = new Container<>();
     private int optionNumber;
-    protected static List<Option> options;
     private final StoryType storyType;
     List<Character> leftActor = getLeftActor();
     List<Character> rightActor = getRightActor();

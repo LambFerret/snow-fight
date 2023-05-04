@@ -10,14 +10,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.lambferret.game.character.Character;
+import com.lambferret.game.character.*;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.TypewriterLabel;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.text.dto.dialogue.Dialogue;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
+import com.lambferret.game.text.dto.dialogue.Option;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.List;
 
 public abstract class EventWindow extends Group {
     private static final Logger logger = LogManager.getLogger(EventWindow.class.getName());
@@ -36,15 +42,24 @@ public abstract class EventWindow extends Group {
     protected static final float NAMEPLATE_X_LEFT = 200.0F;
     protected static final float NAMEPLATE_X_RIGHT = GlobalSettings.currWidth - (NAMEPLATE_X_LEFT + NAMEPLATE_WIDTH);
     protected static final float NAMEPLATE_Y = 300.0F;
+    protected static final Character ME = new Me();
+    protected static final Character BOSS = new ImmediateBoss();
+    protected static final Character CHOCO = new Choco();
+    protected static final Character CHILI = new Chili();
 
     protected DialogueNode dialogueNode;
+    protected static Dialogue text;
+    protected static List<Option> options;
+    protected static List<String> context;
     protected final Container<Label> conversationContainer = new Container<>();
     protected TypewriterLabel typewriteText;
     protected CustomButton namePlate;
     protected Image background;
 
-
     public EventWindow(String eventID) {
+        var text = setText();
+        options = text.getOption();
+        context = text.getContext();
         Overlay.hideAll();
         this.clear();
 
@@ -129,6 +144,8 @@ public abstract class EventWindow extends Group {
     protected abstract DialogueNode getDialogueNode();
 
     protected abstract void setDialog(int dialogNumber);
+
+    protected abstract Dialogue setText();
 
     protected void setSpeakerLabel(String name) {
         this.namePlate.setText(name);

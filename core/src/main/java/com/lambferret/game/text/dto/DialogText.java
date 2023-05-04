@@ -13,5 +13,7 @@ import java.util.Map;
 @Getter
 @ToString
 public class DialogText {
-    Map<String, Dialogue> ID;
+    Map<String, Dialogue> MAIN;
+    Map<String, Dialogue> QUEST;
+    Map<String, Dialogue> ENDING;
 }

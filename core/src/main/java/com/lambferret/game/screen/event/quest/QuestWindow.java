@@ -10,7 +10,6 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.text.dto.dialogue.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,7 +20,6 @@ public abstract class QuestWindow extends EventWindow {
 
     private final HorizontalGroup leftSpeakers = new HorizontalGroup();
     private final Container<Dialog> dialogContainer = new Container<>();
-    private List<Option> options;
     private int optionNumber;
     private final StoryType storyType;
 
@@ -75,7 +73,7 @@ public abstract class QuestWindow extends EventWindow {
     protected void setDialog(int dialogNumber) {
         dialogContainer.setVisible(true);
         conversationContainer.setVisible(false);
-        Dialog dialog = new Dialog("dialog", GlobalSettings.skin) {
+        Dialog dialog = new Dialog(options.get(0).getDescription(), GlobalSettings.skin) {
             @Override
             protected void result(Object object) {
                 optionNumber = (int) object;
