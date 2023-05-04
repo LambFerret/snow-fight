@@ -177,7 +177,7 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
         manualTable = new Table();
         int i = 0;
         for (Manual manual : player.getManuals()) {
-            var card =  manual.renderFrontCover();
+            var card = manual.renderFrontCover();
             card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
             manualTable.add(card).pad(SOLDIER_EACH_PAD);
             if (i++ == 6) {
