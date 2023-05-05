@@ -92,7 +92,7 @@ public class TitleScreen extends AbstractScreen {
     }
 
     private ImageTextButton.ImageTextButtonStyle getButtonStyle() {
-        TextureRegionDrawable texture = GlobalSettings.debugTexture;
+        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("buttonTitle"));
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = texture;
         style.font = font;

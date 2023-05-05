@@ -34,10 +34,10 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
         logger.info("onPlayerUpdate |  🐳 i check this quest | id is " + ID +" | is cleared? : " + isClear + " | or is failed? : " + isFailed);
         if (timeLimit <= 0) {
             fail();
-        } else if (isFailed) {
-            fail();
-        } else if (isClear) {
-            success();
+//        } else if (isFailed) {
+//            fail();
+//        } else if (isClear) {
+//            success();
         }
     }
 
