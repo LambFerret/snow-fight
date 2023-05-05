@@ -153,6 +153,11 @@ public class QuestOverlay extends Window implements AbstractOverlay {
         verticalResizeCursor = Gdx.graphics.newCursor(verticalResizeCursorPix, center, center);
         leftUpResizeCursor = Gdx.graphics.newCursor(leftUpResizeCursorPix, center, center);
         leftDownResizeCursor = Gdx.graphics.newCursor(leftDownResizeCursorPix, center, center);
+
+        horizontalResizeCursorPix.dispose();
+        verticalResizeCursorPix.dispose();
+        leftUpResizeCursorPix.dispose();
+        leftDownResizeCursorPix.dispose();
     }
 
     @Override

@@ -138,11 +138,13 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
     private void setCursor() {
         int penWidth = 128, penHeight = 256;
         Pixmap srcPix = GlobalUtil.readyPixmap(AssetFinder.getTexture("pen"));
-
         Pixmap penPix = new Pixmap(penWidth, penHeight, Pixmap.Format.RGBA8888);
+
         penPix.drawPixmap(srcPix, 0, 0, srcPix.getWidth(), srcPix.getHeight(), 0, 0, penWidth, penHeight);
-        srcPix.dispose();
         cursor = Gdx.graphics.newCursor(penPix, 0, penHeight - 1);
+
+        srcPix.dispose();
+        penPix.dispose();
     }
 
     private void setSignatureAnimation() {

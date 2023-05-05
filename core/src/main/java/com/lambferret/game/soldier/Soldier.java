@@ -227,6 +227,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
         portraitPix.dispose();
         rankPix.dispose();
+        framePix.dispose();
 
         return style;
     }
@@ -265,6 +266,10 @@ public abstract class Soldier implements Comparable<Soldier> {
 
         style.font = GlobalSettings.font;
         style.up = new TextureRegionDrawable(new TextureRegion(new Texture(framePix)));
+
+        framePix.dispose();
+        portraitPix.dispose();
+        rankPix.dispose();
 
         return style;
     }
