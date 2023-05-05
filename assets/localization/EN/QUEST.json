@@ -2,7 +2,7 @@
   "ID": {
     "TutorialQuest": {
       "name": "tutorial",
-      "description": "click confirm",
+      "description": "set snow under 100 and I'll get rid of them all",
       "success": "you did it!",
       "failure": "you failed!"
     }

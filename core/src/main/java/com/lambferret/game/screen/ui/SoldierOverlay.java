@@ -82,7 +82,6 @@ public class SoldierOverlay extends Container<ScrollPane> implements AbstractOve
     @Override
     public void onPlayerUpdate(Item.Type type) {
         Player player = SnowFight.player;
-        logger.info("onPlayerUpdate |  🐳 player soldier | " + player.getSoldiers());
         switch (type) {
             case SOLDIER -> makeSoldierContainer(player);
             case MANUAL -> makeManualContainer(player);
