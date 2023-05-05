@@ -2,6 +2,8 @@ package com.lambferret.game.soldier;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -12,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Branch;
@@ -114,6 +117,8 @@ public abstract class Soldier implements Comparable<Soldier> {
     byte initialRunAwayProbability;
     private SoldierInfo info;
     private boolean isFront;
+    TextureAtlas atlas;
+    Animation<TextureRegion> animation;
 
     public Soldier(
         String ID,
@@ -143,6 +148,14 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.initialRangeY = rangeY;
         this.initialRunAwayProbability = runAwayProbability;
         empowerLevel(EmpowerLevel.NEUTRAL);
+        atlas = AssetFinder.getAtlas(texturePath);
+        setAnimation();
+    }
+
+    private void setAnimation() {
+        float frameDuration = 1;
+        Array<TextureAtlas.AtlasRegion> animationFrames = atlas.findRegions("animation");
+        animation = new Animation<>(frameDuration, animationFrames);
     }
 
     public void initValue() {
@@ -175,10 +188,9 @@ public abstract class Soldier implements Comparable<Soldier> {
             }
         });
         return plate;
-
     }
 
-    public Group renderFrontPlate() {
+    private Group renderFrontPlate() {
         Group frontPlate = new Group();
 
         CustomButton soldierButton = new CustomButton("", getFrontPlateStyle());
@@ -200,7 +212,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         var style = new ImageTextButton.ImageTextButtonStyle();
 
         Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
-        Pixmap portraitPix = GlobalUtil.readyPixmap(AssetFinder.getTexture(this.texturePath));
+        Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion("portrait"));
         Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
 
         framePix.drawPixmap(portraitPix, 0, 0, portraitPix.getWidth(), portraitPix.getHeight(),
