@@ -29,6 +29,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +56,7 @@ public class Player {
     private int downAffinity;
     private int upperAffinity;
     private List<String> eventList;
+    List<Item> lateInitItems = new ArrayList<>();
 
     public Player() {
         GlobalSettings.loadAllInGameStructure();
@@ -118,25 +120,27 @@ public class Player {
         this.bossAffinity = save.getBossAffinity();
         this.upperAffinity = save.getUpperAffinity();
         this.eventList = save.getEventList();
-        for (Item item : save.getAllItems()) {
+        Iterator<Item> iterator = save.getAllItems().iterator();
+        while (iterator.hasNext()) {
+            Item item = iterator.next();
             switch (item.getType()) {
-                case SOLDIER -> {
-                    soldiers.add(GlobalSettings.popSoldier(item.getID()));
-                }
-                case COMMAND -> {
-                    commands.add(GlobalSettings.popCommand(item.getID()));
-                }
-                case MANUAL -> {
-                    manuals.add(GlobalSettings.popManual(item.getID()));
-                }
+                case SOLDIER -> soldiers.add(GlobalSettings.popSoldier(item.getID()));
+                case COMMAND -> commands.add(GlobalSettings.popCommand(item.getID()));
+                case MANUAL -> manuals.add(GlobalSettings.popManual(item.getID()));
+            }
+            iterator.remove();
+        }
+        lateInitItems = save.getAllItems();
+    }
+
+    public void lateInit() {
+        for (Item item : lateInitItems) {
+            switch (item.getType()) {
+                case QUEST -> quests.add(GlobalSettings.getQuest(item.getID()));
                 case EVENT -> {
-                }
-                case QUEST -> {
-                    quests.add(GlobalSettings.popQuest(item.getID()));
                 }
             }
         }
-
     }
 
     public int getAffinity(Affinity affinity) {

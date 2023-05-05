@@ -46,6 +46,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
 
     public static void setPlayer() {
         player = new Player();
+        player.lateInit();
         LevelFinder.createTiledMapTileSet();
     }
 
