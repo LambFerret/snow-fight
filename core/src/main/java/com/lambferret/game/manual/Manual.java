@@ -1,6 +1,6 @@
 package com.lambferret.game.manual;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -51,6 +51,7 @@ public abstract class Manual implements Comparable<Manual> {
     private int price;
 
     protected boolean isDisable;
+    TextureAtlas atlas;
 
     public Manual(
         String ID,
@@ -64,12 +65,12 @@ public abstract class Manual implements Comparable<Manual> {
         this.description = info.getDescription();
         this.rarity = rarity;
         this.price = price;
+
+        atlas = AssetFinder.getAtlas("manual");
     }
 
-    public abstract void effect();
-
-    public TextureRegionDrawable render() {
-        return new TextureRegionDrawable(new TextureRegion(AssetFinder.getTexture(this.texturePath)));
+    public TextureRegionDrawable renderIcon() {
+        return new TextureRegionDrawable(atlas.findRegion(this.texturePath));
     }
 
     public CustomButton renderFrontCover() {
@@ -84,7 +85,7 @@ public abstract class Manual implements Comparable<Manual> {
     public Group renderSideCover() {
         Label label = new Label(this.name, GlobalSettings.skin);
         Image plate = new Image(AssetFinder.getTexture("book_sidecover_plate"));
-        Image image = new Image(AssetFinder.getTexture(this.texturePath));
+        Image image = new Image(AssetFinder.getTexture("todo side cover"));
 
         Group group = new Group() {
             @Override
@@ -116,6 +117,8 @@ public abstract class Manual implements Comparable<Manual> {
         style.font = GlobalSettings.font;
         return new CustomButton(sb, style);
     }
+
+    public abstract void effect();
 
     @Override
     public int compareTo(Manual o) {

@@ -190,6 +190,10 @@ public abstract class Soldier implements Comparable<Soldier> {
         return plate;
     }
 
+    public TextureRegionDrawable renderIcon() {
+        return new TextureRegionDrawable(atlas.findRegion(this.texturePath));
+    }
+
     private Group renderFrontPlate() {
         Group frontPlate = new Group();
 

@@ -126,7 +126,7 @@ public class ShopScreen implements AbstractGround {
         for (Manual manual : manualStock) {
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
             style.font = GlobalSettings.font;
-            style.up = manual.render();
+            style.up = manual.renderIcon();
             CustomButton imageButton = new CustomButton(manual.getID(), style);
 
             imageButton.setSize(ITEM_SIZE, ITEM_SIZE);

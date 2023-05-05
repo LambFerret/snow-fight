@@ -2,7 +2,7 @@ package com.lambferret.game.command;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -103,6 +103,7 @@ public abstract class Command implements Comparable<Command> {
     private int initialAffectToDown;
 
     private int itemCount = 0;
+    TextureAtlas atlas;
 
     // TODO 여기 호감도 시스템 어케할건지 확인요함
     public Command(
@@ -143,6 +144,8 @@ public abstract class Command implements Comparable<Command> {
         this.initialAffectToUp = affectToUp;
         this.initialAffectToMiddle = affectToMiddle;
         this.initialAffectToDown = affectToDown;
+
+        atlas = AssetFinder.getAtlas("command");
     }
 
     public void initValue() {
@@ -160,7 +163,7 @@ public abstract class Command implements Comparable<Command> {
     }
 
     public TextureRegionDrawable renderIcon() {
-        return new TextureRegionDrawable(new TextureRegion(AssetFinder.getTexture(this.texturePath)));
+        return new TextureRegionDrawable(atlas.findRegion(this.texturePath));
     }
 
     public Group renderSimple() {
@@ -187,7 +190,7 @@ public abstract class Command implements Comparable<Command> {
             }
         };
         Pixmap plate = GlobalUtil.readyPixmap(AssetFinder.getTexture("itemUI_plate"));
-        Pixmap icon = GlobalUtil.readyPixmap(AssetFinder.getTexture(this.texturePath));
+        Pixmap icon = GlobalUtil.regionToPixmap(atlas.findRegion(this.texturePath));
 
         plate.drawPixmap(icon, 0, 0, icon.getWidth(), icon.getHeight(), 0, 0, plate.getWidth() / 2, plate.getHeight());
         Image background = new Image(new Texture(plate));

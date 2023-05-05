@@ -1,0 +1,27 @@
+
+../texture/manual.png
+size: 512, 256
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+ColdWeatherTraining
+  rotate: false
+  xy: 132, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+DisciplineAndPunish
+  rotate: false
+  xy: 262, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+KinPpaYi
+  rotate: false
+  xy: 2, 2
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1

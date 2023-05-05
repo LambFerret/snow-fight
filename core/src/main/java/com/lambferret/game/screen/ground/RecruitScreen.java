@@ -170,7 +170,7 @@ public class RecruitScreen implements AbstractGround {
             Command command = GlobalSettings.getCommand(s);
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
             style.font = GlobalSettings.font;
-            style.up = new TextureRegionDrawable(AssetFinder.getTexture(command.getTexturePath()));
+            style.up = command.renderIcon();
             ImageTextButton button = new ImageTextButton(command.getName(), style);
             button.addListener(new ClickListener() {
                 @Override
@@ -189,7 +189,7 @@ public class RecruitScreen implements AbstractGround {
             Manual manual = GlobalSettings.getManual(s);
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
             style.font = GlobalSettings.font;
-            style.up = new TextureRegionDrawable(AssetFinder.getTexture(manual.getTexturePath()));
+            style.up = manual.renderIcon();
             ImageTextButton button = new ImageTextButton(manual.getName(), style);
             button.addListener(new ClickListener() {
                 @Override
@@ -228,7 +228,7 @@ public class RecruitScreen implements AbstractGround {
         for (Command command : player.getCommands()) {
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
             style.font = GlobalSettings.font;
-            style.up = new TextureRegionDrawable(AssetFinder.getTexture(command.getTexturePath()));
+            style.up = command.renderIcon();
             ImageTextButton button = new ImageTextButton(command.getName(), style);
             button.addListener(new ClickListener() {
                 @Override
@@ -249,7 +249,7 @@ public class RecruitScreen implements AbstractGround {
         for (Manual manual : player.getManuals()) {
             ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
             style.font = GlobalSettings.font;
-            style.up = new TextureRegionDrawable(AssetFinder.getTexture(manual.getTexturePath()));
+            style.up = manual.renderIcon();
             ImageTextButton button = new ImageTextButton(manual.getName(), style);
             button.addListener(new ClickListener() {
                 @Override

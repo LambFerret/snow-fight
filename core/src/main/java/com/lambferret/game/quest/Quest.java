@@ -4,7 +4,6 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.save.Item;
-import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

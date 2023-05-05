@@ -1,7 +1,6 @@
 package com.lambferret.game.screen.event.main;
 
 import com.lambferret.game.character.Character;
-import com.lambferret.game.character.*;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.dialogue.Dialogue;
