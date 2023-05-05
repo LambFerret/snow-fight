@@ -8,7 +8,6 @@ import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Getter
 public abstract class Quest implements Comparable<Quest>, PlayerObserver {
     private static final Logger logger = LogManager.getLogger(Quest.class.getName());
 
@@ -31,7 +30,6 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
     public void onPlayerUpdate(Item.Type type) {
         boolean isClear = checkSuccessCondition();
         boolean isFailed = checkFailCondition();
-        logger.info("onPlayerUpdate |  🐳 i check this quest | id is " + ID +" | is cleared? : " + isClear + " | or is failed? : " + isFailed);
         if (timeLimit <= 0) {
             fail();
 //        } else if (isFailed) {
@@ -53,6 +51,22 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
 
     public void timeFlow() {
         timeLimit -= 1;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getTimeLimit() {
+        return timeLimit;
     }
 
     protected abstract boolean checkSuccessCondition();

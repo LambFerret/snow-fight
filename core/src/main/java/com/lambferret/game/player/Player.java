@@ -16,6 +16,7 @@ import com.lambferret.game.screen.event.main.StoryWindow;
 import com.lambferret.game.screen.event.main.Tutorial;
 import com.lambferret.game.screen.ui.CommandOverlay;
 import com.lambferret.game.screen.ui.ManualBookshelfOverlay;
+import com.lambferret.game.screen.ui.QuestOverlay;
 import com.lambferret.game.screen.ui.SoldierOverlay;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Choco;
@@ -179,7 +180,14 @@ public class Player {
                     }
                 }
             }
-            case QUEST, EVENT -> {
+            case QUEST -> {
+                for (PlayerObserver listener : listeners) {
+                    if (listener instanceof QuestOverlay) {
+                        listener.onPlayerUpdate(Item.Type.QUEST);
+                    }
+                }
+            }
+            case EVENT -> {
             }
         }
     }

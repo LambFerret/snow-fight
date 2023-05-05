@@ -118,25 +118,18 @@ public class QuestOverlay extends Window implements AbstractOverlay {
 
     @Override
     public void onPlayerReady() {
-
         this.setPosition(100, 500);
         this.setSize(100, 100);
         quests = SnowFight.player.getQuests();
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = GlobalSettings.font;
-        for (Quest quest : quests) {
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
-        }
     }
 
     @Override
     public void onPlayerUpdate(Item.Type type) {
-
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = GlobalSettings.font;
+        for (Quest quest : quests) {
+            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+        }
     }
 
     private void setCursor() {
