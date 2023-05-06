@@ -54,7 +54,7 @@ public class GlobalUtil {
         return result;
     }
 
-    public static NinePatchDrawable getNinePatchDrawable(String name, int pad) {
+    public static NinePatchDrawable getNinePatchDrawableFromTexture(String name, int pad) {
         return new NinePatchDrawable(new NinePatch(new TextureRegion(AssetFinder.getTexture(name + ".9")), pad, pad, pad, pad));
     }
 

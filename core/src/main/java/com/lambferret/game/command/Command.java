@@ -218,7 +218,7 @@ public abstract class Command implements Comparable<Command> {
             "type: " + this.type.toString() + "\n" +
             this.description;
 
-        NinePatchDrawable ninePatchDrawable = GlobalUtil.getNinePatchDrawable("itemUI_description", 5);
+        NinePatchDrawable ninePatchDrawable = GlobalUtil.getNinePatchDrawableFromTexture("itemUI_description", 5);
 
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = ninePatchDrawable;

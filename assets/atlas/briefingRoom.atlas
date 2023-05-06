@@ -1,0 +1,84 @@
+
+../texture/briefingRoom.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+background
+  rotate: false
+  xy: 0, 648
+  size: 2048, 1398
+  orig: 2048, 1398
+  offset: 0, 0
+  index: -1
+cabinet1
+  rotate: false
+  xy: 0, 0
+  size: 732, 648
+  orig: 732, 648
+  offset: 0, 0
+  index: -1
+etc1
+  rotate: false
+  xy: 732, 180
+  size: 689, 240
+  orig: 689, 240
+  offset: 0, 0
+  index: -1
+pictureFrame
+  rotate: false
+  xy: 1421, 138
+  size: 598, 282
+  orig: 598, 282
+  offset: 0, 0
+  index: -1
+rightTable
+  rotate: false
+  xy: 732, 420
+  size: 1080, 228
+  orig: 1080, 228
+  offset: 0, 0
+  index: -1
+
+../texture/briefingRoom2.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+briefBoard
+  rotate: false
+  xy: 0, 950
+  size: 1098, 1007
+  split: 109, 94, 89, 148
+  pad: 651, 440, 18, 977
+  orig: 1098, 1007
+  offset: 0, 0
+  index: -1
+cabinet2
+  rotate: false
+  xy: 1098, 1404
+  size: 437, 553
+  orig: 437, 553
+  offset: 0, 0
+  index: -1
+character
+  rotate: false
+  xy: 0, 229
+  size: 627, 721
+  orig: 627, 721
+  offset: 0, 0
+  index: -1
+etc2
+  rotate: false
+  xy: 0, 0
+  size: 214, 229
+  orig: 214, 229
+  offset: 0, 0
+  index: -1
+leftTable
+  rotate: false
+  xy: 627, 465
+  size: 219, 485
+  orig: 219, 485
+  offset: 0, 0
+  index: -1
