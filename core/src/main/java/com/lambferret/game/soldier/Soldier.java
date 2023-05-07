@@ -150,6 +150,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         empowerLevel(EmpowerLevel.NEUTRAL);
         atlas = AssetFinder.getAtlas(texturePath);
         setAnimation();
+        initValue();
     }
 
     private void setAnimation() {

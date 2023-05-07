@@ -2,6 +2,7 @@ package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.level.Level;
@@ -16,7 +17,7 @@ import java.util.*;
 public class ActionPhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(ActionPhaseScreen.class.getName());
     public static final Stage stage = new Stage();
-    Container<Level> mapContainer;
+    Container<Table> mapContainer;
     Player player;
     Level level;
     List<Soldier> regularForEntireGameMember = new ArrayList<>();
@@ -24,11 +25,10 @@ public class ActionPhaseScreen implements AbstractPhase {
     List<Soldier> actionMember = new ArrayList<>();
     Map<Command, List<Soldier>> commandMap;
 
-    public ActionPhaseScreen(Container<Level> mapContainer) {
+    public ActionPhaseScreen(Container<Table> mapContainer) {
         this.mapContainer = mapContainer;
         stage.addActor(this.mapContainer);
     }
-
 
     @Override
     public void onPlayerReady() {

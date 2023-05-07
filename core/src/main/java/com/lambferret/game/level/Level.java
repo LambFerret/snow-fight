@@ -1,25 +1,16 @@
 package com.lambferret.game.level;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * 맵에 대한 정보만 저장할 것!
  */
-public class Level extends Actor {
+public class Level {
     private static final Logger logger = LogManager.getLogger(Level.class.getName());
 
     /**
@@ -71,12 +62,8 @@ public class Level extends Actor {
      */
     private int maxSoldierCapacity;
 
-    int tileWidth = 64;
-    int tileHeight = 64;
-    TiledMap tiledMap;
-    private TiledMapRenderer tiledMapRenderer;
-
     public Level(Region region, short[][] map, int[][] maxAmountMap, int minSnowForClear, int assignedSnow, int maxSoldierCapacity) {
+        checkMap(map, maxAmountMap);
         this.region = region;
         this.map = map;
         this.maxAmountMap = maxAmountMap;
@@ -87,50 +74,44 @@ public class Level extends Actor {
         this.currentAmount = new int[ROWS][COLUMNS];
         this.maxIteration = setMaxIteration(region);
         this.maxSoldierCapacity = maxSoldierCapacity;
-        createTiledMap();
+    }
+
+    private void checkMap(short[][] map, int[][] maxAmountMap) {
+        // 유효성 체크
+        boolean isError = false;
+        if (map.length != maxAmountMap.length) {
+            isError = true;
+        } else {
+            for (int i = 0; i < map.length; i++) {
+                if (map[i].length != maxAmountMap[i].length) {
+                    isError = true;
+                    break;
+                }
+            }
+        }
+        if (isError) {
+            throw new RuntimeException("this Map " + getClass().getSimpleName() + " is INCORRECT");
+        }
     }
 
     public void createTiledMap() {
-        tiledMap = new TiledMap();
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-        TiledMapTileLayer tileLayer = new TiledMapTileLayer(ROWS, COLUMNS, tileWidth, tileHeight);
-        for (int i = 0; i < ROWS; i++) {
-            for (int j = 0; j < COLUMNS; j++) {
-                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                var tile = LevelFinder.tiledMapTileSet.getTile(map[i][j]);
-                MapProperties properties = tile.getProperties();
-                try {
-                    properties.put(TileType.MAX_AMOUNT.toString(), maxAmountMap[i][j]);
-                    properties.put(TileType.CURRENT_AMOUNT.toString(), currentAmount[i][j]);
-                    properties.put(TileType.WORKER_LIST.toString(), new ArrayList<>());
-                } catch (Exception e) {
-                    throw new RuntimeException("this Map " + getClass().getSimpleName() + " has INCORRECT tile in " + i + ", " + j);
-                }
-                cell.setTile(tile);
-                tileLayer.setCell(j, ROWS - 1 - i, cell);
-            }
-        }
-        tiledMap.getLayers().add(tileLayer);
+
+//        for (int i = 0; i < ROWS; i++) {
+//            for (int j = 0; j < COLUMNS; j++) {
+//                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+//                var tile = LevelFinder.tiledMapTileSet.getTile(map[i][j]);
+//                MapProperties properties = tile.getProperties();
+//                try {
+//                    properties.put(TileType.MAX_AMOUNT.toString(), maxAmountMap[i][j]);
+//                    properties.put(TileType.CURRENT_AMOUNT.toString(), currentAmount[i][j]);
+//                    properties.put(TileType.WORKER_LIST.toString(), new ArrayList<>());
+//                } catch (Exception e) {
+//                    throw new RuntimeException("this Map " + getClass().getSimpleName() + " has INCORRECT tile in " + i + ", " + j);
+//                }
+//                cell.setTile(tile);
+//            }
+//        }
     }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        batch.end();
-
-        OrthographicCamera camera = (OrthographicCamera) getStage().getCamera();
-        camera.position.set(getX(), getY(), 0);
-        camera.update();
-
-        tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
-
-        batch.begin();
-    }
-
-    enum TileType {
-        MAP, MAX_AMOUNT, CURRENT_AMOUNT, WORKER_LIST
-    }
-
 
     public short setMaxIteration(Region region) {
         return switch (region) {
