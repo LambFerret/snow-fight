@@ -76,6 +76,11 @@ public class ShopScreen implements AbstractGround {
 
     }
 
+    @Override
+    public void init() {
+
+    }
+
     private void fillCommandStock(List<Command> allCommand) {
         this.commandStock.clear();
         while (commandStock.size() < COMMAND_STOCK_AMOUNT) {

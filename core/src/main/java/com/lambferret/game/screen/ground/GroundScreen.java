@@ -56,6 +56,11 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     public static void changeScreen(Screen screen) {
         currentScreen = screen;
         Overlay.changeGroundInputProcessor();
+        switch (screen) {
+            case RECRUIT -> recruitScreen.init();
+            case SHOP -> shopScreen.init();
+            case TRAINING_GROUND -> trainingGroundScreen.init();
+        }
     }
 
     public static Screen getCurrentScreen() {

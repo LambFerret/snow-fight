@@ -28,6 +28,8 @@ public class GlobalSettings {
     private static final Logger logger = LogManager.getLogger(GlobalSettings.class.getName());
 
     public static final String CONFIG_FILE_PATH = "./config.json";
+    public static final int WIDTH_PIXEL = 2048;
+    public static final int HEIGHT_PIXEL = 1152;
     public static Setting settings;
     public static final int MAXIMUM_SAVE = 3;
     public static boolean isDev = true;

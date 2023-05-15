@@ -4,6 +4,8 @@ import com.lambferret.game.player.PlayerObserver;
 
 public interface AbstractGround extends PlayerObserver {
 
+    void init();
+
     void render();
 
 }

@@ -1,0 +1,291 @@
+
+../texture/TrainingGround.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+cloud
+  rotate: false
+  xy: 1545, 37
+  size: 304, 71
+  orig: 304, 71
+  offset: 0, 0
+  index: 5
+ground
+  rotate: false
+  xy: 0, 1524
+  size: 2048, 515
+  orig: 2048, 515
+  offset: 0, 0
+  index: -1
+sky
+  rotate: false
+  xy: 1888, 413
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+snowLevel1
+  rotate: false
+  xy: 1888, 479
+  size: 142, 150
+  orig: 142, 150
+  offset: 0, 0
+  index: 6
+snowLevel1
+  rotate: false
+  xy: 1851, 44
+  size: 105, 64
+  orig: 105, 64
+  offset: 0, 0
+  index: 3
+snowLevel1
+  rotate: false
+  xy: 1851, 0
+  size: 122, 42
+  orig: 122, 42
+  offset: 0, 0
+  index: 7
+snowLevel2
+  rotate: false
+  xy: 1330, 23
+  size: 213, 85
+  orig: 213, 85
+  offset: 0, 0
+  index: 7
+snowLevel3
+  rotate: false
+  xy: 0, 23
+  size: 723, 606
+  orig: 723, 606
+  offset: 0, 0
+  index: 2
+snowLevel3
+  rotate: false
+  xy: 725, 34
+  size: 603, 595
+  orig: 603, 595
+  offset: 0, 0
+  index: 9
+snowLevel3
+  rotate: false
+  xy: 1330, 110
+  size: 556, 519
+  orig: 556, 519
+  offset: 0, 0
+  index: 1
+stair
+  rotate: false
+  xy: 0, 1296
+  size: 2048, 226
+  orig: 2048, 226
+  offset: 0, 0
+  index: 0
+stair
+  rotate: false
+  xy: 0, 1074
+  size: 2048, 220
+  orig: 2048, 220
+  offset: 0, 0
+  index: 2
+stair
+  rotate: false
+  xy: 0, 852
+  size: 2048, 220
+  orig: 2048, 220
+  offset: 0, 0
+  index: 1
+stair
+  rotate: false
+  xy: 0, 631
+  size: 2048, 219
+  orig: 2048, 219
+  offset: 0, 0
+  index: 3
+
+../texture/TrainingGround2.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+cloud
+  rotate: false
+  xy: 0, 1365
+  size: 1677, 671
+  orig: 1677, 671
+  offset: 0, 0
+  index: 2
+cloud
+  rotate: false
+  xy: 0, 187
+  size: 1043, 721
+  orig: 1043, 721
+  offset: 0, 0
+  index: 1
+cloud
+  rotate: false
+  xy: 0, 9
+  size: 759, 176
+  orig: 759, 176
+  offset: 0, 0
+  index: 4
+groundSnow
+  rotate: false
+  xy: 0, 910
+  size: 1593, 453
+  orig: 1593, 453
+  offset: 0, 0
+  index: -1
+platform
+  rotate: false
+  xy: 1045, 189
+  size: 496, 318
+  orig: 496, 318
+  offset: 0, 0
+  index: 0
+snowLevel1
+  rotate: false
+  xy: 1679, 1387
+  size: 290, 295
+  orig: 290, 295
+  offset: 0, 0
+  index: 5
+snowLevel1
+  rotate: false
+  xy: 1488, 0
+  size: 234, 129
+  orig: 234, 129
+  offset: 0, 0
+  index: 4
+snowLevel2
+  rotate: false
+  xy: 1679, 1684
+  size: 300, 352
+  orig: 300, 352
+  offset: 0, 0
+  index: 2
+snowLevel2
+  rotate: false
+  xy: 1105, 51
+  size: 381, 136
+  orig: 381, 136
+  offset: 0, 0
+  index: 3
+snowLevel2
+  rotate: false
+  xy: 1543, 131
+  size: 456, 410
+  orig: 456, 410
+  offset: 0, 0
+  index: 1
+snowLevel3
+  rotate: false
+  xy: 1045, 509
+  size: 478, 399
+  orig: 478, 399
+  offset: 0, 0
+  index: 7
+snowLevel3
+  rotate: false
+  xy: 1595, 948
+  size: 418, 415
+  orig: 418, 415
+  offset: 0, 0
+  index: 3
+snowLevel3
+  rotate: false
+  xy: 761, 5
+  size: 342, 180
+  orig: 342, 180
+  offset: 0, 0
+  index: 5
+snowLevel3
+  rotate: false
+  xy: 1595, 543
+  size: 433, 403
+  orig: 433, 403
+  offset: 0, 0
+  index: 8
+
+../texture/TrainingGround3.png
+size: 2048, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+cloud
+  rotate: false
+  xy: 0, 502
+  size: 1241, 518
+  orig: 1241, 518
+  offset: 0, 0
+  index: 3
+platform
+  rotate: false
+  xy: 0, 182
+  size: 474, 318
+  orig: 474, 318
+  offset: 0, 0
+  index: 3
+platform
+  rotate: false
+  xy: 1243, 702
+  size: 468, 318
+  orig: 468, 318
+  offset: 0, 0
+  index: 2
+platform
+  rotate: false
+  xy: 476, 182
+  size: 458, 318
+  orig: 458, 318
+  offset: 0, 0
+  index: 1
+snowLevel1
+  rotate: false
+  xy: 1481, 416
+  size: 313, 284
+  orig: 313, 284
+  offset: 0, 0
+  index: 1
+snowLevel1
+  rotate: false
+  xy: 0, 30
+  size: 245, 150
+  orig: 245, 150
+  offset: 0, 0
+  index: 2
+snowLevel2
+  rotate: false
+  xy: 936, 138
+  size: 407, 362
+  orig: 407, 362
+  offset: 0, 0
+  index: 5
+snowLevel2
+  rotate: false
+  xy: 1243, 509
+  size: 236, 191
+  orig: 236, 191
+  offset: 0, 0
+  index: 6
+snowLevel2
+  rotate: false
+  xy: 247, 22
+  size: 225, 158
+  orig: 225, 158
+  offset: 0, 0
+  index: 4
+snowLevel3
+  rotate: false
+  xy: 1713, 742
+  size: 331, 278
+  orig: 331, 278
+  offset: 0, 0
+  index: 4
+snowLevel3
+  rotate: false
+  xy: 474, 0
+  size: 204, 180
+  orig: 204, 180
+  offset: 0, 0
+  index: 6

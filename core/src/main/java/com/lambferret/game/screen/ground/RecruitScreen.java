@@ -121,6 +121,11 @@ public class RecruitScreen implements AbstractGround {
         setTestDeleteManualTableList();
     }
 
+    @Override
+    public void init() {
+
+    }
+
     private void switchTable() {
         if (isDelete) {
             label.setText("this deletes the item");
