@@ -117,7 +117,7 @@ public class TrainingGroundScreen implements AbstractGround {
 
     private void setSnowLevel() {
         //-=-=-=-=-=-//
-        int amount = 03000;
+        int amount = random.nextInt(300);
         //-=-=-=-=-=-//
 
         if (0 <= amount && amount < 100) {
@@ -181,20 +181,20 @@ public class TrainingGroundScreen implements AbstractGround {
 
     private void makeClouds() {
         for (int i = 0; i < 5; i++) {
-            int cloudType = random.nextInt(5) + 1;  // Get a random cloud type between 1 and 5
-            Image cloud = new Image(atlas.findRegions("cloud").get(cloudType - 1));  // Assume cloud regions are 0-indexed
+            int cloudType = random.nextInt(5) + 1;
+            Image cloud = new Image(atlas.findRegions("cloud").get(cloudType - 1));
             cloud.setOrigin(Align.center);
-            float initialXPosition = (i + 1) * GlobalSettings.currWidth / 5F;  // Random start X position between 0 and 1000
-            float yPosition = cloudType * 100;  // Y position is type index * 100
+            float initialXPosition = (i + 1) * GlobalSettings.currWidth / 5F;
+            float yPosition = cloudType * 100;
             cloud.setPosition(initialXPosition, yPosition);
             cloud.setScale(0.5F);
-            float speed = 100 + (cloudType / -5F);  // Set this to the desired speed
+            float speed = 100 + (cloudType / -5F);
             cloud.addAction(
                 Actions.forever(
                     Actions.sequence(
-                        Actions.moveTo(1000 + cloud.getWidth(), yPosition, (1000 + cloud.getWidth() - initialXPosition) / speed),  // Move to the right of the screen
-                        Actions.moveTo(-cloud.getWidth(), yPosition, 0),  // Instantly move to the left of the screen
-                        Actions.moveTo(1000 + cloud.getWidth(), yPosition, (1000 + 2 * cloud.getWidth()) / speed)  // Move to the right of the screen
+                        Actions.moveTo(1000 + cloud.getWidth(), yPosition, (1000 + cloud.getWidth() - initialXPosition) / speed),
+                        Actions.moveTo(-cloud.getWidth(), yPosition, 0),
+                        Actions.moveTo(1000 + cloud.getWidth(), yPosition, (1000 + 2 * cloud.getWidth()) / speed)
                     )
                 )
             );

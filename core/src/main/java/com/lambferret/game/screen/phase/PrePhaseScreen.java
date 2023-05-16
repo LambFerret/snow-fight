@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.level.Level;
@@ -23,7 +22,6 @@ public class PrePhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
     Container<Table> mapContainer;
     public static final Stage stage = new Stage();
-    TextButton textButton;
     TextureAtlas atlas;
     Texture backgroundTexture;
     NinePatchDrawable briefBoard;
@@ -36,10 +34,8 @@ public class PrePhaseScreen implements AbstractPhase {
         renderBackground();
         Image background = new Image(backgroundTexture);
         background.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
-        textButton = new TextButton("PrePhaseScreen", GlobalSettings.skin);
 
         stage.addActor(background);
-        stage.addActor(textButton);
     }
 
     public void onPlayerReady() {
