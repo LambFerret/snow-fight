@@ -116,7 +116,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
                 } else {
                     logger.info("clicked |  🐳 not ready phase currently | ");
                 }
-                super.clicked(event, x, y);
             }
 
             @Override

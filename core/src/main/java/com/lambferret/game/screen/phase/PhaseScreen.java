@@ -73,7 +73,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public void onPlayerReady() {
         player = SnowFight.player;
         level = LevelFinder.get(player.getDay());
-        Overlay.setVisiblePhaseUI();
         updateMap(level);
         for (AbstractPhase phase : phaseScreenList) {
             phase.onPlayerReady();
@@ -89,14 +88,15 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     private Table makeMap(Level level) {
         Table map = new Table();
-        map.setFillParent(true);
+//        map.setFillParent(true);
         for (int i = 0; i < level.ROWS; i++) {
             for (int j = 0; j < level.COLUMNS; j++) {
                 map.add(makeMapElement(level.getTerrainMaxCurrentInfo(i, j)));
             }
             map.row();
         }
-        map.setSize(mapContainer.getWidth(), mapContainer.getHeight());
+        map.setPosition(0, 0);
+        map.setSize(MAP_WIDTH, MAP_HEIGHT);
         map.setDebug(true, true);
         return map;
     }

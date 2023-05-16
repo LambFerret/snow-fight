@@ -2,9 +2,12 @@ package com.lambferret.game.level;
 
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
+import com.lambferret.game.soldier.Soldier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,11 +19,12 @@ public class Level {
     /**
      * 전체 지도의 좌표
      */
-    private final short[][] map;
+    private final short[][] mapTerrain;
     /**
      * 지도에서 최대 쌓을 수 있는 눈의 양
      */
-    private final int[][] maxAmountMap;
+    private final int[][] mapMaxAmount;
+    private final MapAttribute[][] MAP;
     /**
      * 지역
      */
@@ -62,55 +66,62 @@ public class Level {
      */
     private int maxSoldierCapacity;
 
-    public Level(Region region, short[][] map, int[][] maxAmountMap, int minSnowForClear, int assignedSnow, int maxSoldierCapacity) {
-        checkMap(map, maxAmountMap);
+    public Level(Region region, short[][] mapTerrain, int[][] maxAmountMap, int minSnowForClear, int assignedSnow, int maxSoldierCapacity) {
+        initMap();
         this.region = region;
-        this.map = map;
-        this.maxAmountMap = maxAmountMap;
+        this.mapTerrain = mapTerrain;
+        this.mapMaxAmount = maxAmountMap;
         this.minSnowForClear = minSnowForClear;
         this.assignedSnow = assignedSnow;
-        this.ROWS = map.length;
-        this.COLUMNS = map[0].length;
+        this.ROWS = mapTerrain.length;
+        this.COLUMNS = mapTerrain[0].length;
         this.currentAmount = new int[ROWS][COLUMNS];
         this.maxIteration = setMaxIteration(region);
         this.maxSoldierCapacity = maxSoldierCapacity;
+        this.MAP = new MapAttribute[ROWS][COLUMNS];
     }
 
-    private void checkMap(short[][] map, int[][] maxAmountMap) {
-        // 유효성 체크
-        boolean isError = false;
-        if (map.length != maxAmountMap.length) {
-            isError = true;
-        } else {
-            for (int i = 0; i < map.length; i++) {
-                if (map[i].length != maxAmountMap[i].length) {
-                    isError = true;
-                    break;
+    // TODO i , j order
+    private void initMap() {
+        try {
+            for (int i = 0; i < ROWS; i++) {
+                for (int j = 0; j < COLUMNS; j++) {
+                    MAP[i][j] = MapAttribute.builder()
+                        .terrain(Terrain.values()[mapTerrain[i][j]])
+                        .maxAmount(mapMaxAmount[i][j])
+                        .currentAmount(currentAmount[i][j])
+                        .currentlyWorkingList(new ArrayList<>())
+                        .build();
                 }
             }
-        }
-        if (isError) {
-            throw new RuntimeException("this Map " + getClass().getSimpleName() + " is INCORRECT");
+        } catch (IndexOutOfBoundsException e) {
+            logger.fatal("this map has malfunction : " + getClass().getSimpleName());
+            throw new RuntimeException();
         }
     }
 
-    public void createTiledMap() {
+    private void modifyMapTerrain(int i, int j, Terrain terrain) {
+        MAP[i][j].setTerrain(terrain);
+    }
 
-//        for (int i = 0; i < ROWS; i++) {
-//            for (int j = 0; j < COLUMNS; j++) {
-//                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-//                var tile = LevelFinder.tiledMapTileSet.getTile(map[i][j]);
-//                MapProperties properties = tile.getProperties();
-//                try {
-//                    properties.put(TileType.MAX_AMOUNT.toString(), maxAmountMap[i][j]);
-//                    properties.put(TileType.CURRENT_AMOUNT.toString(), currentAmount[i][j]);
-//                    properties.put(TileType.WORKER_LIST.toString(), new ArrayList<>());
-//                } catch (Exception e) {
-//                    throw new RuntimeException("this Map " + getClass().getSimpleName() + " has INCORRECT tile in " + i + ", " + j);
-//                }
-//                cell.setTile(tile);
-//            }
-//        }
+    private void modifyMapMaxAmount(int i, int j, int amount) {
+        MAP[i][j].setCurrentAmount(amount);
+    }
+
+    private void modifyMapCurrentAmount(int i, int j, int amount) {
+        MAP[i][j].setCurrentAmount(amount);
+    }
+
+    private void modifyMapCurrentAmountBy(int i, int j, int amount) {
+        MAP[i][j].setCurrentAmount(MAP[i][j].getCurrentAmount() + amount);
+    }
+
+    private void addWorker(int i, int j, Soldier soldier) {
+        MAP[i][j].getCurrentlyWorkingList().add(soldier);
+    }
+
+    private List<Soldier> getWorker(int i, int j) {
+        return MAP[i][j].getCurrentlyWorkingList();
     }
 
     public short setMaxIteration(Region region) {
@@ -140,15 +151,15 @@ public class Level {
     }
 
     public int[] getTerrainMaxCurrentInfo(int i, int j) {
-        return new int[]{map[i][j], maxAmountMap[i][j], currentAmount[i][j]};
+        return new int[]{mapTerrain[i][j], mapMaxAmount[i][j], currentAmount[i][j]};
     }
 
-    public short[][] getMap() {
-        return map;
+    public short[][] getMapTerrain() {
+        return mapTerrain;
     }
 
     public int[][] getMaxAmountMap() {
-        return maxAmountMap;
+        return mapMaxAmount;
     }
 
     public Region getRegion() {
@@ -200,3 +211,4 @@ public class Level {
     }
 
 }
+

@@ -47,37 +47,43 @@ filter: Nearest, Nearest
 repeat: none
 briefBoard
   rotate: false
-  xy: 0, 950
+  xy: 0, 31
   size: 1098, 1007
-  split: 109, 94, 89, 148
-  pad: 651, 440, 18, 977
+  split: 91, 94, 65, 134
   orig: 1098, 1007
+  offset: 0, 0
+  index: -1
+briefing_complete
+  rotate: false
+  xy: 0, 1038
+  size: 1280, 874
+  orig: 1280, 874
   offset: 0, 0
   index: -1
 cabinet2
   rotate: false
-  xy: 1098, 1404
+  xy: 1098, 485
   size: 437, 553
   orig: 437, 553
   offset: 0, 0
   index: -1
 character
   rotate: false
-  xy: 0, 229
+  xy: 1280, 1191
   size: 627, 721
   orig: 627, 721
   offset: 0, 0
   index: -1
 etc2
   rotate: false
-  xy: 0, 0
+  xy: 1317, 256
   size: 214, 229
   orig: 214, 229
   offset: 0, 0
   index: -1
 leftTable
   rotate: false
-  xy: 627, 465
+  xy: 1098, 0
   size: 219, 485
   orig: 219, 485
   offset: 0, 0

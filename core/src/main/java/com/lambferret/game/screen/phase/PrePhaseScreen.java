@@ -55,10 +55,7 @@ public class PrePhaseScreen implements AbstractPhase {
         this.level = PhaseScreen.level;
         mapContainer.setBackground(briefBoard);
         stage.addActor(mapContainer);
-        mapContainer.setSize(500, 500);
-        mapContainer.setPosition(50, 50);
         mapContainer.setDebug(true, true);
-        mapContainer.fill();
     }
 
     @Override
@@ -88,7 +85,6 @@ public class PrePhaseScreen implements AbstractPhase {
 
         backgroundTexture = new Texture(background);
         briefBoard = new NinePatchDrawable(atlas.createPatch("briefBoard")); //9 patch
-
         background.dispose();
         cabinet1.dispose();
         cabinet2.dispose();

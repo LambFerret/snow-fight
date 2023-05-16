@@ -1,12 +1,6 @@
 package com.lambferret.game.level;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.nation.LevelN1;
-import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,28 +8,12 @@ public class LevelFinder {
     private static final Logger logger = LogManager.getLogger(LevelFinder.class.getName());
 
     public Level level;
-    public static TiledMapTileSet tiledMapTileSet;
-    static int tileWidth = 64;
-    static int tileHeight = 64;
 
     public LevelFinder() {
     }
 
     public static Level get(int levelNumber) {
         return LevelTier.values()[levelNumber].getTier();
-    }
-
-    public static void createTiledMapTileSet() {
-        tiledMapTileSet = new TiledMapTileSet();
-        int i = 0;
-        for (Terrain terrain : Terrain.values()) {
-            TextureRegion textureRegion = new TextureRegion(
-                AssetFinder.getTexture("tile" + terrain), 0, 0, tileWidth, tileHeight
-            );
-            TiledMapTile tile = new StaticTiledMapTile(textureRegion);
-            tile.getProperties().put(Terrain.class.getSimpleName(), terrain);
-            tiledMapTileSet.putTile(i++, tile);
-        }
     }
 
     public enum LevelTier {

@@ -96,6 +96,7 @@ public class Overlay implements PlayerObserver {
 
     public static void changePhaseInputProcessor() {
         inputManager.clear();
+        inputManager.addProcessor(uiSpriteBatch);
         switch (PhaseScreen.getCurrentScreen()) {
             case PRE -> inputManager.addProcessor(PrePhaseScreen.stage);
             case READY -> inputManager.addProcessor(ReadyPhaseScreen.stage);
@@ -103,18 +104,17 @@ public class Overlay implements PlayerObserver {
             case VICTORY -> inputManager.addProcessor(VictoryScreen.stage);
             case DEFEAT -> inputManager.addProcessor(DefeatScreen.stage);
         }
-        inputManager.addProcessor(uiSpriteBatch);
         Gdx.input.setInputProcessor(inputManager);
     }
 
     public static void changeGroundInputProcessor() {
         inputManager.clear();
+        inputManager.addProcessor(uiSpriteBatch);
         switch (GroundScreen.getCurrentScreen()) {
             case RECRUIT -> inputManager.addProcessor(RecruitScreen.stage);
             case SHOP -> inputManager.addProcessor(ShopScreen.stage);
             case TRAINING_GROUND -> inputManager.addProcessor(TrainingGroundScreen.stage);
         }
-        inputManager.addProcessor(uiSpriteBatch);
         Gdx.input.setInputProcessor(inputManager);
     }
 
