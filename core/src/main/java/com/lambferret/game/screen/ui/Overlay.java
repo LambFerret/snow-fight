@@ -46,7 +46,7 @@ public class Overlay implements PlayerObserver {
         quest = new QuestOverlay(uiSpriteBatch);
         command = new CommandOverlay(uiSpriteBatch);
         execute = new ExecuteOverlay(uiSpriteBatch);
-        soldier = new SoldierOverlay(uiSpriteBatch);
+        soldier = new InventoryOverlay(uiSpriteBatch);
         manual = new ManualBookshelfOverlay(uiSpriteBatch);
 
         allOverlay.add(map);
