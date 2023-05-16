@@ -54,10 +54,10 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         defeatScreen = new DefeatScreen();
         victoryScreen = new VictoryScreen();
         phaseScreenList = List.of(
-            actionPhaseScreen,
-            readyPhaseScreen,
-            defeatScreen,
             prePhaseScreen,
+            readyPhaseScreen,
+            actionPhaseScreen,
+            defeatScreen,
             victoryScreen
         );
     }
@@ -88,7 +88,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     private Table makeMap(Level level) {
         Table map = new Table();
-//        map.setFillParent(true);
         for (int i = 0; i < level.ROWS; i++) {
             for (int j = 0; j < level.COLUMNS; j++) {
                 map.add(makeMapElement(level.getTerrainMaxCurrentInfo(i, j)));
@@ -129,6 +128,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     public static void addBuff(Buff... buff) {
         buffList.addAll(Arrays.asList(buff));
+        player.buffChanged();
     }
 
     public static Screen getCurrentScreen() {
@@ -140,7 +140,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         buffList.clear();
         manualList.forEach(Manual::effect);
         player.setSnowAmount(level.getAssignedSnow());
-
+        Overlay.getInstance().setInit();
         prePhaseScreen.startPhase();
 
         currentScreen = Screen.PRE;
@@ -150,6 +150,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenPtoR() {
         prePhaseScreen.executePhase();
 
+        Overlay.getInstance().nextPhase();
         level.initCurrentIteration();
 
         readyPhaseScreen.startPhase();
@@ -159,6 +160,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenRtoA() {
         readyPhaseScreen.executePhase();
 
+        Overlay.getInstance().nextPhase();
+
         actionPhaseScreen.startPhase();
         currentScreen = Screen.ACTION;
     }
@@ -167,10 +170,12 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         actionPhaseScreen.executePhase();
 
         player.setCurrentCost(player.getMaxCost());
+        Overlay.getInstance().nextPhase();
         level.toNextIteration();
         commands.clear();
         buffList.forEach(Buff::setEnable);
         buffList.removeIf(Buff::isExpired);
+        player.buffChanged();
 
         readyPhaseScreen.startPhase();
         currentScreen = Screen.READY;

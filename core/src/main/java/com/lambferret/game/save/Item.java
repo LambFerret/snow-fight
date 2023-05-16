@@ -15,5 +15,6 @@ public class Item {
         MANUAL,
         QUEST,
         EVENT,
+        BUFF,
     }
 }

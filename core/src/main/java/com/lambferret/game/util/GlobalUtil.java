@@ -6,7 +6,11 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.crypt.j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -56,6 +60,24 @@ public class GlobalUtil {
 
     public static NinePatchDrawable getNinePatchDrawableFromTexture(String name, int pad) {
         return new NinePatchDrawable(new NinePatch(new TextureRegion(AssetFinder.getTexture(name + ".9")), pad, pad, pad, pad));
+    }
+
+    public static CustomButton simpleButton(TextureAtlas atlas, String texturePath, String text) {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(atlas.findRegion(texturePath).getTexture());
+        style.font = GlobalSettings.font;
+        return new CustomButton(text, style);
+    }
+
+    public static CustomButton simpleButton(String texturePath, String text) {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture("ui/space"));
+        style.font = GlobalSettings.font;
+        return new CustomButton(text, style);
+    }
+
+    public static CustomButton simpleButton(String texturePath) {
+        return simpleButton(texturePath, "");
     }
 
 }

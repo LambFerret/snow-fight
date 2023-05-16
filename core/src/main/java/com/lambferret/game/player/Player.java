@@ -14,10 +14,7 @@ import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.screen.event.main.First;
 import com.lambferret.game.screen.event.main.StoryWindow;
 import com.lambferret.game.screen.event.main.Tutorial;
-import com.lambferret.game.screen.ui.CommandOverlay;
-import com.lambferret.game.screen.ui.InventoryOverlay;
-import com.lambferret.game.screen.ui.ManualBookshelfOverlay;
-import com.lambferret.game.screen.ui.QuestOverlay;
+import com.lambferret.game.screen.ui.*;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Choco;
 import com.lambferret.game.soldier.Soldier;
@@ -261,6 +258,14 @@ public class Player {
         downAffinity = amount;
         if (downAffinity < 0) downAffinity = 0;
         if (downAffinity > 100) downAffinity = 100;
+    }
+
+    public void buffChanged() {
+        for (PlayerObserver listener : listeners) {
+            if (listener instanceof BuffTableOverlay) {
+                listener.onPlayerUpdate(Item.Type.BUFF);
+            }
+        }
     }
 
     public void setMoneyBy(int amount) {

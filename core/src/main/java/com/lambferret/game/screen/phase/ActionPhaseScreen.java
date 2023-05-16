@@ -27,7 +27,6 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     public ActionPhaseScreen(Container<Table> mapContainer) {
         this.mapContainer = mapContainer;
-        stage.addActor(this.mapContainer);
     }
 
     @Override
@@ -43,6 +42,7 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     @Override
     public void startPhase() {
+        stage.addActor(this.mapContainer);
         setCommand();
         executeCommand();
         setMembers();

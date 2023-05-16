@@ -20,8 +20,8 @@ import org.apache.logging.log4j.Logger;
 
 public class PrePhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(PrePhaseScreen.class.getName());
-    Container<Table> mapContainer;
     public static final Stage stage = new Stage();
+    Container<Table> mapContainer;
     TextureAtlas atlas;
     Texture backgroundTexture;
     NinePatchDrawable briefBoard;
@@ -34,7 +34,6 @@ public class PrePhaseScreen implements AbstractPhase {
         renderBackground();
         Image background = new Image(backgroundTexture);
         background.setSize(GlobalSettings.currWidth, GlobalSettings.currHeight);
-
         stage.addActor(background);
     }
 

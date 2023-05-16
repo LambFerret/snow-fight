@@ -21,7 +21,6 @@ public class ReadyPhaseScreen implements AbstractPhase {
 
     public ReadyPhaseScreen(Container<Table> mapContainer) {
         this.mapContainer = mapContainer;
-        stage.addActor(this.mapContainer);
     }
 
     @Override
@@ -36,6 +35,8 @@ public class ReadyPhaseScreen implements AbstractPhase {
     @Override
     public void startPhase() {
         this.player = SnowFight.player;
+        this.mapContainer.setBackground(null);
+        stage.addActor(this.mapContainer);
         //각종 플레이어의 덱이나 능력을 확인하거나 일단 작동시킴 즉 transaction 이 일어나기 전 모든 행동들
         PhaseScreen.buffList.forEach(Buff::effect);
         logger.info("startPhase |  🐳 buff 목록 | " + PhaseScreen.buffList);

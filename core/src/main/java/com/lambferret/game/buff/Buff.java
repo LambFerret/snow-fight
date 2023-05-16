@@ -1,5 +1,6 @@
 package com.lambferret.game.buff;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.level.Level;
@@ -8,6 +9,7 @@ import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.PhaseText;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -260,6 +262,12 @@ public class Buff {
         return isManual;
     }
 
+    public Texture getTexture() {
+        // TODO : 긍정적 효과면 녹색, 부정적 효과면 빨간색
+//        return atlas.findRegion("this.name").getTexture();
+        return AssetFinder.getTexture("buff/green");
+    }
+
     public String getDescription() {
         var description = this.figure.description;
         var isIncreased =
@@ -301,7 +309,9 @@ public class Buff {
 
     private static final PhaseText text;
 
+    //    private static final TextureAtlas atlas;
     static {
+//        atlas = AssetFinder.getAtlas("buff");
         text = LocalizeConfig.uiText.getPhaseText();
     }
 

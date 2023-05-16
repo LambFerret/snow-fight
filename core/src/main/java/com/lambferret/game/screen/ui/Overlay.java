@@ -33,6 +33,8 @@ public class Overlay implements PlayerObserver {
     AbstractOverlay execute;
     AbstractOverlay soldier;
     AbstractOverlay manual;
+    AbstractOverlay buffTable;
+    AbstractOverlay phaseOrder;
 
     private Overlay() {
         allOverlay.clear();
@@ -48,6 +50,8 @@ public class Overlay implements PlayerObserver {
         execute = new ExecuteOverlay(uiSpriteBatch);
         soldier = new InventoryOverlay(uiSpriteBatch);
         manual = new ManualBookshelfOverlay(uiSpriteBatch);
+        buffTable = new BuffTableOverlay(uiSpriteBatch);
+        phaseOrder = new PhaseOrderOverlay(uiSpriteBatch);
 
         allOverlay.add(map);
         allOverlay.add(bar);
@@ -56,6 +60,8 @@ public class Overlay implements PlayerObserver {
         allOverlay.add(execute);
         allOverlay.add(soldier);
         allOverlay.add(manual);
+        allOverlay.add(buffTable);
+        allOverlay.add(phaseOrder);
 
         groundUIList.add(map);
         groundUIList.add(soldier);
@@ -66,6 +72,8 @@ public class Overlay implements PlayerObserver {
         phaseUIList.add(execute);
         phaseUIList.add(soldier);
         phaseUIList.add(manual);
+        phaseUIList.add(buffTable);
+        phaseUIList.add(phaseOrder);
     }
 
     public static Overlay getInstance() {
@@ -142,6 +150,14 @@ public class Overlay implements PlayerObserver {
         for (AbstractOverlay overlay : allOverlay) {
             overlay.setVisible(false);
         }
+    }
+
+    public void setInit() {
+        ((PhaseOrderOverlay) phaseOrder).makeTable();
+    }
+
+    public void nextPhase() {
+        ((PhaseOrderOverlay) phaseOrder).next();
     }
 
     public static void reset() {
