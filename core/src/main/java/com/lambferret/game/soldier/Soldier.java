@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -191,14 +190,10 @@ public abstract class Soldier implements Comparable<Soldier> {
         return plate;
     }
 
-    public TextureRegionDrawable renderIcon() {
-        return new TextureRegionDrawable(atlas.findRegion(this.texturePath));
-    }
-
     private Group renderFrontPlate() {
         Group frontPlate = new Group();
 
-        CustomButton soldierButton = new CustomButton("", getFrontPlateStyle());
+        CustomButton soldierButton = GlobalUtil.simpleButton(frontPlateTexture(), "");
         Label soldierName = new Label(this.name, GlobalSettings.skin);
 
         frontPlate.setSize(soldierButton.getWidth(), soldierButton.getHeight());
@@ -213,9 +208,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         return frontPlate;
     }
 
-    private ImageTextButton.ImageTextButtonStyle getFrontPlateStyle() {
-        var style = new ImageTextButton.ImageTextButtonStyle();
-
+    private TextureRegionDrawable frontPlateTexture() {
         Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
         Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion("portrait"));
         Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
@@ -227,20 +220,19 @@ public abstract class Soldier implements Comparable<Soldier> {
             0, framePix.getHeight() * 2 / 3, framePix.getWidth() / 3, framePix.getHeight() / 3
         );
 
-        style.font = GlobalSettings.font;
-        style.up = new TextureRegionDrawable(new TextureRegion(new Texture(framePix)));
+        Texture texture = new Texture(framePix);
 
         portraitPix.dispose();
         rankPix.dispose();
         framePix.dispose();
 
-        return style;
+        return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
     private Group renderBackPlate() {
         Group backPlate = new Group();
 
-        CustomButton soldierButton = new CustomButton("", getBackPlateStyle());
+        CustomButton soldierButton = GlobalUtil.simpleButton(backPlateTexture(), "");
         Label soldierName = new Label(this.description, GlobalSettings.skin);
 
         backPlate.setSize(soldierButton.getWidth(), soldierButton.getHeight());
@@ -255,9 +247,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         return backPlate;
     }
 
-    private ImageTextButton.ImageTextButtonStyle getBackPlateStyle() {
-        var style = new ImageTextButton.ImageTextButtonStyle();
-
+    private TextureRegionDrawable backPlateTexture() {
         Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
         Pixmap portraitPix = GlobalUtil.readyPixmap(AssetFinder.getTexture(this.texturePath));
         Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
@@ -269,14 +259,13 @@ public abstract class Soldier implements Comparable<Soldier> {
             0, framePix.getHeight() * 2 / 3, framePix.getWidth() / 3, framePix.getHeight() / 3
         );
 
-        style.font = GlobalSettings.font;
-        style.up = new TextureRegionDrawable(new TextureRegion(new Texture(framePix)));
+        Texture texture = new Texture(framePix);
 
         framePix.dispose();
         portraitPix.dispose();
         rankPix.dispose();
 
-        return style;
+        return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
     public void empowerLevel(EmpowerLevel level) {

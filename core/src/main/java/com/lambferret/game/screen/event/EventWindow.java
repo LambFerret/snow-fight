@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -20,6 +19,7 @@ import com.lambferret.game.text.dto.dialogue.Dialogue;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
 import com.lambferret.game.text.dto.dialogue.Option;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,10 +72,7 @@ public abstract class EventWindow extends Group {
         background.setSize(this.getWidth(), this.getHeight());
         this.addActor(background);
 
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("namePlate"));
-        style.font = GlobalSettings.font;
-        namePlate = new CustomButton("", style);
+        namePlate = GlobalUtil.simpleButton("namePlate");
         namePlate.setSize(NAMEPLATE_WIDTH, NAMEPLATE_HEIGHT);
 
         this.addListener(new InputListener() {

@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
@@ -51,7 +49,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
 
     public ExecuteOverlay(Stage stage) {
         this.stage = stage;
-        executeButton = new CustomButton(text.getExecuteOverlayName(), executeButtonStyle());
+        executeButton = GlobalUtil.simpleButton("execute", text.getExecuteOverlayName());
         this.setDebug(true, true);
 
         setCursor();
@@ -174,13 +172,6 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
             Actions.moveTo(0, 0, EXECUTE_HIDE_ANIMATION_DURATION)
         );
         isHide = false;
-    }
-
-    private ImageTextButton.ImageTextButtonStyle executeButtonStyle() {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("execute"));
-        style.font = GlobalSettings.font;
-        return style;
     }
 
     private void screenChanger() {

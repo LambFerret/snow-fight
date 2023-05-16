@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.GroundScreen;
@@ -14,6 +12,7 @@ import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -72,15 +71,12 @@ public class MapOverlay extends Group implements AbstractOverlay {
     }
 
     private CustomButton button(GroundScreen.Screen action) {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("12"));
-        style.font = GlobalSettings.font;
         String label = switch (action) {
             case RECRUIT -> text.getRecruit();
             case SHOP -> text.getShop();
             case TRAINING_GROUND -> text.getTrainingGround();
         };
-        var button = new CustomButton(label, style);
+        var button = GlobalUtil.simpleButton("Map/button", label);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -141,15 +137,9 @@ public class MapOverlay extends Group implements AbstractOverlay {
 
     private void setAction(GroundScreen.Screen action) {
         switch (action) {
-            case RECRUIT -> {
-                GroundScreen.changeScreen(GroundScreen.Screen.RECRUIT);
-            }
-            case SHOP -> {
-                GroundScreen.changeScreen(GroundScreen.Screen.SHOP);
-            }
-            case TRAINING_GROUND -> {
-                GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
-            }
+            case RECRUIT -> GroundScreen.changeScreen(GroundScreen.Screen.RECRUIT);
+            case SHOP -> GroundScreen.changeScreen(GroundScreen.Screen.SHOP);
+            case TRAINING_GROUND -> GroundScreen.changeScreen(GroundScreen.Screen.TRAINING_GROUND);
         }
     }
 

@@ -5,10 +5,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
@@ -19,6 +17,7 @@ import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.TitleMenuText;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -91,14 +90,6 @@ public class TitleScreen extends AbstractScreen {
         table.setPosition(300, 300);
     }
 
-    private ImageTextButton.ImageTextButtonStyle getButtonStyle() {
-        TextureRegionDrawable texture = new TextureRegionDrawable(AssetFinder.getTexture("buttonTitle"));
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = texture;
-        style.font = font;
-        return style;
-    }
-
     private CustomButton button(TitleAction action) {
         String label = switch (action) {
             case NEW -> text.getNewGame();
@@ -108,7 +99,7 @@ public class TitleScreen extends AbstractScreen {
             case CREDIT -> text.getCredit();
             case EXIT -> text.getExit();
         };
-        var button = new CustomButton(label, getButtonStyle());
+        var button = GlobalUtil.simpleButton("buttonTitle", label);
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

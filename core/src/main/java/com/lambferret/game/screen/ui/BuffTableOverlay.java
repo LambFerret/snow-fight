@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 public class BuffTableOverlay extends Table implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(BuffTableOverlay.class.getName());
     private static final GroundText text;
-    private Stage stage;
+    private final Stage stage;
 
     private static final float BUFF_TABLE_WIDTH = 300;
     private static final float BUFF_TABLE_HEIGHT = 150;
@@ -77,7 +77,6 @@ public class BuffTableOverlay extends Table implements AbstractOverlay {
     }
 
     private void makeTable() {
-        logger.info("makeTable |  🐳 table is served!!! | ");
         clear();
         for (Buff buff : PhaseScreen.buffList) {
             Image buffIcon = new Image(buff.getTexture());

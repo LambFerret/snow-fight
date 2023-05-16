@@ -3,7 +3,6 @@ package com.lambferret.game.manual;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -12,6 +11,7 @@ import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.ManualInfo;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -74,10 +74,7 @@ public abstract class Manual implements Comparable<Manual> {
     }
 
     public CustomButton renderFrontCover() {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("button/button_up"));
-        style.font = GlobalSettings.font;
-        CustomButton button = new CustomButton(this.name, style);
+        CustomButton button = GlobalUtil.simpleButton("button/button_up", this.name);
         button.padBottom(30);
         return button;
     }
@@ -109,13 +106,8 @@ public abstract class Manual implements Comparable<Manual> {
     }
 
     public CustomButton renderInfo() {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("button/button_up"));
-        String sb = this.name + "\n" +
-            this.effectDescription + "\n" +
-            this.description + "\n";
-        style.font = GlobalSettings.font;
-        return new CustomButton(sb, style);
+        String sb = this.name + "\n" + this.effectDescription + "\n" + this.description + "\n";
+        return GlobalUtil.simpleButton("button/button_up", sb);
     }
 
     public abstract void effect();

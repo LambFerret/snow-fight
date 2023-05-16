@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.command.CupNoodle;
@@ -17,8 +15,7 @@ import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
-import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -92,10 +89,7 @@ public class ShopScreen implements AbstractGround {
         }
         int i = 0;
         for (Command command : commandStock) {
-            ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-            style.font = GlobalSettings.font;
-            style.up = command.renderIcon();
-            CustomButton imageButton = new CustomButton(command.getID(), style);
+            CustomButton imageButton = GlobalUtil.simpleButton(command.renderIcon(), command.getID());
 
             imageButton.setSize(ITEM_SIZE, ITEM_SIZE);
             imageButton.setPosition(i++ * (forSaleList.getWidth() / COMMAND_STOCK_AMOUNT), 0);
@@ -129,10 +123,7 @@ public class ShopScreen implements AbstractGround {
         }
         int i = 0;
         for (Manual manual : manualStock) {
-            ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-            style.font = GlobalSettings.font;
-            style.up = manual.renderIcon();
-            CustomButton imageButton = new CustomButton(manual.getID(), style);
+            CustomButton imageButton = GlobalUtil.simpleButton(manual.renderIcon(), manual.getID());
 
             imageButton.setSize(ITEM_SIZE, ITEM_SIZE);
             imageButton.setPosition(i++ * (forSaleList.getWidth() / MANUAL_STOCK_AMOUNT), forSaleList.getHeight() / 2);
@@ -224,10 +215,7 @@ public class ShopScreen implements AbstractGround {
     }
 
     private void setPlayerMoney() {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("button_up"));
-        style.font = GlobalSettings.font;
-        playerMoney = new CustomButton(null, style);
+        playerMoney = GlobalUtil.simpleButton("button_up", "null");
         playerMoney.setPosition(MONEY_X, MONEY_Y);
         playerMoney.setSize(MONEY_WIDTH, MONEY_HEIGHT);
         playerMoney.setText("money : " + player.getMoney());

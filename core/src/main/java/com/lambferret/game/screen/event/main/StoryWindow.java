@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.component.CustomButton;
@@ -13,6 +12,7 @@ import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,20 +71,14 @@ public abstract class StoryWindow extends EventWindow {
         CustomButton characterImage;
         for (int i = leftActor.size() - 1; i >= 0; i--) {
             Character character = leftActor.get(i);
-            ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-            style.font = GlobalSettings.font;
-            style.up = new TextureRegionDrawable(character.render());
-            characterImage = new CustomButton(character.getName(), style);
+            characterImage = GlobalUtil.simpleButton(new TextureRegionDrawable(character.render()), character.getName());
             characterImage.setPosition(i * CHARACTER_IMAGE_PAD, 0);
             characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
             leftSpeakers.addActor(characterImage);
         }
         int i = 0;
         for (Character character : rightActor) {
-            ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-            style.font = GlobalSettings.font;
-            style.up = new TextureRegionDrawable(character.render());
-            characterImage = new CustomButton(character.getName(), style);
+            characterImage = GlobalUtil.simpleButton(new TextureRegionDrawable(character.render()), character.getName());
             characterImage.setPosition(i++ * CHARACTER_IMAGE_PAD, 0);
             characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
             rightSpeakers.addActor(characterImage);

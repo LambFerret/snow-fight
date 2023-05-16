@@ -62,17 +62,27 @@ public class GlobalUtil {
         return new NinePatchDrawable(new NinePatch(new TextureRegion(AssetFinder.getTexture(name + ".9")), pad, pad, pad, pad));
     }
 
-    public static CustomButton simpleButton(TextureAtlas atlas, String texturePath, String text) {
+    private static ImageTextButton.ImageTextButtonStyle style() {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(atlas.findRegion(texturePath).getTexture());
         style.font = GlobalSettings.font;
+        return style;
+    }
+
+    public static CustomButton simpleButton(TextureAtlas atlas, String texturePath, String text) {
+        ImageTextButton.ImageTextButtonStyle style = style();
+        style.up = new TextureRegionDrawable(atlas.findRegion(texturePath).getTexture());
         return new CustomButton(text, style);
     }
 
     public static CustomButton simpleButton(String texturePath, String text) {
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("ui/space"));
-        style.font = GlobalSettings.font;
+        ImageTextButton.ImageTextButtonStyle style = style();
+        style.up = new TextureRegionDrawable(AssetFinder.getTexture(texturePath));
+        return new CustomButton(text, style);
+    }
+
+    public static CustomButton simpleButton(TextureRegionDrawable texture, String text) {
+        ImageTextButton.ImageTextButtonStyle style = style();
+        style.up = texture;
         return new CustomButton(text, style);
     }
 

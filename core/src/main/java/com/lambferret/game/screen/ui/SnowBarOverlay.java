@@ -6,10 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.SnowBarStyle;
@@ -19,7 +17,7 @@ import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.UIText;
-import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,15 +39,8 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
 
     public SnowBarOverlay(Stage stage) {
         super(0, 100, 1, false, new SnowBarStyle());
-
-        ImageTextButton.ImageTextButtonStyle xLabel = new ImageTextButton.ImageTextButtonStyle();
-        ImageTextButton.ImageTextButtonStyle descriptionStyle = new ImageTextButton.ImageTextButtonStyle();
-        descriptionStyle.up = new TextureRegionDrawable(AssetFinder.getTexture("silvanusParkDogT123ag"));
-        descriptionStyle.font = GlobalSettings.font;
-        xLabel.up = new TextureRegionDrawable(AssetFinder.getTexture("silvanusParkDogTag"));
-        xLabel.font = GlobalSettings.font;
-        clearThresholdXLabel = new CustomButton("", xLabel);
-        labelDescription = new CustomButton("UI String TODO", descriptionStyle);
+        clearThresholdXLabel = GlobalUtil.simpleButton("silvanusParkDogT123ag");
+        labelDescription = GlobalUtil.simpleButton("UI String TODO", "silvanusParkDogTag");
         barLabel = new Label("", GlobalSettings.skin);
 
         stage.addActor(this);

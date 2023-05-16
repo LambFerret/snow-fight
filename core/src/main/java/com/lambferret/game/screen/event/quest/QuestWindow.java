@@ -3,13 +3,13 @@ package com.lambferret.game.screen.event.quest;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,13 +55,10 @@ public abstract class QuestWindow extends EventWindow {
         List<Character> actor = getActor();
 
         CustomButton characterPlate;
-        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
-        style.font = GlobalSettings.font;
 
         for (int i = actor.size() - 1; i >= 0; i--) {
             Character character = actor.get(i);
-            style.imageUp = new TextureRegionDrawable(character.render());
-            characterPlate = new CustomButton(character.getName(), style);
+            characterPlate = GlobalUtil.simpleButton(new TextureRegionDrawable(character.render()), character.getName());
             characterPlate.setPosition(20, 0);
             characterPlate.setSize(300, 500);
             leftSpeakers.addActor(characterPlate);
