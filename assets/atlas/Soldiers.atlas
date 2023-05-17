@@ -1,0 +1,146 @@
+
+../texture/Soldiers.png
+size: 2048, 1024
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Chili
+  rotate: false
+  xy: 260, 691
+  size: 256, 322
+  orig: 256, 322
+  offset: 0, 0
+  index: 2
+Chili
+  rotate: false
+  xy: 260, 60
+  size: 256, 313
+  orig: 256, 313
+  offset: 0, 0
+  index: 1
+Chili
+  rotate: false
+  xy: 776, 705
+  size: 256, 308
+  orig: 256, 308
+  offset: 0, 0
+  index: 4
+Chili
+  rotate: false
+  xy: 1034, 437
+  size: 256, 284
+  orig: 256, 284
+  offset: 0, 0
+  index: 3
+ChiliPortrait
+  rotate: false
+  xy: 1292, 477
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Choco
+  rotate: false
+  xy: 518, 389
+  size: 256, 309
+  orig: 256, 309
+  offset: 0, 0
+  index: 2
+Choco
+  rotate: false
+  xy: 776, 402
+  size: 256, 301
+  orig: 256, 301
+  offset: 0, 0
+  index: 1
+Choco
+  rotate: false
+  xy: 776, 112
+  size: 256, 288
+  orig: 256, 288
+  offset: 0, 0
+  index: 4
+Choco
+  rotate: false
+  xy: 1034, 158
+  size: 256, 277
+  orig: 256, 277
+  offset: 0, 0
+  index: 3
+ChocoPortrait
+  rotate: false
+  xy: 1550, 757
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Coffee
+  rotate: false
+  xy: 2, 666
+  size: 256, 347
+  orig: 256, 347
+  offset: 0, 0
+  index: 2
+Coffee
+  rotate: false
+  xy: 260, 375
+  size: 256, 314
+  orig: 256, 314
+  offset: 0, 0
+  index: 1
+Coffee
+  rotate: false
+  xy: 518, 81
+  size: 256, 306
+  orig: 256, 306
+  offset: 0, 0
+  index: 4
+Coffee
+  rotate: false
+  xy: 1034, 723
+  size: 256, 290
+  orig: 256, 290
+  offset: 0, 0
+  index: 3
+CoffeePortrait
+  rotate: false
+  xy: 1550, 499
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+Vanilla
+  rotate: false
+  xy: 2, 324
+  size: 256, 340
+  orig: 256, 340
+  offset: 0, 0
+  index: 2
+Vanilla
+  rotate: false
+  xy: 2, 2
+  size: 256, 320
+  orig: 256, 320
+  offset: 0, 0
+  index: 1
+Vanilla
+  rotate: false
+  xy: 518, 700
+  size: 256, 313
+  orig: 256, 313
+  offset: 0, 0
+  index: 4
+Vanilla
+  rotate: false
+  xy: 1292, 735
+  size: 256, 278
+  orig: 256, 278
+  offset: 0, 0
+  index: 3
+VanillaPortrait
+  rotate: false
+  xy: 1292, 219
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1

@@ -117,7 +117,6 @@ public abstract class Soldier implements Comparable<Soldier> {
     private SoldierInfo info;
     private boolean isFront;
     TextureAtlas atlas;
-    Animation<TextureRegion> animation;
 
     public Soldier(
         String ID,
@@ -147,15 +146,14 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.initialRangeY = rangeY;
         this.initialRunAwayProbability = runAwayProbability;
         empowerLevel(EmpowerLevel.NEUTRAL);
-        atlas = AssetFinder.getAtlas(texturePath);
-        setAnimation();
+        atlas = AssetFinder.getAtlas("Soldiers");
         initValue();
     }
 
-    private void setAnimation() {
-        float frameDuration = 1;
-        Array<TextureAtlas.AtlasRegion> animationFrames = atlas.findRegions("animation");
-        animation = new Animation<>(frameDuration, animationFrames);
+    public Animation<TextureRegion> getAnimation() {
+        float frameDuration = 0.125F;
+        Array<TextureAtlas.AtlasRegion> animationFrames = atlas.findRegions(name);
+        return new Animation<>(frameDuration, animationFrames);
     }
 
     public void initValue() {
@@ -210,7 +208,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     private TextureRegionDrawable frontPlateTexture() {
         Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
-        Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion("portrait"));
+        Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion(name + "Portrait"));
         Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
 
         framePix.drawPixmap(portraitPix, 0, 0, portraitPix.getWidth(), portraitPix.getHeight(),

@@ -2,7 +2,9 @@ package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -12,15 +14,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.component.AnimationImage;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
+import com.lambferret.game.soldier.*;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Random;
 
 public class TrainingGroundScreen implements AbstractGround {
@@ -157,9 +162,32 @@ public class TrainingGroundScreen implements AbstractGround {
         snow.setScale(0.75F);
         snow.addListener(new ClickListener() {
             int clickCount = 0;
+            final List<Soldier> soldiers = List.of(new Choco(), new Vanilla(), new Coffee(), new Chili());
+            final double[] randomFloatX = {0, 0.5, 0.3, 0.7, 0.1, 0.9, 0.2, 0.8, 0.4, 0.6};
+            List<Float> randomFloatY = List.of(0F, 0.5F, 0.3F, 0.7F, 0.1F, 0.9F, 0.2F, 0.8F, 0.4F, 0.6F);
+            int count = 0;
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                count++;
+                // making soldier animation
+                Animation<TextureRegion> animation = soldiers.get(random.nextInt(4)).getAnimation();
+                AnimationImage newImage = new AnimationImage(animation);
+                float animationX = (float) (snow.getWidth() * randomFloatX[count]) + snow.getX();
+                float animationY = snow.getHeight() * randomFloatY.get(count) + snow.getY();
+                if (randomFloatX[count] > 0.5) {
+                    newImage.setScale(-1, 1);
+                }
+                newImage.setPosition(animationX, animationY);
+                newImage.setSize(100, 100);
+                stage.addActor(newImage);
+
+                newImage.addAction(Actions.sequence(
+                    Actions.delay(animation.getAnimationDuration() * 2),
+                    Actions.removeActor()
+                ));
+
+                // snow dug short animation;
                 clickCount++;
                 snow.addAction(
                     Actions.repeat(4,
