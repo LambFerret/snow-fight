@@ -82,15 +82,12 @@ public abstract class Manual implements Comparable<Manual> {
     public Group renderSideCover() {
         Label label = new Label(this.name, GlobalSettings.skin);
         Image plate = new Image(AssetFinder.getTexture("book_sidecover_plate"));
-        Image image = new Image(AssetFinder.getTexture("todo side cover"));
 
         Group group = new Group() {
             @Override
             protected void sizeChanged() {
                 super.sizeChanged();
                 label.setPosition(getWidth() / 2, getHeight() / 2, Align.center);
-                image.setPosition(0, getHeight());
-                image.setSize(getWidth(), getHeight() / 2);
                 plate.setPosition(0, 0);
                 plate.setSize(getWidth(), getHeight());
             }
@@ -100,7 +97,6 @@ public abstract class Manual implements Comparable<Manual> {
 
         group.addActor(plate);
         group.addActor(label);
-        group.addActor(image);
 
         return group;
     }
