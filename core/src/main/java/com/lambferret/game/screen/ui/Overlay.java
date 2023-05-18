@@ -31,7 +31,7 @@ public class Overlay implements PlayerObserver {
     AbstractOverlay quest;
     AbstractOverlay command;
     AbstractOverlay execute;
-    AbstractOverlay soldier;
+    AbstractOverlay inventory;
     AbstractOverlay manual;
     AbstractOverlay buffTable;
     AbstractOverlay phaseOrder;
@@ -48,32 +48,33 @@ public class Overlay implements PlayerObserver {
         quest = new QuestOverlay(uiSpriteBatch);
         command = new CommandOverlay(uiSpriteBatch);
         execute = new ExecuteOverlay(uiSpriteBatch);
-        soldier = new InventoryOverlay(uiSpriteBatch);
         manual = new ManualBookshelfOverlay(uiSpriteBatch);
         buffTable = new BuffTableOverlay(uiSpriteBatch);
         phaseOrder = new PhaseOrderOverlay(uiSpriteBatch);
+        inventory = new InventoryOverlay(uiSpriteBatch);
 
         allOverlay.add(map);
         allOverlay.add(bar);
         allOverlay.add(quest);
         allOverlay.add(command);
         allOverlay.add(execute);
-        allOverlay.add(soldier);
         allOverlay.add(manual);
         allOverlay.add(buffTable);
         allOverlay.add(phaseOrder);
+        allOverlay.add(inventory);
 
         groundUIList.add(map);
-        groundUIList.add(soldier);
+        groundUIList.add(manual);
+        groundUIList.add(inventory);
 
         phaseUIList.add(quest);
         phaseUIList.add(bar);
         phaseUIList.add(command);
         phaseUIList.add(execute);
-        phaseUIList.add(soldier);
         phaseUIList.add(manual);
         phaseUIList.add(buffTable);
         phaseUIList.add(phaseOrder);
+        phaseUIList.add(inventory);
     }
 
     public static Overlay getInstance() {

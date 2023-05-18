@@ -102,7 +102,7 @@ public class RecruitScreen implements AbstractGround {
 
         TextButton textButton = new TextButton("click to switch between add and remove", GlobalSettings.skin);
         textButton.setSize(100, 100);
-        textButton.setPosition(0, 0);
+        textButton.setPosition(GlobalSettings.currWidth - 100, 0);
         stage.addActor(textButton);
         textButton.addListener(new ClickListener() {
             @Override

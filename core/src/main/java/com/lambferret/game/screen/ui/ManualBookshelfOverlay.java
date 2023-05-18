@@ -11,6 +11,7 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,6 +33,8 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
         this.setSize(MANUAL_WIDTH, MANUAL_HEIGHT);
         this.setPosition(MANUAL_X, MANUAL_Y);
         this.setDebug(true, true);
+        setBackground(GlobalUtil.getNinePatchDrawableFromTexture("bookshelf", 5));
+        this.pack();
 
         infoContainer.setVisible(false);
 
