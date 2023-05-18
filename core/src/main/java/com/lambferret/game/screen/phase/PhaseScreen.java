@@ -90,7 +90,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         Table map = new Table();
         for (int i = 0; i < level.ROWS; i++) {
             for (int j = 0; j < level.COLUMNS; j++) {
-                map.add(makeMapElement(level.getTerrainMaxCurrentInfo(i, j)));
+                map.add(makeMapElement(level.getTerrainMaxCurrentInfo(i, j))).width(40).height(40);
             }
             map.row();
         }

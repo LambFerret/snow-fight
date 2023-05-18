@@ -43,10 +43,10 @@ public class BuffTableOverlay extends Table implements AbstractOverlay {
         infoContainer.setVisible(false);
 
         infoContainer.setSize(100, 100);
-        infoContainer.setPosition(200, 200);
+        infoContainer.setPosition((GlobalSettings.currWidth + infoContainer.getWidth()) / 2, 200);
+        pack();
 
         this.setDebug(true, true);
-//        infoContainer.setDebug(true, true);
 
         stage.addActor(infoContainer);
         stage.addActor(this);
