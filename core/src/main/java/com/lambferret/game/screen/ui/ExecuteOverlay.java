@@ -2,6 +2,7 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -163,6 +164,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         this.executeButton.addAction(
             Actions.moveTo(EXECUTE_HIDE_BUTTON_RELATIVE_X, 0, SOLDIER_HIDE_ANIMATION_DURATION)
         );
+        executeButton.addAction(Actions.color(Color.WHITE, 0.5F));
         isHide = true;
     }
 
@@ -175,7 +177,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
     }
 
     private void screenChanger() {
-        hide();
+        if (PhaseScreen.getCurrentScreen() != PhaseScreen.Screen.ACTION) hide();
         Level level = PhaseScreen.level;
         switch (PhaseScreen.getCurrentScreen()) {
             case PRE -> {
@@ -185,6 +187,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                 PhaseScreen.screenRtoA();
             }
             case ACTION -> {
+                executeButton.addAction(Actions.color(Color.RED, 0.5F));
                 if (level.getMaxIteration() > level.getCurrentIteration()) {
                     PhaseScreen.screenAtoR();
                 } else if (level.getMaxIteration() == level.getCurrentIteration()) {
@@ -193,6 +196,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                     } else {
                         PhaseScreen.screenAtoV();
                     }
+                    screenChanger();
                 } else {
                     throw new RuntimeException("current iter is bigger than max iter");
                 }
@@ -209,9 +213,19 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         Overlay.changePhaseInputProcessor();
     }
 
+    float actionPhaseTimer = 0;
+
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.ACTION) {
+            actionPhaseTimer += delta;
+            executeButton.setText(String.format("%.2f", 1 - actionPhaseTimer));
+            if (actionPhaseTimer >= 1F) {
+                actionPhaseTimer = 0;
+                screenChanger();
+            }
+        }
         if (spaceKeyPressed) {
             elapsedTime += delta;
             if (elapsedTime >= 2) {
