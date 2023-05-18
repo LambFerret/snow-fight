@@ -1,5 +1,6 @@
 package com.lambferret.game.screen.ui;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -8,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.GroundScreen;
-import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
 import com.lambferret.game.util.AssetFinder;
@@ -22,11 +22,17 @@ public class MapOverlay extends Group implements AbstractOverlay {
     private final Image hoveredImageGround;
     private final Image hoveredImageShop;
     private final Image hoveredImageRecruit;
+    private final Image background;
 
 
     public MapOverlay(Stage stage) {
         this.setSize(OVERLAY_BORDERLINE_WIDTH, OVERLAY_BORDERLINE_HEIGHT);
-        this.setPosition(GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH, 0);
+        this.setPosition(0, 0);
+
+        background = new Image(AssetFinder.getTexture("ui/map_overlay"));
+        background.setSize(this.getWidth(), this.getHeight());
+        background.setPosition(0, 0);
+        background.setColor(Color.FIREBRICK);
 
         hoveredImageGround = makeHoverImage(GroundScreen.Screen.TRAINING_GROUND);
         hoveredImageShop = makeHoverImage(GroundScreen.Screen.SHOP);
@@ -34,6 +40,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
 
         stage.addActor(this);
 
+        this.addActor(background);
         this.addActor(hoveredImageGround);
         this.addActor(hoveredImageShop);
         this.addActor(hoveredImageRecruit);
@@ -66,7 +73,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
         Texture texture = AssetFinder.getTexture(screen.name().toLowerCase());
         Image mapHoverImage = new Image(texture);
         mapHoverImage.setSize(MAP_HOVER_IMAGE_WIDTH, MAP_HOVER_IMAGE_HEIGHT);
-        mapHoverImage.setPosition(this.getWidth(), this.getHeight() + MAP_HOVER_IMAGE_Y_PAD);
+        mapHoverImage.setPosition(-this.getWidth(), this.getHeight() + MAP_HOVER_IMAGE_Y_PAD);
         return mapHoverImage;
     }
 
@@ -110,7 +117,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
         };
         imageToShown.addAction(
             Actions.moveTo(
-                this.getWidth() - (MAP_HOVER_IMAGE_WIDTH + MAP_HOVER_IMAGE_X_PAD),
+                MAP_HOVER_IMAGE_X_PAD,
                 this.getHeight() + MAP_HOVER_IMAGE_Y_PAD,
                 MAP_HOVER_IMAGE_ANIMATION_DURATION
             )
@@ -127,7 +134,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
         };
         imageToHide.addAction(
             Actions.moveTo(
-                this.getWidth(),
+                -this.getWidth(),
                 this.getHeight() + MAP_HOVER_IMAGE_Y_PAD,
                 MAP_HOVER_IMAGE_ANIMATION_DURATION
             )
