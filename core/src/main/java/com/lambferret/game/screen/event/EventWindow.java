@@ -28,20 +28,19 @@ import java.util.List;
 public abstract class EventWindow extends Group {
     private static final Logger logger = LogManager.getLogger(EventWindow.class.getName());
 
-    protected static final float DIALOGUE_X_PAD = 50;
-    protected static final float DIALOGUE_Y_PAD = 30;
-
-    protected static final float DIALOGUE_WIDTH = GlobalSettings.currWidth - DIALOGUE_X_PAD * 2;
-    protected static final float DIALOGUE_HEIGHT = 300.0F - DIALOGUE_Y_PAD;
-    protected static final float SPEAKERS_WIDTH = GlobalSettings.currWidth / 3.0F;
-    protected static final float SPEAKERS_HEIGHT = GlobalSettings.currHeight - DIALOGUE_HEIGHT;
-    protected static final float ENDING_TEXT_HEIGHT = 300.0F;
-    protected static final float ENDING_TEXT_WIDTH = GlobalSettings.currWidth;
-    protected static final float NAMEPLATE_WIDTH = 200.0F;
-    protected static final float NAMEPLATE_HEIGHT = 50.0F;
-    protected static final float NAMEPLATE_X_LEFT = 200.0F;
-    protected static final float NAMEPLATE_X_RIGHT = GlobalSettings.currWidth - (NAMEPLATE_X_LEFT + NAMEPLATE_WIDTH);
-    protected static final float NAMEPLATE_Y = 300.0F;
+    protected static final int DIALOGUE_X_PAD = 50;
+    protected static final int DIALOGUE_Y_PAD = 30;
+    protected static final int DIALOGUE_WIDTH = GlobalSettings.currWidth - DIALOGUE_X_PAD * 2;
+    protected static final int DIALOGUE_HEIGHT = 300 - DIALOGUE_Y_PAD;
+    protected static final int SPEAKERS_WIDTH = GlobalSettings.currWidth / 3;
+    protected static final int SPEAKERS_HEIGHT = GlobalSettings.currHeight - DIALOGUE_HEIGHT;
+    protected static final int ENDING_TEXT_HEIGHT = 300;
+    protected static final int ENDING_TEXT_WIDTH = GlobalSettings.currWidth;
+    protected static final int NAMEPLATE_WIDTH = 200;
+    protected static final int NAMEPLATE_HEIGHT = 50;
+    protected static final int NAMEPLATE_X_LEFT = 200;
+    protected static final int NAMEPLATE_X_RIGHT = GlobalSettings.currWidth - (NAMEPLATE_X_LEFT + NAMEPLATE_WIDTH);
+    protected static final int NAMEPLATE_Y = 300;
     protected static final Character ME = new Me();
     protected static final Character BOSS = new ImmediateBoss();
     protected static final Character CHOCO = new Choco();

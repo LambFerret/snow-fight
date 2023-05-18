@@ -25,10 +25,10 @@ import java.util.*;
 
 public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
-    public static final float MAP_X = 50.0F;
-    public static final float MAP_Y = 50.0F;
-    public static final float MAP_WIDTH = 500.0F;
-    public static final float MAP_HEIGHT = 500.0F;
+    public static final int MAP_X = 50;
+    public static final int MAP_Y = 50;
+    public static final int MAP_WIDTH = 500;
+    public static final int MAP_HEIGHT = 500;
     public static final Container<Table> mapContainer = new Container<>();
     private static final Overlay overlay = Overlay.getInstance();
 
