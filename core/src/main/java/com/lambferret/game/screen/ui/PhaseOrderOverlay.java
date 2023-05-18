@@ -1,16 +1,12 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
@@ -19,7 +15,6 @@ import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
-import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,18 +23,14 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(PhaseOrderOverlay.class.getName());
     private static final GroundText text;
 
-    private static final float ORDER_WIDTH = 300;
-    private static final float ORDER_HEIGHT = 150;
-    private static final float ORDER_X = (GlobalSettings.currWidth - ORDER_WIDTH) / 2;
-    private static final float ORDER_Y = GlobalSettings.currHeight - ORDER_HEIGHT;
+    public static final int ORDER_PAD = 5;
+    public static final int ORDER_BUTTON_SIZE = 40;
     private final Container<CustomButton> infoContainer = new Container<>();
     int currPhase = 0;
-
     Player player;
 
     public PhaseOrderOverlay(Stage stage) {
-        this.setSize(ORDER_WIDTH, ORDER_HEIGHT);
-        this.setPosition(ORDER_X, ORDER_Y);
+        this.pack();
         this.setDebug(true, true);
 
         infoContainer.setVisible(false);
@@ -47,7 +38,6 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
         infoContainer.setSize(100, 100);
         infoContainer.setPosition(200, 200);
 
-        infoContainer.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("ui/phaseOrderInfo")));
         stage.addActor(infoContainer);
         stage.addActor(this);
     }
@@ -64,45 +54,48 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
     public void makeTable() {
         clear();
         currPhase = 0;
-        addPre();
+        add(PhaseScreen.Screen.PRE);
         for (int i = 0; i <= PhaseScreen.level.getMaxIteration(); i++) {
-            addPhase();
+            addSpace();
+            add(PhaseScreen.Screen.READY);
+            addSpace();
+            add(PhaseScreen.Screen.ACTION);
         }
+        setSize(getCells().size * ORDER_BUTTON_SIZE, ORDER_BUTTON_SIZE);
+        setPosition((GlobalSettings.currWidth - getWidth()) / 2, GlobalSettings.currHeight - getHeight() - ORDER_PAD);
     }
 
-    private void addPre() {
-        CustomButton pre = GlobalUtil.simpleButton("ui/prePhase");
-        pre.setColor(Color.RED);
-        pre.addAction(shake());
-        pre.addListener(showInfoListener("TODO : pre phase"));
-        add(pre).pad(5);
+    private void add(PhaseScreen.Screen phase) {
+        CustomButton button = GlobalUtil.simpleButton("ui/" + phase.name());
+        button.addListener(showInfoListener("TODO : " + phase.name()));
+        Color color = switch (phase) {
+            case ACTION -> Color.BLUE;
+            case PRE -> Color.RED;
+            case READY -> Color.GREEN;
+            default -> Color.WHITE;
+        };
+        button.setColor(color);
+        if (phase == PhaseScreen.Screen.PRE) button.addAction(highlight());
+        add(button);
     }
 
-    private void addPhase() {
-        addSpace();
-        CustomButton ready = GlobalUtil.simpleButton("ui/readyPhase");
-        ready.setColor(Color.GREEN);
-        add(ready).pad(5);
-        ready.addListener(showInfoListener("TODO : readyPhase"));
-        addSpace();
-        CustomButton action = GlobalUtil.simpleButton("ui/actionPhase");
-        action.setColor(Color.BLUE);
-        action.addListener(showInfoListener("TODO : actionPhase"));
-        add(action).pad(5);
+    @Override
+    public <T extends Actor> Cell<T> add(T actor) {
+        return super.add(actor).width(ORDER_BUTTON_SIZE).height(ORDER_BUTTON_SIZE);
     }
 
     private void addSpace() {
-        CustomButton space = GlobalUtil.simpleButton("ui/space");
-        space.setColor(Color.DARK_GRAY);
-        space.addListener(showInfoListener("TODO : EMPTY SPACE!!! this will have arrow or something"));
-        add(space).pad(5);
+        add(GlobalUtil.simpleButton("space"));
     }
 
     public void next() {
         try {
             getCells().get(currPhase).getActor().clearActions();
+            getCells().get(currPhase).getActor().addAction(
+                Actions.alpha(1F, 0.5F)
+            );
             currPhase = currPhase + 2;
-            getCells().get(currPhase).getActor().addAction(shake());
+            getCells().get(currPhase).getActor().addAction(highlight());
         } catch (IndexOutOfBoundsException e) {
             logger.info("Phase order finished");
         }
@@ -130,15 +123,14 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
         };
     }
 
-    private RepeatAction shake() {
+    private Action highlight() {
         return Actions.forever(
             Actions.sequence(
-                Actions.moveBy(5, 0, 0.5f),
-                Actions.moveBy(-5, 0, 0.5f)
+                Actions.alpha(0.3F, 0.5F),
+                Actions.alpha(1F, 0.5F)
             )
         );
     }
-
 
     static {
         text = LocalizeConfig.uiText.getGroundText();

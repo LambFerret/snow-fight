@@ -2,8 +2,10 @@ package com.lambferret.game.screen.title;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -24,11 +26,15 @@ import org.apache.logging.log4j.Logger;
 public class TitleScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(TitleScreen.class.getName());
     private static final TitleMenuText text;
+    public static final int TITLE_BUTTON_WIDTH = 100;
+    public static final int TITLE_BUTTON_HEIGHT = 50;
+    public static final int TITLE_BUTTON_PAD = 10;
+    public static final int TITLE_X = 300;
+    public static final int TITLE_Y = 300;
 
     private final SelectSaveWindow selectSaveWindow;
     private final SelectLoadWindow selectLoadWindow;
     private final Stage stage;
-    Table table;
     BitmapFont font;
 
     public TitleScreen() {
@@ -36,12 +42,10 @@ public class TitleScreen extends AbstractScreen {
 
         selectSaveWindow = new SelectSaveWindow(stage);
         selectLoadWindow = new SelectLoadWindow(stage);
-        table = new Table();
 
         stage.addActor(backGroundImage());
         stage.addActor(selectSaveWindow);
         stage.addActor(selectLoadWindow);
-        stage.addActor(table);
 
         font = GlobalSettings.font;
 
@@ -73,21 +77,25 @@ public class TitleScreen extends AbstractScreen {
     }
 
     private void setTable() {
-        table.clear();
-        table.add(button(TitleAction.NEW)).pad(10);
+        Table table = new Table() {
+            @Override
+            public Cell add(Actor actor) {
+                return super.add(actor).width(TITLE_BUTTON_WIDTH).height(TITLE_BUTTON_HEIGHT).pad(TITLE_BUTTON_PAD);
+            }
+        };
+        table.add(button(TitleAction.NEW));
         table.row();
         if (SaveLoader.getRecentSave() != -1) {
-            table.add(button(TitleAction.CONTINUE)).pad(10);
+            table.add(button(TitleAction.CONTINUE));
             table.row();
-            table.add(button(TitleAction.LOAD)).pad(10);
+            table.add(button(TitleAction.LOAD));
             table.row();
         }
-        table.add(button(TitleAction.OPTION)).pad(10);
+        table.add(button(TitleAction.OPTION));
         table.row();
-        table.add(button(TitleAction.CREDIT)).pad(10);
-        table.row();
-        table.add(button(TitleAction.EXIT)).pad(10);
-        table.setPosition(300, 300);
+        table.add(button(TitleAction.EXIT));
+        table.setPosition(TITLE_X, TITLE_Y);
+        stage.addActor(table);
     }
 
     private CustomButton button(TitleAction action) {
@@ -96,7 +104,6 @@ public class TitleScreen extends AbstractScreen {
             case CONTINUE -> text.getContinueGame();
             case LOAD -> text.getLoadGame();
             case OPTION -> text.getOption();
-            case CREDIT -> text.getCredit();
             case EXIT -> text.getExit();
         };
         var button = GlobalUtil.simpleButton("buttonTitle", label);
@@ -133,9 +140,6 @@ public class TitleScreen extends AbstractScreen {
                 SnowFight.player = new Player();
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
             }
-            case CREDIT -> {
-                logger.info("update | CREDIT");
-            }
             case EXIT -> {
                 Gdx.app.exit();
             }
@@ -158,7 +162,6 @@ public class TitleScreen extends AbstractScreen {
         CONTINUE,
         LOAD,
         OPTION,
-        CREDIT,
         EXIT
     }
 
