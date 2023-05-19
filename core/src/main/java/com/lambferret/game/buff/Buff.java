@@ -125,22 +125,22 @@ public class Buff {
                     switch (operation) {
                         case ADD -> {
                             for (Soldier soldier : soldiers) {
-                                soldier.setSpeed((byte) (soldier.getSpeed() + value));
+                                soldier.setSpeed((short) (soldier.getSpeed() + value));
                             }
                         }
                         case SUB -> {
                             for (Soldier soldier : soldiers) {
-                                soldier.setSpeed((byte) (soldier.getSpeed() - value));
+                                soldier.setSpeed((short) (soldier.getSpeed() - value));
                             }
                         }
                         case MUL -> {
                             for (Soldier soldier : soldiers) {
-                                soldier.setSpeed((byte) (soldier.getSpeed() * value));
+                                soldier.setSpeed((short) (soldier.getSpeed() * value));
                             }
                         }
                         case DIV -> {
                             for (Soldier soldier : soldiers) {
-                                soldier.setSpeed((byte) (soldier.getSpeed() / value));
+                                soldier.setSpeed((short) (soldier.getSpeed() / value));
                             }
                         }
                     }

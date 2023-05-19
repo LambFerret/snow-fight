@@ -28,8 +28,8 @@ public class PrePhaseScreen implements AbstractPhase {
     Player player;
     Level level;
 
-    public PrePhaseScreen(Container<Table> mapContainer) {
-        this.mapContainer = mapContainer;
+    public PrePhaseScreen() {
+        this.mapContainer = new Container<>();
         atlas = AssetFinder.getAtlas("briefingRoom");
         renderBackground();
         Image background = new Image(backgroundTexture);
@@ -48,9 +48,11 @@ public class PrePhaseScreen implements AbstractPhase {
     public void startPhase() {
         this.player = SnowFight.player;
         this.level = PhaseScreen.level;
+        mapContainer.setActor(level.makeTable(true));
+        mapContainer.setPosition(200, 200);
+        mapContainer.setSize(500, 500);
         mapContainer.setBackground(briefBoard);
         stage.addActor(mapContainer);
-        mapContainer.setDebug(true, true);
     }
 
     @Override

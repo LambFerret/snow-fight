@@ -1,10 +1,6 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
 import com.lambferret.game.command.Command;
@@ -17,7 +13,6 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.soldier.Soldier;
-import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +24,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static final int MAP_Y = 50;
     public static final int MAP_WIDTH = 500;
     public static final int MAP_HEIGHT = 500;
-    public static final Container<Table> mapContainer = new Container<>();
     private static final Overlay overlay = Overlay.getInstance();
 
     private static Screen currentScreen;
@@ -48,9 +42,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     Table mapTable;
 
     static {
-        prePhaseScreen = new PrePhaseScreen(mapContainer);
-        actionPhaseScreen = new ActionPhaseScreen(mapContainer);
-        readyPhaseScreen = new ReadyPhaseScreen(mapContainer);
+        prePhaseScreen = new PrePhaseScreen();
+        actionPhaseScreen = new ActionPhaseScreen();
+        readyPhaseScreen = new ReadyPhaseScreen();
         defeatScreen = new DefeatScreen();
         victoryScreen = new VictoryScreen();
         phaseScreenList = List.of(
@@ -63,9 +57,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public PhaseScreen() {
-        mapContainer.fill();
-        mapContainer.setPosition(MAP_X, MAP_Y);
-        mapContainer.setSize(MAP_WIDTH, MAP_HEIGHT);
         commands = new LinkedHashMap<>();
         buffList = new ArrayList<>();
     }
@@ -73,7 +64,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public void onPlayerReady() {
         player = SnowFight.player;
         level = LevelFinder.get(player.getDay());
-        updateMap(level);
         for (AbstractPhase phase : phaseScreenList) {
             phase.onPlayerReady();
             player.addPlayerObserver(phase);
@@ -86,41 +76,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     }
 
-    private Table makeMap(Level level) {
-        Table map = new Table();
-        for (int i = 0; i < level.ROWS; i++) {
-            for (int j = 0; j < level.COLUMNS; j++) {
-                map.add(makeMapElement(level.getTerrainMaxCurrentInfo(i, j))).width(40).height(40);
-            }
-            map.row();
-        }
-        map.setPosition(0, 0);
-        map.setSize(MAP_WIDTH, MAP_HEIGHT);
-        map.setDebug(true, true);
-        return map;
-    }
-
-    private ImageButton makeMapElement(int[] terrainMaxCurrent) {
-        ImageButton.ImageButtonStyle style = new ImageButton.ImageButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("mapElement"));
-        ImageButton button = new ImageButton(style);
-        float transparency = (float) terrainMaxCurrent[2] / terrainMaxCurrent[1];
-        Color color = switch (terrainMaxCurrent[0]) {
-            case 0 -> Color.BLACK;
-            case 1 -> new Color(255, 69, 0, transparency); //Color.ORANGE.;
-            case 2 -> new Color(255, 192, 203, transparency); //Color.YELLOW;
-            case 3 -> new Color(127, 255, 0, transparency); //Color.GREEN;
-            case 4 -> new Color(0, 128, 128, transparency); //Color.CHARTREUSE;
-            default -> Color.VIOLET;
-        };
-        button.setColor(color);
-        button.setSize(MAP_WIDTH / level.COLUMNS, MAP_HEIGHT / level.ROWS);
-        return button;
-    }
-
-    private void updateMap(Level level) {
-        mapContainer.setActor(makeMap(level));
-    }
 
     public static Map<Command, List<Soldier>> getCommands() {
         return commands;

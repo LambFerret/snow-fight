@@ -56,7 +56,7 @@ public class AssetFinder {
     public static Texture getTexture(String name) {
         String fileName = TEXTURE + name + ".png";
         if (!Gdx.files.absolute(fileName).exists()) {
-            logger.info("this texture doesn't exist. please check : " + name);
+//            logger.info("this texture doesn't exist. please check : " + name);
             fileName = TEXTURE + "WorkingOnButton.png";
         }
         return manager.get(fileName, Texture.class);

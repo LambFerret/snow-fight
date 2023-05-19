@@ -284,8 +284,47 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     protected abstract void weaken();
 
-    public String getName() {
-        return name;
+    public void setRangeX(byte rangeX) {
+        if (rangeX < 0) {
+            logger.fatal("setRangeX | " + this.name + " rangeX < 0");
+            throw new IllegalArgumentException("rangeX < 0");
+        } else if (rangeX > 100) {
+            logger.warn("setRangeX | " + this.name + " rangeX > 10");
+        } else {
+            this.rangeX = rangeX;
+        }
+    }
+
+    public void setRangeY(byte rangeY) {
+        if (rangeY < 0) {
+            logger.fatal("setRangeY | " + this.name + " rangeY < 0");
+            throw new IllegalArgumentException("rangeY < 0");
+        } else if (rangeY > 100) {
+            logger.warn("setRangeY | " + this.name + " rangeY > 10");
+        } else {
+            this.rangeY = rangeY;
+        }
+    }
+
+    public void setSpeed(short speed) {
+        if (speed < 0) {
+            logger.warn("setSpeed | " + this.name + " speed < 0");
+            this.speed = 0;
+        } else {
+            this.speed = speed;
+        }
+    }
+
+    public void setRunAwayProbability(byte runAwayProbability) {
+        if (runAwayProbability < 0) {
+            logger.fatal("setRunAwayProbability | " + this.name + " runAwayProbability < 0");
+            this.runAwayProbability = 0;
+        } else if (runAwayProbability > 100) {
+            logger.fatal("setRunAwayProbability | " + this.name + " runAwayProbability > 100");
+            this.runAwayProbability = 100;
+        } else {
+            this.runAwayProbability = runAwayProbability;
+        }
     }
 
     @Override

@@ -1,8 +1,16 @@
 package com.lambferret.game.level;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,17 +21,9 @@ import java.util.Map;
 /**
  * 맵에 대한 정보만 저장할 것!
  */
-public class Level {
+public abstract class Level {
     private static final Logger logger = LogManager.getLogger(Level.class.getName());
 
-    /**
-     * 전체 지도의 좌표
-     */
-    private final short[][] mapTerrain;
-    /**
-     * 지도에서 최대 쌓을 수 있는 눈의 양
-     */
-    private final int[][] mapMaxAmount;
     private final MapAttribute[][] MAP;
     /**
      * 지역
@@ -50,7 +50,7 @@ public class Level {
      */
     public final int COLUMNS;
     /**
-     * 현재 지도에 적설된 량
+     * 현재 지도에 적설된 량 TODO : 이미 깔린 눈이 있을 경우 오버라이드해서 사용
      */
     private int[][] currentAmount;
     /**
@@ -67,29 +67,30 @@ public class Level {
     private int maxSoldierCapacity;
 
     public Level(Region region, short[][] mapTerrain, int[][] maxAmountMap, int minSnowForClear, int assignedSnow, int maxSoldierCapacity) {
-        initMap();
-        this.region = region;
-        this.mapTerrain = mapTerrain;
-        this.mapMaxAmount = maxAmountMap;
-        this.minSnowForClear = minSnowForClear;
-        this.assignedSnow = assignedSnow;
         this.ROWS = mapTerrain.length;
         this.COLUMNS = mapTerrain[0].length;
+        this.MAP = initMap(mapTerrain, maxAmountMap);
+        this.region = region;
+        this.minSnowForClear = minSnowForClear;
+        this.assignedSnow = assignedSnow;
         this.currentAmount = new int[ROWS][COLUMNS];
         this.maxIteration = setMaxIteration(region);
         this.maxSoldierCapacity = maxSoldierCapacity;
-        this.MAP = new MapAttribute[ROWS][COLUMNS];
     }
 
     // TODO i , j order
-    private void initMap() {
+    private MapAttribute[][] initMap(short[][] mapTerrain, int[][] maxAmountMap) {
+        MapAttribute[][] MAP = new MapAttribute[ROWS][COLUMNS];
+        var a = originAmountInMap();
+        var b = a == null;
+
         try {
             for (int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLUMNS; j++) {
                     MAP[i][j] = MapAttribute.builder()
                         .terrain(Terrain.values()[mapTerrain[i][j]])
-                        .maxAmount(mapMaxAmount[i][j])
-                        .currentAmount(currentAmount[i][j])
+                        .maxAmount(maxAmountMap[i][j])
+                        .currentAmount(b ? 0 : a[i][j])
                         .currentlyWorkingList(new ArrayList<>())
                         .build();
                 }
@@ -98,29 +99,97 @@ public class Level {
             logger.fatal("this map has malfunction : " + getClass().getSimpleName());
             throw new RuntimeException();
         }
+        return MAP;
     }
 
-    private void modifyMapTerrain(int i, int j, Terrain terrain) {
+    public Table makeTable(boolean isPre) {
+        int size = isPre ? 40 : 100;
+        Table map = new Table();
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLUMNS; j++) {
+                map.add(makeMapElement(i, j)).width(size).height(size);
+            }
+            map.row();
+        }
+        map.setDebug(true, true);
+        return map;
+    }
+
+    private CustomButton makeMapElement(int i, int j) {
+        var attr = MAP[i][j];
+        CustomButton element = GlobalUtil.simpleButton("wh12ite");
+        float transparency = attr.getCurrentAmount() / (float) attr.getMaxAmount();
+        Color color = switch (attr.getTerrain()) {
+            case NULL -> Color.BLACK;
+            case SEA -> Color.BLUE;
+            case LAKE -> Color.YELLOW;
+            case TOWN -> Color.GREEN;
+            case MOUNTAIN -> Color.RED;
+        };
+        element.setColor(color);
+        if (attr.getTerrain() != Terrain.NULL) {
+            element.addAction(Actions.alpha(0));
+            element.addAction(Actions.alpha(transparency, 0.5F));
+        }
+        element.addListener(new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (pointer == -1) {
+                    element.setText("Terrain : " + attr.getTerrain() + "\n" + "Amount : " + attr.getCurrentAmount() + " / " + attr.getMaxAmount());
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                if (pointer == -1) {
+                    element.setText("");
+                }
+            }
+        });
+        return element;
+    }
+
+    protected abstract int[][] originAmountInMap();
+
+    public void modifyMapTerrain(int i, int j, Terrain terrain) {
         MAP[i][j].setTerrain(terrain);
     }
 
-    private void modifyMapMaxAmount(int i, int j, int amount) {
+    public void modifyMapMaxAmount(int i, int j, int amount) {
         MAP[i][j].setCurrentAmount(amount);
     }
 
-    private void modifyMapCurrentAmount(int i, int j, int amount) {
+    public float getSnowRatio(int i, int j) {
+        return MAP[i][j].getCurrentAmount() / (float) MAP[i][j].getMaxAmount();
+    }
+
+    public int getCurrentAmount(int i, int j) {
+        return MAP[i][j].getCurrentAmount();
+    }
+
+    public int getMaxAmount(int i, int j) {
+        return MAP[i][j].getMaxAmount();
+    }
+
+    public Terrain getTerrain(int i, int j) {
+        return MAP[i][j].getTerrain();
+    }
+
+    public int modifyMapCurrentAmountBy(int i, int j, int amount) {
+        int init = MAP[i][j].getCurrentAmount();
+        MAP[i][j].setCurrentAmount(Math.min(MAP[i][j].getMaxAmount(), init + amount));
+        return MAP[i][j].getCurrentAmount() - init;
+    }
+
+    public void modifyMapCurrentAmount(int i, int j, int amount) {
         MAP[i][j].setCurrentAmount(amount);
     }
 
-    private void modifyMapCurrentAmountBy(int i, int j, int amount) {
-        MAP[i][j].setCurrentAmount(MAP[i][j].getCurrentAmount() + amount);
-    }
-
-    private void addWorker(int i, int j, Soldier soldier) {
+    public void addWorker(int i, int j, Soldier soldier) {
         MAP[i][j].getCurrentlyWorkingList().add(soldier);
     }
 
-    private List<Soldier> getWorker(int i, int j) {
+    public List<Soldier> getWorker(int i, int j) {
         return MAP[i][j].getCurrentlyWorkingList();
     }
 
@@ -148,18 +217,6 @@ public class Level {
             }
         }
         return result;
-    }
-
-    public int[] getTerrainMaxCurrentInfo(int i, int j) {
-        return new int[]{mapTerrain[i][j], mapMaxAmount[i][j], currentAmount[i][j]};
-    }
-
-    public short[][] getMapTerrain() {
-        return mapTerrain;
-    }
-
-    public int[][] getMaxAmountMap() {
-        return mapMaxAmount;
     }
 
     public Region getRegion() {

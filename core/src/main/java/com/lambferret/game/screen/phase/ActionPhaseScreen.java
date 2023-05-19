@@ -25,8 +25,8 @@ public class ActionPhaseScreen implements AbstractPhase {
     List<Soldier> actionMember = new ArrayList<>();
     Map<Command, List<Soldier>> commandMap;
 
-    public ActionPhaseScreen(Container<Table> mapContainer) {
-        this.mapContainer = mapContainer;
+    public ActionPhaseScreen() {
+        this.mapContainer = new Container<>();
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     @Override
     public void startPhase() {
-        stage.addActor(this.mapContainer);
+        setMapTable();
         setCommand();
         executeCommand();
         setMembers();
@@ -53,10 +53,16 @@ public class ActionPhaseScreen implements AbstractPhase {
         for (Soldier soldier : actionMember) {
             soldier.talent(actionMember, commandMap, level, player);
         }
-        logger.info("these are today's victim : " + actionMember);
+        logger.info("이번 턴의 희생자들 ㅠㅠ : " + actionMember);
         for (Soldier soldier : actionMember) {
             happyWorking(soldier);
         }
+    }
+
+    private void setMapTable() {
+        mapContainer.setActor(level.makeTable(false));
+        stage.addActor(this.mapContainer);
+        mapContainer.setPosition(ReadyPhaseScreen.getTableX(), ReadyPhaseScreen.getTableY());
     }
 
     private void setMembers() {
@@ -116,8 +122,6 @@ public class ActionPhaseScreen implements AbstractPhase {
             return;
         }
 
-        int[][] maxSnowCapacityMap = level.getMaxAmountMap();
-        int[][] currentAmountSnowInMap = level.getCurrentAmount();
         int rows = level.ROWS;
         int cols = level.COLUMNS;
 
@@ -135,19 +139,8 @@ public class ActionPhaseScreen implements AbstractPhase {
         int usedSnowAmount = 0;
         for (int row = topLeftRow; row < topLeftRow + j; row++) {
             for (int col = topLeftCol; col < topLeftCol + i; col++) {
-                int result = currentAmountSnowInMap[row][col] + speed;
-                if (result > maxSnowCapacityMap[row][col]) {
-                    result = maxSnowCapacityMap[row][col];
-                }
-                usedSnowAmount += result - currentAmountSnowInMap[row][col];
-                currentAmountSnowInMap[row][col] = result;
+                usedSnowAmount += level.modifyMapCurrentAmountBy(row, col, speed);
             }
-        }
-
-        System.out.println();
-        for (int k = currentAmountSnowInMap.length; k > 0; k--) {
-            System.out.println(Arrays.toString(currentAmountSnowInMap[k - 1]));
-
         }
 
         System.out.println();
