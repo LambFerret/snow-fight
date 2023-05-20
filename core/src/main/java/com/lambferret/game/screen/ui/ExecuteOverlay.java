@@ -19,7 +19,6 @@ import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.OverlayText;
 import com.lambferret.game.util.AssetFinder;
@@ -148,7 +147,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
 
     private void setSignatureAnimation() {
         TextureAtlas atlas = AssetFinder.getAtlas("signature");
-        float frameDuration = 0.1f;
+        float frameDuration = timeToExecute / atlas.getRegions().size;
 
         Array<TextureRegion> animationFrames = new Array<>();
         for (var region : atlas.getRegions()) {
@@ -196,24 +195,29 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                     } else {
                         PhaseScreen.screenAtoV();
                     }
-                    screenChanger();
                 } else {
                     throw new RuntimeException("current iter is bigger than max iter");
                 }
             }
             case VICTORY -> {
-                logger.info("beat this level");
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
+                logger.warn("DEPRECATED VICTORY");
             }
             case DEFEAT -> {
-                logger.info("game over");
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TITLE_SCREEN;
+                logger.warn("DEPRECATED DEFEAT");
             }
         }
         Overlay.changePhaseInputProcessor();
     }
 
     float actionPhaseTimer = 0;
+    /*
+    action phase 가 자동으로 넘어가기까지 시간
+     */
+    float actionTimerThreshold = 1F;
+    /*
+     execute 를 얼마나 누르고 있어야 하는지 시간
+     */
+    float timeToExecute = 1F;
 
     @Override
     public void act(float delta) {
@@ -221,14 +225,14 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.ACTION) {
             actionPhaseTimer += delta;
             executeButton.setText(String.format("%.2f", 1 - actionPhaseTimer));
-            if (actionPhaseTimer >= 1F) {
+            if (actionPhaseTimer >= actionTimerThreshold) {
                 actionPhaseTimer = 0;
                 screenChanger();
             }
         }
         if (spaceKeyPressed) {
             elapsedTime += delta;
-            if (elapsedTime >= 2) {
+            if (elapsedTime >= timeToExecute) {
                 screenChanger();
             }
         } else {

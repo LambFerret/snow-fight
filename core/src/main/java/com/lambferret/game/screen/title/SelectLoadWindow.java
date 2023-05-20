@@ -46,6 +46,7 @@ public class SelectLoadWindow extends LoadAndSaveWindow {
             @Override
             protected void result(Object object) {
                 if (object.equals(true)) {
+                    this.remove();
                     SaveLoader.makeNewSave(index);
                     SaveLoader.load(index);
                     SnowFight.setPlayer();

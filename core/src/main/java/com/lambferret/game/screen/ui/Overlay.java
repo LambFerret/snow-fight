@@ -10,7 +10,10 @@ import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.ground.RecruitScreen;
 import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.ground.TrainingGroundScreen;
-import com.lambferret.game.screen.phase.*;
+import com.lambferret.game.screen.phase.ActionPhaseScreen;
+import com.lambferret.game.screen.phase.PhaseScreen;
+import com.lambferret.game.screen.phase.PrePhaseScreen;
+import com.lambferret.game.screen.phase.ReadyPhaseScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -109,9 +112,7 @@ public class Overlay implements PlayerObserver {
         switch (PhaseScreen.getCurrentScreen()) {
             case PRE -> inputManager.addProcessor(PrePhaseScreen.stage);
             case READY -> inputManager.addProcessor(ReadyPhaseScreen.stage);
-            case ACTION -> inputManager.addProcessor(ActionPhaseScreen.stage);
-            case VICTORY -> inputManager.addProcessor(VictoryScreen.stage);
-            case DEFEAT -> inputManager.addProcessor(DefeatScreen.stage);
+            case ACTION, VICTORY, DEFEAT -> inputManager.addProcessor(ActionPhaseScreen.stage);
         }
         Gdx.input.setInputProcessor(inputManager);
     }

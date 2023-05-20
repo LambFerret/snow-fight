@@ -2,18 +2,21 @@ package com.lambferret.game.screen.phase;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class VictoryScreen implements AbstractPhase {
+public class VictoryScreen extends Window implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(VictoryScreen.class.getName());
     TextButton textButton;
-    public static final Stage stage = new Stage();
+    Stage stage;
 
     public VictoryScreen() {
+        super("VictoryScreen", GlobalSettings.skin);
         textButton = new TextButton("VictoryScreen", GlobalSettings.skin);
+        stage = ActionPhaseScreen.stage;
         stage.addActor(textButton);
     }
 
