@@ -57,6 +57,7 @@ public class ActionPhaseScreen implements AbstractPhase {
         for (Soldier soldier : actionMember) {
             happyWorking(soldier);
         }
+        mapContainer.clear();
     }
 
     private void setMapTable() {

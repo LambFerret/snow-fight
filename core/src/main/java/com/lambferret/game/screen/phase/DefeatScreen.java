@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.title.SelectLoadWindow;
 import com.lambferret.game.setting.GlobalSettings;
@@ -90,6 +91,7 @@ public class DefeatScreen extends Window implements AbstractPhase {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                PhaseScreen.level = LevelFinder.get(SnowFight.player.getDay());
                 PhaseScreen.screenInitToP();
                 logger.info("clicked |  🐳 button2 | ");
                 executePhase();

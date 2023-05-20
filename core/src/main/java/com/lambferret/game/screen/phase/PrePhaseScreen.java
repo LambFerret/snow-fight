@@ -57,7 +57,7 @@ public class PrePhaseScreen implements AbstractPhase {
 
     @Override
     public void executePhase() {
-
+        mapContainer.clear();
     }
 
     private void renderBackground() {

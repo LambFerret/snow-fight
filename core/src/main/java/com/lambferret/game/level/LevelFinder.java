@@ -13,49 +13,70 @@ public class LevelFinder {
     }
 
     public static Level get(int levelNumber) {
-        return LevelTier.values()[levelNumber].getTier();
+        return switch (LevelTier.values()[levelNumber]) {
+            case NATION_1 -> new LevelN1();
+            case NATION_2 -> new LevelN1();
+            case NATION_3 -> new LevelN1();
+            case NATION_4 -> new LevelN1();
+            case NATION_5 -> new LevelN1();
+            case NATION_6 -> new LevelN1();
+            case NATION_7 -> new LevelN1();
+            case NATION_8 -> new LevelN1();
+            case NATION_9 -> new LevelN1();
+            case NATION_10 -> new LevelN1();
+            case RURAL_1 -> new LevelN1();
+            case RURAL_2 -> new LevelN1();
+            case RURAL_3 -> new LevelN1();
+            case RURAL_4 -> new LevelN1();
+            case RURAL_5 -> new LevelN1();
+            case RURAL_6 -> new LevelN1();
+            case RURAL_7 -> new LevelN1();
+            case RURAL_8 -> new LevelN1();
+            case RURAL_9 -> new LevelN1();
+            case RURAL_10 -> new LevelN1();
+            case URBAN_1 -> new LevelN1();
+            case URBAN_2 -> new LevelN1();
+            case URBAN_3 -> new LevelN1();
+            case URBAN_4 -> new LevelN1();
+            case URBAN_5 -> new LevelN1();
+            case URBAN_6 -> new LevelN1();
+            case URBAN_7 -> new LevelN1();
+            case URBAN_8 -> new LevelN1();
+            case URBAN_9 -> new LevelN1();
+            case URBAN_10 -> new LevelN1();
+        };
     }
 
     public enum LevelTier {
-        NATION_1(new LevelN1()),
-        NATION_2(new LevelN1()),
-        NATION_3(new LevelN1()),
-        NATION_4(new LevelN1()),
-        NATION_5(new LevelN1()),
-        NATION_6(new LevelN1()),
-        NATION_7(new LevelN1()),
-        NATION_8(new LevelN1()),
-        NATION_9(new LevelN1()),
-        NATION_10(new LevelN1()),
-        RURAL_1(new LevelN1()),
-        RURAL_2(new LevelN1()),
-        RURAL_3(new LevelN1()),
-        RURAL_4(new LevelN1()),
-        RURAL_5(new LevelN1()),
-        RURAL_6(new LevelN1()),
-        RURAL_7(new LevelN1()),
-        RURAL_8(new LevelN1()),
-        RURAL_9(new LevelN1()),
-        RURAL_10(new LevelN1()),
-        URBAN_1(new LevelN1()),
-        URBAN_2(new LevelN1()),
-        URBAN_3(new LevelN1()),
-        URBAN_4(new LevelN1()),
-        URBAN_5(new LevelN1()),
-        URBAN_6(new LevelN1()),
-        URBAN_7(new LevelN1()),
-        URBAN_8(new LevelN1()),
-        URBAN_9(new LevelN1()),
-        URBAN_10(new LevelN1()),
-        ;
-        final Level tier;
-
-        LevelTier(Level tier) {
-            this.tier = tier;
-        }
-
-        public Level getTier() {
-            return tier;
-        }
+        NATION_1,
+        NATION_2,
+        NATION_3,
+        NATION_4,
+        NATION_5,
+        NATION_6,
+        NATION_7,
+        NATION_8,
+        NATION_9,
+        NATION_10,
+        RURAL_1,
+        RURAL_2,
+        RURAL_3,
+        RURAL_4,
+        RURAL_5,
+        RURAL_6,
+        RURAL_7,
+        RURAL_8,
+        RURAL_9,
+        RURAL_10,
+        URBAN_1,
+        URBAN_2,
+        URBAN_3,
+        URBAN_4,
+        URBAN_5,
+        URBAN_6,
+        URBAN_7,
+        URBAN_8,
+        URBAN_9,
+        URBAN_10,
     }
 }

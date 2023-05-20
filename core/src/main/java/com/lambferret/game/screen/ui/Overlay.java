@@ -156,6 +156,7 @@ public class Overlay implements PlayerObserver {
 
     public void setInit() {
         ((PhaseOrderOverlay) phaseOrder).makeTable();
+        buffTable.onPlayerReady();
     }
 
     public void nextPhase() {

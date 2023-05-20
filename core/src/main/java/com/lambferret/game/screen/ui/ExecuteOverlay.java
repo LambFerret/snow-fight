@@ -37,6 +37,15 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
     public static final float EXECUTE_HIDE_X = EXECUTE_X + EXECUTE_HIDE_BUTTON_RELATIVE_X;
     public static final float EXECUTE_HIDE_ANIMATION_DURATION = 0.1F;
 
+    /*
+    action phase 가 자동으로 넘어가기까지 시간
+     */
+    public static final float actionTimerThreshold = 1F;
+    /*
+     execute 를 얼마나 누르고 있어야 하는지 시간
+     */
+    public static final float timeToExecute = 1F;
+
     private final Stage stage;
     private final CustomButton executeButton;
     Cursor cursor;
@@ -186,11 +195,11 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                 PhaseScreen.screenRtoA();
             }
             case ACTION -> {
-                executeButton.addAction(Actions.color(Color.RED, 0.5F));
+//                executeButton.addAction(Actions.color(Color.RED, 0.5F));
                 if (level.getMaxIteration() > level.getCurrentIteration()) {
                     PhaseScreen.screenAtoR();
                 } else if (level.getMaxIteration() == level.getCurrentIteration()) {
-                    if (player.getSnowAmount() > level.getMinSnowForClear()) {
+                    if (player.getSnowAmount() >= level.getMinSnowForClear()) {
                         PhaseScreen.screenAtoD();
                     } else {
                         PhaseScreen.screenAtoV();
@@ -210,14 +219,6 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
     }
 
     float actionPhaseTimer = 0;
-    /*
-    action phase 가 자동으로 넘어가기까지 시간
-     */
-    float actionTimerThreshold = 1F;
-    /*
-     execute 를 얼마나 누르고 있어야 하는지 시간
-     */
-    float timeToExecute = 1F;
 
     @Override
     public void act(float delta) {

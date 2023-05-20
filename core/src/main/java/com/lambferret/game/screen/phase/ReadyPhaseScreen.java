@@ -88,6 +88,7 @@ public class ReadyPhaseScreen implements AbstractPhase {
         for (Soldier soldier : player.getSoldiers()) {
             soldier.initValue();
         }
+        mapContainer.clear();
     }
 
     public static float getTableX() {

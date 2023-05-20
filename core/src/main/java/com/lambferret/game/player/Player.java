@@ -26,10 +26,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @Setter
@@ -41,7 +38,7 @@ public class Player {
     private List<Command> commands;
     private List<Manual> manuals;
     private List<Quest> quests;
-    private List<PlayerObserver> listeners;
+    private Set<PlayerObserver> listeners;
     private int clearedMainQuestNumber;
     private int day;
     private int money;
@@ -58,7 +55,7 @@ public class Player {
 
     public Player() {
         GlobalSettings.loadAllInGameStructure();
-        listeners = new ArrayList<>();
+        listeners = new HashSet<>();
         if (SaveLoader.currentSave.isInitialized()) {
             loadSaveIntoPlayer();
             return;
