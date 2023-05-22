@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Buff {
     private static final Logger logger = LogManager.getLogger(Buff.class.getName());
@@ -65,10 +66,8 @@ public class Buff {
             this.turnAfter--;
             return;
         }
-        System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=버프 발현-=-=-=-=-=-=-=-=-=-=-=-=-=");
         logger.info("effect |  🐳 버프 발현 | " + this);
         logger.info("effect |  🐳 타이밍 | " + PhaseScreen.getCurrentScreen());
-        System.out.println("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=");
 
         if (empowerLevel != null) {
             for (Soldier soldier : soldiers) {
@@ -268,11 +267,16 @@ public class Buff {
     }
 
     public Texture getTexture() {
-        return isIncreased ? AssetFinder.getTexture("buff/green") : AssetFinder.getTexture("buff/red");
+        return isIncreased ? AssetFinder.getTexture("sun") : AssetFinder.getTexture("moon");
     }
 
     public String getDescription() {
         String description = this.figure.description.replace("{isIncreased}", isIncreased ? text.getIncreased() : text.getDecreased());
+        if (this.soldiers.size() > 0) {
+            description = description.replace(
+                "{soldier}", soldiers.stream().map(Soldier::getName).collect(Collectors.joining(", "))
+            );
+        }
         if (this.turn < 1000) description += text.getTurn().replace("{turn}", String.valueOf(this.turn));
         return description;
     }

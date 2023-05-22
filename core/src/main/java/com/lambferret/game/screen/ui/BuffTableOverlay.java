@@ -31,7 +31,7 @@ public class BuffTableOverlay extends Table implements AbstractOverlay {
     private static final float BUFF_TABLE_X = 100;
     private static final float BUFF_TABLE_Y = 100;
     private static final float BUFF_TABLE_EACH_WIDTH = 25;
-    private static final float BUFF_TABLE_EACH_HEIGHT = 50;
+    private static final float BUFF_TABLE_EACH_HEIGHT = 25;
     private final Container<CustomButton> infoContainer = new Container<>();
 
     Player player;

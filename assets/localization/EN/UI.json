@@ -29,9 +29,9 @@
   "phaseText": {
     "buffCapacity": "this map's capacity is {isIncreased}",
     "buffCost": "this cost is {isIncreased}",
-    "buffSoldierX": "this soldier's X is {isIncreased}",
-    "buffSoldierY": "this soldier's Y is {isIncreased}",
-    "buffSoldierSpeed": "this soldier's speed is {isIncreased}",
+    "buffSoldierX": "{soldier} X is {isIncreased}",
+    "buffSoldierY": "{soldier} Y is {isIncreased}",
+    "buffSoldierSpeed": "{soldier} speed is {isIncreased}",
     "turn": " remain turn : {turn} turn",
     "increased": "increased",
     "decreased": "decreased"

@@ -6,22 +6,43 @@ filter: Nearest, Nearest
 repeat: none
 ColdWeatherTraining
   rotate: false
-  xy: 132, 2
+  xy: 132, 113
   size: 128, 128
   orig: 128, 128
+  offset: 0, 0
+  index: -1
+ColdWeatherTraining_side
+  rotate: false
+  xy: 392, 132
+  size: 27, 109
+  orig: 27, 109
   offset: 0, 0
   index: -1
 DisciplineAndPunish
   rotate: false
-  xy: 262, 2
+  xy: 262, 113
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
   index: -1
+DisciplineAndPunish_side
+  rotate: false
+  xy: 31, 2
+  size: 27, 109
+  orig: 27, 109
+  offset: 0, 0
+  index: -1
 KinPpaYi
   rotate: false
-  xy: 2, 2
+  xy: 2, 113
   size: 128, 128
   orig: 128, 128
+  offset: 0, 0
+  index: -1
+KinPpaYi_side
+  rotate: false
+  xy: 2, 2
+  size: 27, 109
+  orig: 27, 109
   offset: 0, 0
   index: -1

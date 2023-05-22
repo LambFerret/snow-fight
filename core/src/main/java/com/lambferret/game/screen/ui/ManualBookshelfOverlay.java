@@ -1,7 +1,11 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
@@ -59,7 +63,7 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
     private void makeTable() {
         clear();
         for (Manual manual : player.getManuals()) {
-            Group manualButton = manual.renderSideCover();
+            Image manualButton = manual.renderSideCover();
             manualButton.addListener(new InputListener() {
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
