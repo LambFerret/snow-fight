@@ -20,6 +20,7 @@ import java.util.Objects;
 
 public class Buff {
     private static final Logger logger = LogManager.getLogger(Buff.class.getName());
+    private static final PhaseText text;
 
     private int turn;
     private int turnAfter;
@@ -32,6 +33,7 @@ public class Buff {
     private final boolean isPermanent;
     private final boolean isManual;
     private final EmpowerLevel empowerLevel;
+    private final boolean isIncreased;
     private boolean isEnable = true;
 
 
@@ -47,6 +49,7 @@ public class Buff {
         this.isPermanent = fig.isPermanent;
         this.isManual = fig.isManual;
         this.empowerLevel = fig.empowerLevel;
+        this.isIncreased = fig.isIncreased;
         // TODO experimental feature
         effect();
     }
@@ -174,6 +177,7 @@ public class Buff {
         private List<Soldier> soldiers = new ArrayList<>();
         private Level level = null;
         private Player player = null;
+        private boolean isIncreased;
         private EmpowerLevel empowerLevel;
 
         public SetFigure(Figure figure) {
@@ -230,6 +234,7 @@ public class Buff {
                 .filter(obj -> !(obj instanceof List) || !((List<?>) obj).isEmpty())
                 .count();
 
+            isIncreased = this.operation == Operation.ADD || this.operation == Operation.MUL;
             return nonNullCount == 1;
         }
 
@@ -263,40 +268,34 @@ public class Buff {
     }
 
     public Texture getTexture() {
-        // TODO : 긍정적 효과면 녹색, 부정적 효과면 빨간색
-//        return atlas.findRegion("this.name").getTexture();
-        return AssetFinder.getTexture("buff/green");
+        return isIncreased ? AssetFinder.getTexture("buff/green") : AssetFinder.getTexture("buff/red");
     }
 
     public String getDescription() {
-        var description = this.figure.description;
-        var isIncreased =
-            (this.operation == Operation.ADD || this.operation == Operation.MUL) ?
-                text.getIncreased() : text.getDecreased();
-        description = description.replace("{isIncreased}", isIncreased)
-            .replace("{turn}", String.valueOf(this.turn));
+        String description = this.figure.description.replace("{isIncreased}", isIncreased ? text.getIncreased() : text.getDecreased());
+        if (this.turn < 1000) description += text.getTurn().replace("{turn}", String.valueOf(this.turn));
         return description;
     }
 
     @Override
     public String toString() {
-        StringBuilder a = new StringBuilder("\n BUFF | ");
+        StringBuilder sb = new StringBuilder("\n BUFF | ");
         if (turnAfter > 0) {
-            a.append("after ").append(turnAfter).append(" turn, ");
+            sb.append("after ").append(turnAfter).append(" turn, ");
         }
-        a.append(figure).append(" Buff ").append(turn).append(" turn left ")
+        sb.append(figure).append(" Buff ").append(turn).append(" turn left ")
             .append("operation ").append(operation).append(" by value ").append(value);
         if (!soldiers.isEmpty()) {
-            a.append(" to SOLDIERS : ").append(soldiers);
+            sb.append(" to SOLDIERS : ").append(soldiers);
         }
         if (level != null) {
-            a.append(" to current LEVEL ").append(level.getClass().getSimpleName());
+            sb.append(" to current LEVEL ").append(level.getClass().getSimpleName());
         }
         if (player != null) {
-            a.append(" to current PLAYER ");
+            sb.append(" to current PLAYER ");
         }
 
-        return a.toString();
+        return sb.toString();
     }
 
     public enum Operation {
@@ -307,11 +306,7 @@ public class Buff {
         ;
     }
 
-    private static final PhaseText text;
-
-    //    private static final TextureAtlas atlas;
     static {
-//        atlas = AssetFinder.getAtlas("buff");
         text = LocalizeConfig.uiText.getPhaseText();
     }
 

@@ -72,7 +72,7 @@ public class BuffTableOverlay extends Table implements AbstractOverlay {
         style.up = GlobalUtil.getNinePatchDrawableFromTexture("itemUI_description", 5);
         style.font = GlobalSettings.font;
 
-        return new CustomButton(buff.toString(), style);
+        return new CustomButton(buff.getDescription(), style);
 
     }
 

@@ -12,4 +12,5 @@ public class PhaseText {
     private String increased;
     private String decreased;
     private String soldierOverlay;
+    private String turn;
 }
