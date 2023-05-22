@@ -47,11 +47,16 @@ public class ScreenConfig {
      */
     public static void screenChanger() {
         if (currentScreen == changeScreen) return;
+        screenChanger(changeScreen);
+    }
+
+    public static void screenChanger(AddedScreen screen) {
         logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
 
-        screenManager.pushScreen(changeScreen.name(), BLENDING);
+        screenManager.pushScreen(screen.name(), BLENDING);
 
-        switch (changeScreen) {
+        // 여기서 생명주기를 관리한다 / 이전 스크린을 정상적으로 종료 후, 다음 스크린의 init 호출
+        switch (screen) {
             case TITLE_SCREEN -> {
                 Overlay.disposeInstance();
                 Gdx.input.setInputProcessor(titleScreen.getStage());
@@ -64,11 +69,11 @@ public class ScreenConfig {
             }
             case PHASE_SCREEN -> {
                 phaseScreen.onPlayerReady();
-                PhaseScreen.screenInitToP();
+                Overlay.getInstance().onPlayerReady();
                 Overlay.setVisiblePhaseUI();
             }
         }
-        currentScreen = changeScreen;
+        currentScreen = screen;
     }
 
     /**

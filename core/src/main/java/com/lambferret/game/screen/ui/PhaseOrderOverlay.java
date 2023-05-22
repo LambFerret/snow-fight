@@ -45,6 +45,7 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
     @Override
     public void onPlayerReady() {
         player = SnowFight.player;
+        makeTable();
     }
 
     @Override

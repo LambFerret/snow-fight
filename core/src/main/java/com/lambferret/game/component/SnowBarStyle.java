@@ -69,4 +69,8 @@ public class SnowBarStyle extends ProgressBar.ProgressBarStyle {
         }
     }
 
+    public void reset() {
+        knob = null;
+    }
+
 }

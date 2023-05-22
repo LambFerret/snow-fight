@@ -62,13 +62,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public void onPlayerReady() {
-        player = SnowFight.player;
-        level = LevelFinder.get(player.getDay());
-        for (AbstractPhase phase : phaseScreenList) {
-            phase.onPlayerReady();
-            player.addPlayerObserver(phase);
-        }
-        manualList = player.getManuals();
+        Overlay.isPhaseUI = true;
+        screenInitToP();
     }
 
     @Override
@@ -91,11 +86,19 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public static void screenInitToP() {
+        player = SnowFight.player;
+        level = LevelFinder.get(player.getDay());
+        for (AbstractPhase phase : phaseScreenList) {
+            phase.onPlayerReady();
+            player.addPlayerObserver(phase);
+        }
         commands.clear();
         buffList.clear();
+        manualList = player.getManuals();
         manualList.forEach(Manual::effect);
         player.setSnowAmount(level.getAssignedSnow());
-        Overlay.getInstance().setInit();
+        // warning
+        Overlay.getInstance().onPlayerReady();
         prePhaseScreen.startPhase();
 
         currentScreen = Screen.PRE;

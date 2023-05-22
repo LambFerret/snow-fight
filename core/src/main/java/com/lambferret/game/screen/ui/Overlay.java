@@ -28,7 +28,7 @@ public class Overlay implements PlayerObserver {
     private static final List<AbstractOverlay> phaseUIList = new ArrayList<>();
     public static Stage uiSpriteBatch = new Stage();
     private static final InputMultiplexer inputManager = new InputMultiplexer();
-    private static boolean isPhaseUI = true;
+    public static boolean isPhaseUI = false;
     AbstractOverlay map;
     AbstractOverlay bar;
     AbstractOverlay quest;
@@ -94,9 +94,16 @@ public class Overlay implements PlayerObserver {
 
     @Override
     public void onPlayerReady() {
-        for (AbstractOverlay overlay : allOverlay) {
-            SnowFight.player.addPlayerObserver(overlay);
-            overlay.onPlayerReady();
+        if (isPhaseUI) {
+            for (AbstractOverlay overlay : phaseUIList) {
+                SnowFight.player.addPlayerObserver(overlay);
+                overlay.onPlayerReady();
+            }
+        } else {
+            for (AbstractOverlay overlay : groundUIList) {
+                SnowFight.player.addPlayerObserver(overlay);
+                overlay.onPlayerReady();
+            }
         }
         changeGroundInputProcessor();
     }
@@ -129,7 +136,6 @@ public class Overlay implements PlayerObserver {
     }
 
     public static void setVisiblePhaseUI() {
-        isPhaseUI = true;
         for (AbstractOverlay overlay : groundUIList) {
             overlay.setVisible(false);
         }
@@ -139,7 +145,6 @@ public class Overlay implements PlayerObserver {
     }
 
     public static void setVisibleGroundUI() {
-        isPhaseUI = false;
         for (AbstractOverlay overlay : phaseUIList) {
             overlay.setVisible(false);
         }
@@ -152,11 +157,6 @@ public class Overlay implements PlayerObserver {
         for (AbstractOverlay overlay : allOverlay) {
             overlay.setVisible(false);
         }
-    }
-
-    public void setInit() {
-        ((PhaseOrderOverlay) phaseOrder).makeTable();
-        buffTable.onPlayerReady();
     }
 
     public void nextPhase() {

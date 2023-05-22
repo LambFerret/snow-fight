@@ -65,6 +65,7 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     public void onPlayerReady() {
         this.player = SnowFight.player;
         setLabelProperty();
+        reset();
     }
 
     @Override
@@ -122,7 +123,7 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     }
 
     private void setAnimateValue(float deltaTime) {
-        if (playerCurrentSnow == player.getSnowAmount() || !isOverlayOn) return;
+        if (!isOverlayOn || playerCurrentSnow == player.getSnowAmount()) return;
 
         animationTime += deltaTime;
         animationTime = MathUtils.clamp(animationTime, 0, SNOW_BAR_ANIMATION_DURATION);
@@ -139,6 +140,11 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         playerCurrentSnow = assignedSnow;
         isOverlayOn = true;
         setLabelX();
+    }
+
+    private void reset() {
+        setValue(0);
+        ((SnowBarStyle) getStyle()).reset();
     }
 
     private void stop() {
