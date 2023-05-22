@@ -125,8 +125,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public static void screenAtoR() {
-        actionPhaseScreen.executePhase();
-
         player.setCurrentCost(player.getMaxCost());
         Overlay.getInstance().nextPhase();
         level.toNextIteration();
@@ -139,16 +137,16 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         currentScreen = Screen.READY;
     }
 
-    public static void screenAtoD() {
+    public static void executeAction() {
         actionPhaseScreen.executePhase();
+    }
 
+    public static void screenAtoD() {
         defeatScreen.startPhase();
         currentScreen = Screen.DEFEAT;
     }
 
     public static void screenAtoV() {
-        actionPhaseScreen.executePhase();
-
         victoryScreen.startPhase();
         currentScreen = Screen.VICTORY;
     }

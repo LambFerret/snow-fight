@@ -195,7 +195,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                 PhaseScreen.screenRtoA();
             }
             case ACTION -> {
-//                executeButton.addAction(Actions.color(Color.RED, 0.5F));
+                PhaseScreen.executeAction();
                 if (level.getMaxIteration() > level.getCurrentIteration()) {
                     PhaseScreen.screenAtoR();
                 } else if (level.getMaxIteration() == level.getCurrentIteration()) {
