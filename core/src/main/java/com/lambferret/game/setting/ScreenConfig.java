@@ -1,11 +1,13 @@
 package com.lambferret.game.setting;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.screen.title.TitleScreen;
 import com.lambferret.game.screen.ui.Overlay;
+import com.lambferret.game.util.AssetFinder;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.ScreenManager;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -22,6 +24,7 @@ public class ScreenConfig {
     private static TitleScreen titleScreen;
     private static GroundScreen groundScreen;
     private static PhaseScreen phaseScreen;
+    private static Sound sound;
 
     public static void init(ScreenManager<ManagedScreen, ScreenTransition> screenManager) {
         var startTime = System.currentTimeMillis();
@@ -39,6 +42,7 @@ public class ScreenConfig {
 
         Gdx.input.setInputProcessor(titleScreen.getStage());
         screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), BLENDING);
+        setBGM(AddedScreen.TITLE_SCREEN);
         logger.info("screenConfig | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
     }
 
@@ -54,6 +58,7 @@ public class ScreenConfig {
         logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
 
         screenManager.pushScreen(screen.name(), BLENDING);
+        setBGM(screen);
 
         // 여기서 생명주기를 관리한다 / 이전 스크린을 정상적으로 종료 후, 다음 스크린의 init 호출
         switch (screen) {
@@ -74,6 +79,16 @@ public class ScreenConfig {
             }
         }
         currentScreen = screen;
+    }
+
+    private static void setBGM(AddedScreen screen) {
+        if (sound != null) sound.stop();
+        switch (screen) {
+            case TITLE_SCREEN -> sound = AssetFinder.getSound("piano");
+            case GROUND_SCREEN -> sound = AssetFinder.getSound("piano");
+            case PHASE_SCREEN -> sound = AssetFinder.getSound("piano");
+        }
+        sound.loop(GlobalSettings.bgmVolume);
     }
 
     /**

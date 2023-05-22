@@ -1,9 +1,11 @@
 package com.lambferret.game.component;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.StringBuilder;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,9 +19,11 @@ public class TypewriterLabel extends Label {
     private final StringBuilder fullText;
     private float timePerCharacter;
     private float elapsedTime;
+    Sound sound;
 
     public TypewriterLabel(CharSequence text, Skin skin, float timePerCharacter) {
         super(text, skin);
+        sound = AssetFinder.getSound("button_typewriter");
         this.fullText = new StringBuilder(text);
         this.timePerCharacter = timePerCharacter;
         this.elapsedTime = 0;
@@ -59,6 +63,7 @@ public class TypewriterLabel extends Label {
         this.elapsedTime = fullText.length * this.timePerCharacter;
     }
 
+    int oldVisibleChars = 0;
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -67,7 +72,16 @@ public class TypewriterLabel extends Label {
         if (visibleChars > fullText.length) {
             visibleChars = fullText.length;
         }
+        if (visibleChars != oldVisibleChars) {
+            sound.play();
+        }
+        oldVisibleChars = visibleChars;
         setText(fullText.substring(0, visibleChars));
     }
 
+    @Override
+    public void setText(CharSequence newText) {
+//        sound.play(GlobalSettings.effectVolume);
+        super.setText(newText);
+    }
 }

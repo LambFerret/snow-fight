@@ -46,7 +46,11 @@ public class AssetFinder {
     }
 
     public static Sound getSound(String name) {
-        return manager.get(SOUND + name, Sound.class);
+        String fileName = SOUND + name + ".wav";
+        if (!Gdx.files.absolute(fileName).exists()) {
+            fileName = SOUND + name + ".mp3";
+        }
+        return manager.get(fileName, Sound.class);
     }
 
     public static Skin getSkin(String name) {
