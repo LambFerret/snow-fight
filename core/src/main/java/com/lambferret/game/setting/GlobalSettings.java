@@ -1,5 +1,6 @@
 package com.lambferret.game.setting;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.google.gson.Gson;
@@ -40,11 +41,12 @@ public class GlobalSettings {
     public static boolean isFullscreen;
     public static int FPS;
     public static boolean isVsync;
-    public static float masterVolume;
-    public static float bgmVolume;
-    public static float effectVolume;
+    public static int masterVolume;
+    public static int bgmVolume;
+    public static int effectVolume;
     public static float scale;
     public static Setting.Language language;
+    public static Setting.Difficulty difficulty;
 
     public static Skin skin;
     public static BitmapFont font;
@@ -60,11 +62,11 @@ public class GlobalSettings {
     public static void init() {
         var startTime = System.currentTimeMillis();
 
-        loadJsonConfig();
-        loadDisplayConfig();
-        loadSoundConfig();
-        loadGamePlayConfig();
+        loadJsonToSetting();
+        loadSettingToGlobal();
         SaveLoader.init();
+        saveConfigJson(); // to save last played time
+
 
         logger.info("GlobalSettings | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
     }
@@ -73,7 +75,7 @@ public class GlobalSettings {
      * 유저 config.json 을 로드
      * 이미 파일이 존재한다면 로드한 시간을 저장하기위해, 존재하지 않는다면 새 파일 만들기 위해 저장한다
      */
-    public static void loadJsonConfig() {
+    public static void loadJsonToSetting() {
         try (Reader reader = new FileReader(CONFIG_FILE_PATH)) {
             settings = gson.fromJson(reader, Setting.class);
             logger.info("load config file | last INIT time : " + settings.getLastPlayedTime());
@@ -82,19 +84,38 @@ public class GlobalSettings {
             logger.info("make new Config file");
             settings = new Setting();
         }
-        saveConfigJson();
     }
 
     /**
      * config save.
-     * 세팅을 바꾸고 싶을땐 settings를 조작한 후 메소드 호출하면 된다.
      */
     public static void saveConfigJson() {
+        Setting.Display display = settings.getDisplay();
+        Setting.Gameplay gameplay = settings.getGameplay();
+        Setting.Volume volume = settings.getVolume();
+
+        display.setWidth(currWidth);
+        display.setHeight(currHeight);
+        display.setFullScreen(isFullscreen);
+        display.setFps(FPS);
+        display.setVsync(isVsync);
+        gameplay.setLanguage(language);
+        gameplay.setDifficulty(Setting.Difficulty.NORMAL);
+        volume.setMasterVolume(masterVolume);
+        volume.setBgmVolume(bgmVolume);
+        volume.setEffectVolume(effectVolume);
+
         try (FileWriter file = new FileWriter(CONFIG_FILE_PATH)) {
             file.append(gson.toJson(settings));
         } catch (IOException ex) {
             logger.fatal("Config file saving error");
         }
+    }
+
+    private static void loadSettingToGlobal() {
+        loadDisplayConfig();
+        loadSoundConfig();
+        loadGamePlayConfig();
     }
 
     public static void loadDisplayConfig() {
@@ -112,13 +133,14 @@ public class GlobalSettings {
     public static void loadSoundConfig() {
         var sound = settings.getVolume();
         masterVolume = sound.getMasterVolume();
-        bgmVolume = sound.getBgmVolume();
+        setBgmVolume(sound.getBgmVolume());
         effectVolume = sound.getEffectVolume();
     }
 
     public static void loadGamePlayConfig() {
         var gameplay = settings.getGameplay();
         language = gameplay.getLanguage();
+        difficulty = gameplay.getDifficulty();
     }
 
 
@@ -324,6 +346,20 @@ public class GlobalSettings {
             logger.error(id + " quest load error", e);
             throw new RuntimeException("quest load error");
         }
+    }
+
+    public static void setBgmVolume(int bgmVolume) {
+        GlobalSettings.bgmVolume = bgmVolume;
+        ScreenConfig.setBgmVolume();
+    }
+
+    public static void setEffectVolume(int effectVolume) {
+        GlobalSettings.effectVolume = effectVolume;
+    }
+
+    public static void setMasterVolume(int masterVolume) {
+        GlobalSettings.masterVolume = masterVolume;
+        ScreenConfig.setBgmVolume();
     }
 
 }

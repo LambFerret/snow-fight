@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
-import com.lambferret.game.player.Player;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.setting.GlobalSettings;
@@ -34,16 +33,18 @@ public class TitleScreen extends AbstractScreen {
 
     private final SelectSaveWindow selectSaveWindow;
     private final SelectLoadWindow selectLoadWindow;
+    private final OptionWindow optionWindow;
     private final Stage stage;
     BitmapFont font;
 
     public TitleScreen() {
         stage = new Stage();
+        stage.addActor(backGroundImage());
 
         selectSaveWindow = new SelectSaveWindow(stage);
         selectLoadWindow = new SelectLoadWindow(stage);
+        optionWindow = new OptionWindow(stage, true);
 
-        stage.addActor(backGroundImage());
         stage.addActor(selectSaveWindow);
         stage.addActor(selectLoadWindow);
 
@@ -61,6 +62,7 @@ public class TitleScreen extends AbstractScreen {
     public void initDisplay() {
         selectLoadWindow.setVisible(false);
         selectSaveWindow.setVisible(false);
+        optionWindow.setVisible(false);
     }
 
     private Image backGroundImage() {
@@ -136,9 +138,8 @@ public class TitleScreen extends AbstractScreen {
                 selectLoadWindow.create();
             }
             case OPTION -> {
-                SaveLoader.load(0);
-                SnowFight.player = new Player();
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
+                optionWindow.setVisible(true);
+                optionWindow.toFront();
             }
             case EXIT -> {
                 Gdx.app.exit();

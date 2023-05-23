@@ -25,16 +25,19 @@ public class ScreenConfig {
     private static GroundScreen groundScreen;
     private static PhaseScreen phaseScreen;
     private static Sound bgm;
+    static long bgmID;
 
     public static void init(ScreenManager<ManagedScreen, ScreenTransition> screenManager) {
         var startTime = System.currentTimeMillis();
 
         ScreenConfig.screenManager = screenManager;
 
-        if (GlobalSettings.isFullscreen) {
+        if (!GlobalSettings.isFullscreen) {
             Gdx.graphics.setWindowedMode(GlobalSettings.currWidth, GlobalSettings.currHeight);
         } else {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+            GlobalSettings.currWidth = Gdx.graphics.getWidth();
+            GlobalSettings.currHeight = Gdx.graphics.getHeight();
         }
 
         addScreen();
@@ -88,7 +91,12 @@ public class ScreenConfig {
             case GROUND_SCREEN -> bgm = AssetFinder.getSound("appassionata");
             case PHASE_SCREEN -> bgm = AssetFinder.getSound("appassionata");
         }
-        bgm.loop(GlobalSettings.bgmVolume);
+        bgmID = bgm.loop(GlobalSettings.bgmVolume);
+    }
+
+    public static void setBgmVolume() {
+        float value = (GlobalSettings.bgmVolume / 100F) * (GlobalSettings.masterVolume / 100F);
+        if (bgm != null) bgm.setVolume(bgmID, value);
     }
 
     public static void pauseBGM() {

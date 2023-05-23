@@ -19,6 +19,7 @@ public class TypewriterLabel extends Label {
     private final StringBuilder fullText;
     private float timePerCharacter;
     private float elapsedTime;
+    private int oldVisibleChars = 0;
     Sound sound;
 
     public TypewriterLabel(CharSequence text, Skin skin, float timePerCharacter) {
@@ -63,7 +64,6 @@ public class TypewriterLabel extends Label {
         this.elapsedTime = fullText.length * this.timePerCharacter;
     }
 
-    int oldVisibleChars = 0;
     @Override
     public void act(float delta) {
         super.act(delta);

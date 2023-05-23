@@ -19,9 +19,9 @@ public class Setting {
     public static final int DEFAULT_FPS = 60;
     public static final boolean DEFAULT_VSYNC = true;
     private static final boolean FULLSCREEN = false;
-    public static final float DEFAULT_MASTER_VOLUME = 0.5F;
-    public static final float DEFAULT_BGM_VOLUME = 0.5F;
-    public static final float DEFAULT_EFFECT_VOLUME = 0.5F;
+    public static final int DEFAULT_MASTER_VOLUME = 50;
+    public static final int DEFAULT_BGM_VOLUME = 50;
+    public static final int DEFAULT_EFFECT_VOLUME = 50;
 
     private Display display;
     private Volume volume;
@@ -74,9 +74,9 @@ public class Setting {
     @Getter
     @Setter
     public static class Volume {
-        private float masterVolume;
-        private float bgmVolume;
-        private float effectVolume;
+        private int masterVolume;
+        private int bgmVolume;
+        private int effectVolume;
 
         public Volume() {
             this.masterVolume = DEFAULT_MASTER_VOLUME;
@@ -93,7 +93,7 @@ public class Setting {
 
         public Gameplay() {
             this.difficulty = Difficulty.NORMAL;
-            this.language = Language.KR;
+            this.language = Language.EN;
         }
 
     }
