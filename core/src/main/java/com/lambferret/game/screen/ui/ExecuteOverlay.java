@@ -170,7 +170,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         spaceKeyPressed = false;
         elapsedTime = 0;
         this.executeButton.addAction(
-            Actions.moveTo(EXECUTE_HIDE_BUTTON_RELATIVE_X, 0, SOLDIER_HIDE_ANIMATION_DURATION)
+            Actions.moveTo(EXECUTE_HIDE_BUTTON_RELATIVE_X, 0, INVENTORY_HIDE_ANIMATION_DURATION)
         );
         executeButton.addAction(Actions.color(Color.WHITE, 0.5F));
         isHide = true;

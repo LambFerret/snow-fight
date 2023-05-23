@@ -22,90 +22,90 @@ public interface AbstractOverlay extends PlayerObserver {
     int SNOW_BAR_ANIMATION_DURATION = 1;
     int SNOW_BAR_THRESHOLD_LABEL_WIDTH = 50;
     int SNOW_BAR_THRESHOLD_LABEL_HEIGHT = 30;
-    /**
-     * 패딩
-     */
-    int COMMAND_PAD = 5;
 
     /**
-     * 병사창 숨김 버튼 너비
+     * 인벤토리 숨김 버튼 너비
      */
-    int SOLDIER_HIDE_BUTTON_WIDTH = 50;
+    int INVENTORY_HIDE_BUTTON_WIDTH = 50;
     /**
-     * 병사창 X 좌표
+     * 인벤토리 X 좌표
      */
-    int SOLDIER_X = 0;
+    int INVENTORY_X = 0;
     /**
-     * 병사창 Y 좌표
+     * 인벤토리 Y 좌표
      */
-    int SOLDIER_Y = 0;
+    int INVENTORY_Y = 0;
     /**
-     * 병사창 너비
+     * 인벤토리 너비
      */
-    int SOLDIER_WIDTH = GlobalSettings.currWidth - SOLDIER_HIDE_BUTTON_WIDTH;
+    int INVENTORY_WIDTH = GlobalSettings.currWidth - INVENTORY_HIDE_BUTTON_WIDTH;
     /**
-     * 병사창 높이
+     * 인벤토리 높이
      */
-    int SOLDIER_HEIGHT = GlobalSettings.currHeight;
+    int INVENTORY_HEIGHT = GlobalSettings.currHeight;
     /**
      * 명령창 숨김 X 좌표
      */
-    int SOLDIER_HIDE_X = SOLDIER_X - SOLDIER_WIDTH;
+    int INVENTORY_HIDE_X = INVENTORY_X - INVENTORY_WIDTH;
 
     /**
-     * 병사창 숨김 버튼 폴리곤 좌표
+     * 인벤토리 숨김 버튼 폴리곤 좌표
      */
-    float[] SOLDIER_HIDE_BUTTON_VERTICES = new float[]{0, 0, 50, 25, 50, 150, 0, 200};
+    float[] INVENTORY_HIDE_BUTTON_VERTICES = new float[]{0, 0, 50, 25, 50, 150, 0, 200};
     /**
-     * 병사창 숨김 버튼 X 좌표
+     * 인벤토리 숨김 버튼 X 좌표
      */
-    int SOLDIER_HIDE_BUTTON_X = GlobalSettings.currWidth - SOLDIER_HIDE_BUTTON_WIDTH;
+    int INVENTORY_HIDE_BUTTON_X = GlobalSettings.currWidth - INVENTORY_HIDE_BUTTON_WIDTH;
     /**
-     * 병사창 숨김 버튼 Y 좌표
+     * 인벤토리 숨김 버튼 Y 좌표
      */
-    int SOLDIER_HIDE_BUTTON_Y = GlobalSettings.currHeight - 200;
+    int INVENTORY_HIDE_BUTTON_Y = GlobalSettings.currHeight - 200;
     /**
-     * 병사창 숨김 버튼 높이
+     * 인벤토리 숨김 버튼 높이
      */
-    int SOLDIER_HIDE_BUTTON_HEIGHT = 100;
+    int INVENTORY_HIDE_BUTTON_HEIGHT = 100;
     /**
-     * 병사창 숨김버튼 숨김 X 좌표
+     * 인벤토리 숨김버튼 숨김 X 좌표
      */
-    int SOLDIER_HIDE_BUTTON_HIDE_X = SOLDIER_HIDE_BUTTON_X - SOLDIER_WIDTH;
+    int INVENTORY_HIDE_BUTTON_HIDE_X = INVENTORY_HIDE_BUTTON_X - INVENTORY_WIDTH;
     /**
-     * 병사창 숨김 애니메이션 시간
+     * 인벤토리 숨김 애니메이션 시간
      */
-    float SOLDIER_HIDE_ANIMATION_DURATION = 0.1F;
+    float INVENTORY_HIDE_ANIMATION_DURATION = 0.1F;
 
     /**
      * 병사 각 너비
      */
-    int SOLDIER_EACH_WIDTH = OVERLAY_BORDERLINE_HEIGHT * 2 / 3;
+    int INVENTORY_EACH_WIDTH = OVERLAY_BORDERLINE_HEIGHT * 2 / 3;
     /**
      * 병사 각 높이
      */
-    int SOLDIER_EACH_HEIGHT = OVERLAY_BORDERLINE_HEIGHT;
+    int INVENTORY_EACH_HEIGHT = OVERLAY_BORDERLINE_HEIGHT;
     /**
      * 병사 각 패딩
      */
-    int SOLDIER_EACH_PAD = 5;
+    int INVENTORY_EACH_PAD = 5;
     /**
      * 병사 테이블과 윈도우 사이의 마진
      */
-    int SOLDIER_CARD_MARGIN = 300;
+    int INVENTORY_CARD_MARGIN = 300;
     /**
      * 숨김 토글 활성화 X 경계선
      */
-    int SOLDIER_HIDE_MOVEMENT_THRESHOLD_X = 200;
+    int INVENTORY_HIDE_MOVEMENT_THRESHOLD_X = 200;
 
+    int COMMAND_UPPER_PAD = 30;
+    int COMMAND_LOWER_PAD = 30;
+    int COMMAND_RIGHT_PAD = 30;
+    int COMMAND_BETWEEN_HIDE_BUTTON_PAD = 15;
     /**
      * 명령창 너비
      */
-    int COMMAND_WIDTH = OVERLAY_BORDERLINE_WIDTH;
+    int COMMAND_WIDTH = OVERLAY_BORDERLINE_WIDTH - COMMAND_RIGHT_PAD;
     /**
      * 명령창 높이
      */
-    int COMMAND_HEIGHT = GlobalSettings.currHeight - OVERLAY_BORDERLINE_HEIGHT;
+    int COMMAND_HEIGHT = GlobalSettings.currHeight - (OVERLAY_BORDERLINE_HEIGHT + COMMAND_LOWER_PAD + COMMAND_UPPER_PAD);
     /**
      * 명령창 X 좌표
      */
@@ -113,37 +113,37 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 명령창 Y 좌표
      */
-    int COMMAND_Y = OVERLAY_BORDERLINE_HEIGHT;
+    int COMMAND_Y = OVERLAY_BORDERLINE_HEIGHT + COMMAND_LOWER_PAD;
     /**
-     * 명령창 숨김 X 좌표
+     * 명령창 숨겼을때 X 좌표
      */
-    int COMMAND_HIDE_X = COMMAND_X + COMMAND_WIDTH + COMMAND_PAD;
-
+    int COMMAND_HIDE_X = COMMAND_X + COMMAND_WIDTH + COMMAND_RIGHT_PAD;
     /**
-     * 명령창 숨김 버튼 너비
+     * 명령창 숨기는 버튼 너비
      */
     int COMMAND_HIDE_BUTTON_WIDTH = 50;
     /**
-     * 명령창 숨김 버튼 높이
+     * 명령창 숨기는 버튼 높이
      */
     int COMMAND_HIDE_BUTTON_HEIGHT = 50;
     /**
-     * 명령창 숨김 버튼 X 좌표
+     * 명령창 숨기는 버튼 X 좌표
      */
-    int COMMAND_HIDE_BUTTON_X = COMMAND_X - (COMMAND_HIDE_BUTTON_WIDTH + COMMAND_PAD);
+    int COMMAND_HIDE_BUTTON_X = COMMAND_X - (COMMAND_HIDE_BUTTON_WIDTH + COMMAND_BETWEEN_HIDE_BUTTON_PAD);
     /**
-     * 명령창 숨김 버튼 Y 좌표
+     * 명령창 숨기는 버튼 Y 좌표
      */
-    int COMMAND_HIDE_BUTTON_Y = COMMAND_Y + COMMAND_PAD;
+    int COMMAND_HIDE_BUTTON_Y = COMMAND_Y + COMMAND_BETWEEN_HIDE_BUTTON_PAD;
     /**
-     * 명령창 숨김버튼 숨김 X 좌표
+     * 명령창 숨기는 버튼 숨겨질때 X 좌표
      */
-    int COMMAND_HIDE_BUTTON_HIDE_X = COMMAND_HIDE_BUTTON_X + COMMAND_WIDTH + COMMAND_PAD;
+    int COMMAND_HIDE_BUTTON_HIDE_X = GlobalSettings.currWidth - (COMMAND_HIDE_BUTTON_WIDTH + COMMAND_BETWEEN_HIDE_BUTTON_PAD);
     /**
      * 멍령창 숨김 애니메이션 시간
      */
     float COMMAND_HIDE_ANIMATION_DURATION = 0.1F;
 
+    int COMMAND_EACH_SIDE_PAD = 20;
     /**
      * 명령 각 능력 사이 패딩
      */
@@ -151,11 +151,11 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 명령 각 능력 너비
      */
-    int COMMAND_EACH_WIDTH = COMMAND_WIDTH;
+    int COMMAND_EACH_WIDTH = COMMAND_WIDTH - (COMMAND_EACH_SIDE_PAD * 2);
     /**
      * 명령 각 능력 높이
      */
-    int COMMAND_EACH_HEIGHT = COMMAND_HEIGHT / 3;
+    int COMMAND_EACH_HEIGHT = COMMAND_HEIGHT / 4;
 
     /**
      * 맵 정보 이미지 너비

@@ -2,7 +2,9 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -12,8 +14,8 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.phase.PhaseScreen;
-import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +24,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
 
     private final Stage stage;
     private final ScrollPane scrollPane;
-    private final ImageButton hideButton;
+    private final CustomButton hideButton;
     private final Container<CustomButton> infoContainer = new Container<>();
     private Player player;
     private boolean isHide = false;
@@ -31,7 +33,8 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     public CommandOverlay(Stage stage) {
         this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
-        hideButton = new ImageButton(hideButtonStyle());
+        hideButton = GlobalUtil.simpleButton("hideButton");
+
         infoContainer.setVisible(false);
 
         this.setActor(this.scrollPane);
@@ -110,9 +113,13 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         commandButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY && player.useCost(command.getCost())) {
-                    PhaseScreen.getCommands().put(command, null);
-                    commandButton.remove();
+                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
+                    if (player.useCost(command.getCost())) {
+                        PhaseScreen.getCommands().put(command, null);
+                        commandButton.remove();
+                    } else {
+                        logger.info("clicked |  🐳 not enough cost you have | ");
+                    }
                 } else {
                     logger.info("clicked |  🐳 not ready phase currently | ");
                 }
@@ -143,6 +150,9 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         hideButton.addAction(
             Actions.moveTo(COMMAND_HIDE_BUTTON_HIDE_X, COMMAND_HIDE_BUTTON_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
+        hideButton.addAction(
+            Actions.rotateBy(180, COMMAND_HIDE_ANIMATION_DURATION * 2)
+        );
         isHide = true;
     }
 
@@ -153,6 +163,9 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         hideButton.addAction(
             Actions.moveTo(COMMAND_HIDE_BUTTON_X, COMMAND_HIDE_BUTTON_Y, COMMAND_HIDE_ANIMATION_DURATION)
         );
+        hideButton.addAction(
+            Actions.rotateBy(180, COMMAND_HIDE_ANIMATION_DURATION * 2)
+        );
         isHide = false;
     }
 
@@ -160,19 +173,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     public void setVisible(boolean visible) {
         this.hideButton.setVisible(visible);
         super.setVisible(visible);
-    }
-
-    private ImageButton.ImageButtonStyle hideButtonStyle() {
-        var style = new ImageButton.ImageButtonStyle();
-        style.up = new TextureRegionDrawable(AssetFinder.getTexture("scrollPointer_H"));
-        return style;
-    }
-
-    private ImageTextButton.ImageTextButtonStyle commandButtonStyle(Command command) {
-        var style = new ImageTextButton.ImageTextButtonStyle();
-        style.up = new TextureRegionDrawable(command.renderIcon());
-        style.font = GlobalSettings.font;
-        return style;
     }
 
     @Override

@@ -31,7 +31,7 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
     private Table soldierTable = new Table();
     private Table commandTable = new Table();
     private Table manualTable = new Table();
-    private Type currentType = Type.SOLDIER;
+    private Type currentType = Type.INVENTORY;
     private final PolygonButton soldierButton;
     private final PolygonButton commandButton;
     private boolean isHide = true;
@@ -40,17 +40,17 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
         this.background(new TextureRegionDrawable(AssetFinder.getTexture("ui/inventory")));
-        soldierButton = new PolygonButton(text.getSoldierOverlayName(), getHideButtonStyle(), SOLDIER_HIDE_BUTTON_VERTICES);
-        commandButton = new PolygonButton(text.getSoldierOverlayName(), getHideButtonStyle(), SOLDIER_HIDE_BUTTON_VERTICES);
+        soldierButton = new PolygonButton(text.getSoldierOverlayName(), getHideButtonStyle(), INVENTORY_HIDE_BUTTON_VERTICES);
+        commandButton = new PolygonButton(text.getSoldierOverlayName(), getHideButtonStyle(), INVENTORY_HIDE_BUTTON_VERTICES);
 
-        this.setPosition(SOLDIER_X, SOLDIER_Y);
-        this.setSize(SOLDIER_WIDTH, SOLDIER_HEIGHT);
+        this.setPosition(INVENTORY_X, INVENTORY_Y);
+        this.setSize(INVENTORY_WIDTH, INVENTORY_HEIGHT);
 
-        soldierButton.setPosition(SOLDIER_HIDE_BUTTON_X, SOLDIER_HIDE_BUTTON_Y);
-        soldierButton.setSize(SOLDIER_HIDE_BUTTON_WIDTH, SOLDIER_HIDE_BUTTON_HEIGHT);
+        soldierButton.setPosition(INVENTORY_HIDE_BUTTON_X, INVENTORY_HIDE_BUTTON_Y);
+        soldierButton.setSize(INVENTORY_HIDE_BUTTON_WIDTH, INVENTORY_HIDE_BUTTON_HEIGHT);
 
-        commandButton.setPosition(SOLDIER_HIDE_BUTTON_X, SOLDIER_HIDE_BUTTON_Y);
-        commandButton.setSize(SOLDIER_HIDE_BUTTON_WIDTH, SOLDIER_HIDE_BUTTON_HEIGHT);
+        commandButton.setPosition(INVENTORY_HIDE_BUTTON_X, INVENTORY_HIDE_BUTTON_Y);
+        commandButton.setSize(INVENTORY_HIDE_BUTTON_WIDTH, INVENTORY_HIDE_BUTTON_HEIGHT);
         commandButton.setVisible(false);
         commandButton.setColor(Color.ORANGE);
 
@@ -63,13 +63,13 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         stage.addActor(soldierButton);
         this.setActor(this.scrollPane);
 
-        soldierButton.addListener(hideButtonDragListener(Type.SOLDIER));
+        soldierButton.addListener(hideButtonDragListener(Type.INVENTORY));
         commandButton.addListener(hideButtonDragListener(Type.COMMAND));
         scrollPane.addListener(scrollPaneInputListener());
 
         if (isHide) {
-            this.setX(SOLDIER_HIDE_X);
-            soldierButton.setX(SOLDIER_HIDE_BUTTON_HIDE_X);
+            this.setX(INVENTORY_HIDE_X);
+            soldierButton.setX(INVENTORY_HIDE_BUTTON_HIDE_X);
         }
     }
 
@@ -104,9 +104,9 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
 
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                if (soldierButton.getX() > SOLDIER_HIDE_MOVEMENT_THRESHOLD_X && isHide) {
+                if (soldierButton.getX() > INVENTORY_HIDE_MOVEMENT_THRESHOLD_X && isHide) {
                     show();
-                } else if (soldierButton.getX() < SOLDIER_WIDTH - SOLDIER_HIDE_MOVEMENT_THRESHOLD_X && !isHide) {
+                } else if (soldierButton.getX() < INVENTORY_WIDTH - INVENTORY_HIDE_MOVEMENT_THRESHOLD_X && !isHide) {
                     hide();
                 } else {
                     resetLocation();
@@ -153,9 +153,9 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
 
     private void setScrollActor(Type type) {
         switch (type) {
-            case SOLDIER -> {
+            case INVENTORY -> {
                 scrollPane.setActor(soldierTable);
-                currentType = Type.SOLDIER;
+                currentType = Type.INVENTORY;
                 soldierButton.toFront();
             }
             case COMMAND -> {
@@ -176,8 +176,8 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         int i = 0;
         for (Soldier soldier : player.getSoldiers()) {
             Container<Group> card = soldier.card();
-            card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
-            soldierTable.add(card).pad(SOLDIER_EACH_PAD);
+            card.setSize(INVENTORY_EACH_WIDTH, INVENTORY_EACH_HEIGHT);
+            soldierTable.add(card).pad(INVENTORY_EACH_PAD);
             if (i++ == 6) {
                 soldierTable.row();
                 i = 0;
@@ -191,8 +191,8 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         int i = 0;
         for (Command command : player.getCommands()) {
             Group card = command.renderSimple();
-            card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
-            commandTable.add(card).pad(SOLDIER_EACH_PAD);
+            card.setSize(INVENTORY_EACH_WIDTH, INVENTORY_EACH_HEIGHT);
+            commandTable.add(card).pad(INVENTORY_EACH_PAD);
             if (i++ == 6) {
                 commandTable.row();
                 i = 0;
@@ -206,8 +206,8 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         int i = 0;
         for (Manual manual : player.getManuals()) {
             var card = manual.renderFrontCover();
-            card.setSize(SOLDIER_EACH_WIDTH, SOLDIER_EACH_HEIGHT);
-            manualTable.add(card).pad(SOLDIER_EACH_PAD);
+            card.setSize(INVENTORY_EACH_WIDTH, INVENTORY_EACH_HEIGHT);
+            manualTable.add(card).pad(INVENTORY_EACH_PAD);
             if (i++ == 6) {
                 manualTable.row();
                 i = 0;
@@ -218,27 +218,27 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
 
     private void hide() {
         this.addAction(
-            Actions.moveBy(-soldierButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
+            Actions.moveBy(-soldierButton.getX(), 0, INVENTORY_HIDE_ANIMATION_DURATION)
         );
         soldierButton.addAction(
-            Actions.moveBy(-soldierButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
+            Actions.moveBy(-soldierButton.getX(), 0, INVENTORY_HIDE_ANIMATION_DURATION)
         );
         commandButton.setVisible(false);
-        commandButton.setPosition(SOLDIER_HIDE_BUTTON_X, SOLDIER_HIDE_BUTTON_Y);
+        commandButton.setPosition(INVENTORY_HIDE_BUTTON_X, INVENTORY_HIDE_BUTTON_Y);
         isHide = true;
     }
 
     private void show() {
-        setScrollActor(Type.SOLDIER);
+        setScrollActor(Type.INVENTORY);
         this.addAction(
-            Actions.moveBy(SOLDIER_WIDTH - soldierButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
+            Actions.moveBy(INVENTORY_WIDTH - soldierButton.getX(), 0, INVENTORY_HIDE_ANIMATION_DURATION)
         );
         soldierButton.addAction(
-            Actions.moveBy(SOLDIER_WIDTH - soldierButton.getX(), 0, SOLDIER_HIDE_ANIMATION_DURATION)
+            Actions.moveBy(INVENTORY_WIDTH - soldierButton.getX(), 0, INVENTORY_HIDE_ANIMATION_DURATION)
         );
         commandButton.addAction(
             Actions.sequence(
-                Actions.delay(SOLDIER_HIDE_ANIMATION_DURATION),
+                Actions.delay(INVENTORY_HIDE_ANIMATION_DURATION),
                 Actions.moveBy(0, -100, 0.3F)
             )
         );
@@ -272,7 +272,7 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
     }
 
     enum Type {
-        SOLDIER, COMMAND, MANUAL
+        INVENTORY, COMMAND, MANUAL
     }
 
 }
