@@ -24,7 +24,7 @@ public class ScreenConfig {
     private static TitleScreen titleScreen;
     private static GroundScreen groundScreen;
     private static PhaseScreen phaseScreen;
-    private static Sound sound;
+    private static Sound bgm;
 
     public static void init(ScreenManager<ManagedScreen, ScreenTransition> screenManager) {
         var startTime = System.currentTimeMillis();
@@ -82,13 +82,21 @@ public class ScreenConfig {
     }
 
     private static void setBGM(AddedScreen screen) {
-        if (sound != null) sound.stop();
+        if (bgm != null) bgm.stop();
         switch (screen) {
-            case TITLE_SCREEN -> sound = AssetFinder.getSound("piano");
-            case GROUND_SCREEN -> sound = AssetFinder.getSound("piano");
-            case PHASE_SCREEN -> sound = AssetFinder.getSound("piano");
+            case TITLE_SCREEN -> bgm = AssetFinder.getSound("appassionata");
+            case GROUND_SCREEN -> bgm = AssetFinder.getSound("appassionata");
+            case PHASE_SCREEN -> bgm = AssetFinder.getSound("appassionata");
         }
-        sound.loop(GlobalSettings.bgmVolume);
+        bgm.loop(GlobalSettings.bgmVolume);
+    }
+
+    public static void pauseBGM() {
+        if (bgm != null) bgm.pause();
+    }
+
+    public static void resumeBGM() {
+        if (bgm != null) bgm.resume();
     }
 
     /**

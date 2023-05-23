@@ -1,11 +1,15 @@
 package com.lambferret.game.util;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -66,6 +70,15 @@ public class GlobalUtil {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.font = GlobalSettings.font;
         return style;
+    }
+
+    public static InputListener soundListener(Sound sound) {
+        return new InputListener() {
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (pointer == -1) sound.play();
+            }
+        };
     }
 
     public static CustomButton simpleButton(TextureAtlas atlas, String texturePath, String text) {

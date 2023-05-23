@@ -1,5 +1,6 @@
 package com.lambferret.game.manual;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -48,6 +49,7 @@ public abstract class Manual implements Comparable<Manual> {
 
     protected boolean isDisable;
     TextureAtlas atlas;
+    static Sound hoverSound;
 
     public Manual(
         String ID,
@@ -62,6 +64,7 @@ public abstract class Manual implements Comparable<Manual> {
         this.rarity = rarity;
         this.price = price;
 
+        hoverSound = AssetFinder.getSound("button_book");
         atlas = AssetFinder.getAtlas("manual");
     }
 
@@ -71,12 +74,14 @@ public abstract class Manual implements Comparable<Manual> {
 
     public CustomButton renderFrontCover() {
         CustomButton button = GlobalUtil.simpleButton("button/button_up", this.name);
-        button.padBottom(30);
+        button.addListener(GlobalUtil.soundListener(hoverSound));
         return button;
     }
 
     public Image renderSideCover() {
-        return new Image(new TextureRegionDrawable(atlas.findRegion(this.texturePath + "_side")));
+        Image image = new Image(new TextureRegionDrawable(atlas.findRegion(this.texturePath + "_side")));
+        image.addListener(GlobalUtil.soundListener(hoverSound));
+        return image;
     }
 
     public CustomButton renderInfo() {

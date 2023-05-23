@@ -1,5 +1,6 @@
 package com.lambferret.game.screen.ui;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
@@ -24,6 +25,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
     private final Image hoveredImageRecruit;
     private final Image background;
 
+    private Sound clickSound;
 
     public MapOverlay(Stage stage) {
         this.setSize(OVERLAY_BORDERLINE_WIDTH, OVERLAY_BORDERLINE_HEIGHT);
@@ -62,6 +64,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
         this.addActor(recruit);
         this.addActor(shop);
         this.addActor(trainingGround);
+        clickSound = AssetFinder.getSound("button_click");
     }
 
     @Override
@@ -89,6 +92,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
             public void clicked(InputEvent event, float x, float y) {
                 setAction(action);
                 hideHoverImage(action);
+                clickSound.play();
             }
         });
         button.addListener(new InputListener() {
