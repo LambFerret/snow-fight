@@ -3,12 +3,10 @@ package com.lambferret.game.screen.title;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.SaveLoader;
@@ -19,6 +17,7 @@ import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.TitleMenuText;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -69,12 +68,7 @@ public class TitleScreen extends AbstractScreen {
         Image backgroundImage = new Image(AssetFinder.getTexture("titleBackground"));
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         backgroundImage.toBack();
-        backgroundImage.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                initDisplay();
-            }
-        });
+        backgroundImage.addListener(Input.click(this::initDisplay));
         return backgroundImage;
     }
 
@@ -109,12 +103,7 @@ public class TitleScreen extends AbstractScreen {
             case EXIT -> text.getExit();
         };
         var button = GlobalUtil.simpleButton("buttonTitle", label);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setAction(action);
-            }
-        });
+        button.addListener(Input.click(() -> setAction(action)));
         return button;
     }
 

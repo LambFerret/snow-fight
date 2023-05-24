@@ -1,6 +1,9 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -16,6 +19,7 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,32 +65,15 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
             this.setX(COMMAND_HIDE_X);
             hideButton.setX(COMMAND_HIDE_BUTTON_HIDE_X);
         }
-        hideButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (isHide) {
-                    show();
-                } else {
-                    hide();
-                }
+        hideButton.addListener(Input.click(() -> {
+            if (isHide) {
+                show();
+            } else {
+                hide();
             }
-        });
+        }));
 
-        scrollPane.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                stage.setScrollFocus(scrollPane);
-                super.enter(event, x, y, pointer, fromActor);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) {
-                    stage.setScrollFocus(null);
-                }
-                super.exit(event, x, y, pointer, toActor);
-            }
-        });
+        scrollPane.addListener(Input.setScrollFocusWhenHover(stage, scrollPane));
     }
 
     @Override

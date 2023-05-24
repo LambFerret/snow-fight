@@ -6,4 +6,5 @@ import lombok.Getter;
 public class OverlayText {
     private String soldierOverlayName;
     private String executeOverlayName;
+    private String snowOverlayDescription;
 }

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.GroundScreen;
@@ -14,6 +13,7 @@ import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -87,14 +87,11 @@ public class MapOverlay extends Group implements AbstractOverlay {
             case TRAINING_GROUND -> text.getTrainingGround();
         };
         var button = GlobalUtil.simpleButton("Map/button", label);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                setAction(action);
-                hideHoverImage(action);
-                clickSound.play();
-            }
-        });
+        button.addListener(Input.click(() -> {
+            setAction(action);
+            hideHoverImage(action);
+            clickSound.play();
+        }));
         button.addListener(new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {

@@ -1,18 +1,17 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -62,16 +61,15 @@ public class VictoryScreen extends Window implements AbstractPhase {
         CustomButton button = GlobalUtil.simpleButton("confirm", "go back to Military");
         button.setPosition(600, 400);
         button.setSize(400, 400);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                logger.info("confirm button clicked");
-                SnowFight.player.setDay(SnowFight.player.getDay() + 1);
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
-                executePhase();
-            }
-        });
+        button.addListener(Input.click(this::confirm));
         return button;
+    }
+
+    private void confirm() {
+        logger.info("confirm button clicked");
+        SnowFight.player.setDay(SnowFight.player.getDay() + 1);
+        ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
+        executePhase();
     }
 
     private Table makeInfo() {

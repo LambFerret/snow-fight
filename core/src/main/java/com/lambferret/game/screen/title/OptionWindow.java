@@ -2,16 +2,15 @@ package com.lambferret.game.screen.title;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,8 +57,18 @@ public class OptionWindow extends Window {
         cancelButton.setColor(Color.RED);
         cancelButton.setDebug(true, true);
 
-        confirmButton.addListener(saveConfig());
-        cancelButton.addListener(cancelConfig());
+        confirmButton.addListener(Input.click(() -> {
+                GlobalSettings.saveConfigJson();
+                setVisible(false);
+                makeOptionTable();
+            })
+        );
+        cancelButton.addListener(Input.click(() -> {
+                GlobalSettings.init();
+                setVisible(false);
+                makeOptionTable();
+            })
+        );
     }
 
     private void makeOptionTable() {
@@ -137,28 +146,6 @@ public class OptionWindow extends Window {
         }
         table.add(newLabel(volume.toString(), labelStyle));
         table.add(slider).row();
-    }
-
-    private ClickListener saveConfig() {
-        return new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                GlobalSettings.saveConfigJson();
-                setVisible(false);
-                makeOptionTable();
-            }
-        };
-    }
-
-    private ClickListener cancelConfig() {
-        return new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                GlobalSettings.init();
-                setVisible(false);
-                makeOptionTable();
-            }
-        };
     }
 
     @Override

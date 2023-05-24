@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.character.Character;
@@ -20,6 +19,7 @@ import com.lambferret.game.text.dto.dialogue.DialogueNode;
 import com.lambferret.game.text.dto.dialogue.Option;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -103,25 +103,21 @@ public abstract class EventWindow extends Group {
         conversationContainer.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("conversationWindow")));
         setTypewriter(dialogueNode);
 
-        conversationContainer.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-                if (typewriteText.isEnd()) {
-                    if (dialogueNode.isDialog()) {
-                        setDialog(dialogueNode.getDialogNumber());
-                    } else {
-                        if (dialogueNode.isEnd()) {
-                            exitEvent();
-                        } else {
-                            setTypewriter(dialogueNode.select(0));
-                        }
-                    }
+        conversationContainer.addListener(Input.click(() -> {
+            if (typewriteText.isEnd()) {
+                if (dialogueNode.isDialog()) {
+                    setDialog(dialogueNode.getDialogNumber());
                 } else {
-                    typewriteText.instantShow();
+                    if (dialogueNode.isEnd()) {
+                        exitEvent();
+                    } else {
+                        setTypewriter(dialogueNode.select(0));
+                    }
                 }
+            } else {
+                typewriteText.instantShow();
             }
-        });
+        }));
     }
 
     private void exitEvent() {

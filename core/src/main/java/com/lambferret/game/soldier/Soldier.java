@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
@@ -26,6 +24,7 @@ import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.SoldierInfo;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import com.lambferret.game.util.TextureFinder;
 import lombok.Getter;
 import lombok.Setter;
@@ -173,18 +172,15 @@ public abstract class Soldier implements Comparable<Soldier> {
         plate.setActor(front);
         isFront = true;
         plate.fill();
-        plate.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (isFront) {
-                    isFront = false;
-                    plate.setActor(back);
-                } else {
-                    isFront = true;
-                    plate.setActor(front);
-                }
+        plate.addListener(Input.click(() -> {
+            if (isFront) {
+                isFront = false;
+                plate.setActor(back);
+            } else {
+                isFront = true;
+                plate.setActor(front);
             }
-        });
+        }));
         return plate;
     }
 

@@ -4,21 +4,22 @@ import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.setting.GlobalSettings;
 
 public interface AbstractOverlay extends PlayerObserver {
+    int width = GlobalSettings.currWidth;
+    int height = GlobalSettings.currHeight;
     /**
      * UI 기준 너비
      */
-    int OVERLAY_BORDERLINE_WIDTH = GlobalSettings.currWidth / 5;
+    int OVERLAY_BORDERLINE_WIDTH = width / 5;
     /**
      * UI 기준 높이
      */
     int OVERLAY_BORDERLINE_HEIGHT = 200;
-    /**
-     * 눈통 높이
-     */
-    int SNOW_BAR_X = 0;
-    int SNOW_BAR_Y = 0;
-    int SNOW_BAR_HEIGHT = 50;
-    int SNOW_BAR_WIDTH = 600;
+
+    int SNOW_BAR_HEIGHT = height / 30;
+    int SNOW_BAR_WIDTH = width / 2;
+    int SNOW_BAR_BOTTOM_PAD = 30;
+    int SNOW_BAR_X = (width - SNOW_BAR_WIDTH) / 2;
+    int SNOW_BAR_Y = SNOW_BAR_BOTTOM_PAD;
     int SNOW_BAR_ANIMATION_DURATION = 1;
     int SNOW_BAR_THRESHOLD_LABEL_WIDTH = 50;
     int SNOW_BAR_THRESHOLD_LABEL_HEIGHT = 30;
@@ -38,11 +39,11 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 인벤토리 너비
      */
-    int INVENTORY_WIDTH = GlobalSettings.currWidth - INVENTORY_HIDE_BUTTON_WIDTH;
+    int INVENTORY_WIDTH = width - INVENTORY_HIDE_BUTTON_WIDTH;
     /**
      * 인벤토리 높이
      */
-    int INVENTORY_HEIGHT = GlobalSettings.currHeight;
+    int INVENTORY_HEIGHT = height;
     /**
      * 명령창 숨김 X 좌표
      */
@@ -55,11 +56,11 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 인벤토리 숨김 버튼 X 좌표
      */
-    int INVENTORY_HIDE_BUTTON_X = GlobalSettings.currWidth - INVENTORY_HIDE_BUTTON_WIDTH;
+    int INVENTORY_HIDE_BUTTON_X = width - INVENTORY_HIDE_BUTTON_WIDTH;
     /**
      * 인벤토리 숨김 버튼 Y 좌표
      */
-    int INVENTORY_HIDE_BUTTON_Y = GlobalSettings.currHeight - 200;
+    int INVENTORY_HIDE_BUTTON_Y = height - 200;
     /**
      * 인벤토리 숨김 버튼 높이
      */
@@ -105,11 +106,11 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 명령창 높이
      */
-    int COMMAND_HEIGHT = GlobalSettings.currHeight - (OVERLAY_BORDERLINE_HEIGHT + COMMAND_LOWER_PAD + COMMAND_UPPER_PAD);
+    int COMMAND_HEIGHT = height - (OVERLAY_BORDERLINE_HEIGHT + COMMAND_LOWER_PAD + COMMAND_UPPER_PAD);
     /**
      * 명령창 X 좌표
      */
-    int COMMAND_X = GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH;
+    int COMMAND_X = width - OVERLAY_BORDERLINE_WIDTH;
     /**
      * 명령창 Y 좌표
      */
@@ -137,7 +138,7 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 명령창 숨기는 버튼 숨겨질때 X 좌표
      */
-    int COMMAND_HIDE_BUTTON_HIDE_X = GlobalSettings.currWidth - (COMMAND_HIDE_BUTTON_WIDTH + COMMAND_BETWEEN_HIDE_BUTTON_PAD);
+    int COMMAND_HIDE_BUTTON_HIDE_X = width - (COMMAND_HIDE_BUTTON_WIDTH + COMMAND_BETWEEN_HIDE_BUTTON_PAD);
     /**
      * 멍령창 숨김 애니메이션 시간
      */

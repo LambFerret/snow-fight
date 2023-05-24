@@ -18,7 +18,8 @@
   },
   "overlayText": {
     "soldierOverlayName": "Soldier List",
-    "executeOverlayName": "execute phase!"
+    "executeOverlayName": "execute phase!",
+    "snowOverlayDescription" : "snow to clear"
   },
   "groundText": {
     "recruit": "RECRUIT",

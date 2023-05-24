@@ -15,6 +15,7 @@ import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -104,13 +105,7 @@ public class RecruitScreen implements AbstractGround {
         textButton.setSize(100, 100);
         textButton.setPosition(GlobalSettings.currWidth - 100, 0);
         stage.addActor(textButton);
-        textButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                switchTable();
-            }
-        });
-
+        textButton.addListener(Input.click(this::switchTable));
         stage.addActor(new FirstMission());
     }
 
@@ -256,14 +251,12 @@ public class RecruitScreen implements AbstractGround {
             style.font = GlobalSettings.font;
             style.up = manual.renderIcon();
             ImageTextButton button = new ImageTextButton(manual.getName(), style);
-            button.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
+            button.addListener(Input.click(() -> {
                     player.deleteManual(manual);
                     button.remove();
                     guideLabel.setText("manual deleted | " + manual.getName());
                 }
-            });
+            ));
             button.setSize(20, 20);
             ManualDeleteTable.add(button).width(50).height(50);
         }

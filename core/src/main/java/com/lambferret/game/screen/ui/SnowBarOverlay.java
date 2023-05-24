@@ -2,9 +2,6 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -18,8 +15,9 @@ import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Chili;
 import com.lambferret.game.soldier.Vanilla;
 import com.lambferret.game.text.LocalizeConfig;
-import com.lambferret.game.text.dto.UIText;
+import com.lambferret.game.text.dto.OverlayText;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +25,7 @@ import java.util.List;
 
 public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(SnowBarOverlay.class.getName());
-    public static final UIText text;
+    public static final OverlayText text;
     private final CustomButton clearThresholdXLabel;
     private final CustomButton labelDescription;
     private final Label barLabel;
@@ -41,9 +39,8 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     public SnowBarOverlay(Stage stage) {
         super(0, 100, 1, false, new SnowBarStyle(List.of(new Chili(), new Vanilla()), SNOW_BAR_WIDTH, SNOW_BAR_HEIGHT));
         clearThresholdXLabel = GlobalUtil.simpleButton("silvanusParkDogT123ag");
-        labelDescription = GlobalUtil.simpleButton("UI String TODO", "silvanusParkDogTag");
+        labelDescription = GlobalUtil.simpleButton("silvanusParkDogTag", text.getSnowOverlayDescription());
         barLabel = new Label("", GlobalSettings.skin);
-
         stage.addActor(this);
         stage.addActor(barLabel);
         stage.addActor(clearThresholdXLabel);
@@ -75,51 +72,19 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
 
     private void setLabelX() {
         float thresholdX = ((this.getWidth() * (assignedSnow - snowAmountToClear)) / assignedSnow);
-        clearThresholdXLabel.setX(thresholdX - clearThresholdXLabel.getWidth() / 2);
+        clearThresholdXLabel.setX((thresholdX - clearThresholdXLabel.getWidth()) / 2);
         clearThresholdXLabel.setText(snowAmountToClear + "");
 
         labelDescription.setSize(30, 15);
         labelDescription.setPosition(clearThresholdXLabel.getX(), clearThresholdXLabel.getY() + clearThresholdXLabel.getHeight());
         clearThresholdXLabel.clearListeners();
 
-        clearThresholdXLabel.addListener(new InputListener() {
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                if (pointer == -1) {
-                    labelDescription.setVisible(false);
-                }
-            }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                if (pointer == -1) {
-                    labelDescription.setVisible(true);
-                }
-            }
-        });
+        clearThresholdXLabel.addListener(Input.revealWhenHover(labelDescription));
     }
 
     private void setLabelProperty() {
         setLabelX();
-        this.addListener(new InputListener() {
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                if (pointer == -1) {
-                    barLabel.setText("");
-                }
-            }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                if (pointer == -1) {
-                    barLabel.setText((assignedSnow - player.getSnowAmount()) + " / " + assignedSnow);
-                }
-            }
-        });
+        this.addListener(Input.setTextWhenHover(barLabel, (assignedSnow - player.getSnowAmount()) + " / " + assignedSnow));
     }
 
     private void setAnimateValue(float deltaTime) {
@@ -176,7 +141,7 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     }
 
     static {
-        text = LocalizeConfig.uiText;
+        text = LocalizeConfig.uiText.getOverlayText();
     }
 
 }

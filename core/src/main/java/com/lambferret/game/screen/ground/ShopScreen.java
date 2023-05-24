@@ -16,6 +16,7 @@ import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,9 +96,7 @@ public class ShopScreen implements AbstractGround {
             imageButton.setPosition(i++ * (forSaleList.getWidth() / COMMAND_STOCK_AMOUNT), 0);
 
             imageButton.addAction(oscillate(false));
-            imageButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
+            imageButton.addListener(Input.click(() -> {
                     if (player.getMoney() >= command.getPrice()) {
                         updatePlayerMoney(command.getPrice());
                         player.getCommands().add(command);
@@ -106,7 +105,7 @@ public class ShopScreen implements AbstractGround {
                         imageButton.addAction(rejectAction());
                     }
                 }
-            });
+            ));
             imageButton.addListener(addHover(imageButton));
             forSaleList.addActor(imageButton);
         }
@@ -129,9 +128,7 @@ public class ShopScreen implements AbstractGround {
             imageButton.setPosition(i++ * (forSaleList.getWidth() / MANUAL_STOCK_AMOUNT), forSaleList.getHeight() / 2);
 
             imageButton.addAction(oscillate(false));
-            imageButton.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
+            imageButton.addListener(Input.click(() -> {
                     if (player.getMoney() >= manual.getPrice()) {
                         updatePlayerMoney(manual.getPrice());
                         player.getManuals().add(manual);
@@ -140,7 +137,7 @@ public class ShopScreen implements AbstractGround {
                         imageButton.addAction(rejectAction());
                     }
                 }
-            });
+            ));
             imageButton.addListener(addHover(imageButton));
             forSaleList.addActor(imageButton);
         }

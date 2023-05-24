@@ -9,6 +9,7 @@ import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.text.dto.ManualInfo;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -74,13 +75,13 @@ public abstract class Manual implements Comparable<Manual> {
 
     public CustomButton renderFrontCover() {
         CustomButton button = GlobalUtil.simpleButton("button/button_up", this.name);
-        button.addListener(GlobalUtil.soundListener(hoverSound));
+        button.addListener(Input.soundListener(hoverSound));
         return button;
     }
 
     public Image renderSideCover() {
         Image image = new Image(new TextureRegionDrawable(atlas.findRegion(this.texturePath + "_side")));
-        image.addListener(GlobalUtil.soundListener(hoverSound));
+        image.addListener(Input.soundListener(hoverSound));
         return image;
     }
 

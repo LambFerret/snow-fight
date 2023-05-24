@@ -1,9 +1,6 @@
 package com.lambferret.game.level;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.component.CustomButton;
@@ -11,6 +8,7 @@ import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -131,21 +129,8 @@ public abstract class Level {
             element.addAction(Actions.alpha(0));
             element.addAction(Actions.alpha(transparency, 0.5F));
         }
-        element.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (pointer == -1) {
-                    element.setText("Terrain : " + attr.getTerrain() + "\n" + "Amount : " + attr.getCurrentAmount() + " / " + attr.getMaxAmount());
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) {
-                    element.setText("");
-                }
-            }
-        });
+        String description = "Terrain : " + attr.getTerrain() + "\n" + "Amount : " + attr.getCurrentAmount() + " / " + attr.getMaxAmount();
+        element.addListener(Input.setTextWhenHover(element.getLabel(), description));
         return element;
     }
 

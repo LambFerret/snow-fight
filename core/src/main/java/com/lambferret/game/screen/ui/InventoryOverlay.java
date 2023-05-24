@@ -1,7 +1,9 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
@@ -20,6 +22,7 @@ import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.OverlayText;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -65,7 +68,7 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
 
         soldierButton.addListener(hideButtonDragListener(Type.INVENTORY));
         commandButton.addListener(hideButtonDragListener(Type.COMMAND));
-        scrollPane.addListener(scrollPaneInputListener());
+        scrollPane.addListener(Input.setScrollFocusWhenHover(stage, scrollPane));
 
         if (isHide) {
             this.setX(INVENTORY_HIDE_X);
@@ -129,24 +132,6 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
                     dragStop(event, x, y, pointer);
                 }
                 cancel();
-            }
-        };
-    }
-
-    private InputListener scrollPaneInputListener() {
-        return new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                stage.setScrollFocus(scrollPane);
-                super.enter(event, x, y, pointer, fromActor);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) {
-                    stage.setScrollFocus(null);
-                }
-                super.exit(event, x, y, pointer, toActor);
             }
         };
     }

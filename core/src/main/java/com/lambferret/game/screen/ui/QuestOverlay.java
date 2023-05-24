@@ -18,6 +18,7 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -99,21 +100,7 @@ public class QuestOverlay extends Window implements AbstractOverlay {
             }
         });
 
-        scrollPane.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                stage.setScrollFocus(scrollPane);
-                super.enter(event, x, y, pointer, fromActor);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) {
-                    stage.setScrollFocus(null);
-                }
-                super.exit(event, x, y, pointer, toActor);
-            }
-        });
+        scrollPane.addListener(Input.setScrollFocusWhenHover(stage, scrollPane));
     }
 
     @Override

@@ -22,6 +22,7 @@ import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.soldier.*;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -233,12 +234,7 @@ public class TrainingGroundScreen implements AbstractGround {
 
     private TextButton makeButton() {
         TextButton button = new TextButton("GO TO Phase", this.skin);
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN;
-            }
-        });
+        button.addListener(Input.click(() -> ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN));
         button.setSize(50, 50);
         button.setPosition(GlobalSettings.currWidth / 2.0F, 0);
         return button;
