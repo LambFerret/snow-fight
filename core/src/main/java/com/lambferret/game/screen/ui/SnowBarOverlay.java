@@ -26,10 +26,9 @@ import java.util.List;
 public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(SnowBarOverlay.class.getName());
     public static final OverlayText text;
-    private final CustomButton clearThresholdXLabel;
-    private final CustomButton labelDescription;
+    private final CustomButton borderline;
+    private final CustomButton thresholdDescription;
     private final Label barLabel;
-    private boolean isOverlayOn = false;
     Player player;
     private int assignedSnow;
     private int snowAmountToClear;
@@ -38,21 +37,26 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
 
     public SnowBarOverlay(Stage stage) {
         super(0, 100, 1, false, new SnowBarStyle(List.of(new Chili(), new Vanilla()), SNOW_BAR_WIDTH, SNOW_BAR_HEIGHT));
-        clearThresholdXLabel = GlobalUtil.simpleButton("silvanusParkDogT123ag");
-        labelDescription = GlobalUtil.simpleButton("silvanusParkDogTag", text.getSnowOverlayDescription());
+        borderline = GlobalUtil.simpleButton("borderline");
+        thresholdDescription = GlobalUtil.simpleButton("silvanusParkDogTag", text.getSnowOverlayDescription());
         barLabel = new Label("", GlobalSettings.skin);
         stage.addActor(this);
         stage.addActor(barLabel);
-        stage.addActor(clearThresholdXLabel);
-        stage.addActor(labelDescription);
-        labelDescription.setVisible(false);
+        stage.addActor(borderline);
+        stage.addActor(thresholdDescription);
+        thresholdDescription.setVisible(false);
 
         this.pack();
+        setSize();
+    }
+
+    private void setSize() {
         this.setSize(SNOW_BAR_WIDTH, SNOW_BAR_HEIGHT);
         this.setPosition(SNOW_BAR_X, SNOW_BAR_Y);
 
-        clearThresholdXLabel.setSize(SNOW_BAR_THRESHOLD_LABEL_WIDTH, SNOW_BAR_THRESHOLD_LABEL_HEIGHT);
-        clearThresholdXLabel.setPosition(-999, this.getY() + this.getHeight());
+        borderline.setSize(SNOW_BAR_THRESHOLD_LABEL_WIDTH, SNOW_BAR_THRESHOLD_LABEL_HEIGHT);
+        borderline.setPosition(-999, this.getY() + this.getHeight());
+        borderline.padBottom(10);
 
         barLabel.setSize(20, 20);
         barLabel.setPosition(this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2);
@@ -61,7 +65,11 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
     @Override
     public void onPlayerReady() {
         this.player = SnowFight.player;
-        setLabelProperty();
+        assignedSnow = PhaseScreen.level.getAssignedSnow();
+        snowAmountToClear = PhaseScreen.level.getMinSnowForClear();
+        playerCurrentSnow = assignedSnow;
+
+        setLabelX();
         reset();
     }
 
@@ -72,23 +80,21 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
 
     private void setLabelX() {
         float thresholdX = ((this.getWidth() * (assignedSnow - snowAmountToClear)) / assignedSnow);
-        clearThresholdXLabel.setX((thresholdX - clearThresholdXLabel.getWidth()) / 2);
-        clearThresholdXLabel.setText(snowAmountToClear + "");
 
-        labelDescription.setSize(30, 15);
-        labelDescription.setPosition(clearThresholdXLabel.getX(), clearThresholdXLabel.getY() + clearThresholdXLabel.getHeight());
-        clearThresholdXLabel.clearListeners();
+        borderline.setX(this.getX() + thresholdX - borderline.getWidth() / 2);
+        borderline.setText(String.valueOf(snowAmountToClear));
 
-        clearThresholdXLabel.addListener(Input.revealWhenHover(labelDescription));
-    }
-
-    private void setLabelProperty() {
-        setLabelX();
-        this.addListener(Input.setTextWhenHover(barLabel, (assignedSnow - player.getSnowAmount()) + " / " + assignedSnow));
+        thresholdDescription.setSize(30, 15);
+        thresholdDescription.setPosition(borderline.getX(), borderline.getY() + borderline.getHeight());
+        borderline.addListener(Input.revealWhenHover(thresholdDescription));
+        this.addListener(Input.hover(
+            () -> barLabel.setText((assignedSnow - player.getSnowAmount()) + " / " + assignedSnow),
+            () -> barLabel.setText("")
+        ));
     }
 
     private void setAnimateValue(float deltaTime) {
-        if (!isOverlayOn || playerCurrentSnow == player.getSnowAmount()) return;
+        if (player == null || playerCurrentSnow == player.getSnowAmount()) return;
 
         animationTime += deltaTime;
         animationTime = MathUtils.clamp(animationTime, 0, SNOW_BAR_ANIMATION_DURATION);
@@ -99,22 +105,11 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         ((SnowBarStyle) getStyle()).updateAnimationFrame(oldValue);
     }
 
-    private void start() {
-        assignedSnow = PhaseScreen.level.getAssignedSnow();
-        snowAmountToClear = PhaseScreen.level.getMinSnowForClear();
-        playerCurrentSnow = assignedSnow;
-        isOverlayOn = true;
-        setLabelX();
-    }
-
     private void reset() {
         setValue(0);
         ((SnowBarStyle) getStyle()).reset();
     }
 
-    private void stop() {
-        isOverlayOn = false;
-    }
 
     @Override
     public void act(float delta) {
@@ -124,13 +119,7 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
 
     @Override
     public void setVisible(boolean visible) {
-        isOverlayOn = visible;
-        clearThresholdXLabel.setVisible(visible);
-        if (visible) {
-            start();
-        } else {
-            stop();
-        }
+        borderline.setVisible(visible);
         super.setVisible(visible);
     }
 

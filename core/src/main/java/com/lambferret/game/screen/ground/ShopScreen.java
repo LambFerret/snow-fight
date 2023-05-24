@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.command.CupNoodle;
@@ -143,34 +142,23 @@ public class ShopScreen implements AbstractGround {
         }
     }
 
-    private ClickListener addHover(Actor button) {
+    private InputListener addHover(Actor button) {
         float scaleUp = 1.2F;
         float scaleDown = 1.0F;
-        return new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (pointer == -1) {
-                    button.clearActions();
-                    button.addAction(
-                        Actions.scaleTo(scaleUp, scaleUp, ITEM_ANIMATION_DURATION)
-                    );
-                }
-                super.enter(event, x, y, pointer, fromActor);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) {
-                    button.addAction(
-                        Actions.sequence(
-                            Actions.scaleTo(scaleDown, scaleDown, ITEM_ANIMATION_DURATION * 2),
-                            oscillate(true)
-                        )
-                    );
-                }
-                super.exit(event, x, y, pointer, toActor);
-            }
-        };
+        return Input.hover(
+            () -> {
+                button.clearActions();
+                button.addAction(
+                    Actions.scaleTo(scaleUp, scaleUp, ITEM_ANIMATION_DURATION)
+                );
+            },
+            () -> button.addAction(
+                Actions.sequence(
+                    Actions.scaleTo(scaleDown, scaleDown, ITEM_ANIMATION_DURATION * 2),
+                    oscillate(true)
+                )
+            )
+        );
     }
 
     private Action oscillate(boolean instant) {

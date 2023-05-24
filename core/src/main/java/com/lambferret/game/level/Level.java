@@ -130,7 +130,7 @@ public abstract class Level {
             element.addAction(Actions.alpha(transparency, 0.5F));
         }
         String description = "Terrain : " + attr.getTerrain() + "\n" + "Amount : " + attr.getCurrentAmount() + " / " + attr.getMaxAmount();
-        element.addListener(Input.setTextWhenHover(element.getLabel(), description));
+        element.addListener(Input.hover(() -> element.setText(description), () -> element.setText("")));
         return element;
     }
 

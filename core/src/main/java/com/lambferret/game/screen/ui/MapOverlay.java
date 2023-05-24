@@ -3,7 +3,8 @@ package com.lambferret.game.screen.ui;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.lambferret.game.component.CustomButton;
@@ -92,21 +93,7 @@ public class MapOverlay extends Group implements AbstractOverlay {
             hideHoverImage(action);
             clickSound.play();
         }));
-        button.addListener(new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (pointer == -1) {
-                    showHoverImage(action);
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                if (pointer == -1) {
-                    hideHoverImage(action);
-                }
-            }
-        });
+        button.addListener(Input.hover(() -> showHoverImage(action), () -> hideHoverImage(action)));
         return button;
     }
 
