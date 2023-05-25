@@ -5,14 +5,18 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.component.CustomDialog;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
+import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -89,15 +93,11 @@ public abstract class StoryWindow extends EventWindow {
     protected void setDialog(int number) {
         dialogContainer.setVisible(true);
         conversationContainer.setVisible(false);
-        Dialog dialog = new Dialog(options.get(number).getDescription(), GlobalSettings.skin) {
+        CustomDialog dialog = new CustomDialog(options.get(number).getDescription(), number) {
             @Override
             protected void result(Object object) {
                 optionNumber = (int) object;
-                solveEvent(number, optionNumber);
-                dialogContainer.setVisible(false);
-                conversationContainer.setVisible(true);
-                typewriteText.startTyping();
-                setTypewriter(dialogueNode.select(optionNumber));
+                setResult(number, optionNumber);
             }
         };
 
@@ -110,9 +110,30 @@ public abstract class StoryWindow extends EventWindow {
         dialog.setResizable(false);
     }
 
-    protected void setOption(Dialog dialog, int number) {
+    private void setResult(int dialogNumber, int optionNumber) {
+        solveEvent(dialogNumber, optionNumber);
+        dialogContainer.setVisible(false);
+        conversationContainer.setVisible(true);
+        typewriteText.startTyping();
+        setTypewriter(dialogueNode.select(optionNumber));
+    }
+
+    protected void setOption(CustomDialog dialog, int number) {
         for (int i = 0; i < options.get(number).getElement().size(); i++) {
             dialog.button(options.get(number).getElement().get(i), i);
+            if (isOutOfCondition(dialog.getID(), i)) {
+                TextButton button = (TextButton) dialog.getButtonTable().getCells().get(i).getActor();
+                button.setDisabled(true);
+                int finalI = i;
+                button.addListener(Input.click(() -> {
+                    if (isOutOfCondition(dialog.getID(), finalI)) {
+                        button.addAction(ShopScreen.rejectAction());
+                    } else {
+                        setResult(dialog.getID(), finalI);
+                    }
+                }));
+
+            }
         }
     }
 
@@ -157,5 +178,7 @@ public abstract class StoryWindow extends EventWindow {
     public abstract List<Character> getRightActor();
 
     public abstract void solveEvent(int dialogNumber, int optionNumber);
+
+    abstract boolean isOutOfCondition(int dialog, int optionNumber);
 
 }

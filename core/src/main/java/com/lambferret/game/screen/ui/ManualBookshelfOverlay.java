@@ -2,6 +2,7 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
@@ -9,6 +10,7 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.GroundText;
 import com.lambferret.game.util.GlobalUtil;
@@ -23,8 +25,10 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
     private final Container<CustomButton> infoContainer = new Container<>();
 
     Player player;
+    Stage stage;
 
     public ManualBookshelfOverlay(Stage stage) {
+        this.stage = stage;
         this.setSize(MANUAL_WIDTH, MANUAL_HEIGHT);
         this.setPosition(MANUAL_X, MANUAL_Y);
         this.setDebug(true, true);
@@ -55,13 +59,31 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
         clear();
         for (Manual manual : player.getManuals()) {
             Image manualButton = manual.renderSideCover();
-            manualButton.addListener(
-                Input.hover(() -> {
-                        infoContainer.setVisible(true);
-                        infoContainer.setActor(manual.renderInfo());
-                    },
-                    () -> infoContainer.setVisible(false)
-                ));
+            manualButton.addListener(Input.hover(() -> {
+                    infoContainer.setVisible(true);
+                    infoContainer.setActor(manual.renderInfo());
+                },
+                () -> infoContainer.setVisible(false)
+            ));
+            manualButton.addListener(Input.click(() -> {
+                Dialog ask = new Dialog("", GlobalSettings.skin) {
+                    {
+                        text("remove this?");
+                        button("yes", true);
+                        button("no", false);
+                    }
+
+                    @Override
+                    protected void result(Object object) {
+                        if (object.equals(true)) {
+                            manualButton.remove();
+                            player.getManuals().remove(manual);
+                        }
+                    }
+                };
+                ask.show(stage);
+            }));
+
             add(manualButton).size(MANUAL_EACH_WIDTH, MANUAL_EACH_HEIGHT);
         }
     }

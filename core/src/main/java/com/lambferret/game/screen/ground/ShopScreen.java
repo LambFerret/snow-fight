@@ -182,7 +182,7 @@ public class ShopScreen implements AbstractGround {
         return actionSequence;
     }
 
-    private Action rejectAction() {
+    public static Action rejectAction() {
         return Actions.parallel(
             Actions.repeat(4,
                 Actions.sequence(

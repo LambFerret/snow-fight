@@ -91,6 +91,12 @@ public class Tutorial extends StoryWindow {
     }
 
     @Override
+    boolean isOutOfCondition(int dialog, int optionNumber) {
+        if (dialog == 0 && optionNumber == 1 && !SnowFight.player.checkManualSize()) return true;
+        return false;
+    }
+
+    @Override
     protected Dialogue setText() {
         return LocalizeConfig.dialogText.getMAIN().get(ID);
     }

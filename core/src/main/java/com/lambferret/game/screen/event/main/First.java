@@ -51,6 +51,11 @@ public class First extends StoryWindow {
     }
 
     @Override
+    boolean isOutOfCondition(int dialog, int optionNumber) {
+        return false;
+    }
+
+    @Override
     protected Dialogue setText() {
         return LocalizeConfig.dialogText.getMAIN().get(ID);
     }
