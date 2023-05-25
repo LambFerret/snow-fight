@@ -3,9 +3,7 @@ package com.lambferret.game.screen.event.main;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.component.CustomButton;
@@ -119,22 +117,27 @@ public abstract class StoryWindow extends EventWindow {
     }
 
     protected void setOption(CustomDialog dialog, int number) {
+        Skin skin = GlobalSettings.skin;
+        Table buttonTable = new Table(skin);
+        int id = dialog.getID();
         for (int i = 0; i < options.get(number).getElement().size(); i++) {
-            dialog.button(options.get(number).getElement().get(i), i);
-            if (isOutOfCondition(dialog.getID(), i)) {
-                TextButton button = (TextButton) dialog.getButtonTable().getCells().get(i).getActor();
-                button.setDisabled(true);
-                int finalI = i;
-                button.addListener(Input.click(() -> {
-                    if (isOutOfCondition(dialog.getID(), finalI)) {
-                        button.addAction(ShopScreen.rejectAction());
+            TextButton option = new TextButton(options.get(number).getElement().get(i), skin);
+            int finalI = i;
+            if (isOutOfCondition(id, i)) {
+                option.addListener(Input.click(() -> {
+                    if (isOutOfCondition(id, finalI)) {
+                        option.addAction(ShopScreen.rejectAction());
                     } else {
-                        setResult(dialog.getID(), finalI);
+                        setResult(id, finalI);
                     }
                 }));
-
+            } else {
+                option.addListener(Input.click(() -> setResult(id, finalI)));
             }
+            buttonTable.add(option).row();
         }
+        dialog.getButtonTable().clear();
+        dialog.getButtonTable().add(buttonTable);
     }
 
     @Override

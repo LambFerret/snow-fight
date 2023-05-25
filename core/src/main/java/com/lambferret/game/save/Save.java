@@ -28,5 +28,6 @@ public class Save {
     private int downAffinity;
     private int bossAffinity;
     private int upperAffinity;
+    private int maxManualCapacity;
     private List<String> eventList;
 }

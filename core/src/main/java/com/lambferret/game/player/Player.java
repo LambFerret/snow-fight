@@ -28,6 +28,9 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
+/*
+ 프로퍼티 추가시 여기 필드, 여기 Constructor, SaveLoader, Save 총 네군데 추가
+ */
 @Getter
 @Setter
 @ToString
@@ -50,6 +53,7 @@ public class Player {
     private int bossAffinity;
     private int downAffinity;
     private int upperAffinity;
+    private int maxManualCapacity;
     private List<String> eventList;
     List<Item> lateInitItems = new ArrayList<>();
 
@@ -79,14 +83,8 @@ public class Player {
         this.downAffinity = 10;
         this.bossAffinity = 50;
         this.upperAffinity = 10;
+        this.maxManualCapacity = 3;
         this.eventList = new ArrayList<>();
-
-        //=-=-=-=-=-=--=-=//
-//        soldiers.add(GlobalSettings.popSoldier());
-//        soldiers.add(GlobalSettings.popSoldier());
-//        commands.add(GlobalSettings.popCommand());
-//        manuals.add(GlobalSettings.popManual());
-        //=-=-=-=-=-=--=-=//
 
         //=-=-=-=-=-=--=-=//
         soldiers.add(new Vanilla());
@@ -115,6 +113,7 @@ public class Player {
         this.bossAffinity = save.getBossAffinity();
         this.upperAffinity = save.getUpperAffinity();
         this.eventList = save.getEventList();
+        this.maxManualCapacity = save.getMaxManualCapacity();
         Iterator<Item> iterator = save.getAllItems().iterator();
         while (iterator.hasNext()) {
             Item item = iterator.next();
@@ -196,9 +195,15 @@ public class Player {
         playerUpdate(Item.Type.COMMAND);
     }
 
+    public boolean checkManualSize() {
+        return manuals.size() < maxManualCapacity;
+    }
+
     public void addManual(Manual manual) {
-        manuals.add(manual);
-        playerUpdate(Item.Type.MANUAL);
+        if (checkManualSize()) {
+            manuals.add(manual);
+            playerUpdate(Item.Type.MANUAL);
+        }
     }
 
     public void deleteSoldier(Soldier soldier) {
