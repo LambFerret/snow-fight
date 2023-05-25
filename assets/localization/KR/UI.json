@@ -1,18 +1,40 @@
 {
   "titleMenuText": {
-    "newGame": "새게임",
+    "newGame": "새 게임",
     "continueGame": "계속",
     "loadGame": "로드",
-    "credit": "크레딧",
+    "credit": "만든이",
     "option": "옵션",
-    "exit": "나가기"
+    "exit": "나가기",
+    "overrideSaveConfirm": "This will use this save slot. Are you sure?",
+    "overrideDeleteSaveConfirm": "This will delete and overwrite this save slot. Are you sure?",
+    "overrideLoadConfirm": "Start New Game. Are you sure?",
+    "yes": "수락",
+    "no": "거절",
+    "loadData": "로드",
+    "saveData": "세이브",
+    "newData": "새게임",
+    "emptyData": "빈 파일"
   },
   "overlayText": {
-    "TEST": "테스트_테스트"
+    "soldierOverlayName": "Soldier List",
+    "executeOverlayName": "execute phase!",
+    "snowOverlayDescription" : "snow to clear"
   },
   "groundText": {
-    "recruit": "차출",
-    "shop": "피엑스",
-    "trainingGround": "연병장"
+    "recruit": "RECRUIT",
+    "shop": "SHOP",
+    "trainingGround": "TRAINING_GROUND",
+    "stage": "STAGE"
+  },
+  "phaseText": {
+    "buffCapacity": "이번 지도에서 {isIncreased} 일할 수 있습니다",
+    "buffCost": "이번 턴의 코스트가 {isIncreased} 했습니다",
+    "buffSoldierX": "{soldier} X is {isIncreased}",
+    "buffSoldierY": "{soldier} Y is {isIncreased}",
+    "buffSoldierSpeed": "{soldier} speed is {isIncreased}",
+    "turn": "남은 시간 : {turn} 턴",
+    "increased": "증가",
+    "decreased": "감소"
   }
 }

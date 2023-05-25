@@ -17,6 +17,8 @@ import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.setting.Setting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -77,13 +79,25 @@ public class AssetFinder {
         }
 
         FileHandle file = Gdx.files.internal(fileName);
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
-        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        params.size = 12;
-        params.color = Color.BLACK;
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        BitmapFont font = generator.generateFont(params);
+        if (GlobalSettings.language == Setting.Language.KR) {
+            StringBuilder builder = new StringBuilder();
+            for (char c = 'ㄱ'; c <= 'ㅣ'; c++) {
+                builder.append(c);
+            }
+            for (char c = '가'; c <= '힣'; c++) {
+                builder.append(c);
+            }
+            parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + builder;
+        }
+
+        parameter.size = 12;
+        parameter.color = Color.BLACK;
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
+        BitmapFont font = generator.generateFont(parameter);
         generator.dispose();
+
         return font;
     }
 

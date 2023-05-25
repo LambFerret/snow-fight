@@ -7,6 +7,14 @@
     "ImmediateBoss": {
       "name": "중대장",
       "description": "직속 상관"
+    },
+    "Choco": {
+      "name": "초코",
+      "description": "무르다"
+    },
+    "Chili": {
+      "name": "칠리",
+      "description": "매운 녀석"
     }
   }
 }
