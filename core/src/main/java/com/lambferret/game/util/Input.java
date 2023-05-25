@@ -25,49 +25,13 @@ public class Input {
                 }
             }
         };
-
-
     }
 
-    public static InputListener revealWhenHover(Actor actor) {
-        return new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                if (pointer == -1) {
-                    actor.setVisible(true);
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                if (pointer == -1) {
-                    actor.setVisible(false);
-                }
-            }
-        };
-    }
-
-    public static InputListener revealWhenHover(Actor actor, Runnable runnable) {
-        return new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                if (pointer == -1) {
-                    runnable.run();
-                    actor.setVisible(true);
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                if (pointer == -1) {
-                    actor.setVisible(false);
-                }
-            }
-        };
+    public static InputListener visibleWhenHover(Actor actor) {
+        return hover(
+            () -> actor.setVisible(true),
+            () -> actor.setVisible(false)
+        );
     }
 
     public static InputListener soundListener(Sound sound) {

@@ -54,12 +54,15 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         this.setSize(SNOW_BAR_WIDTH, SNOW_BAR_HEIGHT);
         this.setPosition(SNOW_BAR_X, SNOW_BAR_Y);
 
-        borderline.setSize(SNOW_BAR_THRESHOLD_LABEL_WIDTH, SNOW_BAR_THRESHOLD_LABEL_HEIGHT);
+        borderline.setSize(SNOW_BAR_BORDERLINE_WIDTH, SNOW_BAR_BORDERLINE_HEIGHT);
         borderline.setPosition(-999, this.getY() + this.getHeight());
-        borderline.padBottom(10);
+        borderline.padBottom(SNOW_BAR_BORDER_BOTTOM_PAD);
 
-        barLabel.setSize(20, 20);
-        barLabel.setPosition(this.getX() + this.getWidth() / 2, this.getY() + this.getHeight() / 2);
+        barLabel.setSize(SNOW_BAR_LABEL_WIDTH, SNOW_BAR_LABEL_HEIGHT);
+        barLabel.setPosition(
+            this.getX() + (this.getWidth() - barLabel.getWidth()) / 2,
+            this.getY() + (this.getHeight() - barLabel.getHeight()) / 2
+        );
     }
 
     @Override
@@ -84,9 +87,12 @@ public class SnowBarOverlay extends ProgressBar implements AbstractOverlay {
         borderline.setX(this.getX() + thresholdX - borderline.getWidth() / 2);
         borderline.setText(String.valueOf(snowAmountToClear));
 
-        thresholdDescription.setSize(30, 15);
-        thresholdDescription.setPosition(borderline.getX(), borderline.getY() + borderline.getHeight());
-        borderline.addListener(Input.revealWhenHover(thresholdDescription));
+        thresholdDescription.setSize(SNOW_BAR_DESCRIPTION_WIDTH, SNOW_BAR_DESCRIPTION_HEIGHT);
+        thresholdDescription.setPosition(
+            borderline.getX() + (borderline.getWidth() - thresholdDescription.getWidth()) / 2,
+            borderline.getY() + borderline.getHeight()
+        );
+        borderline.addListener(Input.visibleWhenHover(thresholdDescription));
         this.addListener(Input.hover(
             () -> barLabel.setText((assignedSnow - player.getSnowAmount()) + " / " + assignedSnow),
             () -> barLabel.setText("")

@@ -15,14 +15,59 @@ public interface AbstractOverlay extends PlayerObserver {
      */
     int OVERLAY_BORDERLINE_HEIGHT = 200;
 
+    /**
+     * 눈통 높이
+     */
     int SNOW_BAR_HEIGHT = height / 30;
+    /**
+     * 눈통 너비
+     */
     int SNOW_BAR_WIDTH = width / 2;
+    /**
+     * 눈통 아래 패딩
+     */
     int SNOW_BAR_BOTTOM_PAD = 30;
+    /**
+     * 눈통 X 좌표
+     */
     int SNOW_BAR_X = (width - SNOW_BAR_WIDTH) / 2;
+    /**
+     * 눈통 Y 좌표
+     */
     int SNOW_BAR_Y = SNOW_BAR_BOTTOM_PAD;
+    /**
+     * 눈통 애니메이션 시간
+     */
     int SNOW_BAR_ANIMATION_DURATION = 1;
-    int SNOW_BAR_THRESHOLD_LABEL_WIDTH = 50;
-    int SNOW_BAR_THRESHOLD_LABEL_HEIGHT = 30;
+    /**
+     * 눈통 클리어 기준선 버튼 너비
+     */
+    int SNOW_BAR_BORDERLINE_WIDTH = 50;
+    /**
+     * 눈통 클리어 기준선 버튼 높이
+     */
+    int SNOW_BAR_BORDERLINE_HEIGHT = 30;
+
+    /**
+     * 눈통 클리어 기준선 아래 패딩
+     */
+    int SNOW_BAR_BORDER_BOTTOM_PAD = 10;
+    /**
+     * 눈통 라벨 너비
+     */
+    int SNOW_BAR_LABEL_WIDTH = 20;
+    /**
+     * 눈통 라벨 높이
+     */
+    int SNOW_BAR_LABEL_HEIGHT = 20;
+    /**
+     * 눈통 기준선 설명 너비
+     */
+    int SNOW_BAR_DESCRIPTION_WIDTH = 30;
+    /**
+     * 눈통 기준선 설명 높이
+     */
+    int SNOW_BAR_DESCRIPTION_HEIGHT = 15;
 
     /**
      * 인벤토리 숨김 버튼 너비
@@ -75,19 +120,19 @@ public interface AbstractOverlay extends PlayerObserver {
     float INVENTORY_HIDE_ANIMATION_DURATION = 0.1F;
 
     /**
-     * 병사 각 너비
+     * 인벤토리 아이템 각 너비
      */
     int INVENTORY_EACH_WIDTH = OVERLAY_BORDERLINE_HEIGHT * 2 / 3;
     /**
-     * 병사 각 높이
+     * 인벤토리 아이템 각 높이
      */
     int INVENTORY_EACH_HEIGHT = OVERLAY_BORDERLINE_HEIGHT;
     /**
-     * 병사 각 패딩
+     * 인벤토리 아이템 각 패딩
      */
     int INVENTORY_EACH_PAD = 5;
     /**
-     * 병사 테이블과 윈도우 사이의 마진
+     * 인벤토리 아이템 테이블과 윈도우 사이의 마진
      */
     int INVENTORY_CARD_MARGIN = 300;
     /**
@@ -95,9 +140,21 @@ public interface AbstractOverlay extends PlayerObserver {
      */
     int INVENTORY_HIDE_MOVEMENT_THRESHOLD_X = 200;
 
-    int COMMAND_UPPER_PAD = 30;
-    int COMMAND_LOWER_PAD = 30;
+    /**
+     * 명령창 위에 패딩
+     */
+    int COMMAND_TOP_PAD = 30;
+    /**
+     * 명령창 아래 패딩
+     */
+    int COMMAND_BOTTOM_PAD = 30;
+    /**
+     * 명령창 오른쪽 패딩
+     */
     int COMMAND_RIGHT_PAD = 30;
+    /**
+     * 명령창과 숨김 버튼 사이 패딩
+     */
     int COMMAND_BETWEEN_HIDE_BUTTON_PAD = 15;
     /**
      * 명령창 너비
@@ -106,7 +163,7 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 명령창 높이
      */
-    int COMMAND_HEIGHT = height - (OVERLAY_BORDERLINE_HEIGHT + COMMAND_LOWER_PAD + COMMAND_UPPER_PAD);
+    int COMMAND_HEIGHT = height - (OVERLAY_BORDERLINE_HEIGHT + COMMAND_BOTTOM_PAD + COMMAND_TOP_PAD);
     /**
      * 명령창 X 좌표
      */
@@ -114,7 +171,7 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 명령창 Y 좌표
      */
-    int COMMAND_Y = OVERLAY_BORDERLINE_HEIGHT + COMMAND_LOWER_PAD;
+    int COMMAND_Y = OVERLAY_BORDERLINE_HEIGHT + COMMAND_BOTTOM_PAD;
     /**
      * 명령창 숨겼을때 X 좌표
      */
@@ -157,6 +214,94 @@ public interface AbstractOverlay extends PlayerObserver {
      * 명령 각 능력 높이
      */
     int COMMAND_EACH_HEIGHT = COMMAND_HEIGHT / 4;
+
+    /**
+     * 실행창 X 좌표
+     */
+    int EXECUTE_X = width - OVERLAY_BORDERLINE_WIDTH;
+    /**
+     * 실행창 Y 좌표
+     */
+    int EXECUTE_Y = 0;
+    /**
+     * 실행창 너비
+     */
+    int EXECUTE_WIDTH = OVERLAY_BORDERLINE_WIDTH;
+    /**
+     * 실행창 높이
+     */
+    int EXECUTE_HEIGHT = OVERLAY_BORDERLINE_HEIGHT;
+    /**
+     * 실행창 숨김 버튼 X 상대 좌표
+     */
+    int EXECUTE_HIDE_BUTTON_RELATIVE_X = EXECUTE_WIDTH * 2 / 3;
+    /**
+     * 실행창 애니메이션 시간
+     */
+    float EXECUTE_HIDE_ANIMATION_DURATION = 0.1F;
+    /**
+     * action phase 가 자동으로 넘어가기까지 시간
+     */
+    float EXECUTE_TIMER_TO_NEXT_PHASE = 1F;
+    /**
+     * execute 를 얼마나 누르고 있어야 하는지 시간
+     */
+    float EXECUTE_PRESS_TIME = 1F;
+
+    /**
+     * 매뉴얼 책장 너비
+     */
+    int MANUAL_WIDTH = 300;
+    /**
+     * 매뉴얼 책장 높이
+     */
+    int MANUAL_HEIGHT = 150;
+    /**
+     * 매뉴얼 책장 X 좌표
+     */
+    int MANUAL_X = width - (MANUAL_WIDTH + OVERLAY_BORDERLINE_WIDTH);
+    /**
+     * 매뉴얼 책장 Y 좌표
+     */
+    int MANUAL_Y = height - MANUAL_HEIGHT;
+    /**
+     * 매뉴얼 책장 각 매뉴얼 너비
+     */
+    int MANUAL_EACH_WIDTH = 25;
+    /**
+     * 매뉴얼 책장 각 매뉴얼 높이
+     */
+    int MANUAL_EACH_HEIGHT = 50;
+
+    /**
+     * 페이즈 순서 위에 패딩
+     */
+    int ORDER_TOP_PAD = 5;
+    /**
+     * 페이즈 순서 버튼 크기
+     */
+    int ORDER_BUTTON_SIZE = 40;
+
+    /**
+     * 퀘스트 최소 창 크기
+     */
+    int QUEST_MIN_WINDOW_SIZE = 100;
+    /**
+     * 퀘스트 X 좌표
+     */
+    int QUEST_INIT_X = 100;
+    /**
+     * 퀘스트 Y 좌표
+     */
+    int QUEST_INIT_Y = 500;
+    /**
+     * 퀘스트 너비
+     */
+    int QUEST_INIT_WIDTH = 100;
+    /**
+     * 퀘스트 높이
+     */
+    int QUEST_INIT_HEIGHT = 100;
 
     /**
      * 맵 정보 이미지 너비
@@ -204,9 +349,4 @@ public interface AbstractOverlay extends PlayerObserver {
  * private enum :
  * 순서는 상관 없지만 클래스 변수가 아닐경우 enum class 를 constant directory 에 작성
  * <p>
- * constructor, create, init
- * constructor  : 외부와 관련된 설정들. constructor 의 parameter 와 관련된 설정, 작업 등을 시행하고 필드값을 초기화 한다
- * create       : 내부와 관련된 설정들. parameter 이외의 설정, 작업등을 시행한다.
- * (즉 init 과 constructor 에서 할 수 없는 설정을 한다)
- * init         : 화면이 띄워질 때, 즉 changeScreen 에서 주로 사용한다
  */

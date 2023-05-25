@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.PolygonButton;
-import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
@@ -29,11 +28,11 @@ import org.apache.logging.log4j.Logger;
 public class InventoryOverlay extends Container<ScrollPane> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(InventoryOverlay.class.getName());
     private static final OverlayText text;
+    public static final int INVENTORY_MAX_ITEM_PER_ROW = 6;
     private final Stage stage;
     private final ScrollPane scrollPane;
     private Table soldierTable = new Table();
     private Table commandTable = new Table();
-    private Table manualTable = new Table();
     private Type currentType = Type.INVENTORY;
     private final PolygonButton soldierButton;
     private final PolygonButton commandButton;
@@ -81,7 +80,6 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         Player player = SnowFight.player;
 
         makeSoldierContainer(player);
-        makeManualContainer(player);
         makeCommandContainer(player);
 
         this.scrollPane.setActor(soldierTable);
@@ -92,7 +90,6 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         Player player = SnowFight.player;
         switch (type) {
             case SOLDIER -> makeSoldierContainer(player);
-            case MANUAL -> makeManualContainer(player);
             case COMMAND -> makeCommandContainer(player);
         }
     }
@@ -148,11 +145,6 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
                 currentType = Type.COMMAND;
                 commandButton.toFront();
             }
-            case MANUAL -> {
-                scrollPane.setActor(manualTable);
-                currentType = Type.MANUAL;
-//                manualButton.toFront();
-            }
         }
     }
 
@@ -163,7 +155,7 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
             Container<Group> card = soldier.card();
             card.setSize(INVENTORY_EACH_WIDTH, INVENTORY_EACH_HEIGHT);
             soldierTable.add(card).pad(INVENTORY_EACH_PAD);
-            if (i++ == 6) {
+            if (i++ == INVENTORY_MAX_ITEM_PER_ROW) {
                 soldierTable.row();
                 i = 0;
             }
@@ -178,27 +170,12 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
             Group card = command.renderSimple();
             card.setSize(INVENTORY_EACH_WIDTH, INVENTORY_EACH_HEIGHT);
             commandTable.add(card).pad(INVENTORY_EACH_PAD);
-            if (i++ == 6) {
+            if (i++ == INVENTORY_MAX_ITEM_PER_ROW) {
                 commandTable.row();
                 i = 0;
             }
         }
         scrollPane.setActor(commandTable);
-    }
-
-    private void makeManualContainer(Player player) {
-        manualTable = new Table();
-        int i = 0;
-        for (Manual manual : player.getManuals()) {
-            var card = manual.renderFrontCover();
-            card.setSize(INVENTORY_EACH_WIDTH, INVENTORY_EACH_HEIGHT);
-            manualTable.add(card).pad(INVENTORY_EACH_PAD);
-            if (i++ == 6) {
-                manualTable.row();
-                i = 0;
-            }
-        }
-        scrollPane.setActor(manualTable);
     }
 
     private void hide() {
@@ -257,7 +234,7 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
     }
 
     enum Type {
-        INVENTORY, COMMAND, MANUAL
+        INVENTORY, COMMAND
     }
 
 }

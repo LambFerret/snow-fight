@@ -18,7 +18,6 @@ import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.phase.PhaseScreen;
-import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.OverlayText;
 import com.lambferret.game.util.AssetFinder;
@@ -29,22 +28,6 @@ import org.apache.logging.log4j.Logger;
 public class ExecuteOverlay extends Group implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(ExecuteOverlay.class.getName());
     private static final OverlayText text = LocalizeConfig.uiText.getOverlayText();
-    public static final float EXECUTE_X = GlobalSettings.currWidth - OVERLAY_BORDERLINE_WIDTH;
-    public static final int EXECUTE_Y = 0;
-    public static final float EXECUTE_WIDTH = OVERLAY_BORDERLINE_WIDTH;
-    public static final float EXECUTE_HEIGHT = OVERLAY_BORDERLINE_HEIGHT;
-    public static final float EXECUTE_HIDE_BUTTON_RELATIVE_X = EXECUTE_WIDTH * 2 / 3;
-    public static final float EXECUTE_HIDE_X = EXECUTE_X + EXECUTE_HIDE_BUTTON_RELATIVE_X;
-    public static final float EXECUTE_HIDE_ANIMATION_DURATION = 0.1F;
-
-    /*
-    action phase 가 자동으로 넘어가기까지 시간
-     */
-    public static final float actionTimerThreshold = 1F;
-    /*
-     execute 를 얼마나 누르고 있어야 하는지 시간
-     */
-    public static final float timeToExecute = 1F;
 
     private final Stage stage;
     private final CustomButton executeButton;
@@ -69,8 +52,6 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         this.stage.addActor(this);
         this.setPosition(EXECUTE_X, EXECUTE_Y);
         this.setSize(EXECUTE_WIDTH, EXECUTE_HEIGHT);
-
-        executeButton.setPosition(0, 0);
         executeButton.setSize(EXECUTE_WIDTH, EXECUTE_HEIGHT);
 
         if (isHide) {
@@ -156,7 +137,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
 
     private void setSignatureAnimation() {
         TextureAtlas atlas = AssetFinder.getAtlas("signature");
-        float frameDuration = timeToExecute / atlas.getRegions().size;
+        float frameDuration = EXECUTE_PRESS_TIME / atlas.getRegions().size;
 
         Array<TextureRegion> animationFrames = new Array<>();
         for (var region : atlas.getRegions()) {
@@ -226,14 +207,14 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.ACTION) {
             actionPhaseTimer += delta;
             executeButton.setText(String.format("%.2f", 1 - actionPhaseTimer));
-            if (actionPhaseTimer >= actionTimerThreshold) {
+            if (actionPhaseTimer >= EXECUTE_TIMER_TO_NEXT_PHASE) {
                 actionPhaseTimer = 0;
                 screenChanger();
             }
         }
         if (spaceKeyPressed) {
             elapsedTime += delta;
-            if (elapsedTime >= timeToExecute) {
+            if (elapsedTime >= EXECUTE_PRESS_TIME) {
                 screenChanger();
             }
         } else {

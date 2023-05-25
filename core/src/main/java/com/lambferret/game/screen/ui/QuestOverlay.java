@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.lambferret.game.SnowFight;
@@ -26,7 +25,6 @@ import java.util.List;
 
 public class QuestOverlay extends Window implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(QuestOverlay.class.getName());
-    public static final int MIN_WINDOW_SIZE = 100;
     private final Stage stage;
     private ScrollPane scrollPane;
     private VerticalGroup verticalGroup;
@@ -54,7 +52,7 @@ public class QuestOverlay extends Window implements AbstractOverlay {
 
             @Override
             public boolean mouseMoved(InputEvent event, float x, float y) {
-                int boundaryThickness = 8; // Thickness of the boundary area where the cursor should change
+                int boundaryThickness = 8;
                 setResizeBorder(boundaryThickness);
 
                 boolean onLeftBoundary = x >= 0 && x <= boundaryThickness;
@@ -105,17 +103,15 @@ public class QuestOverlay extends Window implements AbstractOverlay {
 
     @Override
     public void onPlayerReady() {
-        this.setPosition(100, 500);
-        this.setSize(100, 100);
+        this.setPosition(QUEST_INIT_X, QUEST_INIT_Y);
+        this.setSize(QUEST_INIT_WIDTH, QUEST_INIT_HEIGHT);
         quests = SnowFight.player.getQuests();
     }
 
     @Override
     public void onPlayerUpdate(Item.Type type) {
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = GlobalSettings.font;
         for (Quest quest : quests) {
-            verticalGroup.addActor(new TextButton(quest.getDescription(), style));
+            verticalGroup.addActor(GlobalUtil.simpleButton("a", quest.getDescription()));
         }
     }
 
@@ -142,11 +138,11 @@ public class QuestOverlay extends Window implements AbstractOverlay {
 
     @Override
     public void setBounds(float x, float y, float width, float height) {
-        if (width < MIN_WINDOW_SIZE) {
-            width = MIN_WINDOW_SIZE;
+        if (width < QUEST_MIN_WINDOW_SIZE) {
+            width = QUEST_MIN_WINDOW_SIZE;
         }
-        if (height < MIN_WINDOW_SIZE) {
-            height = MIN_WINDOW_SIZE;
+        if (height < QUEST_MIN_WINDOW_SIZE) {
+            height = QUEST_MIN_WINDOW_SIZE;
         }
         float yStartLimit = SNOW_BAR_HEIGHT + SNOW_BAR_X;
         float xEndLimit = GlobalSettings.currWidth - (OVERLAY_BORDERLINE_WIDTH + getWidth());

@@ -1,7 +1,10 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -14,17 +17,15 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.LocalizeConfig;
-import com.lambferret.game.text.dto.GroundText;
+import com.lambferret.game.text.dto.PhaseText;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class PhaseOrderOverlay extends Table implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(PhaseOrderOverlay.class.getName());
-    private static final GroundText text;
-
-    public static final int ORDER_PAD = 5;
-    public static final int ORDER_BUTTON_SIZE = 40;
+    private static final PhaseText text;
     private final Container<CustomButton> infoContainer = new Container<>();
     int currPhase = 0;
     Player player;
@@ -63,7 +64,7 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
             add(PhaseScreen.Screen.ACTION);
         }
         setSize(getCells().size * ORDER_BUTTON_SIZE, ORDER_BUTTON_SIZE);
-        setPosition((GlobalSettings.currWidth - getWidth()) / 2, GlobalSettings.currHeight - getHeight() - ORDER_PAD);
+        setPosition((GlobalSettings.currWidth - getWidth()) / 2, GlobalSettings.currHeight - getHeight() - ORDER_TOP_PAD);
     }
 
     private void add(PhaseScreen.Screen phase) {
@@ -106,22 +107,12 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = GlobalUtil.getNinePatchDrawableFromTexture("itemUI_description", 5);
         style.font = GlobalSettings.font;
-        return new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                if (pointer == -1) {
-                    infoContainer.setVisible(true);
-                    infoContainer.setActor(new CustomButton(description, style));
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                infoContainer.setVisible(false);
-            }
-        };
+        return Input.hover(
+            () -> {
+                infoContainer.setVisible(true);
+                infoContainer.setActor(new CustomButton(description, style));
+            },
+            () -> infoContainer.setVisible(false));
     }
 
     private Action highlight() {
@@ -134,7 +125,7 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
     }
 
     static {
-        text = LocalizeConfig.uiText.getGroundText();
+        text = LocalizeConfig.uiText.getPhaseText();
     }
 
 }
