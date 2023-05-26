@@ -6,30 +6,32 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
+import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.soldier.Soldier;
-import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static com.lambferret.game.level.Level.LEVEL_EACH_SIZE_BIG;
 
 public class ReadyPhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(ReadyPhaseScreen.class.getName());
     public static final Stage stage = new Stage();
     static Container<Table> mapContainer;
     Player player;
+    Level level;
 
     public ReadyPhaseScreen() {
         mapContainer = new Container<>();
-        mapContainer.setPosition(300, 300);
-
     }
 
     @Override
     public void onPlayerReady() {
+        this.player = SnowFight.player;
+        this.level = PhaseScreen.level;
     }
 
     @Override
@@ -39,9 +41,10 @@ public class ReadyPhaseScreen implements AbstractPhase {
 
     @Override
     public void startPhase() {
-        this.player = SnowFight.player;
-        mapContainer.setActor(PhaseScreen.level.makeTable(false));
-        mapContainer.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("yellow")));
+        mapContainer.setActor(level.makeTable(false));
+//        mapContainer.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("yellow")));
+        mapContainer.setSize(LEVEL_EACH_SIZE_BIG * level.COLUMNS, LEVEL_EACH_SIZE_BIG * level.ROWS);
+
         mapContainer.addListener(new DragListener() {
             boolean isEntered = false;
 
@@ -84,7 +87,6 @@ public class ReadyPhaseScreen implements AbstractPhase {
 
     @Override
     public void executePhase() {
-        // irreversible execute transaction
         for (Soldier soldier : player.getSoldiers()) {
             soldier.initValue();
         }

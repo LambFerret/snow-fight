@@ -1,10 +1,13 @@
 package com.lambferret.game.screen.phase;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
+import com.lambferret.game.component.AnimationImage;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
@@ -13,6 +16,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+
+import static com.lambferret.game.level.Level.LEVEL_EACH_SIZE_BIG;
 
 public class ActionPhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(ActionPhaseScreen.class.getName());
@@ -46,6 +51,7 @@ public class ActionPhaseScreen implements AbstractPhase {
         setCommand();
         executeCommand();
         setMembers();
+        executePhase();
     }
 
     @Override
@@ -57,13 +63,13 @@ public class ActionPhaseScreen implements AbstractPhase {
         for (Soldier soldier : actionMember) {
             happyWorking(soldier);
         }
-        mapContainer.clear();
     }
 
     private void setMapTable() {
         mapContainer.setActor(level.makeTable(false));
-        stage.addActor(this.mapContainer);
         mapContainer.setPosition(ReadyPhaseScreen.getTableX(), ReadyPhaseScreen.getTableY());
+        mapContainer.setSize(LEVEL_EACH_SIZE_BIG * level.COLUMNS, LEVEL_EACH_SIZE_BIG * level.ROWS);
+        stage.addActor(this.mapContainer);
     }
 
     private void setMembers() {
@@ -133,7 +139,7 @@ public class ActionPhaseScreen implements AbstractPhase {
         int topLeftCol = random.nextInt(cols - i + 1);
         int topLeftRow = random.nextInt(rows - j + 1);
 
-        logger.info("좌표 : " + (topLeftCol + 1) + ", " + (topLeftRow + 1));
+        logger.info("좌표 : " + topLeftCol + ", " + topLeftRow);
         logger.info("범위 : " + soldier.getRangeX() + ", " + soldier.getRangeY());
         logger.info("속도 : " + speed);
 
@@ -144,9 +150,40 @@ public class ActionPhaseScreen implements AbstractPhase {
             }
         }
 
-        System.out.println();
         logger.info("이번턴 작업량 : " + usedSnowAmount);
         logger.info("=========================================");
+
+        // animation
+        int w = LEVEL_EACH_SIZE_BIG, h = LEVEL_EACH_SIZE_BIG;
+
+        int translated_y = rows - topLeftRow - j;
+        int region_x = topLeftCol * w;
+        int region_y = translated_y * h;
+
+        var animation = soldier.getAnimation();
+        AnimationImage newImage = new AnimationImage(animation);
+        newImage.setSize(w, h);
+
+        Vector2 v2 = this.mapContainer.getActor().localToStageCoordinates(new Vector2(0, 0));
+        float animationX = v2.x + region_x + ((soldier.getRangeX() * w) / 2F) - (newImage.getWidth() / 2);
+        float animationY = v2.y + region_y + ((soldier.getRangeY() * h) / 2F) - (newImage.getHeight() / 2);
+
+        newImage.setPosition(animationX, animationY);
+        stage.addActor(newImage);
+
+        newImage.addAction(Actions.sequence(
+            Actions.delay(animation.getAnimationDuration()),
+            Actions.removeActor()
+        ));
+
+//        logger.info("=========================================");
+//        logger.info(" table x, y | " + mapContainer.getActor().getX() + ", " + mapContainer.getActor().getY());
+//        logger.info(" container x, y | " + mapContainer.getX() + ", " + mapContainer.getY());
+//        logger.info(" region x, y | " + region_x + ", " + region_y);
+//        logger.info(" v2 x, y | " + v2.x + ", " + v2.y);
+//        logger.info(" relative x,y  | " + (region_x + ((soldier.getRangeX() * w) / 2F) - (newImage.getWidth() / 2) + ", " + (region_y + ((soldier.getRangeY() * h) / 2F) - (newImage.getHeight() / 2))));
+//        logger.info(" result x, y | " + newImage.getX() + ", " + newImage.getY());
+//        logger.info("=========================================");
 
         player.setSnowAmount(player.getSnowAmount() - usedSnowAmount);
     }

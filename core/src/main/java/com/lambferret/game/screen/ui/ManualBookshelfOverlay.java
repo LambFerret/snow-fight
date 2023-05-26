@@ -1,10 +1,9 @@
 package com.lambferret.game.screen.ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.manual.Manual;
@@ -39,10 +38,14 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
 
         infoContainer.setSize(100, 100);
         infoContainer.setPosition(200, 200);
-
+        cursorCoord.setSize(200, 100);
+        cursorCoord.setPosition(GlobalSettings.currWidth - cursorCoord.getWidth(), GlobalSettings.currHeight - cursorCoord.getHeight());
         stage.addActor(infoContainer);
         stage.addActor(this);
+        stage.addActor(cursorCoord);
     }
+
+    Label cursorCoord = new Label("", GlobalSettings.skin);
 
     @Override
     public void onPlayerReady() {
@@ -86,6 +89,12 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
 
             add(manualButton).size(MANUAL_EACH_WIDTH, MANUAL_EACH_HEIGHT);
         }
+    }
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+        this.cursorCoord.setText("x: " + Gdx.input.getX() + " y: " + (GlobalSettings.currHeight - Gdx.input.getY()));
     }
 
     static {

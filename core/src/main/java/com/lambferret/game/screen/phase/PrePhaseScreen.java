@@ -51,7 +51,7 @@ public class PrePhaseScreen implements AbstractPhase {
         mapContainer.setActor(level.makeTable(true));
         mapContainer.setPosition(200, 200);
         mapContainer.setSize(500, 500);
-        mapContainer.setBackground(briefBoard);
+        mapContainer.getActor().setBackground(briefBoard);
         stage.addActor(mapContainer);
     }
 

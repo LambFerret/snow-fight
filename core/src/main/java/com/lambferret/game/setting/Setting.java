@@ -108,12 +108,15 @@ public class Setting {
         JP("日本語"),
         RU("Русский");
         final String locale;
+
         Language(String locale) {
             this.locale = locale;
         }
+
         public String getLocale() {
             return locale;
         }
+
         public static Language fromLocale(String locale) {
             for (Language language : Language.values()) {
                 if (language.getLocale().equals(locale)) {

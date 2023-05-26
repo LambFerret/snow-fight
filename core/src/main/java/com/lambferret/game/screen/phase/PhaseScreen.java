@@ -138,7 +138,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public static void executeAction() {
-        actionPhaseScreen.executePhase();
     }
 
     public static void screenAtoD() {

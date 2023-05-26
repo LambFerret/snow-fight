@@ -21,6 +21,8 @@ import java.util.Map;
  */
 public abstract class Level {
     private static final Logger logger = LogManager.getLogger(Level.class.getName());
+    public static final int LEVEL_EACH_SIZE_SMALL = 40;
+    public static final int LEVEL_EACH_SIZE_BIG = 100;
 
     private final MapAttribute[][] MAP;
     /**
@@ -101,7 +103,7 @@ public abstract class Level {
     }
 
     public Table makeTable(boolean isPre) {
-        int size = isPre ? 40 : 100;
+        int size = isPre ? LEVEL_EACH_SIZE_SMALL : LEVEL_EACH_SIZE_BIG;
         Table map = new Table();
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
