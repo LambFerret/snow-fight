@@ -41,7 +41,7 @@ public class LocalizeConfig {
 
     public static void init() {
         GlobalSettings.font = switch (GlobalSettings.language) {
-            case KR -> AssetFinder.getFont("KR_nanumBold");
+            case KR -> AssetFinder.getFont("KR_nanum");
             case EN -> AssetFinder.getFont("EN_Archivo_Condensed-Light");
             case JP -> AssetFinder.getFont("JP_ShipporiSans");
             case RU -> AssetFinder.getFont("RU_kremlin");

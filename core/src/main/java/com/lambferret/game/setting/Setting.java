@@ -103,10 +103,25 @@ public class Setting {
     }
 
     public enum Language {
-        KR,
-        EN,
-        JP,
-        RU
+        KR("한국어"),
+        EN("English"),
+        JP("日本語"),
+        RU("Русский");
+        final String locale;
+        Language(String locale) {
+            this.locale = locale;
+        }
+        public String getLocale() {
+            return locale;
+        }
+        public static Language fromLocale(String locale) {
+            for (Language language : Language.values()) {
+                if (language.getLocale().equals(locale)) {
+                    return language;
+                }
+            }
+            throw new IllegalArgumentException("No enum constant for locale: " + locale);
+        }
     }
 }
 

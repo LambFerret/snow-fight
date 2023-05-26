@@ -18,9 +18,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.setting.GlobalSettings;
-import com.lambferret.game.setting.Setting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static com.lambferret.game.setting.Setting.Language.KR;
 
 public class AssetFinder {
     private static final Logger logger = LogManager.getLogger(AssetFinder.class.getName());
@@ -79,23 +80,21 @@ public class AssetFinder {
         }
 
         FileHandle file = Gdx.files.internal(fileName);
+
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        if (GlobalSettings.language == Setting.Language.KR) {
-            StringBuilder builder = new StringBuilder();
-            for (char c = 'ㄱ'; c <= 'ㅣ'; c++) {
-                builder.append(c);
-            }
-            for (char c = '가'; c <= '힣'; c++) {
-                builder.append(c);
-            }
-            parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + builder;
+        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + "한국어English日本語Русский";
+        if (GlobalSettings.language == KR) {
+            String chars = Gdx.files.internal("localization" + SEP + GlobalSettings.language + SEP + "chars.txt").readString();
+            parameter.characters += chars;
         }
-
         parameter.size = 12;
         parameter.color = Color.BLACK;
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
+
         BitmapFont font = generator.generateFont(parameter);
+
         generator.dispose();
 
         return font;

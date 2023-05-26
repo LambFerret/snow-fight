@@ -8,11 +8,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.setting.Setting;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.Arrays;
 
 import static com.lambferret.game.screen.title.LoadAndSaveWindow.*;
 
@@ -23,6 +26,7 @@ public class OptionWindow extends Window {
     private final Table table;
     private final CustomButton confirmButton;
     private final CustomButton cancelButton;
+    Dialog dialog;
     boolean isTitle;
 
     public OptionWindow(Stage stage, boolean isTitle) {
@@ -44,16 +48,17 @@ public class OptionWindow extends Window {
         this.setSize(SAVE_WINDOW_WIDTH, SAVE_WINDOW_HEIGHT);
         this.setPosition(SAVE_WINDOW_X, SAVE_WINDOW_Y);
 
+        checkbox();
         makeButton();
         makeOptionTable();
     }
 
     private void makeButton() {
         confirmButton.setSize(200, 100);
-        confirmButton.setPosition(100, 100);
+        confirmButton.setPosition(400, 50);
         confirmButton.setColor(Color.GREEN);
         cancelButton.setSize(200, 100);
-        cancelButton.setPosition(300, 100);
+        cancelButton.setPosition(600, 50);
         cancelButton.setColor(Color.RED);
         cancelButton.setDebug(true, true);
 
@@ -78,23 +83,29 @@ public class OptionWindow extends Window {
         table.setDebug(true, true);
 
         makeScreenOption();
+        makeLanguageSettings();
 
         makeVolumeSlider(Volume.MASTER);
         makeVolumeSlider(Volume.BGM);
         makeVolumeSlider(Volume.EFFECT);
     }
 
-    private void makeScreenOption() {
-        CheckBox box = new CheckBox("fullscreen", GlobalSettings.skin);
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = GlobalSettings.font;
-        box.setChecked(GlobalSettings.isFullscreen);
-        Dialog dialog = new Dialog("", GlobalSettings.skin) {
+    private void checkbox() {
+        dialog = new Dialog("", GlobalSettings.skin) {
             {
                 text("restart to apply change");
                 button("ok", true);
             }
         };
+    }
+
+    private void makeScreenOption() {
+        CheckBox box = new CheckBox("fullscreen", GlobalSettings.skin);
+        box.getStyle().font = GlobalSettings.font;
+
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = GlobalSettings.font;
+        box.setChecked(GlobalSettings.isFullscreen);
         box.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -105,6 +116,24 @@ public class OptionWindow extends Window {
 
         table.add(newLabel("full screen", labelStyle));
         table.add(box).row();
+    }
+
+    private void makeLanguageSettings() {
+        Label.LabelStyle labelStyle = new Label.LabelStyle();
+        labelStyle.font = GlobalSettings.font;
+        SelectBox<String> selectBox = new SelectBox<>(GlobalSettings.skin);
+        var lists = Arrays.stream(Setting.Language.values()).map(Setting.Language::getLocale).toArray(String[]::new);
+        selectBox.setItems(lists);
+        selectBox.setSelected(GlobalSettings.language.getLocale());
+        selectBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                GlobalSettings.language = Setting.Language.fromLocale(selectBox.getSelected());
+                dialog.show(stage);
+            }
+        });
+        table.add(newLabel("language", labelStyle));
+        table.add(selectBox).row();
     }
 
     private void makeVolumeSlider(Volume volume) {
