@@ -71,14 +71,14 @@ public class PrePhaseScreen implements AbstractPhase {
         Pixmap leftTable = GlobalUtil.regionToPixmap(atlas.findRegion("leftTable"));
         Pixmap character = GlobalUtil.regionToPixmap(atlas.findRegion("character"));
 
-        background.drawPixmap(cabinet1, 0, 0);
-        background.drawPixmap(cabinet2, 0, 0);
-        background.drawPixmap(etc1, 0, 0);
-        background.drawPixmap(etc2, 0, 0);
-        background.drawPixmap(rightTable, 0, 0);
-        background.drawPixmap(leftTable, 0, 0);
-        background.drawPixmap(pictureFrame, 0, 0);
-        background.drawPixmap(character, 0, 0);
+        background.drawPixmap(cabinet1, background.getWidth() / 2, (background.getHeight() - cabinet1.getHeight()) / 2);
+        background.drawPixmap(cabinet2, 0, (background.getHeight() - cabinet2.getHeight()) / 2);
+        background.drawPixmap(etc1, background.getWidth() / 2, (background.getHeight() - cabinet1.getHeight()) / 2 - etc1.getHeight());
+        background.drawPixmap(etc2, background.getWidth() - etc2.getWidth(), background.getHeight() - etc2.getWidth() * 2);
+        background.drawPixmap(rightTable, 400, background.getHeight() - rightTable.getHeight());
+        background.drawPixmap(leftTable, 0, background.getHeight() - leftTable.getHeight());
+        background.drawPixmap(pictureFrame, 0, 50);
+        background.drawPixmap(character, background.getWidth() * 3 / 4 - character.getWidth() / 2, background.getHeight() / 4);
 
         backgroundTexture = new Texture(background);
         briefBoard = new NinePatchDrawable(atlas.createPatch("briefBoard")); //9 patch
