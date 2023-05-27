@@ -178,7 +178,14 @@ public class Player {
                     }
                 }
             }
-            case EVENT, MAP, BUFF -> {
+            case EVENT -> {
+                for (PlayerObserver listener : listeners) {
+                    if (listener instanceof CostOverlay) {
+                        listener.onPlayerUpdate(Item.Type.EVENT);
+                    }
+                }
+            }
+            case MAP, BUFF -> {
 
             }
         }
@@ -289,6 +296,7 @@ public class Player {
             return false;
         } else {
             currentCost -= cost;
+            playerUpdate(Item.Type.EVENT);
             return true;
         }
     }
@@ -365,6 +373,7 @@ public class Player {
     }
 
     public void setCurrentCost(int currentCost) {
+        playerUpdate(Item.Type.EVENT);
         this.currentCost = currentCost;
     }
 

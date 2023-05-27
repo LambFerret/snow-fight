@@ -2,7 +2,10 @@ package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.save.Item;
@@ -14,6 +17,8 @@ import com.lambferret.game.screen.phase.ActionPhaseScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.screen.phase.PrePhaseScreen;
 import com.lambferret.game.screen.phase.ReadyPhaseScreen;
+import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,6 +43,7 @@ public class Overlay implements PlayerObserver {
     AbstractOverlay manual;
     AbstractOverlay buffTable;
     AbstractOverlay phaseOrder;
+    AbstractOverlay cost;
 
     private Overlay() {
         allOverlay.clear();
@@ -53,6 +59,7 @@ public class Overlay implements PlayerObserver {
         execute = new ExecuteOverlay(uiSpriteBatch);
         manual = new ManualBookshelfOverlay(uiSpriteBatch);
         buffTable = new BuffTableOverlay(uiSpriteBatch);
+        cost = new CostOverlay(uiSpriteBatch, buttonStyle());
         phaseOrder = new PhaseOrderOverlay(uiSpriteBatch);
         inventory = new InventoryOverlay(uiSpriteBatch);
 
@@ -65,6 +72,7 @@ public class Overlay implements PlayerObserver {
         allOverlay.add(buffTable);
         allOverlay.add(phaseOrder);
         allOverlay.add(inventory);
+        allOverlay.add(cost);
 
         groundUIList.add(map);
         groundUIList.add(manual);
@@ -74,6 +82,7 @@ public class Overlay implements PlayerObserver {
         phaseUIList.add(bar);
         phaseUIList.add(command);
         phaseUIList.add(execute);
+        phaseUIList.add(cost);
         phaseUIList.add(manual);
         phaseUIList.add(buffTable);
         phaseUIList.add(phaseOrder);
@@ -170,6 +179,13 @@ public class Overlay implements PlayerObserver {
         } else {
             setVisibleGroundUI();
         }
+    }
+
+    private ImageTextButton.ImageTextButtonStyle buttonStyle() {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.font = GlobalSettings.font;
+        style.up = new TextureRegionDrawable(new TextureRegion(AssetFinder.getTexture("123444")));
+        return style;
     }
 
     public void render() {

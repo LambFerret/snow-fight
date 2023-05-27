@@ -105,7 +105,6 @@ public class QuestOverlay extends Window implements AbstractOverlay {
         if (type == Item.Type.QUEST) {
             quests = SnowFight.player.getQuests();
             makeTable(quests);
-            logger.info("onPlayerUpdate |  🐳 quests? | " + quests);
         }
     }
 
