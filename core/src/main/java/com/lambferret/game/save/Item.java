@@ -16,5 +16,6 @@ public class Item {
         QUEST,
         EVENT,
         BUFF,
+        MAP,
     }
 }

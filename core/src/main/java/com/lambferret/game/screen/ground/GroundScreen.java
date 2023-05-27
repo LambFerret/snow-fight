@@ -42,6 +42,7 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     public void onPlayerReady() {
         player = SnowFight.player;
         Overlay.isPhaseUI = false;
+        player.clearAllDeadQuest();
         for (AbstractGround ground : groundScreenList) {
             ground.onPlayerReady();
             player.addPlayerObserver(ground);

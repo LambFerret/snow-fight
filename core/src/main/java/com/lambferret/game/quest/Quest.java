@@ -1,9 +1,12 @@
 package com.lambferret.game.quest;
 
+import com.badlogic.gdx.graphics.Color;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +18,9 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
     private final String description;
     private int timeLimit;
     protected Player player;
+    private final CustomButton questItem;
+    private boolean isThisLifeIsGonnaDead = false;
+    private boolean isPhase = false;
 
     public Quest(String ID, String name, String description, int timeLimit) {
         this.ID = ID;
@@ -23,29 +29,42 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
         this.timeLimit = timeLimit;
         player = SnowFight.player;
         player.addPlayerObserver(this);
+        this.questItem = GlobalUtil.simpleButton("quest", description);
+        this.questItem.setSize(questItem.getLabel().getWidth(), questItem.getLabel().getHeight());
     }
 
     @Override
     public void onPlayerUpdate(Item.Type type) {
+        if (isThisLifeIsGonnaDead || !isPhase) return;
         boolean isClear = checkSuccessCondition();
         boolean isFailed = checkFailCondition();
         if (timeLimit <= 0) {
             fail();
-//        } else if (isFailed) {
-//            fail();
-//        } else if (isClear) {
-//            success();
+            return;
+        }
+        if (isFailed) {
+            fail();
+            return;
+        }
+        if (isClear) {
+            success();
         }
     }
 
     private void fail() {
+        logger.info("you failed this " + getClass().getSimpleName() + " quest.");
+        isThisLifeIsGonnaDead = true;
         getPenalty();
-        player.removePlayerObserver(this);
+        questItem.setDisabled(true);
+        questItem.setColor(Color.RED);
     }
 
     private void success() {
+        logger.info("Congratulation! you've archive " + getClass().getSimpleName() + " quest.");
+        isThisLifeIsGonnaDead = true;
         getReword();
-        player.removePlayerObserver(this);
+        questItem.setDisabled(true);
+        questItem.setColor(Color.GREEN);
     }
 
     public void timeFlow() {
@@ -66,6 +85,24 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
 
     public int getTimeLimit() {
         return timeLimit;
+    }
+
+    public boolean isDeadQuest() {
+        return isThisLifeIsGonnaDead;
+    }
+
+    public CustomButton getQuestItem() {
+        return questItem;
+    }
+
+    public void setPhase(boolean isPhase) {
+        this.isPhase = isPhase;
+    }
+
+    public void reset() {
+        isThisLifeIsGonnaDead = false;
+        questItem.setDisabled(false);
+        questItem.setColor(Color.WHITE);
     }
 
     protected abstract boolean checkSuccessCondition();

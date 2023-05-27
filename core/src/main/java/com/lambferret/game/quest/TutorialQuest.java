@@ -14,7 +14,7 @@ public class TutorialQuest extends Quest {
 
     @Override
     protected boolean checkSuccessCondition() {
-        return player.getSnowAmount() <= 100;
+        return player.getSnowAmount() <= 450;
     }
 
     @Override

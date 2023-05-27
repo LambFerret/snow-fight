@@ -13,6 +13,7 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.quest.TutorialQuest;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
@@ -75,7 +76,7 @@ public class ShopScreen implements AbstractGround {
 
     @Override
     public void init() {
-
+        player.addQuest(new TutorialQuest());
     }
 
     private void fillCommandStock(List<Command> allCommand) {

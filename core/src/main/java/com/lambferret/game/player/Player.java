@@ -20,7 +20,6 @@ import com.lambferret.game.soldier.Choco;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.soldier.Vanilla;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,7 +31,6 @@ import java.util.*;
  프로퍼티 추가시 여기 필드, 여기 Constructor, SaveLoader, Save 총 네군데 추가
  */
 @Getter
-@Setter
 @ToString
 public class Player {
     private static final Logger logger = LogManager.getLogger(Player.class.getName());
@@ -180,7 +178,8 @@ public class Player {
                     }
                 }
             }
-            case EVENT -> {
+            case EVENT, MAP, BUFF -> {
+
             }
         }
     }
@@ -226,6 +225,12 @@ public class Player {
         playerUpdate(Item.Type.QUEST);
     }
 
+    public void deleteQuest(Quest quest) {
+        quests.remove(quest);
+        removePlayerObserver(quest);
+        playerUpdate(Item.Type.QUEST);
+    }
+
     public void setBossAffinityBy(int amount) {
         bossAffinity += amount;
         if (bossAffinity < 0) bossAffinity = 0;
@@ -260,6 +265,11 @@ public class Player {
         downAffinity = amount;
         if (downAffinity < 0) downAffinity = 0;
         if (downAffinity > 100) downAffinity = 100;
+    }
+
+    public void setSnowAmount(int snowAmount) {
+        this.snowAmount = snowAmount;
+        playerUpdate(Item.Type.MAP);
     }
 
     public void buffChanged() {
@@ -327,6 +337,39 @@ public class Player {
 
     public void removePlayerObserver(PlayerObserver observer) {
         listeners.remove(observer);
+    }
+
+    public void clearAllDeadQuest() {
+        // to avoid ConcurrentModificationException
+        List<Quest> a = new ArrayList<>();
+        for (Quest quest : quests) {
+            quest.setPhase(false);
+            if (quest.isDeadQuest()) {
+                a.add(quest);
+            }
+        }
+        for (Quest quest : a) {
+            deleteQuest(quest);
+        }
+    }
+
+    public void initAllQuest() {
+        for (Quest quest : quests) {
+            quest.setPhase(true);
+            quest.reset();
+        }
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    public void setCurrentCost(int currentCost) {
+        this.currentCost = currentCost;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
     }
 
     public enum Affinity {

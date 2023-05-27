@@ -87,7 +87,6 @@ public class DefeatScreen extends Window implements AbstractPhase {
         button.addListener(Input.click(() -> {
                 // warning
                 ScreenConfig.screenChanger(ScreenConfig.AddedScreen.PHASE_SCREEN);
-//                PhaseScreen.screenInitToP();
                 logger.info("clicked |  🐳 button2 | ");
                 executePhase();
             }

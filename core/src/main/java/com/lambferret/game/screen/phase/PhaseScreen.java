@@ -92,6 +92,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             phase.onPlayerReady();
             player.addPlayerObserver(phase);
         }
+        player.initAllQuest();
         commands.clear();
         buffList.clear();
         manualList = player.getManuals();

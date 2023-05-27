@@ -26,8 +26,6 @@ import java.util.List;
 public class QuestOverlay extends Window implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(QuestOverlay.class.getName());
     private final Stage stage;
-    private ScrollPane scrollPane;
-    private VerticalGroup verticalGroup;
     private List<Quest> quests;
     private Cursor horizontalResizeCursor;
     private Cursor verticalResizeCursor;
@@ -39,10 +37,6 @@ public class QuestOverlay extends Window implements AbstractOverlay {
         super("Quest", GlobalSettings.skin);
         setCursor();
         this.stage = stage;
-        verticalGroup = new VerticalGroup();
-        scrollPane = new ScrollPane(verticalGroup);
-        this.add(scrollPane);
-        verticalGroup.fill();
         stage.addActor(this);
         this.setMovable(true);
         this.setResizable(true);
@@ -97,8 +91,6 @@ public class QuestOverlay extends Window implements AbstractOverlay {
                 super.exit(event, x, y, pointer, toActor);
             }
         });
-
-        scrollPane.addListener(Input.setScrollFocusWhenHover(stage, scrollPane));
     }
 
     @Override
@@ -110,9 +102,23 @@ public class QuestOverlay extends Window implements AbstractOverlay {
 
     @Override
     public void onPlayerUpdate(Item.Type type) {
-        for (Quest quest : quests) {
-            verticalGroup.addActor(GlobalUtil.simpleButton("a", quest.getDescription()));
+        if (type == Item.Type.QUEST) {
+            quests = SnowFight.player.getQuests();
+            makeTable(quests);
+            logger.info("onPlayerUpdate |  🐳 quests? | " + quests);
         }
+    }
+
+    private void makeTable(List<Quest> quests) {
+        this.clear();
+        VerticalGroup table = new VerticalGroup();
+        for (Quest quest : quests) {
+            table.addActor(quest.getQuestItem());
+        }
+        table.fill();
+        ScrollPane scrollPane = new ScrollPane(table);
+        scrollPane.addListener(Input.setScrollFocusWhenHover(stage, scrollPane));
+        this.add(scrollPane);
     }
 
     private void setCursor() {

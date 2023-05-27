@@ -94,14 +94,15 @@ public class Overlay implements PlayerObserver {
 
     @Override
     public void onPlayerReady() {
+        for (AbstractOverlay overlay : allOverlay) {
+            SnowFight.player.addPlayerObserver(overlay);
+        }
         if (isPhaseUI) {
             for (AbstractOverlay overlay : phaseUIList) {
-                SnowFight.player.addPlayerObserver(overlay);
                 overlay.onPlayerReady();
             }
         } else {
             for (AbstractOverlay overlay : groundUIList) {
-                SnowFight.player.addPlayerObserver(overlay);
                 overlay.onPlayerReady();
             }
         }
