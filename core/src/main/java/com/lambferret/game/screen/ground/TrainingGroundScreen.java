@@ -48,7 +48,7 @@ public class TrainingGroundScreen implements AbstractGround {
 
     public TrainingGroundScreen() {
         skin = GlobalSettings.skin;
-        atlas = AssetFinder.getAtlas("TrainingGround");
+        atlas = AssetFinder.getAtlas("trainingGround");
         makeBackground();
         makeClouds();
         makeAssets(false);
@@ -132,9 +132,9 @@ public class TrainingGroundScreen implements AbstractGround {
     }
 
     private Image makePlatform() {
-        Image platform = new Image(atlas.findRegions("platform").get(snowLevel  - 1));
+        Image platform = new Image(atlas.findRegions("platform").get(snowLevel - 1));
         float centerX = (stage.getWidth() - platform.getWidth()) / 2;
-        float centerY = (stage.getHeight() - platform.getHeight()/2) / 2;
+        float centerY = (stage.getHeight() - platform.getHeight() / 2) / 2;
         platform.setPosition(centerX, centerY - 40);
         return platform;
     }

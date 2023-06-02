@@ -1,12 +1,12 @@
 package com.lambferret.game.level;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
@@ -21,6 +21,7 @@ import java.util.Map;
  */
 public abstract class Level {
     private static final Logger logger = LogManager.getLogger(Level.class.getName());
+    private static final TextureAtlas tileAtlas = AssetFinder.getAtlas("tile");
     public static final int LEVEL_EACH_SIZE_SMALL = 40;
     public static final int LEVEL_EACH_SIZE_BIG = 100;
 
@@ -83,12 +84,38 @@ public abstract class Level {
         MapAttribute[][] MAP = new MapAttribute[ROWS][COLUMNS];
         var a = originAmountInMap();
         var b = a == null;
+        var c = new short[ROWS][COLUMNS];
 
         try {
             for (int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLUMNS; j++) {
+                    // -=-=-=-=-=--=-=-=-
+                    if (mapTerrain[i][j] == 0) {
+                        int left = j - 1 >= 0 ? mapTerrain[i][j - 1] : 1;
+                        int right = j + 1 < COLUMNS ? mapTerrain[i][j + 1] : 1;
+                        int top = i - 1 >= 0 ? mapTerrain[i - 1][j] : 1;
+                        int bottom = i + 1 < ROWS ? mapTerrain[i + 1][j] : 1;
+
+                        if (top != 0 && bottom != 0 && left != 0 && right != 0) {
+                            c[i][j] = 5;  // "#"
+                        } else if (left != 0 && right == 0) {
+                            c[i][j] = 6;  // "["
+                        } else if (left == 0 && right != 0) {
+                            c[i][j] = 7;  // "]"
+                        } else if (top != 0 && bottom == 0) {
+                            c[i][j] = 8;  // "ㅜ"
+                        } else if (top == 0 && bottom != 0) {
+                            c[i][j] = 9;  // "ㅗ"
+                        } else if (top == 0 && left == 0) {
+                            c[i][j] = 0;  // "*"
+                        }
+                    } else {
+                        c[i][j] = mapTerrain[i][j];
+                    }
+                    // -=-=-=-=-=--=-=-=-
+
                     MAP[i][j] = MapAttribute.builder()
-                        .terrain(Terrain.values()[mapTerrain[i][j]])
+                        .terrain(setTerrain(c[i][j]))
                         .maxAmount(maxAmountMap[i][j])
                         .currentAmount(b ? 0 : a[i][j])
                         .currentlyWorkingList(new ArrayList<>())
@@ -111,26 +138,23 @@ public abstract class Level {
             }
             map.row();
         }
-        map.setDebug(true, true);
         return map;
     }
 
     private CustomButton makeMapElement(int i, int j) {
         var attr = MAP[i][j];
-        CustomButton element = GlobalUtil.simpleButton("wh12ite");
-        float transparency = attr.getCurrentAmount() / (float) attr.getMaxAmount();
-        Color color = switch (attr.getTerrain()) {
-            case NULL -> Color.BLACK;
-            case SEA -> Color.BLUE;
-            case LAKE -> Color.YELLOW;
-            case TOWN -> Color.GREEN;
-            case MOUNTAIN -> Color.RED;
+
+        CustomButton element = switch (attr.getTerrain()) {
+            case SEA -> GlobalUtil.simpleButton("sea");
+            case FOREST0 -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(0), "");
+            case FOREST_LEFT -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(1), "");
+            case FOREST_RIGHT -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(3), "");
+            case FOREST_UP -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(2), "");
+            case FOREST_DOWN -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(4), "");
+            case FOREST_ALONE -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(5), "");
+            default -> GlobalUtil.simpleButton(tileAtlas.findRegions(attr.getTerrain().name().toLowerCase()));
         };
-        element.setColor(color);
-        if (attr.getTerrain() != Terrain.NULL) {
-            element.addAction(Actions.alpha(0));
-            element.addAction(Actions.alpha(transparency, 0.5F));
-        }
+
         String description = "Terrain : " + attr.getTerrain() + "\n" + "Amount : " + attr.getCurrentAmount() + " / " + attr.getMaxAmount();
         element.addListener(Input.hover(() -> element.setText(description), () -> element.setText("")));
         return element;
@@ -254,5 +278,21 @@ public abstract class Level {
         this.maxSoldierCapacity = maxSoldierCapacity;
     }
 
+
+    private Terrain setTerrain(short i) {
+        return switch (i) {
+            case 0 -> Terrain.FOREST0;
+            case 1 -> Terrain.SEA;
+            case 2 -> Terrain.LAKE;
+            case 3 -> Terrain.TOWN;
+            case 4 -> Terrain.MOUNTAIN;
+            case 5 -> Terrain.FOREST_ALONE;
+            case 6 -> Terrain.FOREST_LEFT;
+            case 7 -> Terrain.FOREST_RIGHT;
+            case 8 -> Terrain.FOREST_UP;
+            case 9 -> Terrain.FOREST_DOWN;
+            default -> throw new IllegalStateException("Unexpected value: " + i);
+        };
+    }
 }
 

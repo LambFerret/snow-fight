@@ -44,7 +44,7 @@ public class SnowBarStyle extends ProgressBar.ProgressBarStyle {
 
     private TextureRegionDrawable makeBackground() {
         Random random = new Random();
-        var snows = AssetFinder.getAtlas("TrainingGround").findRegions("snowLevel3");
+        var snows = AssetFinder.getAtlas("trainingGround").findRegions("snowLevel3");
         Pixmap background = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         int whereToDrawX = 0;
         do {
