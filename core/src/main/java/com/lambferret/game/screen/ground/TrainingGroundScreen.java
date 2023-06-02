@@ -40,7 +40,6 @@ public class TrainingGroundScreen implements AbstractGround {
     private Player player;
     private int snowLevel;
     private Image platform;
-    private Image stair;
     private Image snow1;
     private Image snow2;
     private Image snow3;
@@ -99,7 +98,6 @@ public class TrainingGroundScreen implements AbstractGround {
     private void makeAssets(boolean isPlayerReady) {
         if (isPlayerReady) {
             platform.remove();
-            stair.remove();
             snow1.remove();
             snow2.remove();
             snow3.remove();
@@ -107,10 +105,8 @@ public class TrainingGroundScreen implements AbstractGround {
         }
         snowCount = 0;
         setSnowLevel();
-        stair = makeStair();
         platform = makePlatform();
         stage.addActor(platform);
-        stage.addActor(stair);
         snow1 = makeSnow();
         snow2 = makeSnow();
         snow3 = makeSnow();
@@ -126,9 +122,9 @@ public class TrainingGroundScreen implements AbstractGround {
         int amount = random.nextInt(300);
         //-=-=-=-=-=-//
 
-        if (0 <= amount && amount < 100) {
+        if (amount < 100) {
             snowLevel = 1;
-        } else if (100 <= amount && amount < 200) {
+        } else if (amount < 200) {
             snowLevel = 2;
         } else {
             snowLevel = 3;
@@ -136,19 +132,11 @@ public class TrainingGroundScreen implements AbstractGround {
     }
 
     private Image makePlatform() {
-        Image platform = new Image(atlas.findRegions("platform").get(snowLevel));
+        Image platform = new Image(atlas.findRegions("platform").get(snowLevel  - 1));
         float centerX = (stage.getWidth() - platform.getWidth()) / 2;
-        float centerY = stair.getY() + stair.getHeight();
+        float centerY = (stage.getHeight() - platform.getHeight()/2) / 2;
         platform.setPosition(centerX, centerY - 40);
         return platform;
-    }
-
-    private Image makeStair() {
-        Image stair = new Image(atlas.findRegions("stair").get(snowLevel));
-        float centerX = (stage.getWidth() - stair.getWidth()) / 2;
-        float centerY = (stage.getHeight() - stair.getHeight()) / 2;
-        stair.setPosition(centerX, centerY - 100);
-        return stair;
     }
 
     private Image makeSnow() {
