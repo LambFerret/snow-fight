@@ -4,8 +4,6 @@ import com.lambferret.game.buff.Buff;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
-import com.lambferret.game.text.LocalizeConfig;
-import com.lambferret.game.text.dto.CommandInfo;
 
 import java.util.List;
 

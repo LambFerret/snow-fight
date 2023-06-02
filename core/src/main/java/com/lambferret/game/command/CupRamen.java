@@ -3,8 +3,6 @@ package com.lambferret.game.command;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.soldier.Soldier;
-import com.lambferret.game.text.LocalizeConfig;
-import com.lambferret.game.text.dto.CommandInfo;
 
 import java.util.List;
 
