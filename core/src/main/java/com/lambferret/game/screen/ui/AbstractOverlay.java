@@ -283,10 +283,6 @@ public interface AbstractOverlay extends PlayerObserver {
     int ORDER_BUTTON_SIZE = 40;
 
     /**
-     * 퀘스트 최소 창 크기
-     */
-    int QUEST_MIN_WINDOW_SIZE = 100;
-    /**
      * 퀘스트 X 좌표
      */
     int QUEST_INIT_X = 100;
