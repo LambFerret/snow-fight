@@ -15,7 +15,9 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.CommandInfo;
+import com.lambferret.game.text.dto.CommandText;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import lombok.Getter;
@@ -30,6 +32,7 @@ import java.util.List;
 @Getter
 public abstract class Command implements Comparable<Command> {
     private static final Logger logger = LogManager.getLogger(Command.class.getName());
+    private static final CommandText text;
 
     /**
      * ID String
@@ -108,13 +111,11 @@ public abstract class Command implements Comparable<Command> {
     // TODO 여기 호감도 시스템 어케할건지 확인요함
     public Command(
         String ID,
-        CommandInfo info,
         Type type,
         int cost,
         Target target,
         Rarity rarity,
         int price,
-
         int affectToUp,
         int affectToMiddle,
         int affectToDown,
@@ -123,10 +124,11 @@ public abstract class Command implements Comparable<Command> {
     ) {
         this.ID = ID;
         this.texturePath = ID;
-        this.name = info.getName();
-        this.description = info.getDescription();
-        this.effectText = info.getEffect();
-        this.shortDescription = info.getShortDescription();
+        CommandInfo INFO = text.getID().get(ID);
+        this.name = INFO.getName();
+        this.description = INFO.getDescription();
+        this.effectText = INFO.getEffect();
+        this.shortDescription = INFO.getShortDescription();
         this.type = type;
         this.cost = cost;
         this.target = target;
@@ -248,6 +250,10 @@ public abstract class Command implements Comparable<Command> {
          * 내통
          */
         BETRAYAL,
+    }
+
+    static {
+        text = LocalizeConfig.commandText;
     }
 
 }

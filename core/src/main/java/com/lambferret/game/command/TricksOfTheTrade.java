@@ -10,7 +10,6 @@ import java.util.List;
 
 public class TricksOfTheTrade extends Command {
     public static final String ID;
-    public static final CommandInfo INFO;
 
     static {
         cost = 8;
@@ -23,7 +22,6 @@ public class TricksOfTheTrade extends Command {
     public TricksOfTheTrade() {
         super(
             ID,
-            INFO,
             Type.BETRAYAL,
             cost,
             Target.PLAYER,
@@ -50,6 +48,5 @@ public class TricksOfTheTrade extends Command {
 
     static {
         ID = TricksOfTheTrade.class.getSimpleName();
-        INFO = LocalizeConfig.commandText.getID().get(ID);
     }
 }

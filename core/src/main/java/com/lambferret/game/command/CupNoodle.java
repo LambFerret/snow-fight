@@ -10,7 +10,6 @@ import java.util.List;
 
 public class CupNoodle extends Command {
     public static final String ID;
-    public static final CommandInfo INFO;
 
     static {
         cost = 1;
@@ -23,7 +22,6 @@ public class CupNoodle extends Command {
     public CupNoodle() {
         super(
             ID,
-            INFO,
             Type.REWARD,
             cost,
             Target.SOLDIER,
@@ -54,7 +52,6 @@ public class CupNoodle extends Command {
 
     static {
         ID = CupNoodle.class.getSimpleName();
-        INFO = LocalizeConfig.commandText.getID().get(ID);
     }
 
 }

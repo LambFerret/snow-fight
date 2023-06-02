@@ -12,7 +12,6 @@ import java.util.List;
 public class ThreeShift extends Command {
 
     public static final String ID;
-    public static final CommandInfo INFO;
 
     static {
         cost = 3;
@@ -25,7 +24,6 @@ public class ThreeShift extends Command {
     public ThreeShift() {
         super(
             ID,
-            INFO,
             Type.OPERATION,
             cost,
             Target.SOLDIER,
@@ -56,7 +54,6 @@ public class ThreeShift extends Command {
 
     static {
         ID = ThreeShift.class.getSimpleName();
-        INFO = LocalizeConfig.commandText.getID().get(ID);
     }
 
 }
