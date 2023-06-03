@@ -293,11 +293,11 @@ public interface AbstractOverlay extends PlayerObserver {
     /**
      * 퀘스트 너비
      */
-    int QUEST_INIT_WIDTH = 100;
+    int QUEST_INIT_WIDTH = 500;
     /**
      * 퀘스트 높이
      */
-    int QUEST_INIT_HEIGHT = 100;
+    int QUEST_INIT_HEIGHT = 300;
 
     /**
      * 맵 정보 이미지 너비

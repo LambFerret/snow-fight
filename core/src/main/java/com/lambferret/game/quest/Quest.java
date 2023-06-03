@@ -30,7 +30,6 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
         player = SnowFight.player;
         player.addPlayerObserver(this);
         this.questItem = GlobalUtil.simpleButton("quest", description);
-        this.questItem.setSize(questItem.getLabel().getWidth(), questItem.getLabel().getHeight());
     }
 
     @Override
