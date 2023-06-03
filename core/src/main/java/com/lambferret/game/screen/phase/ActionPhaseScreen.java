@@ -114,8 +114,6 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     private void happyWorking(Soldier soldier) {
         logger.info("=========================================");
-        logger.info("플레이어가 가진 남은 적설량 : " + player.getSnowAmount());
-        logger.info("최소 적설량 : " + level.getMinSnowForClear());
         logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩");
 
         Random random = new Random();

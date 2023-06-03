@@ -239,7 +239,7 @@ public class GlobalSettings {
             soldiers.remove(id);
         } catch (IndexOutOfBoundsException e) {
             logger.error("Soldier pop error", e);
-            logger.info("popSoldier id" + id);
+            logger.error("popSoldier id" + id);
             return null;
         }
         try {

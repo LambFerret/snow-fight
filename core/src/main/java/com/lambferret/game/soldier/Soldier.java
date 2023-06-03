@@ -107,6 +107,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     //인게임 정보 관련
 
+    String initialName;
     List<Terrain> initialPreferenceTerrain;
     boolean initialIsUncommonRange;
     short initialSpeed;
@@ -138,6 +139,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.talent = info.getTalent();
         this.empower = info.getEmpower();
         this.weaken = info.getWeaken();
+        this.initialName = name;
         this.initialPreferenceTerrain = preferenceTerrain;
         this.initialIsUncommonRange = isUncommonRange;
         this.initialSpeed = speed;
@@ -266,9 +268,18 @@ public abstract class Soldier implements Comparable<Soldier> {
         if (level != EmpowerLevel.NEUTRAL) logger.info("empowerLevel | " + this.name + " is empowered as " + level);
         this.empowerLevel = level;
         switch (level) {
-            case WEAKEN -> this.weaken();
-            case EMPOWERED -> this.empowered();
-            case NEUTRAL -> this.neutralized();
+            case WEAKEN -> {
+                this.weaken();
+                this.name = this.initialName + " - ";
+            }
+            case EMPOWERED -> {
+                this.empowered();
+                this.name = this.initialName + " + ";
+            }
+            case NEUTRAL -> {
+                this.neutralized();
+                this.name = this.initialName;
+            }
         }
     }
 

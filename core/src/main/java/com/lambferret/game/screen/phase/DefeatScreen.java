@@ -74,7 +74,6 @@ public class DefeatScreen extends Window implements AbstractPhase {
                 SnowFight.player.setUpperAffinityBy(-30);
                 SnowFight.player.setBossAffinityBy(-30);
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
-                logger.info("clicked |  🐳 button1 | ");
                 executePhase();
             }
         ));
@@ -87,7 +86,6 @@ public class DefeatScreen extends Window implements AbstractPhase {
         button.addListener(Input.click(() -> {
                 // warning
                 ScreenConfig.screenChanger(ScreenConfig.AddedScreen.PHASE_SCREEN);
-                logger.info("clicked |  🐳 button2 | ");
                 executePhase();
             }
         ));
@@ -98,7 +96,6 @@ public class DefeatScreen extends Window implements AbstractPhase {
         // 로드
         var button = GlobalUtil.simpleButton("LOAD", "LOAD");
         button.addListener(Input.click(() -> {
-                logger.info("clicked |  🐳 button3 | ");
                 new SelectLoadWindow(stage);
                 executePhase();
             }
@@ -110,7 +107,6 @@ public class DefeatScreen extends Window implements AbstractPhase {
         // 메인메뉴
         var button = GlobalUtil.simpleButton("info", "Return to Main Menu");
         button.addListener(Input.click(() -> {
-                logger.info("clicked |  🐳 button4 | ");
                 executePhase();
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.TITLE_SCREEN;
             }

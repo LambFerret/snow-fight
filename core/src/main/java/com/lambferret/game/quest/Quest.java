@@ -51,7 +51,6 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
     }
 
     private void fail() {
-        logger.info("you failed this " + getClass().getSimpleName() + " quest.");
         isThisLifeIsGonnaDead = true;
         getPenalty();
         questItem.setDisabled(true);
@@ -59,7 +58,6 @@ public abstract class Quest implements Comparable<Quest>, PlayerObserver {
     }
 
     private void success() {
-        logger.info("Congratulation! you've archive " + getClass().getSimpleName() + " quest.");
         isThisLifeIsGonnaDead = true;
         getReword();
         questItem.setDisabled(true);
