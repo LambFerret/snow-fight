@@ -69,6 +69,7 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
                 () -> infoContainer.setVisible(false)
             ));
             manualButton.addListener(Input.click(() -> {
+                if (Overlay.isPhaseUI) return;
                 Dialog ask = new Dialog("", GlobalSettings.skin) {
                     {
                         text("remove this?");
