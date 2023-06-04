@@ -40,7 +40,6 @@ public class CostOverlay extends ImageTextButton implements AbstractOverlay {
 
     @Override
     public void onPlayerUpdate(Item.Type type) {
-        logger.info("onPlayerUpdate |  🐳 are you listen? | ");
         setText(player.getCurrentCost() + " / " + player.getMaxCost());
     }
 

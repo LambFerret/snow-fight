@@ -9,14 +9,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.crypt.j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Random;
 
 public class GlobalUtil {
     private static final Logger logger = LogManager.getLogger(GlobalUtil.class.getName());
@@ -85,16 +82,14 @@ public class GlobalUtil {
     }
 
     /**
-     * random image from regions
+     * region to button
      *
-     * @param regions regions
-     * @return CustomButton that random image from regions
+     * @param region AtlasRegion
+     * @return CustomButton
      */
-    public static CustomButton simpleButton(Array<TextureAtlas.AtlasRegion> regions) {
-        if (regions.size == 0) return simpleButton("");
+    public static CustomButton simpleButton(TextureAtlas.AtlasRegion region) {
         ImageTextButton.ImageTextButtonStyle style = style();
-        Random random = new Random();
-        style.up = new TextureRegionDrawable(regions.get(random.nextInt(regions.size)));
+        style.up = new TextureRegionDrawable(region);
         return new CustomButton("", style);
     }
 
