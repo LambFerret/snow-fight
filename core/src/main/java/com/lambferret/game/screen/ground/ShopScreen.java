@@ -1,6 +1,7 @@
 package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
@@ -22,7 +23,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ShopScreen implements AbstractGround {
     private static final Logger logger = LogManager.getLogger(ShopScreen.class.getName());
@@ -168,8 +168,7 @@ public class ShopScreen implements AbstractGround {
         float oscillationDuration = 1f;
         var actionSequence = Actions.sequence();
         if (!instant) {
-            Random random = new Random();
-            float randomDelay = random.nextFloat() * 1.5F;
+            float randomDelay = MathUtils.random.nextFloat() * 1.5F;
             actionSequence.addAction(Actions.delay(randomDelay));
         }
         actionSequence.addAction(

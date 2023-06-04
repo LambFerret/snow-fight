@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.soldier.Soldier;
@@ -13,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Random;
 
 public class SnowBarStyle extends ProgressBar.ProgressBarStyle {
     private static final Logger logger = LogManager.getLogger(SnowBarStyle.class.getName());
@@ -43,12 +43,11 @@ public class SnowBarStyle extends ProgressBar.ProgressBarStyle {
     }
 
     private TextureRegionDrawable makeBackground() {
-        Random random = new Random();
         var snows = AssetFinder.getAtlas("trainingGround").findRegions("snowLevel3");
         Pixmap background = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         int whereToDrawX = 0;
         do {
-            Pixmap snowPix = GlobalUtil.regionToPixmap(snows.get(random.nextInt(snows.size)));
+            Pixmap snowPix = GlobalUtil.regionToPixmap(snows.get(MathUtils.random(snows.size - 1)));
             background.drawPixmap(snowPix,
                 0, 0, snowPix.getWidth(), snowPix.getHeight(),
                 whereToDrawX, 0, background.getHeight() * snowPix.getWidth() / snowPix.getHeight(), background.getHeight()

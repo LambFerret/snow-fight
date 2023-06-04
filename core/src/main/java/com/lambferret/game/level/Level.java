@@ -5,10 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.constant.Terrain;
+import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
+import com.lambferret.game.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +26,7 @@ public abstract class Level {
     private static final TextureAtlas tileAtlas = AssetFinder.getAtlas("tile");
     public static final int LEVEL_EACH_SIZE_SMALL = 40;
     public static final int LEVEL_EACH_SIZE_BIG = 100;
+    Random random;
 
     private final MapAttribute[][] MAP;
     /**
@@ -132,6 +135,7 @@ public abstract class Level {
     public Table makeTable(boolean isPre) {
         int size = isPre ? LEVEL_EACH_SIZE_SMALL : LEVEL_EACH_SIZE_BIG;
         Table map = new Table();
+        random = new Random(PhaseScreen.mapRandomSeed);
         for (int i = 0; i < ROWS; i++) {
             for (int j = 0; j < COLUMNS; j++) {
                 map.add(makeMapElement(i, j)).width(size).height(size);
@@ -142,18 +146,26 @@ public abstract class Level {
     }
 
     private CustomButton makeMapElement(int i, int j) {
-        var attr = MAP[i][j];
-
-        CustomButton element = switch (attr.getTerrain()) {
-            case SEA -> GlobalUtil.simpleButton("sea");
-            case FOREST0 -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(0), "");
-            case FOREST_LEFT -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(1), "");
-            case FOREST_RIGHT -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(3), "");
-            case FOREST_UP -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(2), "");
-            case FOREST_DOWN -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(4), "");
-            case FOREST_ALONE -> GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(5), "");
-            default -> GlobalUtil.simpleButton(tileAtlas.findRegions(attr.getTerrain().name().toLowerCase()));
-        };
+        MapAttribute attr = MAP[i][j];
+        CustomButton element;
+        switch (attr.getTerrain()) {
+            case SEA -> element = GlobalUtil.simpleButton("sea");
+            case FOREST0 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(0), "");
+            case FOREST_LEFT -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(1), "");
+            case FOREST_RIGHT -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(3), "");
+            case FOREST_UP -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(2), "");
+            case FOREST_DOWN -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(4), "");
+            case FOREST_ALONE -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(5), "");
+            default -> {
+                var regions = tileAtlas.findRegions(attr.getTerrain().name().toLowerCase());
+                if (regions.size == 0) {
+                    element = GlobalUtil.simpleButton("");
+                } else {
+                    TextureAtlas.AtlasRegion region = regions.get(random.random(regions.size));
+                    element = GlobalUtil.simpleButton(region);
+                }
+            }
+        }
 
         String description = "Terrain : " + attr.getTerrain() + "\n" + "Amount : " + attr.getCurrentAmount() + " / " + attr.getMaxAmount();
         element.addListener(Input.hover(() -> element.setText(description), () -> element.setText("")));

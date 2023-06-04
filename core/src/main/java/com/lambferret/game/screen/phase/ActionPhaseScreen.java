@@ -16,6 +16,7 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.GlobalUtil;
+import com.lambferret.game.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,6 +34,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     List<Soldier> regularForOnceMember = new ArrayList<>();
     List<Soldier> actionMember = new ArrayList<>();
     Map<Command, List<Soldier>> commandMap;
+    Random random;
 
     public ActionPhaseScreen() {
         this.mapContainer = new Container<>();
@@ -51,6 +53,7 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     @Override
     public void startPhase() {
+        random = PhaseScreen.handRandom;
         setMapTable();
         setCommand();
         executeCommand();
@@ -85,7 +88,6 @@ public class ActionPhaseScreen implements AbstractPhase {
     }
 
     private List<Soldier> getRandomSoldiersFromHand(int number) {
-        Random random = new Random();
         Set<Soldier> soldierSet = new HashSet<>();
         List<Soldier> hand = player.getSoldiers();
         List<Soldier> result;
@@ -93,7 +95,7 @@ public class ActionPhaseScreen implements AbstractPhase {
             result = hand;
         } else {
             while (soldierSet.size() < number) {
-                int randInt = random.nextInt(hand.size());
+                int randInt = PhaseScreen.handRandom.random(hand.size());
                 soldierSet.add(hand.get(randInt));
             }
             result = soldierSet.stream().toList();
@@ -120,14 +122,8 @@ public class ActionPhaseScreen implements AbstractPhase {
         logger.info("=========================================");
         logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩");
 
-        Random random = new Random();
-
-        double randomValue = Math.floor(random.nextDouble() * 100);
-        if (randomValue < soldier.getRunAwayProbability()) {
-            logger.info(
-                soldier.getRunAwayProbability() + " 확률에 "
-                    + randomValue + " 만큼이 걸려 군인 " + soldier.getName() + " 떠났습니다."
-            );
+        if (random.randomBoolean(soldier.getRunAwayProbability())) {
+            logger.info(soldier.getRunAwayProbability() + " 확률에 걸려 군인 " + soldier.getName() + " 떠났습니다.");
             return;
         }
 
@@ -138,8 +134,8 @@ public class ActionPhaseScreen implements AbstractPhase {
         int j = soldier.getRangeY() > rows ? rows : soldier.getRangeY();
         int speed = soldier.getSpeed();
 
-        int topLeftCol = random.nextInt(cols - i + 1);
-        int topLeftRow = random.nextInt(rows - j + 1);
+        int topLeftCol = random.random(cols - i + 1);
+        int topLeftRow = random.random(rows - j + 1);
 
         logger.info("좌표 : " + topLeftCol + ", " + topLeftRow);
         logger.info("범위 : " + soldier.getRangeX() + ", " + soldier.getRangeY());

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -27,14 +28,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Random;
 
 public class TrainingGroundScreen implements AbstractGround {
     private static final Logger logger = LogManager.getLogger(TrainingGroundScreen.class.getName());
 
     public static final Stage stage = new Stage();
-    Random random = new Random();
-
     private final Skin skin;
     private final TextureAtlas atlas;
     private Player player;
@@ -119,7 +117,7 @@ public class TrainingGroundScreen implements AbstractGround {
 
     private void setSnowLevel() {
         //-=-=-=-=-=-//
-        int amount = random.nextInt(300);
+        int amount = MathUtils.random(300);
         //-=-=-=-=-=-//
 
         if (amount < 100) {
@@ -140,11 +138,11 @@ public class TrainingGroundScreen implements AbstractGround {
     }
 
     private Image makeSnow() {
-        Image snow = new Image(atlas.findRegions("snowLevel" + snowLevel).get(random.nextInt(1, 7)));
-        if (random.nextBoolean()) {
-            snow.setX(stage.getWidth() - random.nextInt((int) (snow.getWidth() + 200)));
+        Image snow = new Image(atlas.findRegions("snowLevel" + snowLevel).get(MathUtils.random.nextInt(1, 7)));
+        if (MathUtils.random.nextBoolean()) {
+            snow.setX(stage.getWidth() - MathUtils.random.nextInt((int) (snow.getWidth() + 200)));
         } else {
-            snow.setX(random.nextInt(200));
+            snow.setX(MathUtils.random.nextInt(200));
         }
         snow.setY((5 - snowCount) * 10);
         snow.setOrigin(Align.center);
@@ -160,7 +158,7 @@ public class TrainingGroundScreen implements AbstractGround {
             public void clicked(InputEvent event, float x, float y) {
                 count++;
                 // making soldier animation
-                Animation<TextureRegion> animation = soldiers.get(random.nextInt(4)).getAnimation();
+                Animation<TextureRegion> animation = soldiers.get(MathUtils.random.nextInt(4)).getAnimation();
                 AnimationImage newImage = new AnimationImage(animation);
                 float animationX = (float) (snow.getWidth() * randomFloatX[count]) + snow.getX();
                 float animationY = snow.getHeight() * randomFloatY.get(count) + snow.getY();
@@ -198,7 +196,7 @@ public class TrainingGroundScreen implements AbstractGround {
 
     private void makeClouds() {
         for (int i = 0; i < 5; i++) {
-            int cloudType = random.nextInt(5) + 1;
+            int cloudType = MathUtils.random.nextInt(5) + 1;
             Image cloud = new Image(atlas.findRegions("cloud").get(cloudType - 1));
             cloud.setOrigin(Align.center);
             float initialXPosition = (i + 1) * GlobalSettings.currWidth / 5F;

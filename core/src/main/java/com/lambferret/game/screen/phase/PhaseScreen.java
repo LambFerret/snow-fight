@@ -1,6 +1,6 @@
 package com.lambferret.game.screen.phase;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.math.MathUtils;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
 import com.lambferret.game.command.Command;
@@ -13,6 +13,7 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +40,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static final AbstractPhase prePhaseScreen;
     private static final AbstractPhase victoryScreen;
     //    PhaseText text;
-    Table mapTable;
+    public static long mapRandomSeed;
+    public static Random handRandom;
 
     static {
         prePhaseScreen = new PrePhaseScreen();
@@ -88,6 +90,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenInitToP() {
         player = SnowFight.player;
         level = LevelFinder.get(player.getDay());
+        mapRandomSeed = MathUtils.random(999L);
+        handRandom = new Random();
         for (AbstractPhase phase : phaseScreenList) {
             phase.onPlayerReady();
             player.addPlayerObserver(phase);
