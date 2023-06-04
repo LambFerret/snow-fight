@@ -4,14 +4,18 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.AnimationImage;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -170,6 +174,19 @@ public class ActionPhaseScreen implements AbstractPhase {
         stage.addActor(newImage);
 
         newImage.addAction(Actions.sequence(
+            Actions.delay(animation.getAnimationDuration()),
+            Actions.removeActor()
+        ));
+
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.up = GlobalUtil.getNinePatchDrawableFromTexture("happyWorking", 5);
+        style.font = GlobalSettings.font;
+        CustomButton workingRange = new CustomButton("", style);
+        workingRange.setSize(w * i, h * j);
+        workingRange.setPosition(v2.x + region_x, v2.y + region_y);
+        stage.addActor(workingRange);
+
+        workingRange.addAction(Actions.sequence(
             Actions.delay(animation.getAnimationDuration()),
             Actions.removeActor()
         ));
