@@ -5,10 +5,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.PolygonRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -20,8 +18,6 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.setting.GlobalSettings;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import static com.lambferret.game.setting.Setting.Language.KR;
 
 public class AssetFinder {
     private static final Logger logger = LogManager.getLogger(AssetFinder.class.getName());
@@ -73,31 +69,14 @@ public class AssetFinder {
      * font 를 freetype 으로 로드
      * 폰트에 관한 옵션은 여기서 처리
      */
-    public static BitmapFont getFont(String name) {
-        String fileName = FONT + name + ".ttf";
+    public static FreeTypeFontGenerator getFont(String name) {
+        String language = GlobalSettings.language.name();
+        String fileName = FONT + language + SEP + name + ".ttf";
         if (!Gdx.files.absolute(fileName).exists()) {
-            fileName = FONT + name + ".otf";
+            fileName = FONT + language + SEP + name + ".otf";
         }
-
         FileHandle file = Gdx.files.internal(fileName);
-
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(file);
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-        parameter.characters = FreeTypeFontGenerator.DEFAULT_CHARS + "한국어English日本語Русский";
-        if (GlobalSettings.language == KR) {
-            String chars = Gdx.files.internal("localization" + SEP + GlobalSettings.language + SEP + "chars.txt").readString();
-            parameter.characters += chars;
-        }
-        parameter.size = 12;
-        parameter.color = Color.BLACK;
-
-        BitmapFont font = generator.generateFont(parameter);
-
-        generator.dispose();
-
-        return font;
+        return new FreeTypeFontGenerator(file);
     }
 
     public static TextureAtlas getAtlas(String name) {

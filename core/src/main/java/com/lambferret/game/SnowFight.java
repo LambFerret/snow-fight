@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.SaveLoader;
+import com.lambferret.game.setting.FontConfig;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
@@ -39,6 +40,7 @@ public class SnowFight extends ManagedGame<ManagedScreen, ScreenTransition> {
         cameraConfig();
         assetConfig();
         LocalizeConfig.init();
+        FontConfig.init();
         ScreenConfig.init(screenManager);
 
     }
