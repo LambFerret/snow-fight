@@ -1,11 +1,13 @@
 package com.lambferret.game.screen.phase;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Timer;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.AnimationImage;
@@ -23,10 +25,17 @@ import org.apache.logging.log4j.Logger;
 import java.util.*;
 
 import static com.lambferret.game.level.Level.LEVEL_EACH_SIZE_BIG;
+import static com.lambferret.game.screen.ui.AbstractOverlay.SNOW_BAR_HEIGHT;
+import static com.lambferret.game.screen.ui.AbstractOverlay.SNOW_BAR_Y;
 
 public class ActionPhaseScreen implements AbstractPhase {
     private static final Logger logger = LogManager.getLogger(ActionPhaseScreen.class.getName());
     public static final Stage stage = new Stage();
+    /**
+     * action phase 가 자동으로 넘어가기까지 시간
+     */
+    public static float actionPhaseTime;
+    public static final float ASSIGNED_TIME_FOR_EACH_SOLDIER = 0.5F;
     Container<Table> mapContainer;
     Player player;
     Level level;
@@ -67,9 +76,20 @@ public class ActionPhaseScreen implements AbstractPhase {
             soldier.talent(actionMember, commandMap, level, player);
         }
         logger.info("이번 턴의 희생자들 ㅠㅠ : " + actionMember);
-        for (Soldier soldier : actionMember) {
-            happyWorking(soldier);
-        }
+
+        Queue<Soldier> soldierQueue = new LinkedList<>(actionMember);
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if (soldierQueue.size() > 0) {
+                    Soldier nextSoldier = soldierQueue.remove();
+                    happyWorking(nextSoldier);
+                } else {
+                    this.cancel();
+                }
+            }
+        }, 0, ASSIGNED_TIME_FOR_EACH_SOLDIER);
     }
 
     private void setMapTable() {
@@ -85,6 +105,7 @@ public class ActionPhaseScreen implements AbstractPhase {
         actionMember.addAll(regularForOnceMember);
         int capacity = level.getMaxSoldierCapacity() - actionMember.size();
         actionMember.addAll(getRandomSoldiersFromHand(capacity));
+        actionPhaseTime = actionMember.size() * ASSIGNED_TIME_FOR_EACH_SOLDIER;
     }
 
     private List<Soldier> getRandomSoldiersFromHand(int number) {
@@ -123,7 +144,16 @@ public class ActionPhaseScreen implements AbstractPhase {
         logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩");
 
         if (random.randomBoolean(soldier.getRunAwayProbability())) {
-            logger.info(soldier.getRunAwayProbability() + " 확률에 걸려 군인 " + soldier.getName() + " 떠났습니다.");
+            CustomButton runAwayImage = GlobalUtil.simpleButton("runaway_1");
+            runAwayImage.setSize(300, 200);
+            runAwayImage.setPosition(-runAwayImage.getWidth(), SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50);
+            runAwayImage.setText(soldier.getName() + " run away!");
+            stage.addActor(runAwayImage);
+            runAwayImage.addAction(Actions.sequence(
+                Actions.moveTo(50, SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50, ASSIGNED_TIME_FOR_EACH_SOLDIER / 5F, Interpolation.fastSlow),
+                Actions.delay(ASSIGNED_TIME_FOR_EACH_SOLDIER / 2F),
+                Actions.removeActor()
+            ));
             return;
         }
 
@@ -137,10 +167,6 @@ public class ActionPhaseScreen implements AbstractPhase {
         int topLeftCol = random.random(cols - i + 1);
         int topLeftRow = random.random(rows - j + 1);
 
-        logger.info("좌표 : " + topLeftCol + ", " + topLeftRow);
-        logger.info("범위 : " + soldier.getRangeX() + ", " + soldier.getRangeY());
-        logger.info("속도 : " + speed);
-
         int usedSnowAmount = 0;
         for (int row = topLeftRow; row < topLeftRow + j; row++) {
             for (int col = topLeftCol; col < topLeftCol + i; col++) {
@@ -149,7 +175,6 @@ public class ActionPhaseScreen implements AbstractPhase {
         }
 
         logger.info("이번턴 작업량 : " + usedSnowAmount);
-        logger.info("=========================================");
 
         // animation
         int w = LEVEL_EACH_SIZE_BIG, h = LEVEL_EACH_SIZE_BIG;
