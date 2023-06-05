@@ -17,6 +17,7 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.screen.phase.ActionPhaseScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.OverlayText;
@@ -207,7 +208,7 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.ACTION) {
             actionPhaseTimer += delta;
             executeButton.setText(String.format("%.2f", 1 - actionPhaseTimer));
-            if (actionPhaseTimer >= EXECUTE_TIMER_TO_NEXT_PHASE) {
+            if (actionPhaseTimer >= ActionPhaseScreen.actionPhaseTime) {
                 actionPhaseTimer = 0;
                 screenChanger();
             }

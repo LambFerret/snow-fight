@@ -240,10 +240,6 @@ public interface AbstractOverlay extends PlayerObserver {
      */
     float EXECUTE_HIDE_ANIMATION_DURATION = 0.1F;
     /**
-     * action phase 가 자동으로 넘어가기까지 시간
-     */
-    float EXECUTE_TIMER_TO_NEXT_PHASE = 1F;
-    /**
      * execute 를 얼마나 누르고 있어야 하는지 시간
      */
     float EXECUTE_PRESS_TIME = 1F;
