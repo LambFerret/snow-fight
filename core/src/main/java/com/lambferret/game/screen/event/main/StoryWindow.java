@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Null;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.component.CustomDialog;
@@ -156,7 +157,16 @@ public abstract class StoryWindow extends EventWindow {
         actor.setZIndex(1);
     }
 
-    private void highlightSpeaker(Character character) {
+    private void highlightSpeaker(@Null Character character) {
+        if (character == null) {
+            for (Actor actor : leftSpeakers.getChildren()) {
+                blur(actor);
+            }
+            for (Actor actor : rightSpeakers.getChildren()) {
+                blur(actor);
+            }
+            return;
+        }
         for (int i = 0; i < leftActor.size() + rightActor.size(); i++) {
             if (i < leftActor.size()) {
                 if (leftActor.get(i).equals(character)) {
