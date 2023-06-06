@@ -39,6 +39,8 @@ public class SelectLoadWindow extends LoadAndSaveWindow {
                 text(text.getOverrideLoadConfirm());
                 button(text.getYes(), true);
                 button(text.getNo(), false);
+                setMovable(false);
+                setResizable(false);
             }
 
             @Override
