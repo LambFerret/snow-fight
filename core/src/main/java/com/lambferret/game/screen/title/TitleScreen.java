@@ -1,22 +1,25 @@
 package com.lambferret.game.screen.title;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.AbstractScreen;
+import com.lambferret.game.setting.FontConfig;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.TitleMenuText;
 import com.lambferret.game.util.AssetFinder;
-import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +28,7 @@ public class TitleScreen extends AbstractScreen {
     private static final Logger logger = LogManager.getLogger(TitleScreen.class.getName());
     private static final TitleMenuText text;
     public static final int TITLE_BUTTON_WIDTH = 100;
-    public static final int TITLE_BUTTON_HEIGHT = 50;
+    public static final int TITLE_BUTTON_HEIGHT = 35;
     public static final int TITLE_BUTTON_PAD = 10;
     public static final int TITLE_X = 300;
     public static final int TITLE_Y = 300;
@@ -65,7 +68,7 @@ public class TitleScreen extends AbstractScreen {
     }
 
     private Image backGroundImage() {
-        Image backgroundImage = new Image(AssetFinder.getTexture("titleBackground"));
+        Image backgroundImage = new Image(AssetFinder.getTexture("black"));
         backgroundImage.setSize(stage.getWidth(), stage.getHeight());
         backgroundImage.toBack();
         backgroundImage.addListener(Input.click(this::initDisplay));
@@ -76,25 +79,30 @@ public class TitleScreen extends AbstractScreen {
         Table table = new Table() {
             @Override
             public Cell add(Actor actor) {
-                return super.add(actor).width(TITLE_BUTTON_WIDTH).height(TITLE_BUTTON_HEIGHT).pad(TITLE_BUTTON_PAD);
+                Cell<Actor> cell = super.add(actor)
+                    .width(((CustomButton) actor).getLabel().getWidth())
+                    .height(TITLE_BUTTON_HEIGHT)
+                    .pad(TITLE_BUTTON_PAD);
+                cell.row();
+                return cell;
             }
         };
         table.add(button(TitleAction.NEW));
-        table.row();
         if (SaveLoader.getRecentSave() != -1) {
             table.add(button(TitleAction.CONTINUE));
-            table.row();
             table.add(button(TitleAction.LOAD));
-            table.row();
         }
         table.add(button(TitleAction.OPTION));
-        table.row();
         table.add(button(TitleAction.EXIT));
         table.setPosition(TITLE_X, TITLE_Y);
         stage.addActor(table);
     }
 
     private CustomButton button(TitleAction action) {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.font = FontConfig.titleButtonFont;
+        style.up = new TextureRegionDrawable(AssetFinder.transparentTexture());
+//        style.over = new TextureRegionDrawable(AssetFinder.getTexture("spotlight"));
         String label = switch (action) {
             case NEW -> text.getNewGame();
             case CONTINUE -> text.getContinueGame();
@@ -102,8 +110,14 @@ public class TitleScreen extends AbstractScreen {
             case OPTION -> text.getOption();
             case EXIT -> text.getExit();
         };
-        var button = GlobalUtil.simpleButton("buttonTitle", label);
+        CustomButton button = new CustomButton(label, style);
         button.addListener(Input.click(() -> setAction(action)));
+        button.addListener(Input.hover(() -> {
+                AssetFinder.getSound("button_click").play(GlobalSettings.effectVolume);
+                button.getLabel().setColor(Color.GOLD);
+            },
+            () -> button.getLabel().setColor(Color.WHITE)
+        ));
         return button;
     }
 
