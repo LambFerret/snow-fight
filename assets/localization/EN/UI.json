@@ -17,7 +17,7 @@
     "emptyData": "EMPTY"
   },
   "overlayText": {
-    "soldierOverlayName": "Soldier List",
+    "soldierOverlayName": "Soldier \n List",
     "executeOverlayName": "execute phase!",
     "snowOverlayDescription" : "snow to clear"
   },

@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
@@ -101,6 +102,15 @@ public class AssetFinder {
 
     public static TiledMap getLevel(String name) {
         return manager.get(LEVEL + name, TiledMap.class);
+    }
+
+    public static Texture transparentTexture() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888); // Create a 1x1 Pixmap
+        pixmap.setColor(new Color(0, 0, 0, 0)); // Set the color to transparent
+        pixmap.fill(); // Fill the Pixmap with the current color
+        Texture transparentTexture = new Texture(pixmap); // Create a Texture from the Pixmap
+        pixmap.dispose(); // Dispose of the Pixmap
+        return transparentTexture;
     }
 
     private enum Type {
