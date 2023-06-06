@@ -37,6 +37,8 @@ public class SelectSaveWindow extends LoadAndSaveWindow {
                 text(text.getOverrideDeleteSaveConfirm());
                 button(text.getYes(), true);
                 button(text.getNo(), false);
+                setMovable(false);
+                setResizable(false);
             }
 
             @Override
@@ -59,6 +61,8 @@ public class SelectSaveWindow extends LoadAndSaveWindow {
                 text(text.getOverrideSaveConfirm());
                 button(text.getYes(), true);
                 button(text.getNo(), false);
+                setMovable(false);
+                setResizable(false);
             }
 
             @Override

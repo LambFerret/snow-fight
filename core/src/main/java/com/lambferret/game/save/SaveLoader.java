@@ -12,6 +12,8 @@ import com.lambferret.game.quest.Quest;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.GsonDateFormatAdapter;
+import lombok.Builder;
+import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,9 +33,7 @@ public class SaveLoader {
     public static Save currentSave;
     public static int currentSaveSlot;
 
-
-    public static void load(int saveFileNumber) {
-        currentSaveSlot = saveFileNumber;
+    private static Save read(int saveFileNumber) {
         String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
         Save saveFile = null;
         if (saveFileNumber > MAXIMUM_SAVE) {
@@ -55,8 +55,21 @@ public class SaveLoader {
             saveFile = gson.fromJson(ac, Save.class);
         } catch (IOException e) {
         }
+        return saveFile;
+    }
 
-        currentSave = saveFile;
+    public static SaveFileInfo info(int saveFileNumber) {
+        FileHandle file = Gdx.files.internal(SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX);
+        Save save = read(saveFileNumber);
+        return SaveFileInfo.builder()
+            .day(save.getDay())
+            .lastModified(file.lastModified())
+            .build();
+    }
+
+    public static void load(int saveFileNumber) {
+        currentSaveSlot = saveFileNumber;
+        currentSave = read(saveFileNumber);
     }
 
     public static void init() {
@@ -153,6 +166,13 @@ public class SaveLoader {
             }
         }
         return saveFileNumber;
+    }
+
+    @Builder
+    @Getter
+    public static class SaveFileInfo {
+        long lastModified;
+        int day;
     }
 
 }
