@@ -30,7 +30,6 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
         this.stage = stage;
         this.setSize(MANUAL_WIDTH, MANUAL_HEIGHT);
         this.setPosition(MANUAL_X, MANUAL_Y);
-        this.setDebug(true, true);
         setBackground(GlobalUtil.getNinePatchDrawableFromTexture("bookshelf", 5));
         this.pack();
 

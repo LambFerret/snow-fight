@@ -43,7 +43,6 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
     public ExecuteOverlay(Stage stage) {
         this.stage = stage;
         executeButton = GlobalUtil.simpleButton("execute", text.getExecuteOverlayName());
-        this.setDebug(true, true);
 
         setCursor();
         setSignatureAnimation();

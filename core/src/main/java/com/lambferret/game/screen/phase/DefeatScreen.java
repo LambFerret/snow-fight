@@ -57,7 +57,6 @@ public class DefeatScreen extends Window implements AbstractPhase {
     private Table makeInfo() {
         Table table = new Table();
         table.setSkin(GlobalSettings.skin);
-        table.setDebug(true, true);
         table.add("You have been defeated!").row();
         table.add(button1()).width(100).height(50).row();
         table.add(button2()).width(100).height(50).row();

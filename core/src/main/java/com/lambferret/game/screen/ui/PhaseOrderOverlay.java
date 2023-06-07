@@ -32,7 +32,6 @@ public class PhaseOrderOverlay extends Table implements AbstractOverlay {
 
     public PhaseOrderOverlay(Stage stage) {
         this.pack();
-        this.setDebug(true, true);
 
         infoContainer.setVisible(false);
 
