@@ -77,6 +77,7 @@ public class ReadyPhaseScreen implements AbstractPhase {
                 camera.update();
                 return true;
             }
+
         });
         stage.addActor(mapContainer);
         //각종 플레이어의 덱이나 능력을 확인하거나 일단 작동시킴 즉 transaction 이 일어나기 전 모든 행동들
