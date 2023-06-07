@@ -54,6 +54,10 @@ public class OptionWindow extends Window {
             public <T extends Actor> Cell<T> add(T actor) {
                 return super.add(actor).height(OPTION_EACH_HEIGHT).width(OPTION_EACH_WIDTH);
             }
+
+            public <T extends Actor> Cell<T> add(T actor, int width) {
+                return super.add(actor).height(OPTION_EACH_HEIGHT).width(width);
+            }
         };
         this.add(table);
         dialog = new Dialog("", GlobalSettings.skin) {
@@ -76,7 +80,6 @@ public class OptionWindow extends Window {
         table.clearChildren();
         table.pad(OPTION_EACH_HEIGHT, 10, OPTION_EACH_HEIGHT, 10);
         table.setSize(OPTION_WINDOW_WIDTH, OPTION_WINDOW_HEIGHT);
-        table.setDebug(true, true);
 
         makeScreenOption();
         makeLanguageSettings();
@@ -145,13 +148,20 @@ public class OptionWindow extends Window {
     }
 
     private void makeVolumeSlider(Volume volume) {
+        Table volumeTable = new Table();
         Slider.SliderStyle style = new Slider.SliderStyle();
-        style.knob = new TextureRegionDrawable(AssetFinder.getTexture("hideButton"));
-        style.background = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
+        style.knob = new TextureRegionDrawable(AssetFinder.getTexture("soundKnob"));
+        style.knobBefore = new TextureRegionDrawable(AssetFinder.getTexture("soundKnobBefore"));
+        style.knobAfter = new TextureRegionDrawable(AssetFinder.getTexture("soundKnobAfter"));
+        style.background = new TextureRegionDrawable(AssetFinder.transparentTexture());
+        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
+        buttonStyle.font = font;
+        TextButton button = new TextButton("", buttonStyle);
 
         Slider slider = new Slider(0, 100, 1, false, style);
         switch (volume) {
             case MASTER -> {
+                button.setText(String.valueOf(GlobalSettings.masterVolume));
                 slider.setValue(GlobalSettings.masterVolume);
                 slider.addListener(new ChangeListener() {
                     @Override
@@ -162,6 +172,7 @@ public class OptionWindow extends Window {
                 table.add(newLabel(text.getMaster()));
             }
             case BGM -> {
+                button.setText(String.valueOf(GlobalSettings.bgmVolume));
                 slider.setValue(GlobalSettings.bgmVolume);
                 slider.addListener(new ChangeListener() {
                     @Override
@@ -172,6 +183,7 @@ public class OptionWindow extends Window {
                 table.add(newLabel(text.getBgm()));
             }
             case EFFECT -> {
+                button.setText(String.valueOf(GlobalSettings.effectVolume));
                 slider.setValue(GlobalSettings.effectVolume);
                 slider.addListener(new ChangeListener() {
                     @Override
@@ -183,7 +195,15 @@ public class OptionWindow extends Window {
 
             }
         }
-        table.add(slider).row();
+        slider.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                button.setText(String.valueOf((int) ((Slider) actor).getValue()));
+            }
+        });
+        volumeTable.add(slider).center().expandX();
+        volumeTable.add(button).padRight(10).width(30);
+        table.add(volumeTable).row();
     }
 
     private void makeButton() {
@@ -205,8 +225,14 @@ public class OptionWindow extends Window {
             })
         );
 
-        table.add(confirmButton);
-        table.add(cancelButton);
+
+        Table buttonTable = new Table();
+        buttonTable.add(cancelButton).expandX();
+        buttonTable.add(confirmButton).expandX();
+        table.add();
+        table.row();
+        table.add();
+        table.add(buttonTable);
     }
 
     private CustomButton button() {

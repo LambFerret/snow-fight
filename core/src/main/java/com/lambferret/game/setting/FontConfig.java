@@ -51,7 +51,8 @@ public class FontConfig {
                 titleButtonFont = generator.generateFont(parameter);
                 parameter.size = 14;
                 uiFont = generator.generateFont(parameter); //AssetFinder.getFont("ATypewriterForMe");
-                generator = AssetFinder.getFont("ATypewriterForMe");
+                generator = AssetFinder.getFont("Love");
+                parameter.color = Color.BLACK;
                 optionFont = generator.generateFont(parameter);
                 soldierFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
                 commandFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");

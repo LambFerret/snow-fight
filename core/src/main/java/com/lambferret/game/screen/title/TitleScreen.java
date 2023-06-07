@@ -78,8 +78,8 @@ public class TitleScreen extends AbstractScreen {
     private void setTable() {
         Table table = new Table() {
             @Override
-            public Cell add(Actor actor) {
-                Cell<Actor> cell = super.add(actor)
+            public <T extends Actor> Cell<T> add(T actor) {
+                Cell<T> cell = super.add(actor)
                     .width(((CustomButton) actor).getLabel().getWidth())
                     .height(TITLE_BUTTON_HEIGHT)
                     .pad(TITLE_BUTTON_PAD);
