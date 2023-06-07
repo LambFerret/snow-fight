@@ -75,13 +75,13 @@ public abstract class Manual implements Comparable<Manual> {
 
     public CustomButton renderFrontCover() {
         CustomButton button = GlobalUtil.simpleButton("button/button_up", this.name);
-        button.addListener(Input.soundListener(hoverSound));
+        button.addListener(Input.soundWhenClick(hoverSound));
         return button;
     }
 
     public Image renderSideCover() {
         Image image = new Image(new TextureRegionDrawable(atlas.findRegion(this.texturePath + "_side")));
-        image.addListener(Input.soundListener(hoverSound));
+        image.addListener(Input.soundWhenClick(hoverSound));
         return image;
     }
 

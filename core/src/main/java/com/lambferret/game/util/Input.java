@@ -34,7 +34,7 @@ public class Input {
         );
     }
 
-    public static InputListener soundListener(Sound sound) {
+    public static InputListener soundWhenClick(Sound sound) {
         return new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
