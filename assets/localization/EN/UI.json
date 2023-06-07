@@ -9,12 +9,22 @@
     "overrideSaveConfirm": "This will use this save slot. Are you sure?",
     "overrideDeleteSaveConfirm": "This will delete and overwrite this save slot. Are you sure?",
     "overrideLoadConfirm": "Start New Game. Are you sure?",
+    "deleteConfirm": "This will delete this save slot. Are you sure?",
     "yes": "yes",
     "no": "no",
+    "ok": "ok",
     "loadData": "LOAD",
     "saveData": "SAVE",
     "newData": "NEW",
-    "emptyData": "EMPTY"
+    "emptyData": "EMPTY",
+    "confirm" : "CONFIRM",
+    "cancel" : "CANCEL",
+    "restartToChange": "Restart to apply change",
+    "fullscreen": "FULLSCREEN",
+    "language": "LANGUAGE",
+    "master": "MASTER",
+    "bgm": "BGM",
+    "effect": "EFFECT"
   },
   "overlayText": {
     "soldierOverlayName": "Soldier \n List",

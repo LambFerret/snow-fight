@@ -141,8 +141,7 @@ public class TitleScreen extends AbstractScreen {
                 selectLoadWindow.create();
             }
             case OPTION -> {
-                optionWindow.setVisible(true);
-                optionWindow.toFront();
+                optionWindow.open();
             }
             case EXIT -> {
                 Gdx.app.exit();
