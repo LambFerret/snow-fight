@@ -1,7 +1,11 @@
 package com.lambferret.game.screen.phase;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -15,6 +19,7 @@ import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.GlobalUtil;
@@ -97,6 +102,21 @@ public class ActionPhaseScreen implements AbstractPhase {
         mapContainer.setPosition(ReadyPhaseScreen.getTableX(), ReadyPhaseScreen.getTableY());
         mapContainer.setSize(LEVEL_EACH_SIZE_BIG * level.COLUMNS, LEVEL_EACH_SIZE_BIG * level.ROWS);
         stage.addActor(this.mapContainer);
+        OrthographicCamera cam = (OrthographicCamera) stage.getCamera();
+        cam.zoom = ReadyPhaseScreen.getScaleValue();
+        cam.update();
+
+        mapContainer.addListener(new InputListener() {
+            @Override
+            public boolean scrolled(InputEvent event, float x, float y, float amountX, float amountY) {
+                OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
+                camera.zoom += amountY * 0.05;// adjust the 0.1 value to zoom faster or slower
+                if (camera.zoom < 0.5f) camera.zoom = 0.5f;
+                if (camera.zoom > 3f) camera.zoom = 3f;
+                camera.update();
+                return true;
+            }
+        });
     }
 
     private void setMembers() {
@@ -144,11 +164,12 @@ public class ActionPhaseScreen implements AbstractPhase {
         logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩");
 
         if (random.randomBoolean(soldier.getRunAwayProbability())) {
-            CustomButton runAwayImage = GlobalUtil.simpleButton("runaway_1");
+            String a = MathUtils.random.nextBoolean() ? "runaway_1" : "runaway_2";
+            CustomButton runAwayImage = GlobalUtil.simpleButton(a);
             runAwayImage.setSize(300, 200);
             runAwayImage.setPosition(-runAwayImage.getWidth(), SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50);
             runAwayImage.setText(soldier.getName() + " run away!");
-            stage.addActor(runAwayImage);
+            Overlay.uiSpriteBatch.addActor(runAwayImage);
             runAwayImage.addAction(Actions.sequence(
                 Actions.moveTo(50, SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50, ASSIGNED_TIME_FOR_EACH_SOLDIER / 5F, Interpolation.fastSlow),
                 Actions.delay(ASSIGNED_TIME_FOR_EACH_SOLDIER / 2F),

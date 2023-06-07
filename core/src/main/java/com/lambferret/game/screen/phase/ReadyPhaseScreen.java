@@ -1,5 +1,6 @@
 package com.lambferret.game.screen.phase;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -41,12 +42,12 @@ public class ReadyPhaseScreen implements AbstractPhase {
 
     @Override
     public void startPhase() {
+        mapContainer.setDebug(true, true);
         mapContainer.setActor(level.makeTable(false));
 //        mapContainer.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("yellow")));
         mapContainer.setSize(LEVEL_EACH_SIZE_BIG * level.COLUMNS, LEVEL_EACH_SIZE_BIG * level.ROWS);
 
         mapContainer.addListener(new DragListener() {
-            boolean isEntered = false;
 
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
@@ -56,28 +57,25 @@ public class ReadyPhaseScreen implements AbstractPhase {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (pointer == -1) {
-                    isEntered = true;
+                    stage.setScrollFocus(mapContainer);
                 }
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 if (pointer == -1) {
-                    isEntered = false;
+                    stage.setScrollFocus(null);
                 }
             }
 
             @Override
             public boolean scrolled(InputEvent event, float x, float y, float amountX, float amountY) {
-                if (isEntered) {
-                    logger.info("scrolled |  🐳 ??? | " + amountY);
-                    mapContainer.setOrigin(x, y);
-                    mapContainer.setScale(mapContainer.getScaleX() + amountY * 3);
-                    return true;
-                } else {
-                    logger.info("scrolled |  🐳 you aren't entered | ");
-                    return false;
-                }
+                OrthographicCamera camera = (OrthographicCamera) stage.getCamera();
+                camera.zoom += amountY * 0.05;// adjust the 0.1 value to zoom faster or slower
+                if (camera.zoom < 0.5f) camera.zoom = 0.5f;
+                if (camera.zoom > 3f) camera.zoom = 3f;
+                camera.update();
+                return true;
             }
         });
         stage.addActor(mapContainer);
@@ -99,6 +97,10 @@ public class ReadyPhaseScreen implements AbstractPhase {
 
     public static float getTableY() {
         return mapContainer.getY();
+    }
+
+    public static float getScaleValue() {
+        return ((OrthographicCamera) stage.getCamera()).zoom;
     }
 
     @Override

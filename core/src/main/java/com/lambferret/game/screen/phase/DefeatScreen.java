@@ -8,6 +8,7 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.title.SelectLoadWindow;
+import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.util.GlobalUtil;
@@ -31,7 +32,6 @@ public class DefeatScreen extends Window implements AbstractPhase {
         this.setSize(800, 500);
         info = makeInfo();
         this.add(info);
-
     }
 
     @Override
@@ -46,7 +46,7 @@ public class DefeatScreen extends Window implements AbstractPhase {
 
     @Override
     public void startPhase() {
-        stage.addActor(this);
+        Overlay.uiSpriteBatch.addActor(this);
     }
 
     @Override
