@@ -227,8 +227,8 @@ public class OptionWindow extends Window {
 
 
         Table buttonTable = new Table();
-        buttonTable.add(cancelButton).expandX();
-        buttonTable.add(confirmButton).expandX();
+        buttonTable.add(cancelButton).width(50).height(50).expandX();
+        buttonTable.add(confirmButton).width(50).height(50).expandX();
         table.add();
         table.row();
         table.add();
@@ -239,7 +239,8 @@ public class OptionWindow extends Window {
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.font = font;
         style.up = new TextureRegionDrawable(AssetFinder.transparentTexture());
-        var button = new CustomButton("", style);
+        style.down = new TextureRegionDrawable(AssetFinder.getTexture("dojang"));
+        CustomButton button = new CustomButton("", style);
         button.addListener(Input.hover(() -> {
                 AssetFinder.getSound("button_click").play(GlobalSettings.effectVolume);
                 button.getLabel().setColor(Color.GOLD);
