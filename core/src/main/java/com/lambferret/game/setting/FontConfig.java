@@ -12,6 +12,7 @@ public class FontConfig {
     private static final Logger logger = LogManager.getLogger(FontConfig.class.getName());
     public static BitmapFont titleButtonFont;
     public static BitmapFont uiFont;
+    public static BitmapFont optionFont;
     public static BitmapFont soldierFont;
     public static BitmapFont commandFont;
     public static BitmapFont manualFont;
@@ -50,6 +51,8 @@ public class FontConfig {
                 titleButtonFont = generator.generateFont(parameter);
                 parameter.size = 14;
                 uiFont = generator.generateFont(parameter); //AssetFinder.getFont("ATypewriterForMe");
+                generator = AssetFinder.getFont("ATypewriterForMe");
+                optionFont = generator.generateFont(parameter);
                 soldierFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
                 commandFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
                 manualFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");

@@ -1,85 +1,81 @@
 package com.lambferret.game.screen.title;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.setting.FontConfig;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.Setting;
+import com.lambferret.game.text.LocalizeConfig;
+import com.lambferret.game.text.dto.TitleMenuText;
 import com.lambferret.game.util.AssetFinder;
-import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 
-import static com.lambferret.game.screen.title.LoadAndSaveWindow.*;
-
 public class OptionWindow extends Window {
     private static final Logger logger = LogManager.getLogger(OptionWindow.class.getName());
-
+    static Texture background = AssetFinder.getTexture("optionBackground");
+    public static final int OPTION_WINDOW_WIDTH = GlobalSettings.currWidth;
+    public static final int OPTION_WINDOW_HEIGHT = GlobalSettings.currHeight;
+    public static final int OPTION_WINDOW_INIT_X = 0;
+    public static final int OPTION_WINDOW_INIT_Y = -OPTION_WINDOW_HEIGHT;
+    public static final int OPTION_EACH_WIDTH = OPTION_WINDOW_WIDTH / 4;
+    public static final int OPTION_EACH_HEIGHT = OPTION_WINDOW_HEIGHT / 13;
+    private static final TitleMenuText text = LocalizeConfig.uiText.getTitleMenuText();
     Stage stage;
     private final Table table;
-    private final CustomButton confirmButton;
-    private final CustomButton cancelButton;
     Dialog dialog;
     boolean isTitle;
+    BitmapFont font;
+    int currentLanguageIndex; // TODO need debug
 
     public OptionWindow(Stage stage, boolean isTitle) {
-        super("option", GlobalSettings.skin);
+        super(text.getOption(), GlobalSettings.skin);
         this.stage = stage;
         this.isTitle = isTitle;
         stage.addActor(this);
-        table = new Table();
+        this.setBackground(new TextureRegionDrawable(background));
+        font = FontConfig.optionFont;
+        table = new Table() {
+            @Override
+            public <T extends Actor> Cell<T> add(T actor) {
+                return super.add(actor).height(OPTION_EACH_HEIGHT).width(OPTION_EACH_WIDTH);
+            }
+        };
         this.add(table);
-        confirmButton = GlobalUtil.simpleButton("confirm", "confirm");
-        cancelButton = GlobalUtil.simpleButton("cancel", "cancel");
-        stage.addActor(confirmButton);
-        stage.addActor(cancelButton);
+        dialog = new Dialog("", GlobalSettings.skin) {
+            {
+                text(text.getRestartToChange());
+                button(text.getOk(), true);
+            }
+        };
         create();
     }
 
     public void create() {
-        this.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("hideButto2n")));
-        this.setSize(SAVE_WINDOW_WIDTH, SAVE_WINDOW_HEIGHT);
-        this.setPosition(SAVE_WINDOW_X, SAVE_WINDOW_Y);
+        this.setSize(OPTION_WINDOW_WIDTH, OPTION_WINDOW_HEIGHT);
+        this.setPosition(OPTION_WINDOW_INIT_X, OPTION_WINDOW_INIT_Y);
 
-        checkbox();
-        makeButton();
         makeOptionTable();
     }
 
-    private void makeButton() {
-        confirmButton.setSize(200, 100);
-        confirmButton.setPosition(400, 50);
-        confirmButton.setColor(Color.GREEN);
-        cancelButton.setSize(200, 100);
-        cancelButton.setPosition(600, 50);
-        cancelButton.setColor(Color.RED);
-        cancelButton.setDebug(true, true);
-
-        confirmButton.addListener(Input.click(() -> {
-                GlobalSettings.saveConfigJson();
-                setVisible(false);
-                makeOptionTable();
-            })
-        );
-        cancelButton.addListener(Input.click(() -> {
-                GlobalSettings.init();
-                setVisible(false);
-                makeOptionTable();
-            })
-        );
-    }
-
     private void makeOptionTable() {
-        table.clear();
-        table.setSize(300, 500);
-        table.setPosition(50, 50);
+        table.clearChildren();
+        table.pad(OPTION_EACH_HEIGHT, 10, OPTION_EACH_HEIGHT, 10);
+        table.setSize(OPTION_WINDOW_WIDTH, OPTION_WINDOW_HEIGHT);
         table.setDebug(true, true);
 
         makeScreenOption();
@@ -88,23 +84,14 @@ public class OptionWindow extends Window {
         makeVolumeSlider(Volume.MASTER);
         makeVolumeSlider(Volume.BGM);
         makeVolumeSlider(Volume.EFFECT);
-    }
 
-    private void checkbox() {
-        dialog = new Dialog("", GlobalSettings.skin) {
-            {
-                text("restart to apply change");
-                button("ok", true);
-            }
-        };
+        makeButton();
     }
 
     private void makeScreenOption() {
-        CheckBox box = new CheckBox("fullscreen", GlobalSettings.skin);
-        box.getStyle().font = GlobalSettings.font;
-
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = GlobalSettings.font;
+        CheckBox.CheckBoxStyle style = new CheckBox.CheckBoxStyle();
+        style.font = font;
+        CheckBox box = new CheckBox(text.getFullscreen(), style);
         box.setChecked(GlobalSettings.isFullscreen);
         box.addListener(new ChangeListener() {
             @Override
@@ -113,38 +100,57 @@ public class OptionWindow extends Window {
                 dialog.show(stage);
             }
         });
-
-        table.add(newLabel("full screen", labelStyle));
+        table.add(newLabel(text.getFullscreen()));
         table.add(box).row();
     }
 
     private void makeLanguageSettings() {
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = GlobalSettings.font;
-        SelectBox<String> selectBox = new SelectBox<>(GlobalSettings.skin);
-        var lists = Arrays.stream(Setting.Language.values()).map(Setting.Language::getLocale).toArray(String[]::new);
-        selectBox.setItems(lists);
-        selectBox.setSelected(GlobalSettings.language.getLocale());
-        selectBox.addListener(new ChangeListener() {
+        currentLanguageIndex = GlobalSettings.language.ordinal(); // start with the first language
+
+        var languages = Arrays.stream(Setting.Language.values()).map(Setting.Language::getLocale).toArray(String[]::new);
+        Table languageTable = new Table();
+        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
+        style.font = font;
+
+        TextButton leftArrow = new TextButton("<", style);
+        TextButton rightArrow = new TextButton(">", style);
+        Label languageLabel = newLabel(languages[currentLanguageIndex]);
+
+        leftArrow.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                GlobalSettings.language = Setting.Language.fromLocale(selectBox.getSelected());
-                dialog.show(stage);
+            public void clicked(InputEvent event, float x, float y) {
+                currentLanguageIndex--;
+                if (currentLanguageIndex < 0) currentLanguageIndex = languages.length - 1;
+                languageLabel.setText(languages[currentLanguageIndex]);
+                GlobalSettings.language = Setting.Language.fromLocale(languages[currentLanguageIndex]);
             }
         });
-        table.add(newLabel("language", labelStyle));
-        table.add(selectBox).row();
+
+        rightArrow.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                currentLanguageIndex++;
+                if (currentLanguageIndex >= languages.length) currentLanguageIndex = 0;
+                languageLabel.setText(languages[currentLanguageIndex]);
+                GlobalSettings.language = Setting.Language.fromLocale(languages[currentLanguageIndex]);
+            }
+        });
+
+        languageTable.add(leftArrow);
+        languageTable.add(languageLabel).expandX().fillX().center();
+        languageTable.add(rightArrow);
+
+        table.add(newLabel(text.getLanguage()));
+        table.add(languageTable).row();
     }
 
     private void makeVolumeSlider(Volume volume) {
         Slider.SliderStyle style = new Slider.SliderStyle();
         style.knob = new TextureRegionDrawable(AssetFinder.getTexture("hideButton"));
         style.background = new TextureRegionDrawable(AssetFinder.getTexture("yellow"));
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.font = GlobalSettings.font;
+
         Slider slider = new Slider(0, 100, 1, false, style);
         switch (volume) {
-
             case MASTER -> {
                 slider.setValue(GlobalSettings.masterVolume);
                 slider.addListener(new ChangeListener() {
@@ -153,6 +159,7 @@ public class OptionWindow extends Window {
                         GlobalSettings.setMasterVolume((int) ((Slider) actor).getValue());
                     }
                 });
+                table.add(newLabel(text.getMaster()));
             }
             case BGM -> {
                 slider.setValue(GlobalSettings.bgmVolume);
@@ -162,6 +169,7 @@ public class OptionWindow extends Window {
                         GlobalSettings.setBgmVolume((int) ((Slider) actor).getValue());
                     }
                 });
+                table.add(newLabel(text.getBgm()));
             }
             case EFFECT -> {
                 slider.setValue(GlobalSettings.effectVolume);
@@ -171,17 +179,69 @@ public class OptionWindow extends Window {
                         GlobalSettings.setEffectVolume((int) ((Slider) actor).getValue());
                     }
                 });
+                table.add(newLabel(text.getEffect()));
+
             }
         }
-        table.add(newLabel(volume.toString(), labelStyle));
         table.add(slider).row();
     }
 
-    @Override
-    public void setVisible(boolean visible) {
-        confirmButton.setVisible(visible);
-        cancelButton.setVisible(visible);
-        super.setVisible(visible);
+    private void makeButton() {
+        CustomButton confirmButton = button();
+        CustomButton cancelButton = button();
+        confirmButton.setText(text.getConfirm());
+        cancelButton.setText(text.getCancel());
+
+        confirmButton.addListener(Input.click(() -> {
+                GlobalSettings.saveConfigJson();
+                makeOptionTable();
+                close();
+            })
+        );
+        cancelButton.addListener(Input.click(() -> {
+                GlobalSettings.init();
+                makeOptionTable();
+                close();
+            })
+        );
+
+        table.add(confirmButton);
+        table.add(cancelButton);
+    }
+
+    private CustomButton button() {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.font = font;
+        style.up = new TextureRegionDrawable(AssetFinder.transparentTexture());
+        var button = new CustomButton("", style);
+        button.addListener(Input.hover(() -> {
+                AssetFinder.getSound("button_click").play(GlobalSettings.effectVolume);
+                button.getLabel().setColor(Color.GOLD);
+            },
+            () -> button.getLabel().setColor(Color.WHITE)
+        ));
+        return button;
+    }
+
+    public void open() {
+        this.setVisible(true);
+        this.toFront();
+        this.addAction(Actions.moveTo(0, 0, 0.1F));
+    }
+
+    public void close() {
+        this.addAction(Actions.sequence(
+            Actions.moveTo(OPTION_WINDOW_INIT_X, OPTION_WINDOW_INIT_Y, 0.1F),
+            Actions.run(() -> this.setVisible(false))
+        ));
+    }
+
+    protected Label newLabel(String text) {
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = font;
+        Label label = super.newLabel(text, style);
+        label.setAlignment(Align.center);
+        return label;
     }
 
     enum Volume {

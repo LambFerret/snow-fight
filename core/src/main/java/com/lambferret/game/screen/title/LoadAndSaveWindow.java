@@ -97,7 +97,7 @@ public abstract class LoadAndSaveWindow extends Window {
     private void showExistDialog(int index) {
         Dialog dialog = new Dialog("", skin) {
             {
-                text(text.getOverrideDeleteSaveConfirm());  // TODO : delete text
+                text(text.getDeleteConfirm());
                 button(text.getYes(), true);
                 button(text.getNo(), false);
             }
