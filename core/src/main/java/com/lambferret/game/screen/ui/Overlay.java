@@ -111,6 +111,7 @@ public class Overlay implements PlayerObserver {
                 overlay.onPlayerReady();
             }
         } else {
+            command.onPlayerReady();
             for (AbstractOverlay overlay : groundUIList) {
                 overlay.onPlayerReady();
             }
