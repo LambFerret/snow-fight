@@ -18,7 +18,7 @@ public class Tutorial extends StoryWindow {
 
     public static final String ID;
     private static final List<Character> leftActor = List.of(
-        ME, CHOCO
+        CHOCO, ME
     );
     private static final List<Character> rightActor = List.of(
         BOSS, CHILI

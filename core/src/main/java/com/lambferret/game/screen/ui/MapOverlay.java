@@ -1,7 +1,6 @@
 package com.lambferret.game.screen.ui;
 
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,10 +20,10 @@ import org.apache.logging.log4j.Logger;
 public class MapOverlay extends Group implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(MapOverlay.class.getName());
     private static final GroundText text;
+    public static final int MAP_ICON_SIZE = 50;
     private final Image hoveredImageGround;
     private final Image hoveredImageShop;
     private final Image hoveredImageRecruit;
-    private final Image background;
 
     private Sound clickSound;
 
@@ -32,10 +31,6 @@ public class MapOverlay extends Group implements AbstractOverlay {
         this.setSize(OVERLAY_BORDERLINE_WIDTH, OVERLAY_BORDERLINE_HEIGHT);
         this.setPosition(0, 0);
 
-        background = new Image(AssetFinder.getTexture("ui/map_overlay"));
-        background.setSize(this.getWidth(), this.getHeight());
-        background.setPosition(0, 0);
-        background.setColor(Color.FIREBRICK);
 
         hoveredImageGround = makeHoverImage(GroundScreen.Screen.TRAINING_GROUND);
         hoveredImageShop = makeHoverImage(GroundScreen.Screen.SHOP);
@@ -43,7 +38,6 @@ public class MapOverlay extends Group implements AbstractOverlay {
 
         stage.addActor(this);
 
-        this.addActor(background);
         this.addActor(hoveredImageGround);
         this.addActor(hoveredImageShop);
         this.addActor(hoveredImageRecruit);
@@ -55,12 +49,13 @@ public class MapOverlay extends Group implements AbstractOverlay {
         CustomButton shop = button(GroundScreen.Screen.SHOP);
         CustomButton trainingGround = button(GroundScreen.Screen.TRAINING_GROUND);
 
-        recruit.setPosition(30, 30);
-        shop.setPosition(90, 90);
-        trainingGround.setPosition(150, 150);
-        recruit.setSize(50, 50);
-        shop.setSize(50, 50);
-        trainingGround.setSize(50, 50);
+        recruit.setPosition(MAP_ICON_SIZE, MAP_ICON_SIZE);
+        shop.setPosition(recruit.getX() + MAP_ICON_SIZE * 3 / 2F, MAP_ICON_SIZE);
+        trainingGround.setPosition(shop.getX() + MAP_ICON_SIZE * 3 / 2F, MAP_ICON_SIZE);
+
+        recruit.setSize(MAP_ICON_SIZE, MAP_ICON_SIZE);
+        shop.setSize(MAP_ICON_SIZE, MAP_ICON_SIZE);
+        trainingGround.setSize(MAP_ICON_SIZE, MAP_ICON_SIZE);
 
         this.addActor(recruit);
         this.addActor(shop);
