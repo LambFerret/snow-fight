@@ -3,6 +3,7 @@ package com.lambferret.game.screen.event.main;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Null;
@@ -12,20 +13,21 @@ import com.lambferret.game.component.WindowDialog;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.screen.ground.ShopScreen;
+import com.lambferret.game.setting.FontConfig;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.text.dto.dialogue.DialogueNode;
-import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class StoryWindow extends EventWindow {
     private static final Logger logger = LogManager.getLogger(StoryWindow.class.getName());
     public static final int CHARACTER_IMAGE_WIDTH = 300;
     public static final int CHARACTER_IMAGE_HEIGHT = 600;
-    public static final int CHARACTER_IMAGE_PAD = 100;
+    public static final int CHARACTER_IMAGE_PAD = 20;
     public static final float DIALOGUE_X = DIALOGUE_X_PAD;
     public static final float SPEAKER_X = DIALOGUE_X;
     public static final float DIALOGUE_Y = DIALOGUE_Y_PAD;
@@ -70,22 +72,42 @@ public abstract class StoryWindow extends EventWindow {
         setConversationBox();
     }
 
-    private void setSpeakers() {
+    private void initLeftSpeakers() {
         CustomButton characterImage;
+        leftSpeakers.clearChildren();
         for (int i = leftActor.size() - 1; i >= 0; i--) {
-            Character character = leftActor.get(i);
-            characterImage = GlobalUtil.simpleButton(new TextureRegionDrawable(character.render()), character.getName());
-            characterImage.setPosition(i * CHARACTER_IMAGE_PAD, 0);
-            characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
+            characterImage = plate(leftActor.get(i));
+            characterImage.setIndex(i);
+            characterImage.setColor(Color.GRAY);
             leftSpeakers.addActor(characterImage);
         }
-        int i = 0;
+    }
+
+    private void initRightSpeakers() {
+        CustomButton characterImage;
+        rightSpeakers.clearChildren();
+        int j = 0;
         for (Character character : rightActor) {
-            characterImage = GlobalUtil.simpleButton(new TextureRegionDrawable(character.render()), character.getName());
-            characterImage.setPosition(i++ * CHARACTER_IMAGE_PAD, 0);
-            characterImage.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
+            characterImage = plate(character);
+            characterImage.setIndex(j++);
+            characterImage.setColor(Color.GRAY);
             rightSpeakers.addActor(characterImage);
         }
+    }
+
+    public CustomButton plate(Character character) {
+        ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
+        style.font = FontConfig.uiFont;
+        style.up = new TextureRegionDrawable(character.render());
+        CustomButton image = new CustomButton(character.getName(), style);
+        image.setSize(CHARACTER_IMAGE_WIDTH, CHARACTER_IMAGE_HEIGHT);
+        image.setID(character.getName());
+        return image;
+    }
+
+    private void setSpeakers() {
+        initLeftSpeakers();
+        initRightSpeakers();
     }
 
     @Override
@@ -149,41 +171,88 @@ public abstract class StoryWindow extends EventWindow {
         highlightSpeaker(node.getCharacter());
     }
 
-    private void highlight(Actor actor) {
-        actor.setColor(Color.WHITE);
-        actor.setZIndex(100);
+    private void highlight(CustomButton actor, boolean isLeft) {
+        float moveAmount = (isLeft ? 1 : -1) * (SPEAKERS_WIDTH / 5F + actor.getIndex() * CHARACTER_IMAGE_PAD);
+        actor.addAction(Actions.parallel(
+                Actions.scaleTo(1.1F, 1.1F, 0.1F),
+                Actions.color(Color.WHITE, 0.1F),
+                Actions.moveTo(moveAmount, 10, 0.1F)
+            )
+        );
     }
 
-    private void blur(Actor actor) {
-        actor.setColor(Color.GRAY);
-        actor.setZIndex(1);
+    private void deHighlight(CustomButton actor, boolean isLeft) {
+        actor.addAction(Actions.parallel(
+                Actions.scaleTo(1F, 1F, 0.1F),
+                Actions.color(Color.GRAY, 0.1F),
+                Actions.moveTo(actor.getIndex() * CHARACTER_IMAGE_PAD, 0, 0)
+            )
+        );
+    }
+
+    private Character lastHighlightedInLeft;
+    private Character lastHighlightedInRight;
+    private Character currentHighlightedInLeft;
+    private Character currentHighlightedInRight;
+
+    private boolean isSameActor(Character character, Character lastHighlighted) {
+        return lastHighlighted != null && lastHighlighted.getName().equals(character.getName());
+    }
+
+    private void updateHighlightedActor(Character character, boolean isLeft) {
+        if (isLeft) {
+            currentHighlightedInLeft = character;
+            lastHighlightedInLeft = character;
+        } else {
+            currentHighlightedInRight = character;
+            lastHighlightedInRight = character;
+        }
+    }
+
+    private void deHighlightAllActors() {
+        for (Actor actor : leftSpeakers.getChildren()) {
+            deHighlight((CustomButton) actor, true);
+        }
+        for (Actor actor : rightSpeakers.getChildren()) {
+            deHighlight((CustomButton) actor, false);
+        }
+    }
+
+    private void handleHighlight(Character character, Group actorsList, boolean isLeft) {
+        Character currentHighlighted = isLeft ? currentHighlightedInLeft : currentHighlightedInRight;
+        for (Actor a : actorsList.getChildren()) {
+            CustomButton plate = (CustomButton) a;
+            if (plate.compare(character.getName())) {
+                if (currentHighlighted != null) {
+                    deHighlight(findButtonByCharacter(currentHighlighted, actorsList), isLeft);
+                }
+                highlight(plate, isLeft);
+                updateHighlightedActor(character, isLeft);
+                break;
+            }
+        }
+    }
+
+    private CustomButton findButtonByCharacter(Character character, Group actorsList) {
+        for (Actor a : actorsList.getChildren()) {
+            CustomButton plate = (CustomButton) a;
+            if (plate.compare(character.getName())) {
+                return plate;
+            }
+        }
+        return null;
     }
 
     private void highlightSpeaker(@Null Character character) {
         if (character == null) {
-            for (Actor actor : leftSpeakers.getChildren()) {
-                blur(actor);
-            }
-            for (Actor actor : rightSpeakers.getChildren()) {
-                blur(actor);
-            }
+            deHighlightAllActors();
             return;
         }
-        for (int i = 0; i < leftActor.size() + rightActor.size(); i++) {
-            if (i < leftActor.size()) {
-                if (leftActor.get(i).equals(character)) {
-                    setNameplatePos(true);
-                    highlight(leftSpeakers.getChild(i));
-                } else {
-                    blur(leftSpeakers.getChild(i));
-                }
-            } else {
-                if (rightActor.get(i - leftActor.size()).equals(character)) {
-                    setNameplatePos(false);
-                    highlight(rightSpeakers.getChild(i - leftActor.size()));
-                } else {
-                    blur(rightSpeakers.getChild(i - leftActor.size()));
-                }
+        for (Group actorsList : Arrays.asList(leftSpeakers, rightSpeakers)) {
+            boolean isLeft = actorsList == leftSpeakers;
+            Character lastHighlighted = isLeft ? lastHighlightedInLeft : lastHighlightedInRight;
+            if (!isSameActor(character, lastHighlighted)) {
+                handleHighlight(character, actorsList, isLeft);
             }
         }
     }

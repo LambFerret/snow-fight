@@ -32,12 +32,12 @@ public class Tutorial extends StoryWindow {
     public DialogueNode getDialogueNode() {
         DialogueNode titleNode = new DialogueNode(context.get(0), ME);
         DialogueNode node1 = new DialogueNode(context.get(1), BOSS, 0);
-        DialogueNode node1Option1 = new DialogueNode(context.get(2), ME);
+        DialogueNode node1Option1 = new DialogueNode(context.get(2), CHILI);
         DialogueNode node1Option2 = new DialogueNode(context.get(3), ME);
-        DialogueNode node1Option3 = new DialogueNode(context.get(4), ME);
+        DialogueNode node1Option3 = new DialogueNode(context.get(4), CHOCO);
         DialogueNode node1Option1answer = new DialogueNode(context.get(5), BOSS);
         DialogueNode node1Option2answer = new DialogueNode(context.get(6), BOSS);
-        DialogueNode node1Option3answer = new DialogueNode(context.get(7), BOSS);
+        DialogueNode node1Option3answer = new DialogueNode(context.get(7), CHOCO);
         DialogueNode node8 = new DialogueNode(context.get(8), ME, 1);
         DialogueNode node9 = new DialogueNode(context.get(9), BOSS);
         DialogueNode node10 = new DialogueNode(context.get(10), ME);
