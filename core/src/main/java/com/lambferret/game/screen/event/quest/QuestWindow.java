@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.component.WindowDialog;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
-import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,7 +70,7 @@ public abstract class QuestWindow extends EventWindow {
     protected void setDialog(int dialogNumber) {
         dialogContainer.setVisible(true);
         conversationContainer.setVisible(false);
-        Dialog dialog = new Dialog(options.get(0).getDescription(), GlobalSettings.skin) {
+        Dialog dialog = new WindowDialog("", WindowDialog.WarnLevel.ERROR, options.get(0).getDescription()) {
             @Override
             protected void result(Object object) {
                 optionNumber = (int) object;
@@ -85,10 +85,7 @@ public abstract class QuestWindow extends EventWindow {
         for (int i = 0; i < options.get(dialogNumber).getElement().size(); i++) {
             dialog.button(options.get(dialogNumber).getElement().get(i), i);
         }
-
         dialogContainer.setActor(dialog);
-        dialog.setMovable(false);
-        dialog.setResizable(false);
     }
 
     abstract protected List<Character> getActor();

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Null;
 import com.lambferret.game.character.Character;
 import com.lambferret.game.component.CustomButton;
-import com.lambferret.game.component.CustomDialog;
+import com.lambferret.game.component.WindowDialog;
 import com.lambferret.game.constant.StoryType;
 import com.lambferret.game.screen.event.EventWindow;
 import com.lambferret.game.screen.ground.ShopScreen;
@@ -92,7 +92,7 @@ public abstract class StoryWindow extends EventWindow {
     protected void setDialog(int number) {
         dialogContainer.setVisible(true);
         conversationContainer.setVisible(false);
-        CustomDialog dialog = new CustomDialog(options.get(number).getDescription(), number) {
+        WindowDialog dialog = new WindowDialog(options.get(number).getDescription(), number) {
             @Override
             protected void result(Object object) {
                 optionNumber = (int) object;
@@ -117,7 +117,7 @@ public abstract class StoryWindow extends EventWindow {
         setTypewriter(dialogueNode.select(optionNumber));
     }
 
-    protected void setOption(CustomDialog dialog, int number) {
+    protected void setOption(WindowDialog dialog, int number) {
         Skin skin = GlobalSettings.skin;
         Table buttonTable = new Table(skin);
         int id = dialog.getID();
@@ -138,7 +138,7 @@ public abstract class StoryWindow extends EventWindow {
             buttonTable.add(option).row();
         }
         dialog.getButtonTable().clear();
-        dialog.getButtonTable().add(buttonTable);
+        dialog.getButtonTable().add(buttonTable).height(25).pad(5);
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.component.UnderlineLabel;
+import com.lambferret.game.component.WindowDialog;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.FontConfig;
 import com.lambferret.game.setting.GlobalSettings;
@@ -95,13 +96,7 @@ public abstract class LoadAndSaveWindow extends Window {
     abstract protected ClickListener addLoadListener(int index, boolean isExist);
 
     private void showExistDialog(int index) {
-        Dialog dialog = new Dialog("", skin) {
-            {
-                text(text.getDeleteConfirm());
-                button(text.getYes(), true);
-                button(text.getNo(), false);
-            }
-
+        Dialog dialog = new WindowDialog("", WindowDialog.WarnLevel.ERROR, text.getDeleteConfirm()) {
             @Override
             protected void result(Object object) {
                 if (object.equals(true)) {

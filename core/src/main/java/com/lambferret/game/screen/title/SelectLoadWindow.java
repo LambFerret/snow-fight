@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.component.WindowDialog;
 import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.setting.ScreenConfig;
 import com.lambferret.game.util.Input;
@@ -34,15 +35,7 @@ public class SelectLoadWindow extends LoadAndSaveWindow {
     }
 
     private void showEmptyDialog(int index) {
-        Dialog dialog = new Dialog(LOAD_GAME_EXE, skin) {
-            {
-                text(text.getOverrideLoadConfirm());
-                button(text.getYes(), true);
-                button(text.getNo(), false);
-                setMovable(false);
-                setResizable(false);
-            }
-
+        Dialog dialog = new WindowDialog(LOAD_GAME_EXE, WindowDialog.WarnLevel.ERROR, text.getOverrideLoadConfirm()) {
             @Override
             protected void result(Object object) {
                 if (object.equals(true)) {

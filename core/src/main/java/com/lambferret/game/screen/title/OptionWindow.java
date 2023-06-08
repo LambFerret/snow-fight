@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.component.WindowDialog;
 import com.lambferret.game.setting.FontConfig;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.Setting;
@@ -60,12 +61,7 @@ public class OptionWindow extends Window {
             }
         };
         this.add(table);
-        dialog = new Dialog("", GlobalSettings.skin) {
-            {
-                text(text.getRestartToChange());
-                button(text.getOk(), true);
-            }
-        };
+        dialog = new WindowDialog("", WindowDialog.WarnLevel.ERROR, text.getRestartToChange());
         create();
     }
 

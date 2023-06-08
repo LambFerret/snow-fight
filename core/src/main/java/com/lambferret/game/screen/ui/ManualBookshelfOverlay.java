@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.component.WindowDialog;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
@@ -69,13 +70,7 @@ public class ManualBookshelfOverlay extends Table implements AbstractOverlay {
             ));
             manualButton.addListener(Input.click(() -> {
                 if (Overlay.isPhaseUI) return;
-                Dialog ask = new Dialog("", GlobalSettings.skin) {
-                    {
-                        text("remove this?");
-                        button("yes", true);
-                        button("no", false);
-                    }
-
+                Dialog ask = new WindowDialog("", WindowDialog.WarnLevel.ERROR, "TODO remove this?") {
                     @Override
                     protected void result(Object object) {
                         if (object.equals(true)) {
