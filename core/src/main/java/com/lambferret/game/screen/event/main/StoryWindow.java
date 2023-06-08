@@ -172,6 +172,7 @@ public abstract class StoryWindow extends EventWindow {
     }
 
     private void highlight(CustomButton actor, boolean isLeft) {
+        setNameplatePos(isLeft);
         float moveAmount = (isLeft ? 1 : -1) * (SPEAKERS_WIDTH / 5F + actor.getIndex() * CHARACTER_IMAGE_PAD);
         actor.addAction(Actions.parallel(
                 Actions.scaleTo(1.1F, 1.1F, 0.1F),
