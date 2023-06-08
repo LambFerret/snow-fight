@@ -58,7 +58,12 @@ public class FontConfig {
                 commandFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
                 manualFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
                 characterFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
-                dialogFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
+                generator = AssetFinder.getFont("ubuntu");
+                parameter.color = Color.BLACK;
+//                parameter.borderColor = Color.BLACK;
+                parameter.size = 14;
+                parameter.borderWidth = 0;
+                dialogFont = generator.generateFont(parameter); //AssetFinder.getFont("ATypewriterForMe");
                 questFont = uiFont; //AssetFinder.getFont("ATypewriterForMe");
                 GlobalSettings.font = uiFont;
             }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.StringBuilder;
+import com.lambferret.game.setting.FontConfig;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.AssetFinder;
 import org.apache.logging.log4j.LogManager;
@@ -38,6 +39,8 @@ public class TypewriterLabel extends Label {
 
     public TypewriterLabel(CharSequence text) {
         this(text, GlobalSettings.skin, 0.1F);
+        LabelStyle style = getStyle();
+        style.font = FontConfig.dialogFont;
         float time = switch (GlobalSettings.language) {
             case KR -> KR_SPEED;
             case JP -> JP_SPEED;
