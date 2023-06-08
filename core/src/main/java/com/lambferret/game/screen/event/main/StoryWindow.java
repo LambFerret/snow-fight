@@ -92,6 +92,7 @@ public abstract class StoryWindow extends EventWindow {
     protected void setDialog(int number) {
         dialogContainer.setVisible(true);
         conversationContainer.setVisible(false);
+        dialogContainer.fill();
         WindowDialog dialog = new WindowDialog(options.get(number).getDescription(), number) {
             @Override
             protected void result(Object object) {
@@ -135,10 +136,11 @@ public abstract class StoryWindow extends EventWindow {
             } else {
                 option.addListener(Input.click(() -> setResult(id, finalI)));
             }
-            buttonTable.add(option).row();
+            buttonTable.add(option).height(DIALOGUE_HEIGHT / 10F).uniformX().pad(5).left().fillX().row();
         }
         dialog.getButtonTable().clear();
-        dialog.getButtonTable().add(buttonTable).height(25).pad(5);
+        dialog.getContentTable().add(buttonTable).height(DIALOGUE_HEIGHT).fill().pad(5);
+
     }
 
     @Override
