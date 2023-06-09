@@ -182,7 +182,7 @@ public abstract class StoryWindow extends EventWindow {
         );
     }
 
-    private void deHighlight(CustomButton actor, boolean isLeft) {
+    private void deHighlight(CustomButton actor) {
         actor.addAction(Actions.parallel(
                 Actions.scaleTo(1F, 1F, 0.1F),
                 Actions.color(Color.GRAY, 0.1F),
@@ -212,10 +212,10 @@ public abstract class StoryWindow extends EventWindow {
 
     private void deHighlightAllActors() {
         for (Actor actor : leftSpeakers.getChildren()) {
-            deHighlight((CustomButton) actor, true);
+            deHighlight((CustomButton) actor);
         }
         for (Actor actor : rightSpeakers.getChildren()) {
-            deHighlight((CustomButton) actor, false);
+            deHighlight((CustomButton) actor);
         }
     }
 
@@ -225,7 +225,7 @@ public abstract class StoryWindow extends EventWindow {
             CustomButton plate = (CustomButton) a;
             if (plate.compare(character.getName())) {
                 if (currentHighlighted != null) {
-                    deHighlight(findButtonByCharacter(currentHighlighted, actorsList), isLeft);
+                    deHighlight(findButtonByCharacter(currentHighlighted, actorsList));
                 }
                 highlight(plate, isLeft);
                 updateHighlightedActor(character, isLeft);
