@@ -69,7 +69,6 @@ public class ActionPhaseScreen implements AbstractPhase {
     public void startPhase() {
         random = PhaseScreen.handRandom;
         setMapTable();
-        setCommand();
         executeCommand();
         setMembers();
         executePhase();
@@ -97,6 +96,9 @@ public class ActionPhaseScreen implements AbstractPhase {
         }, 0, ASSIGNED_TIME_FOR_EACH_SOLDIER);
     }
 
+    /**
+     * 맵에 대한 정보로드, 주로 레디페이즈의 정보를 토대로 만들기 위함
+     */
     private void setMapTable() {
         mapContainer.setActor(level.makeTable(false));
         mapContainer.setPosition(ReadyPhaseScreen.getTableX(), ReadyPhaseScreen.getTableY());
@@ -144,11 +146,11 @@ public class ActionPhaseScreen implements AbstractPhase {
         return result;
     }
 
-    private void setCommand() {
-        this.commandMap = PhaseScreen.getCommands();
-    }
-
+    /**
+     * 로드된 작전 사용
+     */
     private void executeCommand() {
+        this.commandMap = PhaseScreen.getCommands();
         for (Command command : commandMap.keySet()) {
             var value = commandMap.get(command);
             if (value == null) {
@@ -195,8 +197,11 @@ public class ActionPhaseScreen implements AbstractPhase {
             }
         }
 
-        logger.info("이번턴 작업량 : " + usedSnowAmount);
-
+        logger.info("\n " + soldier.getName() + " 쨩 스테이터스 | \n " +
+            " x, y " + soldier.getRangeX() + ", " + soldier.getRangeY() + " \n"
+            + " speed " + soldier.getSpeed() + " | " + "run away probability " + soldier.getRunAwayProbability() + "\n"
+            + " 이번턴 작업량 : " + usedSnowAmount
+        );
         // animation
         int w = LEVEL_EACH_SIZE_BIG, h = LEVEL_EACH_SIZE_BIG;
 

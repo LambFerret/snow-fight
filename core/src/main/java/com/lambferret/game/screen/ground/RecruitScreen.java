@@ -2,19 +2,23 @@ package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
+import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
-import com.lambferret.game.screen.event.main.Tutorial;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,8 +38,8 @@ public class RecruitScreen implements AbstractGround {
     private final Table ManualDeleteTable;
     private final List<Table> testAddTableList;
     private final List<Table> testDeleteTableList;
-    Label label;
-    Label guideLabel;
+    CustomButton label;
+    CustomButton guideLabel;
     private Player player;
     private boolean isDelete = false;
     List<String> soldiers;
@@ -52,10 +56,10 @@ public class RecruitScreen implements AbstractGround {
         CommandDeleteTable = new Table(GlobalSettings.skin);
         ManualDeleteTable = new Table(GlobalSettings.skin);
 
-        label = new Label("Recruit", GlobalSettings.skin);
+        label = GlobalUtil.simpleButton("white", "recruit");
         label.setSize(200, 100);
         label.setPosition(GlobalSettings.currWidth / 2F, label.getHeight());
-        guideLabel = new Label("", GlobalSettings.skin);
+        guideLabel = GlobalUtil.simpleButton("white");
         guideLabel.setSize(200, 100);
         guideLabel.setPosition(GlobalSettings.currWidth / 2F, label.getHeight() + guideLabel.getHeight());
 
@@ -106,7 +110,7 @@ public class RecruitScreen implements AbstractGround {
         textButton.setPosition(GlobalSettings.currWidth - 100, 0);
         stage.addActor(textButton);
         textButton.addListener(Input.click(this::switchTable));
-        stage.addActor(new Tutorial());
+//        stage.addActor(new Tutorial());
     }
 
     @Override

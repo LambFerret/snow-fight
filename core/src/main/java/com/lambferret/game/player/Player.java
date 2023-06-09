@@ -72,7 +72,7 @@ public class Player {
         this.day = 0;
         this.money = 1000;
 
-        this.maxCost = 3;
+        this.maxCost = 15;
         this.currentCost = maxCost;
 
         this.difficulty = 0;
@@ -291,14 +291,9 @@ public class Player {
         this.money += amount;
     }
 
-    public boolean useCost(int cost) {
-        if (currentCost < cost) {
-            return false;
-        } else {
-            currentCost -= cost;
-            playerUpdate(Item.Type.EVENT);
-            return true;
-        }
+    public void useCost(int cost) {
+        currentCost -= cost;
+        playerUpdate(Item.Type.EVENT);
     }
 
     public StoryWindow getPlayerMainEvent() {

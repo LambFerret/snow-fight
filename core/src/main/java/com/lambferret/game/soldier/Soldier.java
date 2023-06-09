@@ -105,6 +105,7 @@ public abstract class Soldier implements Comparable<Soldier> {
      */
     private byte runAwayProbability;
 
+    private int branchValue = 100;
     //인게임 정보 관련
 
     String initialName;
@@ -114,6 +115,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     byte initialRangeX;
     byte initialRangeY;
     byte initialRunAwayProbability;
+    int initialBranchValue;
     private SoldierInfo info;
     private boolean isFront;
     TextureAtlas atlas;
@@ -130,7 +132,8 @@ public abstract class Soldier implements Comparable<Soldier> {
         byte rangeY,
         byte runAwayProbability
     ) {
-        this.ID = ID;
+        // TODO debug as vanilla
+        this.ID = "Vanilla";
         this.name = info.getName();
         this.description = info.getDescription();
         this.texturePath = ID;
@@ -146,14 +149,16 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.initialRangeX = rangeX;
         this.initialRangeY = rangeY;
         this.initialRunAwayProbability = runAwayProbability;
-        empowerLevel(EmpowerLevel.NEUTRAL);
+        this.initialBranchValue = branchValue;
+        setEmpowerLevel(EmpowerLevel.NEUTRAL);
+        effectByBranch();
         atlas = AssetFinder.getAtlas("Soldiers");
         initValue();
     }
 
     public Animation<TextureRegion> getAnimation() {
         float frameDuration = 0.125F;
-        Array<TextureAtlas.AtlasRegion> animationFrames = atlas.findRegions(name);
+        Array<TextureAtlas.AtlasRegion> animationFrames = atlas.findRegions(ID);
         return new Animation<>(frameDuration, animationFrames);
     }
 
@@ -164,7 +169,51 @@ public abstract class Soldier implements Comparable<Soldier> {
         this.rangeX = this.initialRangeX;
         this.rangeY = this.initialRangeY;
         this.runAwayProbability = this.initialRunAwayProbability;
-        empowerLevel(EmpowerLevel.NEUTRAL);
+        this.branchValue = this.initialBranchValue;
+        setEmpowerLevel(EmpowerLevel.NEUTRAL);
+        effectByBranch();
+    }
+
+    public void renewBranchEffect(int branchEffect) {
+        this.branchValue = branchEffect;
+        effectByBranch();
+    }
+
+    public void effectByBranch() {
+        switch (branch) {
+            case SNIPER -> {
+                this.speed = (short) (this.initialSpeed * branchValue / 100F);
+            }
+            case ADMINISTRATIVE -> {
+            }
+            case COOK -> {
+            }
+            case SUPPLY -> {
+//                SnowFight.player.setCurrentCost((int) (SnowFight.player.getCurrentCost() + 2 * branchValue / 100F));
+            }
+            case COMMUNICATION -> {
+            }
+            case TECHNICIAN -> {
+            }
+            case MEDIC -> {
+            }
+            case ENGINEER -> {
+            }
+            case VEHICLE_MAINTENANCE -> {
+            }
+            case ANTI_AIRCRAFT -> {
+            }
+            case FIRE_FIGHTER -> {
+            }
+            case CHEMICAL -> {
+            }
+            case INFANTRY -> {
+                this.rangeX = (byte) (this.initialRangeX * branchValue / 100F);
+                this.rangeY = (byte) (this.initialRangeY * branchValue / 100F);
+            }
+            case SPECIALIST -> {
+            }
+        }
     }
 
     public Container<Group> card() {
@@ -206,7 +255,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     private TextureRegionDrawable frontPlateTexture() {
         Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
-        Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion(name + "Portrait"));
+        Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion(ID + "Portrait"));
         Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
 
         framePix.drawPixmap(portraitPix, 0, 0, portraitPix.getWidth(), portraitPix.getHeight(),
@@ -264,7 +313,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
-    public void empowerLevel(EmpowerLevel level) {
+    public void setEmpowerLevel(EmpowerLevel level) {
         if (level != EmpowerLevel.NEUTRAL) logger.info("empowerLevel | " + this.name + " is empowered as " + level);
         this.empowerLevel = level;
         switch (level) {

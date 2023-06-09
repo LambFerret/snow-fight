@@ -172,6 +172,7 @@ public class Overlay implements PlayerObserver {
 
     public void nextPhase() {
         ((PhaseOrderOverlay) phaseOrder).next();
+        command.onPlayerReady();
     }
 
     public static void reset() {

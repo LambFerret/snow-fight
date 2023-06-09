@@ -2,21 +2,17 @@ package com.lambferret.game.soldier;
 
 import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
-import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rank;
 import com.lambferret.game.constant.Terrain;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.SoldierInfo;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
 
-public class Vanilla extends Soldier {
-    private static final Logger logger = LogManager.getLogger(Vanilla.class.getName());
+public class Caramel extends Soldier {
 
     public static final String ID;
     public static final SoldierInfo INFO;
@@ -28,12 +24,12 @@ public class Vanilla extends Soldier {
         neutralRunAwayProbability = 30;
     }
 
-    public Vanilla() {
+    public Caramel() {
         super(
             ID,
             INFO,
-            Rank.RECRUIT,
-            Branch.ADMINISTRATIVE,
+            Rank.SERGEANT_FIRST_CLASS,
+            Branch.SUPPLY,
             List.of(Terrain.LAKE),
             false,
             neutralSpeed,
@@ -46,27 +42,31 @@ public class Vanilla extends Soldier {
     @Override
     public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
         for (Soldier soldier : s) {
-            soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
-//            soldier.setEmpowerLevel(EmpowerLevel.WEAKEN);
+            switch (getEmpowerLevel()) {
+                case WEAKEN -> {
+                    soldier.setRangeY((byte) (soldier.getRangeY() - 1));
+                }
+                case NEUTRAL -> {
+                    soldier.setRangeY((byte) (soldier.getRangeY() + 1));
+                }
+                case EMPOWERED -> {
+                    soldier.setRangeX((byte) (soldier.getRangeX() + 1));
+                    soldier.setRangeY((byte) (soldier.getRangeY() + 1));
+                }
+            }
         }
     }
 
     @Override
     protected void empowered() {
-        logger.info("empowered vanilla");
-        this.setRangeX((byte) (neutralRangeX + 4));
     }
 
     @Override
     protected void neutralized() {
-        logger.info("neutralized vanilla");
-        this.setRangeX(neutralRangeX);
     }
 
     @Override
     protected void weaken() {
-        logger.info("weaken vanilla");
-        this.setRangeX((byte) (neutralRangeX - 3));
     }
 
     private static final short neutralSpeed;
@@ -75,7 +75,7 @@ public class Vanilla extends Soldier {
     private static final byte neutralRunAwayProbability;
 
     static {
-        ID = Vanilla.class.getSimpleName();
+        ID = Caramel.class.getSimpleName();
         INFO = LocalizeConfig.soldierText.getID().get(ID);
     }
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.buff.Buff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
@@ -84,6 +85,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
 
     public void makeCommandContainer() {
         Table table = new Table();
+        // TODO 한 페이즈에 핸드에 최대 갯수를 정해놔야함. 지금은 그냥 무한사용가능
         for (Command command : player.getCommands()) {
             table.add(renderCommand(command));
             table.row().pad(COMMAND_EACH_PADDING);
@@ -91,19 +93,53 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         this.scrollPane.setActor(table);
     }
 
+    private int parsingCommandBuff(Buff buff, int initCost) {
+        if (buff.isExpired() || buff.getFigure() != Buff.Figure.NEXT_COMMAND) return initCost;
+        int value = buff.getValue();
+        int result = initCost;
+        switch (buff.getOperation()) {
+            case ADD -> {
+                result = initCost + value;
+            }
+            case SUB -> {
+                result = initCost - value;
+            }
+            case MUL -> {
+                result = initCost * value;
+            }
+            case DIV -> {
+                result = initCost / value;
+            }
+        }
+        if (result < 0) {
+            result = 0;
+        }
+        return result;
+    }
+
     private Group renderCommand(Command command) {
         Group commandButton = command.renderSimple();
         CustomButton infoButton = command.renderInfo();
         infoContainer.setActor(infoButton);
 
+        int cost = command.getCost();
+        for (Buff buff : PhaseScreen.buffList) {
+            cost = parsingCommandBuff(buff, cost);
+        }
         commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
+        int finalCost = cost;
         commandButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
-                    if (player.useCost(command.getCost())) {
+                    if (player.getCurrentCost() >= finalCost) {
+                        for (Buff buff : PhaseScreen.buffList) {
+                            if (!buff.effectCountdown()) return;
+                        }
+                        player.useCost(finalCost);
                         PhaseScreen.getCommands().put(command, null);
                         commandButton.remove();
+                        makeCommandContainer();
                     } else {
                         logger.info("clicked |  🐳 not enough cost you have | ");
                     }

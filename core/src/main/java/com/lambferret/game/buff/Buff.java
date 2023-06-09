@@ -25,6 +25,7 @@ public class Buff {
 
     private int turn;
     private int turnAfter;
+    private int count;
     private final Figure figure;
     private final int value;
     private final Operation operation;
@@ -36,12 +37,14 @@ public class Buff {
     private final EmpowerLevel empowerLevel;
     private final boolean isIncreased;
     private boolean isEnable = true;
+    private boolean isExpired = false;
 
 
     private Buff(SetFigure fig) {
         this.figure = fig.figure;
         this.turn = fig.turn;
         this.turnAfter = fig.turnAfter;
+        this.count = fig.count;
         this.value = fig.value;
         this.operation = fig.operation;
         this.soldiers = fig.soldiers;
@@ -55,8 +58,19 @@ public class Buff {
         effect();
     }
 
+    public boolean effectCountdown() {
+        if (count > 0) {
+            count--;
+            if (count == 0) {
+                isExpired = true;
+            }
+            return true;
+        }
+        return false;
+    }
+
     public void effect() {
-        if (!isEnable) {
+        if (!isEnable || isExpired) {
             logger.info("effect |  🐳 버프 비활성화됨 | " + this);
             return;
         }
@@ -169,6 +183,7 @@ public class Buff {
         private final Figure figure;
         private int turn;
         private int turnAfter;
+        private int count;
         private int value;
         private Operation operation;
         private boolean isPermanent;
@@ -190,6 +205,11 @@ public class Buff {
 
         public SetFigure turnAfter(int turnAfter) {
             this.turnAfter = turnAfter;
+            return this;
+        }
+
+        public SetFigure count(int count) {
+            this.count = count;
             return this;
         }
 
@@ -251,7 +271,7 @@ public class Buff {
     }
 
     public boolean isExpired() {
-        return this.turn <= 0;
+        return this.turn <= 0 || isExpired;
     }
 
     public void setEnable() {
@@ -279,6 +299,18 @@ public class Buff {
         }
         if (this.turn < 1000) description += text.getTurn().replace("{turn}", String.valueOf(this.turn));
         return description;
+    }
+
+    public int getValue() {
+        return value;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public Figure getFigure() {
+        return figure;
     }
 
     @Override
@@ -320,7 +352,7 @@ public class Buff {
         SOLDIER_X(text.getBuffSoldierX()),
         SOLDIER_Y(text.getBuffSoldierY()),
         SOLDIER_SPEED(text.getBuffSoldierSpeed()),
-        ;
+        NEXT_COMMAND(text.getBuffSoldierSpeed() + "TODO");
         final String description;
 
         Figure(String description) {

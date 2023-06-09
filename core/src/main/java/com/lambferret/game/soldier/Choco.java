@@ -58,16 +58,12 @@ public class Choco extends Soldier {
 
     @Override
     protected void empowered() {
-        this.setRangeX((byte) (neutralRangeX + 5));
-        this.setRangeY((byte) (neutralRangeY + 5));
-        this.setSpeed((short) (neutralSpeed + 50));
+        this.setRangeX((byte) (neutralRangeX + 1));
     }
 
     @Override
     protected void neutralized() {
         this.setRangeX(neutralRangeX);
-        this.setRangeY(neutralRangeY);
-        this.setSpeed(neutralSpeed);
     }
 
     @Override
