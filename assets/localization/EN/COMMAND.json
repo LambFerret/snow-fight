@@ -18,6 +18,18 @@
       "effect": "Reinforce Soldier this phase, but increase chance of runaway +10%",
       "shortDescription": "Reinforce the soldier. increase chance of runaway"
     },
+    "CupChinese": {
+      "name": "Cup Chinese",
+      "description": "Cup Chinese. The Devil Flavor.",
+      "effect": "Reinforce Soldier this phase, but increase chance of runaway +10%",
+      "shortDescription": "Reinforce the soldier. increase chance of runaway"
+    },
+    "CupRamen": {
+      "name": "Cup Ramen",
+      "description": "Cup Ramen. The Devil Flavor.",
+      "effect": "Reinforce Soldier this phase, but increase chance of runaway +10%",
+      "shortDescription": "Reinforce the soldier. increase chance of runaway"
+    },
     "Snowplow": {
       "name": "Snowplow",
       "description": "Snowplow! Align! Forward!",
