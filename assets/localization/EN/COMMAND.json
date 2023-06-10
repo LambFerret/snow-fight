@@ -1,22 +1,77 @@
 {
-  "ID" : {
-    "ThreeShift" : {
-      "name" : "Three Shift",
-      "description" :"Our troops are off in three shifts.",
-      "effect" : "Twice the manpower in this phase, and half the manpower in the next phase",
-      "shortDescription" : "twice the manpower, and then half"
+  "ID": {
+    "ThreeShift": {
+      "name": "Three Shift",
+      "description": "Our troops are off in three shifts.",
+      "effect": "Twice the manpower in this phase, and half the manpower in the next phase",
+      "shortDescription": "twice the manpower, and then half"
     },
-    "TricksOfTheTrade" : {
-      "name" : "Tricks of the Trade",
-      "description" :"No. 1 words that thy don't want to hear when signing a contract : \"Font size minimum 10. Please.\"",
-      "effect" : "Current remaining snow -20%, reduce upper favor -20",
-      "shortDescription" : "reduce remaining snow and upper favor"
+    "TricksOfTheTrade": {
+      "name": "Tricks of the Trade",
+      "description": "No. 1 words that thy don't want to hear when signing a contract : \"Font size minimum 10. Please.\"",
+      "effect": "Current remaining snow -20%, reduce upper favor -20",
+      "shortDescription": "reduce remaining snow and upper favor"
     },
-    "CupNoodle" : {
-      "name" : "Cup Noodle",
-      "description" :"Cup Noodle. The Devil Flavor.",
-      "effect" : "Reinforce Soldier this phase, but increase chance of runaway +10%",
-      "shortDescription" : "Reinforce the soldier. increase chance of runaway"
+    "CupNoodle": {
+      "name": "Cup Noodle",
+      "description": "Cup Noodle. The Devil Flavor.",
+      "effect": "Reinforce Soldier this phase, but increase chance of runaway +10%",
+      "shortDescription": "Reinforce the soldier. increase chance of runaway"
+    },
+    "Snowplow": {
+      "name": "Snowplow",
+      "description": "Snowplow! Align! Forward!",
+      "effect": "The range of soldiers becomes 1 cell in the y range direction, and the x range increases by +n for the reduced y range.",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "Broom": {
+      "name": "Broom",
+      "description": "Broom! Stake large! Forward!",
+      "effect": "When stacking snow in a cell adjacent to a cell where snow is accumulated more than 50%, speed +10, does not stack snow in a cell where snow is more than 75%.",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "SnowShovel": {
+      "name": "SnowShovel",
+      "description": "SnowShovel! Dispatch!",
+      "effect": "Increases x range by +n for the number of cells where snow is accumulated more than 75% within range, does not stack snow in cells where snow is less than 50%.",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "HawkEye": {
+      "name": "Hawk eye",
+      "description": "",
+      "effect": "The range of soldiers decreases by -1 on the y range, increases by +2 on the x range",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "FocusedAttack": {
+      "name": "Focused Attack",
+      "description": "Description",
+      "effect": "Make the range of the soldier with the narrowest range 1*1 and increase speed*n for the reduced area.",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "Relax": {
+      "name": "Relax",
+      "description": "Reduce the y range of the soldier with the widest range by -1, increase speed*n for the reduced area",
+      "effect": "Effect description",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "DefendTheArea": {
+      "name": "Defend The Area",
+      "description": "Description",
+      "effect": "No other soldier overlaps within the range of the fastest soldier",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "MutualSurveillance": {
+      "name": "Mutual Surveillance",
+      "description": "Description",
+      "effect": "Soldiers' temptation -10%, speed -10%",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "LeaveTheWounded": {
+      "name": "Leave the Wounded",
+      "description": "Description",
+      "effect": "Make the range of weakened soldiers 1 cell and reduce the temptation of strengthened soldiers by -20%",
+      "shortDescription": "Reinforce the soldier. Increase chance of runaway"
     }
   }
 }
+

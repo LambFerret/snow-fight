@@ -245,22 +245,6 @@ public interface AbstractOverlay extends PlayerObserver {
     float EXECUTE_PRESS_TIME = 1F;
 
     /**
-     * 매뉴얼 책장 너비
-     */
-    int MANUAL_WIDTH = 300;
-    /**
-     * 매뉴얼 책장 높이
-     */
-    int MANUAL_HEIGHT = 150;
-    /**
-     * 매뉴얼 책장 X 좌표
-     */
-    int MANUAL_X = width - (MANUAL_WIDTH + OVERLAY_BORDERLINE_WIDTH);
-    /**
-     * 매뉴얼 책장 Y 좌표
-     */
-    int MANUAL_Y = height - MANUAL_HEIGHT;
-    /**
      * 매뉴얼 책장 각 매뉴얼 너비
      */
     int MANUAL_EACH_WIDTH = 25;
@@ -268,6 +252,22 @@ public interface AbstractOverlay extends PlayerObserver {
      * 매뉴얼 책장 각 매뉴얼 높이
      */
     int MANUAL_EACH_HEIGHT = 50;
+    /**
+     * 매뉴얼 책장 너비
+     */
+    int MANUAL_WIDTH = MANUAL_EACH_WIDTH * 5;
+    /**
+     * 매뉴얼 책장 높이
+     */
+    int MANUAL_HEIGHT = MANUAL_EACH_HEIGHT + 10;
+    /**
+     * 매뉴얼 책장 X 좌표
+     */
+    int MANUAL_X = 0;
+    /**
+     * 매뉴얼 책장 Y 좌표
+     */
+    int MANUAL_Y = height - MANUAL_HEIGHT;
 
     /**
      * 페이즈 순서 위에 패딩
@@ -279,21 +279,21 @@ public interface AbstractOverlay extends PlayerObserver {
     int ORDER_BUTTON_SIZE = 40;
 
     /**
-     * 퀘스트 X 좌표
-     */
-    int QUEST_INIT_X = 100;
-    /**
-     * 퀘스트 Y 좌표
-     */
-    int QUEST_INIT_Y = 500;
-    /**
      * 퀘스트 너비
      */
-    int QUEST_INIT_WIDTH = 500;
+    int QUEST_INIT_WIDTH = MANUAL_WIDTH;
     /**
      * 퀘스트 높이
      */
-    int QUEST_INIT_HEIGHT = 300;
+    int QUEST_INIT_HEIGHT = 100;
+    /**
+     * 퀘스트 X 좌표
+     */
+    int QUEST_INIT_X = MANUAL_X + MANUAL_WIDTH;
+    /**
+     * 퀘스트 Y 좌표
+     */
+    int QUEST_INIT_Y = height - QUEST_INIT_HEIGHT - ORDER_BUTTON_SIZE;
 
     /**
      * 맵 정보 이미지 너비

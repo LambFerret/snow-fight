@@ -1,19 +1,64 @@
 {
-  "ID" : {
-    "KinPpaYi" : {
-      "name" : "Principia of Theft",
-      "description" :"Stealing is kind of mathmatica",
-      "effectDescription" : "carry cost over next round"
+  "ID": {
+    "KinPpaYi": {
+      "name": "Principia of Theft",
+      "description": "Stealing is kind of mathmatica",
+      "effect": "carry cost over next round"
     },
-    "ColdWeatherTraining" : {
-      "name" : "Cold Weather Training",
-      "description" :"Col",
-      "effectDescription" : "speed + 50%, weaken all soldier"
+    "ColdWeatherTraining": {
+      "name": "Cold Weather Training",
+      "description": "Cold",
+      "effect": "speed + 50%, weaken all soldier"
     },
-    "DisciplineAndPunish" : {
-      "name" : "Discipline and Punish",
-      "description" :"ten points to first whistleblower",
-      "effectDescription" : "can build watchtower once during stage"
+    "DisciplineAndPunish": {
+      "name": "Discipline and Punish",
+      "description": "ten points to first whistleblower",
+      "effect": "can build watchtower once during stage"
+    },
+    "SoftBrain": {
+      "name": "Softy Puffy Brain",
+      "description": "Description",
+      "effect": "Can replace one command per phase"
+    },
+    "IntroductionToBusiness": {
+      "name": "Introduction to Business",
+      "description": "The person who does work well is the one who hires the person who works well.",
+      "effect": "The soldier with the highest rank is forced to appear in each phase, and then does not appear in the same stage"
+    },
+    "Supernanny": {
+      "name": "Supernanny",
+      "description": "Description",
+      "effect": "The temptation of the soldier with the lowest rank is 0%"
+    },
+    "EngelCoefficient": {
+      "name": "Engel's Coefficient",
+      "description": "Description",
+      "effect": "In the preparation phase, the speed of the soldiers in the corresponding action phase is +n*10% for the cost left."
+    },
+    "MiracleMemorizationMethod": {
+      "name": "Miracle Memorization Method",
+      "description": "Description",
+      "effect": "Number of commands possessed +1 per phase"
+    },
+    "WealthTheory": {
+      "name": "Wealth Theory",
+      "description": "Description",
+      "effect": "Money earned when clearing a quest +20%"
+    },
+    "CapitalTheory": {
+      "name": "Capital Theory",
+      "description": "Description",
+      "effect": "Money earned when clearing a stage +20%"
+    },
+    "NicomacheanEthics": {
+      "name": "Nicomachean Ethics",
+      "description": "Description",
+      "effect": "The more rations, the temptation of the soldiers -n%"
+    },
+    "MidsummerNightDream": {
+      "name": "A Midsummer Night's Dream",
+      "description": "Description",
+      "effect": "down favor +5 when stage clear"
     }
   }
 }

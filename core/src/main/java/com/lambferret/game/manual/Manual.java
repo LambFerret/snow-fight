@@ -60,7 +60,8 @@ public abstract class Manual implements Comparable<Manual> {
     ) {
         this.ID = ID;
         this.name = info.getName();
-        this.texturePath = ID;
+        // TODO vanilla
+        this.texturePath = "DisciplineAndPunish";
         this.description = info.getDescription();
         this.rarity = rarity;
         this.price = price;
@@ -71,12 +72,6 @@ public abstract class Manual implements Comparable<Manual> {
 
     public TextureRegionDrawable renderIcon() {
         return new TextureRegionDrawable(atlas.findRegion(this.texturePath));
-    }
-
-    public CustomButton renderFrontCover() {
-        CustomButton button = GlobalUtil.simpleButton("button/button_up", this.name);
-        button.addListener(Input.soundWhenClick(hoverSound));
-        return button;
     }
 
     public Image renderSideCover() {

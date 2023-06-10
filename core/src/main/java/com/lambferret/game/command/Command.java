@@ -123,7 +123,8 @@ public abstract class Command implements Comparable<Command> {
         boolean isReusable
     ) {
         this.ID = ID;
-        this.texturePath = ID;
+        // TODO debug as vanilla
+        this.texturePath = "ThreeShift";
         CommandInfo INFO = text.getID().get(ID);
         this.name = INFO.getName();
         this.description = INFO.getDescription();

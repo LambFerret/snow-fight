@@ -152,7 +152,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     private void executeCommand() {
         this.commandMap = PhaseScreen.getCommands();
         for (Command command : commandMap.keySet()) {
-            var value = commandMap.get(command);
+            var value = actionMember;//commandMap.get(command);
             if (value == null) {
                 command.execute();
             } else {

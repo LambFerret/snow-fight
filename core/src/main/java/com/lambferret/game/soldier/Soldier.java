@@ -132,11 +132,11 @@ public abstract class Soldier implements Comparable<Soldier> {
         byte rangeY,
         byte runAwayProbability
     ) {
-        // TODO debug as vanilla
-        this.ID = "Vanilla";
+        this.ID = ID;
         this.name = info.getName();
         this.description = info.getDescription();
-        this.texturePath = ID;
+        // TODO debug as vanilla
+        this.texturePath = "Vanilla";
         this.rank = rank;
         this.branch = branch;
         this.talent = info.getTalent();
@@ -158,7 +158,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     public Animation<TextureRegion> getAnimation() {
         float frameDuration = 0.125F;
-        Array<TextureAtlas.AtlasRegion> animationFrames = atlas.findRegions(ID);
+        Array<TextureAtlas.AtlasRegion> animationFrames = atlas.findRegions(texturePath);
         return new Animation<>(frameDuration, animationFrames);
     }
 
@@ -255,7 +255,7 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     private TextureRegionDrawable frontPlateTexture() {
         Pixmap framePix = GlobalUtil.readyPixmap(AssetFinder.getTexture("soldierFront"));
-        Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion(ID + "Portrait"));
+        Pixmap portraitPix = GlobalUtil.regionToPixmap(atlas.findRegion(texturePath + "Portrait"));
         Pixmap rankPix = GlobalUtil.readyPixmap(TextureFinder.rank(this.rank));
 
         framePix.drawPixmap(portraitPix, 0, 0, portraitPix.getWidth(), portraitPix.getHeight(),

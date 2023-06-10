@@ -8,5 +8,5 @@ import lombok.ToString;
 public class ManualInfo {
     private String name;
     private String description;
-    private String effectDescription;
+    private String effect;
 }
