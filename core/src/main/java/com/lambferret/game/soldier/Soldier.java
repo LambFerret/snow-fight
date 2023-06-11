@@ -26,16 +26,12 @@ import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import com.lambferret.game.util.TextureFinder;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Map;
 
-@Setter
-@Getter
 public abstract class Soldier implements Comparable<Soldier> {
     private static final Logger logger = LogManager.getLogger(Soldier.class.getName());
     /**
@@ -180,6 +176,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     }
 
     public void effectByBranch() {
+        logger.info(" Soldier : branch talent - " + branch + " - " + branchValue + "%");
         switch (branch) {
             case SNIPER -> {
                 this.speed = (short) (this.initialSpeed * branchValue / 100F);
@@ -314,7 +311,7 @@ public abstract class Soldier implements Comparable<Soldier> {
     }
 
     public void setEmpowerLevel(EmpowerLevel level) {
-        if (level != EmpowerLevel.NEUTRAL) logger.info("empowerLevel | " + this.name + " is empowered as " + level);
+        logger.info(" Soldier : " + this.ID + " level value " + this.empowerLevel + ", result " + level);
         this.empowerLevel = level;
         switch (level) {
             case WEAKEN -> {
@@ -340,47 +337,80 @@ public abstract class Soldier implements Comparable<Soldier> {
 
     protected abstract void weaken();
 
+    public String getName() {
+        return name;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public byte getRangeX() {
+        return rangeX;
+    }
+
+    public byte getRangeY() {
+        return rangeY;
+    }
+
+    public short getSpeed() {
+        return speed;
+    }
+
+    public byte getRunAwayProbability() {
+        return runAwayProbability;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public EmpowerLevel getEmpowerLevel() {
+        return empowerLevel;
+    }
+
+    public void setInitialSpeed(short initialSpeed) {
+        logger.info(" Soldier : " + this.ID + " initial speed value " + this.initialSpeed + ", result " + initialSpeed);
+        this.initialSpeed = initialSpeed;
+    }
+
     public void setRangeX(byte rangeX) {
-        if (rangeX < 0) {
-            logger.fatal("setRangeX | " + this.name + " rangeX < 0");
-            throw new IllegalArgumentException("rangeX < 0");
+        if (rangeX < 1) {
+            rangeX = 1;
         } else if (rangeX > 100) {
-            logger.warn("setRangeX | " + this.name + " rangeX > 10");
-        } else {
-            this.rangeX = rangeX;
+            rangeX = 100;
         }
+        logger.info(" Soldier : " + this.ID + " X value " + this.rangeX + ", result " + rangeX);
+        this.rangeX = rangeX;
     }
 
     public void setRangeY(byte rangeY) {
-        if (rangeY < 0) {
-            logger.fatal("setRangeY | " + this.name + " rangeY < 0");
-            throw new IllegalArgumentException("rangeY < 0");
+        if (rangeY < 1) {
+            rangeY = 1;
         } else if (rangeY > 100) {
-            logger.warn("setRangeY | " + this.name + " rangeY > 10");
-        } else {
-            this.rangeY = rangeY;
+            rangeY = 100;
         }
+        logger.info(" Soldier : " + this.ID + " Y value " + this.rangeY + ", result " + rangeY);
+        this.rangeY = rangeY;
     }
 
     public void setSpeed(short speed) {
         if (speed < 0) {
             logger.warn("setSpeed | " + this.name + " speed < 0");
-            this.speed = 0;
-        } else {
-            this.speed = speed;
+            speed = 0;
         }
+        logger.info(" Soldier : " + this.ID + " speed value " + this.speed + ", result " + speed);
+        this.speed = speed;
     }
 
     public void setRunAwayProbability(byte runAwayProbability) {
         if (runAwayProbability < 0) {
-            logger.fatal("setRunAwayProbability | " + this.name + " runAwayProbability < 0");
-            this.runAwayProbability = 0;
+            runAwayProbability = 0;
         } else if (runAwayProbability > 100) {
-            logger.fatal("setRunAwayProbability | " + this.name + " runAwayProbability > 100");
-            this.runAwayProbability = 100;
-        } else {
-            this.runAwayProbability = runAwayProbability;
+            runAwayProbability = 100;
         }
+        logger.info(" Soldier : " + this.ID + " run away value " + this.runAwayProbability + ", result " + runAwayProbability);
+        this.runAwayProbability = runAwayProbability;
     }
 
     @Override

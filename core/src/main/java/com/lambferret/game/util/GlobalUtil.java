@@ -109,4 +109,8 @@ public class GlobalUtil {
         return simpleButton(texturePath, "");
     }
 
+    public static String strPad(String str) {
+        return String.format("%-15s", str);
+    }
+
 }

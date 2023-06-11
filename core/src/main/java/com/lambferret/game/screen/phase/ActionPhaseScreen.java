@@ -76,10 +76,11 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     @Override
     public void executePhase() {
+        logger.info(" Action : Today's Victim! " + actionMember);
         for (Soldier soldier : actionMember) {
+            logger.info(" Action : talent activated! " + soldier.getID());
             soldier.talent(actionMember, commandMap, level, player);
         }
-        logger.info("이번 턴의 희생자들 ㅠㅠ : " + actionMember);
 
         Queue<Soldier> soldierQueue = new LinkedList<>(actionMember);
 
@@ -88,7 +89,10 @@ public class ActionPhaseScreen implements AbstractPhase {
             public void run() {
                 if (soldierQueue.size() > 0) {
                     Soldier nextSoldier = soldierQueue.remove();
+                    logger.info(" ┌────────────────────");
+                    logger.info(" ├ " + nextSoldier.getName());
                     happyWorking(nextSoldier);
+                    logger.info(" └────────────────────");
                 } else {
                     this.cancel();
                 }
@@ -162,9 +166,6 @@ public class ActionPhaseScreen implements AbstractPhase {
     }
 
     private void happyWorking(Soldier soldier) {
-        logger.info("=========================================");
-        logger.info("현재 군인 이름은 " + soldier.getName() + " 쨩");
-
         if (random.randomBoolean(soldier.getRunAwayProbability())) {
             String a = MathUtils.random.nextBoolean() ? "runaway_1" : "runaway_2";
             CustomButton runAwayImage = GlobalUtil.simpleButton(a);
@@ -177,6 +178,7 @@ public class ActionPhaseScreen implements AbstractPhase {
                 Actions.delay(ASSIGNED_TIME_FOR_EACH_SOLDIER / 2F),
                 Actions.removeActor()
             ));
+            logger.info(GlobalUtil.strPad(" ├ run away") + " : " + soldier.getRunAwayProbability() + "%");
             return;
         }
 
@@ -196,15 +198,12 @@ public class ActionPhaseScreen implements AbstractPhase {
                 usedSnowAmount += level.modifyMapCurrentAmountBy(row, col, speed);
             }
         }
+        logger.info(GlobalUtil.strPad(" ├ x, y") + " : " + soldier.getRangeX() + ", " + soldier.getRangeY());
+        logger.info(GlobalUtil.strPad(" ├ speed") + " : " + soldier.getSpeed());
+        logger.info(GlobalUtil.strPad(" ├ RESULT") + " : " + usedSnowAmount);
 
-        logger.info("\n " + soldier.getName() + " 쨩 스테이터스 | \n " +
-            " x, y " + soldier.getRangeX() + ", " + soldier.getRangeY() + " \n"
-            + " speed " + soldier.getSpeed() + " | " + "run away probability " + soldier.getRunAwayProbability() + "\n"
-            + " 이번턴 작업량 : " + usedSnowAmount
-        );
         // animation
         int w = LEVEL_EACH_SIZE_BIG, h = LEVEL_EACH_SIZE_BIG;
-
         int translated_y = rows - topLeftRow - j;
         int region_x = topLeftCol * w;
         int region_y = translated_y * h;
@@ -237,15 +236,6 @@ public class ActionPhaseScreen implements AbstractPhase {
             Actions.delay(animation.getAnimationDuration()),
             Actions.removeActor()
         ));
-
-//        logger.info("=========================================");
-//        logger.info(" table x, y | " + mapContainer.getActor().getX() + ", " + mapContainer.getActor().getY());
-//        logger.info(" container x, y | " + mapContainer.getX() + ", " + mapContainer.getY());
-//        logger.info(" region x, y | " + region_x + ", " + region_y);
-//        logger.info(" v2 x, y | " + v2.x + ", " + v2.y);
-//        logger.info(" relative x,y  | " + (region_x + ((soldier.getRangeX() * w) / 2F) - (newImage.getWidth() / 2) + ", " + (region_y + ((soldier.getRangeY() * h) / 2F) - (newImage.getHeight() / 2))));
-//        logger.info(" result x, y | " + newImage.getX() + ", " + newImage.getY());
-//        logger.info("=========================================");
 
         player.setSnowAmount(player.getSnowAmount() - usedSnowAmount);
     }

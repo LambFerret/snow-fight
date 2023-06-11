@@ -49,7 +49,7 @@ public class FirstMission extends QuestWindow {
                 SnowFight.player.addQuest(new TutorialQuest());
             }
             case 2 -> {
-                SnowFight.player.setBossAffinityBy(-50);
+                SnowFight.player.setMiddleAffinityBy(-50);
             }
         }
     }

@@ -53,19 +53,16 @@ public class Vanilla extends Soldier {
 
     @Override
     protected void empowered() {
-        logger.info("empowered vanilla");
         this.setRangeX((byte) (neutralRangeX + 4));
     }
 
     @Override
     protected void neutralized() {
-        logger.info("neutralized vanilla");
         this.setRangeX(neutralRangeX);
     }
 
     @Override
     protected void weaken() {
-        logger.info("weaken vanilla");
         this.setRangeX((byte) (neutralRangeX - 3));
     }
 

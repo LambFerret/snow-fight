@@ -36,9 +36,6 @@ public class SaveLoader {
     private static Save read(int saveFileNumber) {
         String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
         Save saveFile = null;
-        if (saveFileNumber > MAXIMUM_SAVE) {
-            logger.info("max save file is " + MAXIMUM_SAVE + " but number is " + saveFileNumber);
-        }
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(LocalDateTime.class, new GsonDateFormatAdapter())
             .create();
@@ -70,6 +67,7 @@ public class SaveLoader {
     public static void load(int saveFileNumber) {
         currentSaveSlot = saveFileNumber;
         currentSave = read(saveFileNumber);
+        logger.info(" SYSTEM : Successfully loaded save file " + saveFileNumber);
     }
 
     public static void init() {
@@ -111,7 +109,7 @@ public class SaveLoader {
             .currentCost(player.getCurrentCost())
             .difficulty(player.getDifficulty())
             .snowAmount(player.getSnowAmount())
-            .bossAffinity(player.getBossAffinity())
+            .middleAffinity(player.getMiddleAffinity())
             .downAffinity(player.getDownAffinity())
             .upperAffinity(player.getUpperAffinity())
             .maxManualCapacity(player.getMaxManualCapacity())
@@ -123,6 +121,7 @@ public class SaveLoader {
             logger.fatal("old save file IOException");
             Gdx.app.exit();
         }
+        logger.info(" SYSTEM : Successfully saved save file " + saveFileNumber);
     }
 
     public static boolean isSaveExist(int saveFileNumber) {
@@ -143,12 +142,14 @@ public class SaveLoader {
             logger.fatal("new save file IOException");
             Gdx.app.exit();
         }
+        logger.info(" SYSTEM : make new save file " + saveFileNumber);
     }
 
     public static void deleteSave(int saveFileNumber) {
         String fileName = SAVE_FILE_PATH + FILE_PREFIX + saveFileNumber + SAVE_SUFFIX;
         FileHandle f = Gdx.files.local(fileName);
         f.delete();
+        logger.info(" SYSTEM : delete save file " + saveFileNumber);
     }
 
     public static int getRecentSave() {

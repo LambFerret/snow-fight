@@ -1,35 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Properties>
-        <property name="logPath">../logs/test_logs</property>
+        <property name="logPath">../logs</property>
     </Properties>
 
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout>
-                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level %logger{35} - %msg%n</Pattern>
+                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level - %msg%n</Pattern>
             </PatternLayout>
         </Console>
-        <RollingFile name="rollingFile" fileName="${logPath}/app.log"
-                     filePattern="${logPath}/%d{yyyy-MM-dd}.log.zip">
+        <RollingFile name="rollingFile" fileName="${logPath}/app.log" filePattern="${logPath}/%d{yyyy-MM-dd}.log.tar.gz">
             <PatternLayout>
-                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level %logger{35} - %msg%n</Pattern>
+                <Pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level - %msg%n</Pattern>
             </PatternLayout>
             <Policies>
-                <TimeBasedTriggeringPolicy interval="2" modulate="true"/>
-                <SizeBasedTriggeringPolicy size="100 MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
             </Policies>
-            <DefaultRolloverStrategy max="5"/>
+            <DefaultRolloverStrategy max="999"/>
         </RollingFile>
     </Appenders>
 
     <Loggers>
-        <!--        <logger name="com.lambferret.game" level="INFO" additivity="false">-->
-        <!--            <AppenderRef ref="console" />-->
-        <!--            <AppenderRef ref="LogToRollingFile" />-->
-        <!--        </logger>-->
+<!--                <logger name="com.lambferret.game" level="INFO" additivity="false">-->
+<!--                    <AppenderRef ref="console" />-->
+<!--                    <AppenderRef ref="LogToRollingFile" />-->
+<!--                </logger>-->
 
-        <!-- FATAL, ERROR, WARN, INFO, DEBUG, TRACE -->
+<!--         FATAL, ERROR, WARN, INFO, DEBUG, TRACE -->
         <Root level="ALL">
             <AppenderRef ref="console"/>
             <AppenderRef ref="rollingFile"/>

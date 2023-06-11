@@ -143,8 +143,6 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
                     } else {
                         logger.info("clicked |  🐳 not enough cost you have | ");
                     }
-                } else {
-                    logger.info("clicked |  🐳 not ready phase currently | ");
                 }
             }
 

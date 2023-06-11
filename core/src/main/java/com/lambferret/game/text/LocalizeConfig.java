@@ -39,6 +39,7 @@ public class LocalizeConfig {
     private static final Gson gson = new GsonBuilder().create();
 
     public static void init() {
+        var startTime = System.currentTimeMillis();
         optionText = gson.fromJson(getTextFromJSON(Context.OPTION), OptionText.class);
         uiText = gson.fromJson(getTextFromJSON(Context.UI), UIText.class);
         soldierText = gson.fromJson(getTextFromJSON(Context.SOLDIER), SoldierText.class);
@@ -47,6 +48,8 @@ public class LocalizeConfig {
         characterText = gson.fromJson(getTextFromJSON(Context.CHARACTER), CharacterText.class);
         dialogText = gson.fromJson(getTextFromJSON(Context.DIALOGUE), DialogText.class);
         questText = gson.fromJson(getTextFromJSON(Context.QUEST), QuestText.class);
+        var endTime = String.format("%.3f", (System.currentTimeMillis() - startTime) / 1000F);
+        logger.info(" ├ LocalizeConfig : " + endTime + " s │");
     }
 
     private static String getTextFromJSON(Context content) {

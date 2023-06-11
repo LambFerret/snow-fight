@@ -28,9 +28,8 @@ public class ScreenConfig {
     static long bgmID;
 
     public static void init(ScreenManager<ManagedScreen, ScreenTransition> screenManager) {
-        var startTime = System.currentTimeMillis();
-
         ScreenConfig.screenManager = screenManager;
+        var startTime = System.currentTimeMillis();
 
         if (!GlobalSettings.isFullscreen) {
             GlobalSettings.currWidth = Setting.DEFAULT_WIDTH;
@@ -48,7 +47,8 @@ public class ScreenConfig {
         Gdx.input.setInputProcessor(titleScreen.getStage());
         screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), BLENDING);
         setBGM(AddedScreen.TITLE_SCREEN);
-        logger.info("screenConfig | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
+        var endTime = String.format("%.3f", (System.currentTimeMillis() - startTime) / 1000F);
+        logger.info(" ├ ScreenConfig   : " + endTime + " s │");
     }
 
     /**
@@ -60,7 +60,7 @@ public class ScreenConfig {
     }
 
     public static void screenChanger(AddedScreen screen) {
-        logger.info("screenChanger | change | " + currentScreen + " to " + changeScreen);
+        logger.info(" SYSTEM : main screen changed from " + currentScreen + " to " + changeScreen);
 
         screenManager.pushScreen(screen.name(), BLENDING);
         setBGM(screen);

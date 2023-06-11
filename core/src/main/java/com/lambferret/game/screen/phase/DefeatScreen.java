@@ -71,7 +71,7 @@ public class DefeatScreen extends Window implements AbstractPhase {
         button.addListener(Input.click(() -> {
                 SnowFight.player.setDownAffinityBy(-30);
                 SnowFight.player.setUpperAffinityBy(-30);
-                SnowFight.player.setBossAffinityBy(-30);
+                SnowFight.player.setMiddleAffinityBy(-30);
                 ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
                 executePhase();
             }

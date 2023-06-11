@@ -100,12 +100,13 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         commands.clear();
         buffList.clear();
         manualList = player.getManuals();
+        logger.info(" Phase : Activated Manual - " + manualList);
         manualList.forEach(Manual::effect);
         player.setSnowAmount(level.getAssignedSnow());
         // warning
         Overlay.getInstance().onPlayerReady();
         prePhaseScreen.startPhase();
-
+        logger.info(" Phase : Init -> Pre");
         currentScreen = Screen.PRE;
     }
 
@@ -117,6 +118,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         level.initCurrentIteration();
 
         readyPhaseScreen.startPhase();
+        logger.info(" Phase : Pre -> Ready");
         currentScreen = Screen.READY;
     }
 
@@ -126,6 +128,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         Overlay.getInstance().nextPhase();
 
         actionPhaseScreen.startPhase();
+        logger.info(" Phase : Ready -> Action");
         currentScreen = Screen.ACTION;
     }
 
@@ -139,6 +142,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         player.buffChanged();
 
         readyPhaseScreen.startPhase();
+        logger.info(" Phase : Action -> Ready");
         currentScreen = Screen.READY;
     }
 
@@ -147,11 +151,13 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     public static void screenAtoD() {
         defeatScreen.startPhase();
+        logger.info(" Phase : Action -> Defeat DEPRECATED");
         currentScreen = Screen.DEFEAT;
     }
 
     public static void screenAtoV() {
         victoryScreen.startPhase();
+        logger.info(" Phase : Action -> Victory DEPRECATED");
         currentScreen = Screen.VICTORY;
     }
 

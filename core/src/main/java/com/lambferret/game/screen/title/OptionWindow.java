@@ -215,7 +215,6 @@ public class OptionWindow extends Window {
             })
         );
         cancelButton.addListener(Input.click(() -> {
-                GlobalSettings.init();
                 makeOptionTable();
                 close();
             })
@@ -247,6 +246,7 @@ public class OptionWindow extends Window {
     }
 
     public void open() {
+        logger.info(" SYSTEM : Option Window ");
         this.setVisible(true);
         this.toFront();
         this.addAction(Actions.moveTo(0, 0, 0.1F));

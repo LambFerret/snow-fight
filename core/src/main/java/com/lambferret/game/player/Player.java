@@ -39,7 +39,7 @@ public class Player {
     private List<Command> commands;
     private List<Manual> manuals;
     private List<Quest> quests;
-    private Set<PlayerObserver> listeners;
+    private final Set<PlayerObserver> listeners;
     private int clearedMainQuestNumber;
     private int day;
     private int money;
@@ -48,7 +48,7 @@ public class Player {
     private int currentCost;
     private int difficulty;
     private int snowAmount;
-    private int bossAffinity;
+    private int middleAffinity;
     private int downAffinity;
     private int upperAffinity;
     private int maxManualCapacity;
@@ -79,7 +79,7 @@ public class Player {
         this.clearedMainQuestNumber = 0;
 
         this.downAffinity = 10;
-        this.bossAffinity = 50;
+        this.middleAffinity = 50;
         this.upperAffinity = 10;
         this.maxManualCapacity = 3;
         this.eventList = new ArrayList<>();
@@ -108,7 +108,7 @@ public class Player {
         this.currentCost = save.getCurrentCost();
         this.difficulty = save.getDifficulty();
         this.downAffinity = save.getDownAffinity();
-        this.bossAffinity = save.getBossAffinity();
+        this.middleAffinity = save.getMiddleAffinity();
         this.upperAffinity = save.getUpperAffinity();
         this.eventList = save.getEventList();
         this.maxManualCapacity = save.getMaxManualCapacity();
@@ -133,14 +133,6 @@ public class Player {
                 }
             }
         }
-    }
-
-    public int getAffinity(Affinity affinity) {
-        return switch (affinity) {
-            case UPPER -> upperAffinity;
-            case BOSS -> bossAffinity;
-            case DOWN -> downAffinity;
-        };
     }
 
     private void playerUpdate(Item.Type item) {
@@ -192,91 +184,129 @@ public class Player {
     }
 
     public void addSoldier(Soldier soldier) {
+        logger.info(" Player Add Soldier : " + soldier.getName());
         soldiers.add(soldier);
         playerUpdate(Item.Type.SOLDIER);
     }
 
     public void addCommand(Command command) {
+        logger.info(" Player Add Command : " + command.getName());
         commands.add(command);
         playerUpdate(Item.Type.COMMAND);
+    }
+
+    public void addManual(Manual manual) {
+        if (checkManualSize()) {
+            logger.info(" Player Add Manual : " + manual.getName());
+            manuals.add(manual);
+            playerUpdate(Item.Type.MANUAL);
+        } else {
+            logger.info(" Player Add Manual : " + manual.getName() + " failed");
+        }
+    }
+
+    public void addQuest(Quest quest) {
+        logger.info(" Player Add Quest : " + quest.getName());
+        quests.add(quest);
+        playerUpdate(Item.Type.QUEST);
+    }
+
+    public void deleteSoldier(Soldier soldier) {
+        logger.info(" Player Delete Soldier : " + soldier.getName());
+        soldiers.remove(soldier);
+        playerUpdate(Item.Type.SOLDIER);
+    }
+
+    public void deleteCommand(Command command) {
+        logger.info(" Player Delete Command : " + command.getName());
+        commands.remove(command);
+        playerUpdate(Item.Type.COMMAND);
+    }
+
+    public void deleteManual(Manual manual) {
+        logger.info(" Player Delete Manual : " + manual.getName());
+        manuals.remove(manual);
+        playerUpdate(Item.Type.MANUAL);
+    }
+
+    public void deleteQuest(Quest quest) {
+        logger.info(" Player Delete Quest : " + quest.getName());
+        quests.remove(quest);
+        removePlayerObserver(quest);
+        playerUpdate(Item.Type.QUEST);
     }
 
     public boolean checkManualSize() {
         return manuals.size() < maxManualCapacity;
     }
 
-    public void addManual(Manual manual) {
-        if (checkManualSize()) {
-            manuals.add(manual);
-            playerUpdate(Item.Type.MANUAL);
-        }
-    }
-
-    public void deleteSoldier(Soldier soldier) {
-        soldiers.remove(soldier);
-        playerUpdate(Item.Type.SOLDIER);
-    }
-
-    public void deleteCommand(Command command) {
-        commands.remove(command);
-        playerUpdate(Item.Type.COMMAND);
-    }
-
-    public void deleteManual(Manual manual) {
-        manuals.remove(manual);
-        playerUpdate(Item.Type.MANUAL);
-    }
-
-    public void addQuest(Quest quest) {
-        quests.add(quest);
-        playerUpdate(Item.Type.QUEST);
-    }
-
-    public void deleteQuest(Quest quest) {
-        quests.remove(quest);
-        removePlayerObserver(quest);
-        playerUpdate(Item.Type.QUEST);
-    }
-
-    public void setBossAffinityBy(int amount) {
-        bossAffinity += amount;
-        if (bossAffinity < 0) bossAffinity = 0;
-        if (bossAffinity > 100) bossAffinity = 100;
+    public void setMiddleAffinityBy(int amount) {
+        middleAffinity += amount;
+        if (middleAffinity < 0) middleAffinity = 0;
+        if (middleAffinity > 100) middleAffinity = 100;
+        logger.info(" Player Middle Affinity : value " + amount + ", result " + middleAffinity);
     }
 
     public void setUpperAffinityBy(int amount) {
         upperAffinity += amount;
         if (upperAffinity < 0) upperAffinity = 0;
         if (upperAffinity > 100) upperAffinity = 100;
+        logger.info(" Player Upper Affinity : value " + amount + ", result " + upperAffinity);
     }
 
     public void setDownAffinityBy(int amount) {
         downAffinity += amount;
         if (downAffinity < 0) downAffinity = 0;
         if (downAffinity > 100) downAffinity = 100;
+        logger.info(" Player Down Affinity : value " + amount + ", result " + downAffinity);
     }
 
-    public void setBossAffinityTo(int amount) {
-        bossAffinity = amount;
-        if (bossAffinity < 0) bossAffinity = 0;
-        if (bossAffinity > 100) bossAffinity = 100;
+    public void setMiddleAffinityTo(int amount) {
+        middleAffinity = amount;
+        if (middleAffinity < 0) middleAffinity = 0;
+        if (middleAffinity > 100) middleAffinity = 100;
+        logger.info(" Player Middle Affinity : " + middleAffinity);
     }
 
     public void setUpperAffinityTo(int amount) {
         upperAffinity = amount;
         if (upperAffinity < 0) upperAffinity = 0;
         if (upperAffinity > 100) upperAffinity = 100;
+        logger.info(" Player Upper Affinity : " + upperAffinity);
     }
 
     public void setDownAffinityTo(int amount) {
         downAffinity = amount;
         if (downAffinity < 0) downAffinity = 0;
         if (downAffinity > 100) downAffinity = 100;
+        logger.info(" Player Down Affinity : " + downAffinity);
     }
 
     public void setSnowAmount(int snowAmount) {
         this.snowAmount = snowAmount;
+        logger.info(" Player Set Snow Amount : " + snowAmount);
         playerUpdate(Item.Type.MAP);
+    }
+
+    public void setMoneyBy(int amount) {
+        this.money += amount;
+        logger.info(" Player Money : value " + amount + ", result " + money);
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
+        logger.info(" Player Money : " + money);
+    }
+
+    public void setCurrentCost(int currentCost) {
+        playerUpdate(Item.Type.EVENT);
+        this.currentCost = currentCost;
+        logger.info(" Player Current Cost : " + currentCost);
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+        logger.info(" Player Day : " + day);
     }
 
     public void buffChanged() {
@@ -287,20 +317,18 @@ public class Player {
         }
     }
 
-    public void setMoneyBy(int amount) {
-        this.money += amount;
-    }
-
     public void useCost(int cost) {
         currentCost -= cost;
+        logger.info(" Player Use Cost : " + cost + ", result " + currentCost);
         playerUpdate(Item.Type.EVENT);
     }
 
     public StoryWindow getPlayerMainEvent() {
         if (clearedMainQuestNumber >= MainEvent.values().length) {
-            logger.info(" 🐳 this shows up when there is no more main event " + clearedMainQuestNumber);
+            logger.info(" Player : no more main event " + clearedMainQuestNumber);
             return new First();
         }
+        logger.info(" Player : main event switch into " + MainEvent.values()[clearedMainQuestNumber++]);
         return switch (MainEvent.values()[clearedMainQuestNumber++]) {
             case TUTORIAL -> new Tutorial();
             case FIRST -> new First();
@@ -334,14 +362,6 @@ public class Player {
         }
     }
 
-    public void addPlayerObserver(PlayerObserver observer) {
-        listeners.add(observer);
-    }
-
-    public void removePlayerObserver(PlayerObserver observer) {
-        listeners.remove(observer);
-    }
-
     public void clearAllDeadQuest() {
         // to avoid ConcurrentModificationException
         List<Quest> a = new ArrayList<>();
@@ -363,17 +383,20 @@ public class Player {
         }
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public int getAffinity(Affinity affinity) {
+        return switch (affinity) {
+            case UPPER -> upperAffinity;
+            case BOSS -> middleAffinity;
+            case DOWN -> downAffinity;
+        };
     }
 
-    public void setCurrentCost(int currentCost) {
-        playerUpdate(Item.Type.EVENT);
-        this.currentCost = currentCost;
+    public void addPlayerObserver(PlayerObserver observer) {
+        listeners.add(observer);
     }
 
-    public void setDay(int day) {
-        this.day = day;
+    public void removePlayerObserver(PlayerObserver observer) {
+        listeners.remove(observer);
     }
 
     public enum Affinity {

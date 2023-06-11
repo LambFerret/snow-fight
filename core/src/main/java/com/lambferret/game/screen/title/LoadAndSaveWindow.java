@@ -12,11 +12,15 @@ import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.TitleMenuText;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.Input;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class LoadAndSaveWindow extends Window {
+    private static final Logger logger = LogManager.getLogger(LoadAndSaveWindow.class.getName());
+
     protected static final TitleMenuText text;
     public static final int SAVE_WINDOW_WIDTH = 800;
     public static final int SAVE_WINDOW_HEIGHT = 400;
@@ -106,6 +110,12 @@ public abstract class LoadAndSaveWindow extends Window {
             }
         };
         dialog.show(stage);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        if (visible) logger.info(" SYSTEM : " + getClass().getSimpleName().replaceAll("(?<=.)([A-Z])", " $1") + " Screen ");
     }
 
     static {

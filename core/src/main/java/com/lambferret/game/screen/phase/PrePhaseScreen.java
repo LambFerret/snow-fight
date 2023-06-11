@@ -48,6 +48,7 @@ public class PrePhaseScreen implements AbstractPhase {
     public void startPhase() {
         this.player = SnowFight.player;
         this.level = PhaseScreen.level;
+        logger.info( " LEVEL : " + level.getClass().getSimpleName());
         mapContainer.setActor(level.makeTable(true));
         mapContainer.setPosition(200, 200);
         mapContainer.setSize(500, 500);

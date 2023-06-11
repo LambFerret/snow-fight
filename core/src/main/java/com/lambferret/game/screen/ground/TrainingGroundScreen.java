@@ -66,7 +66,7 @@ public class TrainingGroundScreen implements AbstractGround {
 
     @Override
     public void init() {
-
+        logger.info(" SYSTEM : Training Ground Screen ");
     }
 
     private void makeBackground() {
@@ -149,7 +149,7 @@ public class TrainingGroundScreen implements AbstractGround {
         snow.setScale(0.75F);
         snow.addListener(new ClickListener() {
             int clickCount = 0;
-            final List<Soldier> soldiers = List.of(new Choco(), new Vanilla(), new Coffee(), new Chili());
+            final List<Soldier> soldiers = List.of(new Choco());
             final double[] randomFloatX = {0, 0.5, 0.3, 0.7, 0.1, 0.9, 0.2, 0.8, 0.4, 0.6};
             List<Float> randomFloatY = List.of(0F, 0.5F, 0.3F, 0.7F, 0.1F, 0.9F, 0.2F, 0.8F, 0.4F, 0.6F);
             int count = 0;
@@ -180,14 +180,17 @@ public class TrainingGroundScreen implements AbstractGround {
                     Actions.repeat(4,
                         Actions.sequence(
                             Actions.moveBy(5, 0, 0.01f),
-                            Actions.moveBy(-5, 0, 0.01f)
+                            Actions.moveBy(-5, 0, 0.01f),
+                            Actions.run(() -> {
+                                if (clickCount == snowLevel * 3) {
+                                    snow.remove();
+                                    clickCount = 0;
+                                }
+                            })
                         )
                     )
                 );
-                if (clickCount == snowLevel * 3) {
-                    snow.remove();
-                    clickCount = 0;
-                }
+
             }
         });
         snowCount++;

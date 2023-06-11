@@ -65,9 +65,8 @@ public class GlobalSettings {
         loadSettingToGlobal();
         SaveLoader.init();
         saveConfigJson(); // to save last played time
-
-
-        logger.info("GlobalSettings | " + (System.currentTimeMillis() - startTime) / 1000F + " s");
+        var endTime = String.format("%.3f", (System.currentTimeMillis() - startTime) / 1000F);
+        logger.info(" ├ GlobalSettings : " + endTime + " s │");
     }
 
     /**
@@ -77,10 +76,8 @@ public class GlobalSettings {
     public static void loadJsonToSetting() {
         try (Reader reader = new FileReader(CONFIG_FILE_PATH)) {
             settings = gson.fromJson(reader, Setting.class);
-            logger.info("load config file | last INIT time : " + settings.getLastPlayedTime());
             settings.setLastPlayedTime(LocalDateTime.now());
         } catch (IOException e) {
-            logger.info("make new Config file");
             settings = new Setting();
         }
     }
@@ -167,7 +164,7 @@ public class GlobalSettings {
         try {
             id = soldiers.remove(0);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("Soldier pop error", e);
+            logger.error("Soldier pop error");
             return null;
         }
         try {
@@ -175,7 +172,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Soldier) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " Soldier load error", e);
+            logger.error(id + " Soldier load error");
             throw new RuntimeException("Soldier load error");
         }
     }
@@ -185,7 +182,7 @@ public class GlobalSettings {
         try {
             id = commands.remove(0);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("commands pop error", e);
+            logger.error("commands pop error");
             return null;
         }
         try {
@@ -193,7 +190,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Command) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " command load error", e);
+            logger.error(id + " command load error");
             throw new RuntimeException("command load error");
         }
     }
@@ -203,7 +200,7 @@ public class GlobalSettings {
         try {
             id = manuals.remove(0);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("manuals pop error", e);
+            logger.error("manuals pop error");
             return null;
         }
         try {
@@ -211,7 +208,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Manual) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " manual load error", e);
+            logger.error(id + " manual load error");
             throw new RuntimeException("manual load error");
         }
     }
@@ -221,7 +218,7 @@ public class GlobalSettings {
         try {
             id = quests.remove(0);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("quests pop error", e);
+            logger.error("quests pop error");
             return null;
         }
         try {
@@ -229,7 +226,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Quest) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " quest load error", e);
+            logger.error(id + " quest load error");
             throw new RuntimeException("quest load error");
         }
     }
@@ -238,7 +235,7 @@ public class GlobalSettings {
         try {
             soldiers.remove(id);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("Soldier pop error", e);
+            logger.error("Soldier pop error");
             logger.error("popSoldier id" + id);
             return null;
         }
@@ -247,7 +244,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Soldier) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " Soldier load error", e);
+            logger.error(id + " Soldier load error");
             throw new RuntimeException("Soldier load error");
         }
     }
@@ -256,7 +253,7 @@ public class GlobalSettings {
         try {
             commands.remove(id);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("commands pop error", e);
+            logger.error("commands pop error");
             return null;
         }
         try {
@@ -264,7 +261,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Command) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " command load error", e);
+            logger.error(id + " command load error");
             throw new RuntimeException("command load error");
         }
     }
@@ -273,7 +270,7 @@ public class GlobalSettings {
         try {
             manuals.remove(id);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("manuals pop error", e);
+            logger.error("manuals pop error");
             return null;
         }
         try {
@@ -281,7 +278,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Manual) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " manual load error", e);
+            logger.error(id + " manual load error");
             throw new RuntimeException("manual load error");
         }
     }
@@ -290,7 +287,7 @@ public class GlobalSettings {
         try {
             quests.remove(id);
         } catch (IndexOutOfBoundsException e) {
-            logger.error("quests pop error", e);
+            logger.error("quests pop error");
             return null;
         }
         try {
@@ -298,7 +295,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Quest) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " quest load error", e);
+            logger.error(id + " quest load error");
             throw new RuntimeException("quest load error");
         }
     }
@@ -309,7 +306,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Soldier) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " Soldier load error", e);
+            logger.error(id + " Soldier load error");
             throw new RuntimeException("Soldier load error");
         }
     }
@@ -320,7 +317,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Command) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " command load error", e);
+            logger.error(id + " command load error");
             throw new RuntimeException("command load error");
         }
     }
@@ -331,7 +328,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Manual) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " manual load error", e);
+            logger.error(id + " manual load error");
             throw new RuntimeException("manual load error");
         }
     }
@@ -342,7 +339,7 @@ public class GlobalSettings {
             Constructor<?> constructor = clazz.getConstructor();
             return (Quest) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " quest load error", e);
+            logger.error(id + " quest load error");
             throw new RuntimeException("quest load error");
         }
     }

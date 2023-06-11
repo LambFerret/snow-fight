@@ -71,17 +71,13 @@ public class Buff {
 
     public void effect() {
         if (!isEnable || isExpired) {
-            logger.info("effect |  🐳 버프 비활성화됨 | " + this);
             return;
         }
 
         if (turnAfter > 0) {
-            logger.info("effect |  🐳 버프 지금 발현 타이밍아님 | " + this);
             this.turnAfter--;
             return;
         }
-        logger.info("effect |  🐳 버프 발현 | " + this);
-        logger.info("effect |  🐳 타이밍 | " + PhaseScreen.getCurrentScreen());
 
         if (empowerLevel != null) {
             for (Soldier soldier : soldiers) {

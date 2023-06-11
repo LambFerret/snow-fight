@@ -21,6 +21,8 @@ public class FontConfig {
     public static BitmapFont questFont;
 
     public static void init() {
+        var startTime = System.currentTimeMillis();
+
         FreeTypeFontGenerator generator = null;
         switch (GlobalSettings.language) {
             case EN -> {
@@ -114,6 +116,8 @@ public class FontConfig {
             }
         }
         generator.dispose();
+        var endTime = String.format("%.3f", (System.currentTimeMillis() - startTime) / 1000F);
+        logger.info(" ├ FontConfig     : " + endTime + " s │");
     }
 
 }

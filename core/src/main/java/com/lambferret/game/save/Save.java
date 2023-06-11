@@ -26,7 +26,7 @@ public class Save {
     private int difficulty;
     private int snowAmount;
     private int downAffinity;
-    private int bossAffinity;
+    private int middleAffinity;
     private int upperAffinity;
     private int maxManualCapacity;
     private List<String> eventList;

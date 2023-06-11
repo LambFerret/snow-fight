@@ -52,16 +52,18 @@ public class TitleScreen extends AbstractScreen {
 
         font = GlobalSettings.font;
 
-        create();
+        selectLoadWindow.setVisible(false);
+        selectSaveWindow.setVisible(false);
+        optionWindow.setVisible(false);
     }
 
     @Override
     public void create() {
-        initDisplay();
         setTable();
     }
 
     public void initDisplay() {
+        logger.info(" SYSTEM : Title Screen ");
         selectLoadWindow.setVisible(false);
         selectSaveWindow.setVisible(false);
         optionWindow.setVisible(false);
@@ -79,10 +81,8 @@ public class TitleScreen extends AbstractScreen {
         Table table = new Table() {
             @Override
             public <T extends Actor> Cell<T> add(T actor) {
-                Cell<T> cell = super.add(actor)
-                    .width(((CustomButton) actor).getLabel().getWidth())
-                    .height(TITLE_BUTTON_HEIGHT)
-                    .pad(TITLE_BUTTON_PAD);
+                Cell<T> cell = super.add(actor).pad(TITLE_BUTTON_PAD)
+                    .width(((CustomButton) actor).getLabel().getWidth()).height(TITLE_BUTTON_HEIGHT);
                 cell.row();
                 return cell;
             }
@@ -122,7 +122,6 @@ public class TitleScreen extends AbstractScreen {
     }
 
     private void setAction(TitleAction action) {
-        initDisplay();
         switch (action) {
             case NEW -> {
                 selectSaveWindow.setVisible(true);

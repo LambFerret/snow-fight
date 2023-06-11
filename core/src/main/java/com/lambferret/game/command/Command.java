@@ -20,18 +20,15 @@ import com.lambferret.game.text.dto.CommandInfo;
 import com.lambferret.game.text.dto.CommandText;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
-import lombok.Getter;
-import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Setter
-@Getter
+
 public abstract class Command implements Comparable<Command> {
-    private static final Logger logger = LogManager.getLogger(Command.class.getName());
+    protected static final Logger logger = LogManager.getLogger(Command.class.getName());
     private static final CommandText text;
 
     /**
@@ -162,6 +159,7 @@ public abstract class Command implements Comparable<Command> {
     public abstract void execute(List<Soldier> soldiers);
 
     public void execute() {
+        logger.info("Command : execute - " + this.ID);
         execute(new ArrayList<>());
     }
 
@@ -227,6 +225,22 @@ public abstract class Command implements Comparable<Command> {
         style.up = ninePatchDrawable;
         style.font = GlobalSettings.font;
         return new CustomButton(sb, style);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     @Override

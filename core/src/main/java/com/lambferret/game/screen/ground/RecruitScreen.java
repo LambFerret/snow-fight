@@ -87,7 +87,7 @@ public class RecruitScreen implements AbstractGround {
 
     @Override
     public void init() {
-
+        logger.info(" SYSTEM : Recruit Screen ");
     }
 
     private void setBackground() {
