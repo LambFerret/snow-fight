@@ -41,12 +41,7 @@ public class TrainingGroundScreen implements AbstractGround {
     private final TextureAtlas atlas;
     private Player player;
     private int snowLevel;
-    private Image platform;
-    private Image snow1;
-    private Image snow2;
-    private Image snow3;
-    private Image snow4;
-    private int snowCount = 0;
+    private final List<Image> snowInStage = new ArrayList<>();
     List<Soldier> soldiers;
     int[] soldierIndex;
 
@@ -55,14 +50,15 @@ public class TrainingGroundScreen implements AbstractGround {
         atlas = AssetFinder.getAtlas("trainingGround");
         makeBackground();
         makeClouds();
-        makeAssets(false);
-        stage.addActor(makeButton());
+        stage.addActor(tempGoingPhase());
     }
 
     @Override
     public void onPlayerReady() {
         player = SnowFight.player;
-        makeAssets(true);
+        setSnowLevel();
+        stage.addActor(makePlatform());
+        makeSnow();
     }
 
     @Override
@@ -76,10 +72,9 @@ public class TrainingGroundScreen implements AbstractGround {
         soldiers = new ArrayList<>(player.getSoldiers());
         soldiers.sort(Comparator.comparing(s -> s.getRank().ordinal()));
         soldierIndex = new int[soldiers.size()];
-        addSnowClick(snow1);
-        addSnowClick(snow2);
-        addSnowClick(snow3);
-        addSnowClick(snow4);
+        for (Image snow : snowInStage) {
+            addSnowClick(snow);
+        }
     }
 
     private void makeBackground() {
@@ -106,26 +101,16 @@ public class TrainingGroundScreen implements AbstractGround {
         stage.addActor(image);
     }
 
-    private void makeAssets(boolean isPlayerReady) {
-        if (isPlayerReady) {
-            platform.remove();
-            snow1.remove();
-            snow2.remove();
-            snow3.remove();
-            snow4.remove();
+    private void makeSnow() {
+        for (Image image : snowInStage) {
+            image.remove();
         }
-        snowCount = 0;
-        setSnowLevel();
-        platform = makePlatform();
-        stage.addActor(platform);
-        snow1 = makeSnow();
-        snow2 = makeSnow();
-        snow3 = makeSnow();
-        snow4 = makeSnow();
-        stage.addActor(snow1);
-        stage.addActor(snow2);
-        stage.addActor(snow3);
-        stage.addActor(snow4);
+        snowInStage.clear();
+        for (int i = 0; i < 4; i++) {
+            var snow = snowDraft();
+            snowInStage.add(snow);
+            stage.addActor(snow);
+        }
     }
 
     private void setSnowLevel() {
@@ -150,18 +135,16 @@ public class TrainingGroundScreen implements AbstractGround {
         return platform;
     }
 
-    private Image makeSnow() {
+    private Image snowDraft() {
         Image snow = new Image(atlas.findRegions("snowLevel" + snowLevel).get(MathUtils.random.nextInt(1, 7)));
         if (MathUtils.random.nextBoolean()) {
             snow.setX(stage.getWidth() - MathUtils.random.nextInt((int) (snow.getWidth() + 200)));
         } else {
             snow.setX(MathUtils.random.nextInt(200));
         }
-        snow.setY((5 - snowCount) * 10);
+        snow.setY(MathUtils.random.nextInt(GlobalSettings.currHeight  / 4));
         snow.setOrigin(Align.center);
         snow.setScale(0.75F);
-
-        snowCount++;
         return snow;
     }
 
@@ -262,11 +245,11 @@ public class TrainingGroundScreen implements AbstractGround {
     }
 
 
-    private TextButton makeButton() {
+    private TextButton tempGoingPhase() {
         TextButton button = new TextButton("GO TO Phase", this.skin);
         button.addListener(Input.click(() -> ScreenConfig.changeScreen = ScreenConfig.AddedScreen.PHASE_SCREEN));
-        button.setSize(50, 50);
-        button.setPosition(GlobalSettings.currWidth / 2.0F, 0);
+        button.setSize(300, 100);
+        button.setPosition((GlobalSettings.currWidth - button.getWidth()) / 2.0F, 50);
         return button;
     }
 
