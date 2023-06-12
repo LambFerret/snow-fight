@@ -76,7 +76,7 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     @Override
     public void executePhase() {
-        logger.info(" Action : Today's Victim! " + actionMember);
+        logger.info(" Action : Today's Victim! " + GlobalUtil.listToString(actionMember));
         for (Soldier soldier : actionMember) {
             logger.info(" Action : talent activated! " + soldier.getID());
             soldier.talent(actionMember, commandMap, level, player);

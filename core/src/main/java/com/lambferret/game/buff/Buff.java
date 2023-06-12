@@ -5,7 +5,6 @@ import com.lambferret.game.SnowFight;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
-import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.PhaseText;

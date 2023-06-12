@@ -13,6 +13,7 @@ import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.soldier.Soldier;
+import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -100,7 +101,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         commands.clear();
         buffList.clear();
         manualList = player.getManuals();
-        logger.info(" Phase : Activated Manual - " + manualList);
+        logger.info(" Phase : Activated Manual - " + GlobalUtil.listToString(manualList));
         manualList.forEach(Manual::effect);
         player.setSnowAmount(level.getAssignedSnow());
         // warning

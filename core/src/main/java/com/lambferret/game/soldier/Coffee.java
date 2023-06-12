@@ -43,7 +43,7 @@ public class Coffee extends Soldier {
     @Override
     public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
         for (Soldier soldier : s) {
-                soldier.setEmpowerLevel(EmpowerLevel.WEAKEN);
+            soldier.setEmpowerLevel(EmpowerLevel.WEAKEN);
         }
     }
 

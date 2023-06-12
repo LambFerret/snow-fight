@@ -89,7 +89,7 @@ public class ShopScreen implements AbstractGround {
             }
             if (allCommand.size() < COMMAND_STOCK_AMOUNT) break;
         }
-        logger.info(" SHOP : fill command stock - " + commandStock);
+        logger.info(" SHOP : fill command stock - " + GlobalUtil.listToString(commandStock));
         int i = 0;
         for (Command command : commandStock) {
             CustomButton imageButton = GlobalUtil.simpleButton(command.renderIcon(), command.getID());
@@ -122,7 +122,7 @@ public class ShopScreen implements AbstractGround {
             }
             if (allManual.size() < MANUAL_STOCK_AMOUNT) break;
         }
-        logger.info(" SHOP : fill manual stock - " + manualStock);
+        logger.info(" SHOP : fill manual stock - " + GlobalUtil.listToString(manualStock));
         int i = 0;
         for (Manual manual : manualStock) {
             CustomButton imageButton = GlobalUtil.simpleButton(manual.renderIcon(), manual.getID());

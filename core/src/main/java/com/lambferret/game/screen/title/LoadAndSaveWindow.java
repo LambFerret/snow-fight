@@ -115,7 +115,8 @@ public abstract class LoadAndSaveWindow extends Window {
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
-        if (visible) logger.info(" SYSTEM : " + getClass().getSimpleName().replaceAll("(?<=.)([A-Z])", " $1") + " Screen ");
+        if (visible)
+            logger.info(" SYSTEM : " + getClass().getSimpleName().replaceAll("(?<=.)([A-Z])", " $1") + " Screen ");
     }
 
     static {

@@ -15,6 +15,8 @@ import com.lambferret.game.util.crypt.j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 public class GlobalUtil {
     private static final Logger logger = LogManager.getLogger(GlobalUtil.class.getName());
 
@@ -111,6 +113,14 @@ public class GlobalUtil {
 
     public static String strPad(String str) {
         return String.format("%-15s", str);
+    }
+
+    public static String listToString(List<?> list) {
+        StringBuilder sb = new StringBuilder();
+        for (Object o : list) {
+            sb.append(o.getClass().getSimpleName()).append(", ");
+        }
+        return sb.toString();
     }
 
 }
