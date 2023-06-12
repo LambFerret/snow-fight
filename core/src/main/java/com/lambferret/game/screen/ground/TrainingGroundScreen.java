@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -20,13 +22,15 @@ import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.setting.ScreenConfig;
-import com.lambferret.game.soldier.*;
+import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TrainingGroundScreen implements AbstractGround {
@@ -43,6 +47,8 @@ public class TrainingGroundScreen implements AbstractGround {
     private Image snow3;
     private Image snow4;
     private int snowCount = 0;
+    List<Soldier> soldiers;
+    int[] soldierIndex;
 
     public TrainingGroundScreen() {
         skin = GlobalSettings.skin;
@@ -67,6 +73,13 @@ public class TrainingGroundScreen implements AbstractGround {
     @Override
     public void init() {
         logger.info(" SYSTEM : Training Ground Screen ");
+        soldiers = new ArrayList<>(player.getSoldiers());
+        soldiers.sort(Comparator.comparing(s -> s.getRank().ordinal()));
+        soldierIndex = new int[soldiers.size()];
+        addSnowClick(snow1);
+        addSnowClick(snow2);
+        addSnowClick(snow3);
+        addSnowClick(snow4);
     }
 
     private void makeBackground() {
@@ -147,54 +160,82 @@ public class TrainingGroundScreen implements AbstractGround {
         snow.setY((5 - snowCount) * 10);
         snow.setOrigin(Align.center);
         snow.setScale(0.75F);
+
+        snowCount++;
+        return snow;
+    }
+
+    private void addSnowClick(Actor snow) {
         snow.addListener(new ClickListener() {
             int clickCount = 0;
-            final List<Soldier> soldiers = List.of(new Choco());
-            final double[] randomFloatX = {0, 0.5, 0.3, 0.7, 0.1, 0.9, 0.2, 0.8, 0.4, 0.6};
-            List<Float> randomFloatY = List.of(0F, 0.5F, 0.3F, 0.7F, 0.1F, 0.9F, 0.2F, 0.8F, 0.4F, 0.6F);
-            int count = 0;
 
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                count++;
                 // making soldier animation
-                Animation<TextureRegion> animation = soldiers.get(MathUtils.random.nextInt(4)).getAnimation();
-                AnimationImage newImage = new AnimationImage(animation);
-                float animationX = (float) (snow.getWidth() * randomFloatX[count]) + snow.getX();
-                float animationY = snow.getHeight() * randomFloatY.get(count) + snow.getY();
-                if (randomFloatX[count] > 0.5) {
-                    newImage.setScale(-1, 1);
-                }
-                newImage.setPosition(animationX, animationY);
-                newImage.setSize(100, 100);
-                stage.addActor(newImage);
+                int index = getSoldierIndex();
+                if (index == -1) return;
+                Soldier victim = soldiers.get(index);
+                AnimationImage soldierAnimation = soldierDiggingAnimation(snow, victim);
+                stage.addActor(soldierAnimation);
 
-                newImage.addAction(Actions.sequence(
-                    Actions.delay(animation.getAnimationDuration() * 2),
+                soldierAnimation.addAction(Actions.sequence(
+                    Actions.run(() -> {
+                        if (!checkSoldierIndex()) snow.setTouchable(Touchable.disabled);
+                    }),
+                    Actions.delay(soldierAnimation.getAnimationDuration() * 2),
+                    Actions.run(() -> {
+                        if (clickCount == snowLevel * 3) {
+                            snow.remove();
+                            clickCount = 0;
+                        }
+                        soldierIndex[index] = 0;
+                        snow.setTouchable(Touchable.enabled);
+                    }),
                     Actions.removeActor()
                 ));
-
                 // snow dug short animation;
                 clickCount++;
                 snow.addAction(
                     Actions.repeat(4,
                         Actions.sequence(
                             Actions.moveBy(5, 0, 0.01f),
-                            Actions.moveBy(-5, 0, 0.01f),
-                            Actions.run(() -> {
-                                if (clickCount == snowLevel * 3) {
-                                    snow.remove();
-                                    clickCount = 0;
-                                }
-                            })
+                            Actions.moveBy(-5, 0, 0.01f)
                         )
                     )
                 );
-
             }
         });
-        snowCount++;
-        return snow;
+    }
+
+    private int getSoldierIndex() {
+        for (int i = 0; i < soldierIndex.length; i++) {
+            if (soldierIndex[i] == 0) {
+                soldierIndex[i] = 1;
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private boolean checkSoldierIndex() {
+        for (int index : soldierIndex) {
+            if (index == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private AnimationImage soldierDiggingAnimation(Actor snow, Soldier victim) {
+        Animation<TextureRegion> animation = victim.getAnimation();
+        AnimationImage newImage = new AnimationImage(animation);
+        float randomLocation = MathUtils.random();
+        float animationX = snow.getWidth() * randomLocation + snow.getX();
+        newImage.setPosition(animationX, snow.getY() + 5);
+        newImage.setSize(100, 100);
+        newImage.setTouchable(Touchable.disabled);
+        if (randomLocation > 0.5) newImage.setScale(-1, 1);
+        return newImage;
     }
 
     private void makeClouds() {

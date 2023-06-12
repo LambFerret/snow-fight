@@ -18,8 +18,8 @@ import org.apache.logging.log4j.Logger;
 public class ScreenConfig {
     private static final Logger logger = LogManager.getLogger(ScreenConfig.class.getName());
     public static final String BLENDING = "BLENDING";
-    private static AddedScreen currentScreen = AddedScreen.TITLE_SCREEN;
-    public static AddedScreen changeScreen = currentScreen;
+    private static AddedScreen currentScreen;
+    public static AddedScreen changeScreen = AddedScreen.TITLE_SCREEN;
     private static ScreenManager<ManagedScreen, ScreenTransition> screenManager;
     private static TitleScreen titleScreen;
     private static GroundScreen groundScreen;
@@ -41,11 +41,8 @@ public class ScreenConfig {
             GlobalSettings.currHeight = Gdx.graphics.getHeight();
         }
 
-        addScreen();
         addTransition();
 
-        Gdx.input.setInputProcessor(titleScreen.getStage());
-        screenManager.pushScreen(AddedScreen.TITLE_SCREEN.name(), BLENDING);
         setBGM(AddedScreen.TITLE_SCREEN);
         var endTime = String.format("%.3f", (System.currentTimeMillis() - startTime) / 1000F);
         logger.info(" ├ ScreenConfig   : " + endTime + " s │");
@@ -60,7 +57,29 @@ public class ScreenConfig {
     }
 
     public static void screenChanger(AddedScreen screen) {
-        logger.info(" SYSTEM : main screen changed from " + currentScreen + " to " + changeScreen);
+        logger.info(" SYSTEM : main screen changed from " + currentScreen + " to " + screen);
+
+        switch (screen) {
+            case TITLE_SCREEN -> {
+                if (titleScreen == null) {
+                    titleScreen = new TitleScreen();
+                    screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), titleScreen);
+                    Gdx.input.setInputProcessor(titleScreen.getStage());
+                }
+            }
+            case GROUND_SCREEN -> {
+                if (groundScreen == null) {
+                    groundScreen = new GroundScreen();
+                    screenManager.addScreen(AddedScreen.GROUND_SCREEN.name(), groundScreen);
+                }
+            }
+            case PHASE_SCREEN -> {
+                if (phaseScreen == null) {
+                    phaseScreen = new PhaseScreen();
+                    screenManager.addScreen(AddedScreen.PHASE_SCREEN.name(), phaseScreen);
+                }
+            }
+        }
 
         screenManager.pushScreen(screen.name(), BLENDING);
         setBGM(screen);

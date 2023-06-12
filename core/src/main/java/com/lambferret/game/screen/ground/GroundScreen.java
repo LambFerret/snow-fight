@@ -19,7 +19,7 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     private static final ShopScreen shopScreen;
     private static final TrainingGroundScreen trainingGroundScreen;
 
-    private static Screen currentScreen = Screen.TRAINING_GROUND;
+    private static Screen currentScreen;
     private static Player player;
     private static final Overlay overlay = Overlay.getInstance();
 
@@ -47,6 +47,7 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
             ground.onPlayerReady();
             player.addPlayerObserver(ground);
         }
+        changeScreen(Screen.TRAINING_GROUND);
     }
 
     @Override
@@ -56,18 +57,17 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
 
     public static void changeScreen(Screen screen) {
         currentScreen = screen;
-        Overlay.changeGroundInputProcessor();
         switch (screen) {
             case RECRUIT -> recruitScreen.init();
             case SHOP -> shopScreen.init();
             case TRAINING_GROUND -> trainingGroundScreen.init();
         }
+        Overlay.changeGroundInputProcessor();
     }
 
     public static Screen getCurrentScreen() {
         return currentScreen;
     }
-
 
     @Override
     public void render(float delta) {

@@ -15,6 +15,10 @@ public class AnimationImage extends Image {
         this.animation = animation;
     }
 
+    public float getAnimationDuration() {
+        return animation.getAnimationDuration();
+    }
+
     @Override
     public void act(float delta) {
         stateTime += delta;

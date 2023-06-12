@@ -365,6 +365,10 @@ public abstract class Soldier implements Comparable<Soldier> {
         return branch;
     }
 
+    public Rank getRank() {
+        return rank;
+    }
+
     public EmpowerLevel getEmpowerLevel() {
         return empowerLevel;
     }
