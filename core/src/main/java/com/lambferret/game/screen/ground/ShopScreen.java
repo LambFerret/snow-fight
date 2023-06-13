@@ -2,9 +2,14 @@ package com.lambferret.game.screen.ground;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
@@ -29,33 +34,38 @@ public class ShopScreen implements AbstractGround {
     public static final int COMMAND_STOCK_AMOUNT = 2;
     public static final int ITEM_SIZE = 60;
     public static final float ITEM_ANIMATION_DURATION = 0.05F;
-    public static final int STAND_WIDTH = 800;
-    public static final int STAND_HEIGHT = 500;
+    public static final int STAND_WIDTH = 500;
+    public static final int STAND_HEIGHT = 200;
     public static final int STAND_X = 100;
     public static final int STAND_Y = 100;
     public static final int MONEY_WIDTH = 200;
     public static final int MONEY_HEIGHT = 100;
-    public static final int MONEY_X = STAND_WIDTH - MONEY_WIDTH;
-    public static final int MONEY_Y = STAND_HEIGHT - MONEY_HEIGHT;
+    public static final int MONEY_X = (GlobalSettings.currWidth - MONEY_WIDTH) / 2;
+    public static final int MONEY_Y = GlobalSettings.currHeight - MONEY_HEIGHT - 50;
 
-    Group forSaleList = new Group();
+    Table commandForSale = new Table();
+    Table manualForSale = new Table();
     List<Manual> manualStock = new ArrayList<>();
     List<Command> commandStock = new ArrayList<>();
     Player player;
     CustomButton playerMoney;
 
     public ShopScreen() {
-        stage.addActor(forSaleList);
+        stage.addActor(commandForSale);
+        stage.addActor(manualForSale);
     }
 
     @Override
     public void onPlayerReady() {
         this.player = SnowFight.player;
 
-        forSaleList.setSize(STAND_WIDTH, STAND_HEIGHT);
-        forSaleList.setPosition(STAND_X, STAND_Y);
+        commandForSale.setSize(STAND_WIDTH, STAND_HEIGHT);
+        manualForSale.setSize(STAND_WIDTH, STAND_HEIGHT);
+        commandForSale.setPosition(STAND_X, STAND_Y);
+        manualForSale.setPosition(STAND_X, STAND_Y + commandForSale.getHeight());
 
-        this.forSaleList.clear();
+        this.commandForSale.clear();
+        this.manualForSale.clear();
         setPlayerMoney();
 
         if (player.getShopItems().size() == 0) {
@@ -98,49 +108,58 @@ public class ShopScreen implements AbstractGround {
     }
 
     public void makeCommandButtons() {
-        int i = 0;
+        List<Label> labelList = new ArrayList<>();
         for (Command command : commandStock) {
             CustomButton imageButton;
+            Label howMuch;
             if (command == null) {
                 imageButton = GlobalUtil.simpleButton("shop empty stock");
+                howMuch = new Label("empty", GlobalSettings.skin);
             } else {
-                int finalI = i;
+                howMuch = new Label(command.getPrice() + "", GlobalSettings.skin);
                 imageButton = GlobalUtil.simpleButton(command.renderIcon(), command.getID());
                 imageButton.addListener(Input.click(() -> {
                     if (player.getMoney() >= command.getPrice()) {
                         updatePlayerMoney(command.getPrice());
                         player.addCommand(command);
                         imageButton.setVisible(false);
-                        commandStock.set(finalI, null);
+                        commandStock.set(commandStock.indexOf(command), null);
+                        howMuch.setText("");
                         save();
                     } else {
                         imageButton.addAction(rejectAction());
                     }
                 }));
             }
-            imageButton.setSize(ITEM_SIZE, ITEM_SIZE);
-            imageButton.setPosition(i++ * (forSaleList.getWidth() / COMMAND_STOCK_AMOUNT), 0);
+            commandForSale.add(imageButton).pad(5).size(ITEM_SIZE, ITEM_SIZE).expandX().uniformX();
             imageButton.addAction(oscillate(false));
             imageButton.addListener(addHover(imageButton));
-            forSaleList.addActor(imageButton);
+            labelList.add(howMuch);
+        }
+        commandForSale.row();
+        for (Label howMuch : labelList) {
+            commandForSale.add(howMuch).height(howMuch.getHeight()).expandX().uniformX();
         }
     }
 
     private void makeManualButtons() {
-        int i = 0;
+        List<Label> labelList = new ArrayList<>();
         for (Manual manual : manualStock) {
             CustomButton imageButton;
+            Label howMuch;
             if (manual == null) {
                 imageButton = GlobalUtil.simpleButton("empty manual stock");
+                howMuch = new Label("empty", GlobalSettings.skin);
             } else {
+                howMuch = new Label(manual.getPrice() + "", GlobalSettings.skin);
                 imageButton = GlobalUtil.simpleButton(manual.renderIcon(), manual.getID());
-                int finalI = i;
                 imageButton.addListener(Input.click(() -> {
                         if (player.getMoney() >= manual.getPrice()) {
                             updatePlayerMoney(manual.getPrice());
                             player.addManual(manual);
                             imageButton.setVisible(false);
-                            manualStock.set(finalI, null);
+                            manualStock.set(manualStock.indexOf(manual), null);
+                            howMuch.setText("");
                             save();
                         } else {
                             imageButton.addAction(rejectAction());
@@ -148,11 +167,14 @@ public class ShopScreen implements AbstractGround {
                     }
                 ));
             }
-            imageButton.setSize(ITEM_SIZE, ITEM_SIZE);
-            imageButton.setPosition(i++ * (forSaleList.getWidth() / MANUAL_STOCK_AMOUNT), forSaleList.getHeight() / 2);
+            manualForSale.add(imageButton).pad(5).size(ITEM_SIZE, ITEM_SIZE).expandX().uniformX();
             imageButton.addAction(oscillate(false));
             imageButton.addListener(addHover(imageButton));
-            forSaleList.addActor(imageButton);
+            labelList.add(howMuch);
+        }
+        manualForSale.row();
+        for (Label howMuch : labelList) {
+            manualForSale.add(howMuch).height(howMuch.getHeight()).expandX().uniformX();
         }
     }
 
@@ -162,7 +184,7 @@ public class ShopScreen implements AbstractGround {
             if (command != null) {
                 shopItems.add(Item.builder().type(Item.Type.COMMAND).ID(command.getID()).build());
             } else {
-                shopItems.add(Item.builder().type(Item.Type.MANUAL).ID(null).build());
+                shopItems.add(Item.builder().type(Item.Type.COMMAND).ID(null).build());
             }
         }
         for (Manual manual : manualStock) {
@@ -255,7 +277,7 @@ public class ShopScreen implements AbstractGround {
         playerMoney.setPosition(MONEY_X, MONEY_Y);
         playerMoney.setSize(MONEY_WIDTH, MONEY_HEIGHT);
         playerMoney.setText("money : " + player.getMoney());
-        forSaleList.addActor(playerMoney);
+        stage.addActor(playerMoney);
     }
 
     private void updatePlayerMoney(int cost) {
