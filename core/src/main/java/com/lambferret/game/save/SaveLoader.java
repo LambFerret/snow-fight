@@ -102,6 +102,7 @@ public class SaveLoader {
             .isInitialized(true)
             .name(player.getName())
             .allItems(items)
+            .shopList(player.getShopItems())
             .day(player.getDay())
             .money(player.getMoney())
             .affinity(player.getAffinity())

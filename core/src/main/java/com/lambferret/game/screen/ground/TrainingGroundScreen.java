@@ -142,7 +142,7 @@ public class TrainingGroundScreen implements AbstractGround {
         } else {
             snow.setX(MathUtils.random.nextInt(200));
         }
-        snow.setY(MathUtils.random.nextInt(GlobalSettings.currHeight  / 4));
+        snow.setY(MathUtils.random.nextInt(GlobalSettings.currHeight / 4));
         snow.setOrigin(Align.center);
         snow.setScale(0.75F);
         return snow;

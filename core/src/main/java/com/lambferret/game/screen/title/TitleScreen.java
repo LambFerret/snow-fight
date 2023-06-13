@@ -148,6 +148,9 @@ public class TitleScreen extends AbstractScreen {
         }
     }
 
+    public void end() {
+    }
+
     public Stage getStage() {
         return stage;
     }

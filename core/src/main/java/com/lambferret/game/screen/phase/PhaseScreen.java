@@ -163,6 +163,11 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     @Override
+    public void end() {
+        player.setShopItems(new ArrayList<>());
+    }
+
+    @Override
     public void render(float delta) {
         super.render(delta);
         switch (currentScreen) {

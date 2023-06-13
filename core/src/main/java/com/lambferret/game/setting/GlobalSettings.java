@@ -1,6 +1,7 @@
 package com.lambferret.game.setting;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,7 +22,6 @@ import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class GlobalSettings {
@@ -140,33 +140,33 @@ public class GlobalSettings {
     }
 
 
-    private static final List<String> soldiers = new ArrayList<>();
-    private static final List<String> commands = new ArrayList<>();
-    private static final List<String> manuals = new ArrayList<>();
-    private static final List<String> quests = new ArrayList<>();
+    private static final List<String> soldierAll = new ArrayList<>();
+    private static final List<String> commandAll = new ArrayList<>();
+    private static final List<String> manualAll = new ArrayList<>();
+    private static final List<String> questAll = new ArrayList<>();
+    private static final List<String> soldiersPlayerCanHave = new ArrayList<>();
+    private static final List<String> commandsPlayerCanHave = new ArrayList<>();
+    private static final List<String> manualsPlayerCanHave = new ArrayList<>();
+    private static final List<String> questsPlayerCanHave = new ArrayList<>();
 
     // TODO 바보같은지 획기적인지 분간이 안감
     public static void loadAllInGameStructure() {
-        soldiers.addAll(LocalizeConfig.soldierText.getID().keySet());
-        commands.addAll(LocalizeConfig.commandText.getID().keySet());
-        manuals.addAll(LocalizeConfig.manualText.getID().keySet());
-        quests.addAll(LocalizeConfig.questText.getID().keySet());
+        soldierAll.addAll(LocalizeConfig.soldierText.getID().keySet());
+        commandAll.addAll(LocalizeConfig.commandText.getID().keySet());
+        manualAll.addAll(LocalizeConfig.manualText.getID().keySet());
+        questAll.addAll(LocalizeConfig.questText.getID().keySet());
+        soldiersPlayerCanHave.addAll(LocalizeConfig.soldierText.getID().keySet());
+        commandsPlayerCanHave.addAll(LocalizeConfig.commandText.getID().keySet());
+        manualsPlayerCanHave.addAll(LocalizeConfig.manualText.getID().keySet());
+        questsPlayerCanHave.addAll(LocalizeConfig.questText.getID().keySet());
 
         // TODO : seed randomize
-        Collections.shuffle(soldiers);
-        Collections.shuffle(commands);
-        Collections.shuffle(manuals);
-        Collections.shuffle(quests);
     }
 
     public static Soldier popSoldier() {
-        String id;
-        try {
-            id = soldiers.remove(0);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("Soldier pop error");
-            return null;
-        }
+        // 가져올 수 있는 것 중 아무거나 가져옴
+        int i = MathUtils.random(soldiersPlayerCanHave.size());
+        String id = soldiersPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -178,67 +178,47 @@ public class GlobalSettings {
     }
 
     public static Command popCommand() {
-        String id;
-        try {
-            id = commands.remove(0);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("commands pop error");
-            return null;
-        }
+        int i = MathUtils.random(commandsPlayerCanHave.size());
+        String id = commandsPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
             Constructor<?> constructor = clazz.getConstructor();
             return (Command) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " command load error");
-            throw new RuntimeException("command load error");
+            logger.error(id + " Command load error");
+            throw new RuntimeException("Command load error");
         }
     }
 
     public static Manual popManual() {
-        String id;
-        try {
-            id = manuals.remove(0);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("manuals pop error");
-            return null;
-        }
+        int i = MathUtils.random(manualsPlayerCanHave.size());
+        String id = manualsPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
             Constructor<?> constructor = clazz.getConstructor();
             return (Manual) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " manual load error");
-            throw new RuntimeException("manual load error");
+            logger.error(id + " Manual load error");
+            throw new RuntimeException("Manual load error");
         }
     }
 
     public static Quest popQuest() {
-        String id;
-        try {
-            id = quests.remove(0);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("quests pop error");
-            return null;
-        }
+        int i = MathUtils.random(questsPlayerCanHave.size());
+        String id = questsPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
             Constructor<?> constructor = clazz.getConstructor();
             return (Quest) constructor.newInstance();
         } catch (Exception e) {
-            logger.error(id + " quest load error");
-            throw new RuntimeException("quest load error");
+            logger.error(id + " Quest load error");
+            throw new RuntimeException("Quest load error");
         }
     }
 
     public static Soldier popSoldier(String id) {
-        try {
-            soldiers.remove(id);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("Soldier pop error");
-            logger.error("popSoldier id" + id);
-            return null;
-        }
+        // 가져올 수 있는것 중 특정해서 가져옴
+        soldiersPlayerCanHave.remove(id);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -250,12 +230,7 @@ public class GlobalSettings {
     }
 
     public static Command popCommand(String id) {
-        try {
-            commands.remove(id);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("commands pop error");
-            return null;
-        }
+        commandsPlayerCanHave.remove(id);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -267,12 +242,7 @@ public class GlobalSettings {
     }
 
     public static Manual popManual(String id) {
-        try {
-            manuals.remove(id);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("manuals pop error");
-            return null;
-        }
+        manualsPlayerCanHave.remove(id);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -284,12 +254,7 @@ public class GlobalSettings {
     }
 
     public static Quest popQuest(String id) {
-        try {
-            quests.remove(id);
-        } catch (IndexOutOfBoundsException e) {
-            logger.error("quests pop error");
-            return null;
-        }
+        questsPlayerCanHave.remove(id);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -300,7 +265,97 @@ public class GlobalSettings {
         }
     }
 
+    public static String peekSoldierID() {
+        int i = MathUtils.random(soldiersPlayerCanHave.size());
+        return soldiersPlayerCanHave.get(i);
+    }
+
+    public static String peekCommandID() {
+        int i = MathUtils.random(commandsPlayerCanHave.size());
+        return commandsPlayerCanHave.get(i);
+    }
+
+    public static String peekManualID() {
+        int i = MathUtils.random(manualsPlayerCanHave.size());
+        return manualsPlayerCanHave.get(i);
+    }
+
+    public static String peekQuestID() {
+        int i = MathUtils.random(questsPlayerCanHave.size());
+        return questsPlayerCanHave.get(i);
+    }
+
+    public static int getSoldierSize() {
+        return soldiersPlayerCanHave.size();
+    }
+
+    public static int getCommandSize() {
+        return commandsPlayerCanHave.size();
+    }
+
+    public static int getManualSize() {
+        return manualsPlayerCanHave.size();
+    }
+
+    public static int getQuestSize() {
+        return questsPlayerCanHave.size();
+    }
+
+    public static Soldier getSoldier() {
+        // 전부 중 무작위로 가져옴
+        try {
+            int i = MathUtils.random(soldierAll.size());
+            String id = soldierAll.get(i);
+            Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Soldier) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error("Soldier load error");
+            throw new RuntimeException("Soldier load error");
+        }
+    }
+
+    public static Command getCommand() {
+        try {
+            int i = MathUtils.random(commandAll.size());
+            String id = commandAll.get(i);
+            Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Command) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error("command load error");
+            throw new RuntimeException("command load error");
+        }
+    }
+
+    public static Manual getManual() {
+        try {
+            int i = MathUtils.random(manualAll.size());
+            String id = manualAll.get(i);
+            Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Manual) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error("manual load error");
+            throw new RuntimeException("manual load error");
+        }
+    }
+
+    public static Quest getQuest() {
+        try {
+            int i = MathUtils.random(questAll.size());
+            String id = questAll.get(i);
+            Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
+            Constructor<?> constructor = clazz.getConstructor();
+            return (Quest) constructor.newInstance();
+        } catch (Exception e) {
+            logger.error("Quest load error");
+            throw new RuntimeException("Quest load error");
+        }
+    }
+
     public static Soldier getSoldier(String id) {
+        // 전부 중 특정해서 가져옴
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
             Constructor<?> constructor = clazz.getConstructor();

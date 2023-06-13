@@ -44,4 +44,6 @@ public abstract class AbstractScreen extends ManagedScreen {
         ScreenConfig.resumeBGM();
     }
 
+    public abstract void end();
+
 }

@@ -53,6 +53,7 @@ public class Player {
     private int upperAffinity;
     private int maxManualCapacity;
     private List<String> eventList;
+    private List<Item> shopItems;
     List<Item> lateInitItems = new ArrayList<>();
 
     public Player() {
@@ -83,6 +84,7 @@ public class Player {
         this.upperAffinity = 10;
         this.maxManualCapacity = 3;
         this.eventList = new ArrayList<>();
+        this.shopItems = new ArrayList<>();
 
         //=-=-=-=-=-=--=-=//
         soldiers.add(new Vanilla());
@@ -112,6 +114,7 @@ public class Player {
         this.upperAffinity = save.getUpperAffinity();
         this.eventList = save.getEventList();
         this.maxManualCapacity = save.getMaxManualCapacity();
+        this.shopItems = save.getShopList();
         Iterator<Item> iterator = save.getAllItems().iterator();
         while (iterator.hasNext()) {
             Item item = iterator.next();
@@ -238,6 +241,10 @@ public class Player {
 
     public boolean checkManualSize() {
         return manuals.size() < maxManualCapacity;
+    }
+
+    public void setShopItems(List<Item> shopItems) {
+        this.shopItems = shopItems;
     }
 
     public void setMiddleAffinityBy(int amount) {

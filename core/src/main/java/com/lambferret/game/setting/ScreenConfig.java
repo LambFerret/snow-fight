@@ -58,6 +58,19 @@ public class ScreenConfig {
 
     public static void screenChanger(AddedScreen screen) {
         logger.info(" SYSTEM : main screen changed from " + currentScreen + " to " + screen);
+        if (currentScreen != null) {
+            switch (currentScreen) {
+                case TITLE_SCREEN -> {
+                    titleScreen.end();
+                }
+                case GROUND_SCREEN -> {
+                    groundScreen.end();
+                }
+                case PHASE_SCREEN -> {
+                    phaseScreen.end();
+                }
+            }
+        }
 
         switch (screen) {
             case TITLE_SCREEN -> {
@@ -126,19 +139,6 @@ public class ScreenConfig {
 
     public static void resumeBGM() {
         if (bgm != null) bgm.resume();
-    }
-
-    /**
-     * Register screens
-     */
-    private static void addScreen() {
-        titleScreen = new TitleScreen();
-        groundScreen = new GroundScreen();
-        phaseScreen = new PhaseScreen();
-
-        screenManager.addScreen(AddedScreen.TITLE_SCREEN.name(), titleScreen);
-        screenManager.addScreen(AddedScreen.GROUND_SCREEN.name(), groundScreen);
-        screenManager.addScreen(AddedScreen.PHASE_SCREEN.name(), phaseScreen);
     }
 
     /**

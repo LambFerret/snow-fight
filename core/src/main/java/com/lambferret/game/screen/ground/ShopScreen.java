@@ -7,15 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
-import com.lambferret.game.command.CupNoodle;
-import com.lambferret.game.command.ThreeShift;
-import com.lambferret.game.command.TricksOfTheTrade;
 import com.lambferret.game.component.CustomButton;
-import com.lambferret.game.manual.DisciplineAndPunish;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.quest.TutorialQuest;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
 import org.apache.logging.log4j.LogManager;
@@ -58,15 +55,17 @@ public class ShopScreen implements AbstractGround {
         forSaleList.setSize(STAND_WIDTH, STAND_HEIGHT);
         forSaleList.setPosition(STAND_X, STAND_Y);
 
-        //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-//
-        List<Command> allCommand = List.of(new TricksOfTheTrade(), new CupNoodle(), new ThreeShift());
-        List<Manual> allManual = List.of(new DisciplineAndPunish());
-        //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-//
-
         this.forSaleList.clear();
         setPlayerMoney();
-        fillCommandStock(allCommand);
-        fillManualStock(allManual);
+
+        if (player.getShopItems().size() == 0) {
+            fillCommandStock();
+            fillManualStock();
+        } else {
+            load();
+        }
+        makeCommandButtons();
+        makeManualButtons();
     }
 
     @Override
@@ -80,69 +79,118 @@ public class ShopScreen implements AbstractGround {
         player.addQuest(new TutorialQuest());
     }
 
-    private void fillCommandStock(List<Command> allCommand) {
+    private void fillCommandStock() {
         this.commandStock.clear();
         while (commandStock.size() < COMMAND_STOCK_AMOUNT) {
-            int random = (int) (Math.random() * allCommand.size());
-            if (!commandStock.contains(allCommand.get(random))) {
-                commandStock.add(allCommand.get(random));
-            }
-            if (allCommand.size() < COMMAND_STOCK_AMOUNT) break;
+            commandStock.add(GlobalSettings.getCommand());
+            if (GlobalSettings.getCommandSize() < COMMAND_STOCK_AMOUNT) break;
         }
         logger.info(" SHOP : fill command stock - " + GlobalUtil.listToString(commandStock));
+    }
+
+    private void fillManualStock() {
+        this.manualStock.clear();
+        while (manualStock.size() < MANUAL_STOCK_AMOUNT) {
+            manualStock.add(GlobalSettings.popManual());
+            if (GlobalSettings.getManualSize() < MANUAL_STOCK_AMOUNT) break;
+        }
+        logger.info(" SHOP : fill manual stock - " + GlobalUtil.listToString(manualStock));
+    }
+
+    public void makeCommandButtons() {
         int i = 0;
         for (Command command : commandStock) {
-            CustomButton imageButton = GlobalUtil.simpleButton(command.renderIcon(), command.getID());
-
-            imageButton.setSize(ITEM_SIZE, ITEM_SIZE);
-            imageButton.setPosition(i++ * (forSaleList.getWidth() / COMMAND_STOCK_AMOUNT), 0);
-
-            imageButton.addAction(oscillate(false));
-            imageButton.addListener(Input.click(() -> {
+            CustomButton imageButton;
+            if (command == null) {
+                imageButton = GlobalUtil.simpleButton("shop empty stock");
+            } else {
+                int finalI = i;
+                imageButton = GlobalUtil.simpleButton(command.renderIcon(), command.getID());
+                imageButton.addListener(Input.click(() -> {
                     if (player.getMoney() >= command.getPrice()) {
                         updatePlayerMoney(command.getPrice());
-                        player.getCommands().add(command);
+                        player.addCommand(command);
                         imageButton.setVisible(false);
+                        commandStock.set(finalI, null);
+                        save();
                     } else {
                         imageButton.addAction(rejectAction());
                     }
-                }
-            ));
+                }));
+            }
+            imageButton.setSize(ITEM_SIZE, ITEM_SIZE);
+            imageButton.setPosition(i++ * (forSaleList.getWidth() / COMMAND_STOCK_AMOUNT), 0);
+            imageButton.addAction(oscillate(false));
             imageButton.addListener(addHover(imageButton));
             forSaleList.addActor(imageButton);
         }
     }
 
-    private void fillManualStock(List<Manual> allManual) {
-        this.manualStock.clear();
-        while (manualStock.size() < MANUAL_STOCK_AMOUNT) {
-            int random = (int) (Math.random() * allManual.size());
-            if (!manualStock.contains(allManual.get(random))) {
-                manualStock.add(allManual.get(random));
-            }
-            if (allManual.size() < MANUAL_STOCK_AMOUNT) break;
-        }
-        logger.info(" SHOP : fill manual stock - " + GlobalUtil.listToString(manualStock));
+    private void makeManualButtons() {
         int i = 0;
         for (Manual manual : manualStock) {
-            CustomButton imageButton = GlobalUtil.simpleButton(manual.renderIcon(), manual.getID());
-
+            CustomButton imageButton;
+            if (manual == null) {
+                imageButton = GlobalUtil.simpleButton("empty manual stock");
+            } else {
+                imageButton = GlobalUtil.simpleButton(manual.renderIcon(), manual.getID());
+                int finalI = i;
+                imageButton.addListener(Input.click(() -> {
+                        if (player.getMoney() >= manual.getPrice()) {
+                            updatePlayerMoney(manual.getPrice());
+                            player.addManual(manual);
+                            imageButton.setVisible(false);
+                            manualStock.set(finalI, null);
+                            save();
+                        } else {
+                            imageButton.addAction(rejectAction());
+                        }
+                    }
+                ));
+            }
             imageButton.setSize(ITEM_SIZE, ITEM_SIZE);
             imageButton.setPosition(i++ * (forSaleList.getWidth() / MANUAL_STOCK_AMOUNT), forSaleList.getHeight() / 2);
-
             imageButton.addAction(oscillate(false));
-            imageButton.addListener(Input.click(() -> {
-                    if (player.getMoney() >= manual.getPrice()) {
-                        updatePlayerMoney(manual.getPrice());
-                        player.getManuals().add(manual);
-                        imageButton.setVisible(false);
-                    } else {
-                        imageButton.addAction(rejectAction());
-                    }
-                }
-            ));
             imageButton.addListener(addHover(imageButton));
             forSaleList.addActor(imageButton);
+        }
+    }
+
+    private void save() {
+        List<Item> shopItems = new ArrayList<>();
+        for (Command command : commandStock) {
+            if (command != null) {
+                shopItems.add(Item.builder().type(Item.Type.COMMAND).ID(command.getID()).build());
+            } else {
+                shopItems.add(Item.builder().type(Item.Type.MANUAL).ID(null).build());
+            }
+        }
+        for (Manual manual : manualStock) {
+            if (manual != null) {
+                shopItems.add(Item.builder().type(Item.Type.MANUAL).ID(manual.getID()).build());
+            } else {
+                shopItems.add(Item.builder().type(Item.Type.MANUAL).ID(null).build());
+            }
+        }
+        player.setShopItems(shopItems);
+    }
+
+    private void load() {
+        List<Item> shopItems = player.getShopItems();
+        for (Item item : shopItems) {
+            if (item.getType() == Item.Type.COMMAND) {
+                if (item.getID() == null) {
+                    commandStock.add(null);
+                } else {
+                    commandStock.add(GlobalSettings.getCommand(item.getID()));
+                }
+            } else {
+                if (item.getID() == null) {
+                    manualStock.add(null);
+                } else {
+                    manualStock.add(GlobalSettings.getManual(item.getID()));
+                }
+            }
         }
     }
 

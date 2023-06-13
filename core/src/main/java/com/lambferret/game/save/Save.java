@@ -30,4 +30,5 @@ public class Save {
     private int upperAffinity;
     private int maxManualCapacity;
     private List<String> eventList;
+    private List<Item> shopList;
 }
