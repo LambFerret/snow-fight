@@ -1,14 +1,11 @@
 package com.lambferret.game.screen.ui;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.SnowFight;
@@ -17,12 +14,17 @@ import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
+import com.lambferret.game.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandOverlay extends Container<ScrollPane> implements AbstractOverlay {
     private static final Logger logger = LogManager.getLogger(CommandOverlay.class.getName());
@@ -32,7 +34,9 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     private final CustomButton hideButton;
     private final Container<CustomButton> infoContainer = new Container<>();
     private Player player;
+    private int maxCommand;
     private boolean isHide = false;
+    private static Random handRandom;
 
 
     public CommandOverlay(Stage stage) {
@@ -77,17 +81,37 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         scrollPane.addListener(Input.setScrollFocusWhenHover(stage, scrollPane));
     }
 
+    List<Command> selectedCommands = new ArrayList<>();
+
     @Override
     public void onPlayerReady() {
         this.player = SnowFight.player;
+        this.maxCommand = player.getMaxCommandInHand();
+        handRandom = new Random();
+        selectCommand();
         makeCommandContainer();
+    }
+
+    private void selectCommand() {
+        selectedCommands.clear();
+        List<Command> commands = player.getCommands();
+        while (selectedCommands.size() < Math.min(commands.size(), maxCommand)) {
+            Command pickedCommand = commands.get(handRandom.random(commands.size()));
+            if (!selectedCommands.contains(pickedCommand)) {
+                selectedCommands.add(pickedCommand);
+            }
+        }
+        logger.info("Command : selected " + GlobalUtil.listToString(selectedCommands));
     }
 
     public void makeCommandContainer() {
         Table table = new Table();
-        // TODO 한 페이즈에 핸드에 최대 갯수를 정해놔야함. 지금은 그냥 무한사용가능
-        for (Command command : player.getCommands()) {
-            table.add(renderCommand(command));
+        for (Command command : selectedCommands) {
+            if (command == null) {
+                table.add(emptyCommand());
+            } else {
+                table.add(renderCommand(command));
+            }
             table.row().pad(COMMAND_EACH_PADDING);
         }
         this.scrollPane.setActor(table);
@@ -128,40 +152,36 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         }
         commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
         int finalCost = cost;
-        commandButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
-                    if (player.getCurrentCost() >= finalCost) {
-                        for (Buff buff : PhaseScreen.buffList) {
-                            if (!buff.effectCountdown()) return;
-                        }
-                        player.useCost(finalCost);
-                        PhaseScreen.getCommands().put(command, null);
-                        commandButton.remove();
-                        makeCommandContainer();
-                    } else {
-                        logger.info("clicked |  🐳 not enough cost you have | ");
+        commandButton.addListener(Input.click(() -> {
+            if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
+                if (player.getCurrentCost() >= finalCost) {
+                    for (Buff buff : PhaseScreen.buffList) {
+                        if (!buff.effectCountdown()) return;
                     }
+                    player.useCost(finalCost);
+                    PhaseScreen.getCommands().put(command, null);
+                    selectedCommands.set(selectedCommands.indexOf(command), null);
+                    makeCommandContainer();
+                } else {
+                    commandButton.addAction(ShopScreen.rejectAction());
                 }
             }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                super.enter(event, x, y, pointer, fromActor);
-                if (pointer == -1) {
-                    infoContainer.setVisible(true);
-                    infoContainer.setActor(infoButton);
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
+        }));
+        commandButton.addListener(Input.hover(
+            () -> {
+                infoContainer.setVisible(true);
+                infoContainer.setActor(infoButton);
+            },
+            () -> {
                 infoContainer.setVisible(false);
             }
-        });
+        ));
+
         return commandButton;
+    }
+
+    private CustomButton emptyCommand() {
+        return GlobalUtil.simpleButton("emptyCommand");
     }
 
     private void hide() {

@@ -52,6 +52,7 @@ public class Player {
     private int downAffinity;
     private int upperAffinity;
     private int maxManualCapacity;
+    private int maxCommandInHand;
     private List<String> eventList;
     private List<Item> shopItems;
     List<Item> lateInitItems = new ArrayList<>();
@@ -83,6 +84,7 @@ public class Player {
         this.middleAffinity = 50;
         this.upperAffinity = 10;
         this.maxManualCapacity = 3;
+        this.maxCommandInHand = 5;
         this.eventList = new ArrayList<>();
         this.shopItems = new ArrayList<>();
 
@@ -114,6 +116,7 @@ public class Player {
         this.upperAffinity = save.getUpperAffinity();
         this.eventList = save.getEventList();
         this.maxManualCapacity = save.getMaxManualCapacity();
+        this.maxCommandInHand = save.getMaxCommandInHand();
         this.shopItems = save.getShopList();
         Iterator<Item> iterator = save.getAllItems().iterator();
         while (iterator.hasNext()) {

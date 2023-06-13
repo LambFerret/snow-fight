@@ -165,7 +165,7 @@ public class GlobalSettings {
 
     public static Soldier popSoldier() {
         // 가져올 수 있는 것 중 아무거나 가져옴
-        int i = MathUtils.random(soldiersPlayerCanHave.size());
+        int i = MathUtils.random(soldiersPlayerCanHave.size() - 1);
         String id = soldiersPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
@@ -178,7 +178,7 @@ public class GlobalSettings {
     }
 
     public static Command popCommand() {
-        int i = MathUtils.random(commandsPlayerCanHave.size());
+        int i = MathUtils.random(commandsPlayerCanHave.size() - 1);
         String id = commandsPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
@@ -191,7 +191,7 @@ public class GlobalSettings {
     }
 
     public static Manual popManual() {
-        int i = MathUtils.random(manualsPlayerCanHave.size());
+        int i = MathUtils.random(manualsPlayerCanHave.size() - 1);
         String id = manualsPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
@@ -204,7 +204,7 @@ public class GlobalSettings {
     }
 
     public static Quest popQuest() {
-        int i = MathUtils.random(questsPlayerCanHave.size());
+        int i = MathUtils.random(questsPlayerCanHave.size() - 1);
         String id = questsPlayerCanHave.remove(i);
         try {
             Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
@@ -266,22 +266,22 @@ public class GlobalSettings {
     }
 
     public static String peekSoldierID() {
-        int i = MathUtils.random(soldiersPlayerCanHave.size());
+        int i = MathUtils.random(soldiersPlayerCanHave.size() - 1);
         return soldiersPlayerCanHave.get(i);
     }
 
     public static String peekCommandID() {
-        int i = MathUtils.random(commandsPlayerCanHave.size());
+        int i = MathUtils.random(commandsPlayerCanHave.size() - 1);
         return commandsPlayerCanHave.get(i);
     }
 
     public static String peekManualID() {
-        int i = MathUtils.random(manualsPlayerCanHave.size());
+        int i = MathUtils.random(manualsPlayerCanHave.size() - 1);
         return manualsPlayerCanHave.get(i);
     }
 
     public static String peekQuestID() {
-        int i = MathUtils.random(questsPlayerCanHave.size());
+        int i = MathUtils.random(questsPlayerCanHave.size() - 1);
         return questsPlayerCanHave.get(i);
     }
 
@@ -304,7 +304,7 @@ public class GlobalSettings {
     public static Soldier getSoldier() {
         // 전부 중 무작위로 가져옴
         try {
-            int i = MathUtils.random(soldierAll.size());
+            int i = MathUtils.random(soldierAll.size() - 1);
             String id = soldierAll.get(i);
             Class<?> clazz = Class.forName("com.lambferret.game.soldier." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -317,7 +317,7 @@ public class GlobalSettings {
 
     public static Command getCommand() {
         try {
-            int i = MathUtils.random(commandAll.size());
+            int i = MathUtils.random(commandAll.size() - 1);
             String id = commandAll.get(i);
             Class<?> clazz = Class.forName("com.lambferret.game.command." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -330,7 +330,7 @@ public class GlobalSettings {
 
     public static Manual getManual() {
         try {
-            int i = MathUtils.random(manualAll.size());
+            int i = MathUtils.random(manualAll.size() - 1);
             String id = manualAll.get(i);
             Class<?> clazz = Class.forName("com.lambferret.game.manual." + id);
             Constructor<?> constructor = clazz.getConstructor();
@@ -343,7 +343,7 @@ public class GlobalSettings {
 
     public static Quest getQuest() {
         try {
-            int i = MathUtils.random(questAll.size());
+            int i = MathUtils.random(questAll.size() - 1);
             String id = questAll.get(i);
             Class<?> clazz = Class.forName("com.lambferret.game.quest." + id);
             Constructor<?> constructor = clazz.getConstructor();

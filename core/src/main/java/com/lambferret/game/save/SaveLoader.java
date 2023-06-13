@@ -114,6 +114,7 @@ public class SaveLoader {
             .downAffinity(player.getDownAffinity())
             .upperAffinity(player.getUpperAffinity())
             .maxManualCapacity(player.getMaxManualCapacity())
+            .maxCommandInHand(player.getMaxCommandInHand())
             .eventList(player.getEventList())
             .build();
         try (FileWriter file = new FileWriter(fileName)) {
