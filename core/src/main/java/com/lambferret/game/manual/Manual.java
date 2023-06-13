@@ -15,6 +15,8 @@ import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 @Getter
 @Setter
 public abstract class Manual implements Comparable<Manual> {
@@ -85,11 +87,15 @@ public abstract class Manual implements Comparable<Manual> {
         return GlobalUtil.simpleButton("button/button_up", sb);
     }
 
-    public abstract void effect();
+    public abstract void effect(ManualTiming timing);
 
     @Override
     public int compareTo(Manual o) {
         return this.ID.compareTo(o.ID);
+    }
+
+    public enum ManualTiming {
+        START_STAGE, ACTION_START, ACTION_END
     }
 
 }

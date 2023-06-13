@@ -17,6 +17,7 @@ import com.lambferret.game.command.Command;
 import com.lambferret.game.component.AnimationImage;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
+import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ui.Overlay;
@@ -67,11 +68,13 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     @Override
     public void startPhase() {
+        PhaseScreen.activateManual(Manual.ManualTiming.ACTION_START);
         random = PhaseScreen.handRandom;
         setMapTable();
         executeCommand();
         setMembers();
         executePhase();
+        PhaseScreen.activateManual(Manual.ManualTiming.ACTION_END);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class MiracleMemorizationMethod extends Manual {
     }
 
     @Override
-    public void effect() {
+    public void effect(ManualTiming timing) {
 
     }
 

@@ -14,7 +14,7 @@ public class SoftBrain extends Manual {
     }
 
     @Override
-    public void effect() {
+    public void effect(ManualTiming timing) {
 
     }
 

@@ -16,7 +16,7 @@ public class ColdWeatherTraining extends Manual {
     }
 
     @Override
-    public void effect() {
+    public void effect(ManualTiming timing) {
         var a = SnowFight.player.getSoldiers();
         a.forEach(soldier -> {
             soldier.setInitialSpeed((short) (soldier.getSpeed() * 1.5F));

@@ -14,7 +14,7 @@ public class KinPpaYi extends Manual {
     }
 
     @Override
-    public void effect() {
+    public void effect(ManualTiming timing) {
         // 코스트 이월 가능
     }
 

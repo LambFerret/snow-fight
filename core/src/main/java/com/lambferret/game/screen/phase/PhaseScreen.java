@@ -33,7 +33,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static Level level;
     public static Map<Command, List<Soldier>> commands = new HashMap<>();
     public static List<Buff> buffList = new ArrayList<>();
-    private static List<Manual> manualList = new ArrayList<>();
     private static final List<AbstractPhase> phaseScreenList;
     private static final AbstractPhase actionPhaseScreen;
     private static final AbstractPhase readyPhaseScreen;
@@ -74,41 +73,46 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     }
 
-
-    public static Map<Command, List<Soldier>> getCommands() {
-        return commands;
-    }
-
-    public static void addBuff(Buff... buff) {
-        buffList.addAll(Arrays.asList(buff));
-        player.buffChanged();
-    }
-
-    public static Screen getCurrentScreen() {
-        return currentScreen;
-    }
-
     public static void screenInitToP() {
+        commands.clear();
+        buffList.clear();
+
+        setPlayer();
+        setLevel();
+        setRandom();
+        activateManual(Manual.ManualTiming.START_STAGE);
+
+        Overlay.getInstance().onPlayerReady();
+        prePhaseScreen.startPhase();
+        logger.info(" Phase : Init -> Pre");
+        currentScreen = Screen.PRE;
+    }
+
+    private static void setPlayer() {
         player = SnowFight.player;
-        level = LevelFinder.get(player.getDay());
-        mapRandomSeed = MathUtils.random(999L);
-        handRandom = new Random();
         for (AbstractPhase phase : phaseScreenList) {
             phase.onPlayerReady();
             player.addPlayerObserver(phase);
         }
         player.initAllQuest();
-        commands.clear();
-        buffList.clear();
-        manualList = player.getManuals();
-        logger.info(" Phase : Activated Manual - " + GlobalUtil.listToString(manualList));
-        manualList.forEach(Manual::effect);
+    }
+
+    private static void setLevel() {
+        level = LevelFinder.get(player.getDay());
         player.setSnowAmount(level.getAssignedSnow());
-        // warning
-        Overlay.getInstance().onPlayerReady();
-        prePhaseScreen.startPhase();
-        logger.info(" Phase : Init -> Pre");
-        currentScreen = Screen.PRE;
+    }
+
+    private static void setRandom() {
+        mapRandomSeed = MathUtils.random(999L);
+        handRandom = new Random();
+    }
+
+    protected static void activateManual(Manual.ManualTiming timing) {
+        var manualList = player.getManuals();
+        logger.info(" Phase : Activated Manual - " + GlobalUtil.listToString(manualList));
+        for (Manual manual : manualList) {
+            manual.effect(timing);
+        }
     }
 
     // 이하 순서 조심할 것. 아직 섞인 상태 노확신
@@ -178,6 +182,19 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             case DEFEAT -> defeatScreen.render();
         }
         overlay.render();
+    }
+
+    public static Map<Command, List<Soldier>> getCommands() {
+        return commands;
+    }
+
+    public static void addBuff(Buff... buff) {
+        buffList.addAll(Arrays.asList(buff));
+        player.buffChanged();
+    }
+
+    public static Screen getCurrentScreen() {
+        return currentScreen;
     }
 
     public enum Screen {
