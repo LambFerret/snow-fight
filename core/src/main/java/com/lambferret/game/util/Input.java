@@ -34,11 +34,22 @@ public class Input {
         );
     }
 
-    public static InputListener soundWhenClick(Sound sound) {
+    public static InputListener soundWhenHover(Sound sound) {
         return new InputListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 if (pointer == -1) sound.play();
+                super.enter(event, x, y, pointer, fromActor);
+            }
+        };
+    }
+
+    public static InputListener soundWhenClick(Sound sound) {
+        return new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                sound.play();
+                super.clicked(event, x, y);
             }
         };
     }

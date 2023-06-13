@@ -1,26 +1,26 @@
 package com.lambferret.game.command;
 
-import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.soldier.Soldier;
 
 import java.util.List;
 
-public class CupChinese extends Command {
+public class RewardLeaveForNoSmoke extends Command {
+
     public static final String ID;
 
     static {
-        cost = 1;
-        price = 12;
-        affectToUp = 1;
-        affectToMiddle = 1;
-        affectToDown = 1;
+        cost = 3;
+        price = 20;
+        affectToUp = -20;
+        affectToMiddle = +20;
+        affectToDown = +20;
     }
 
-    public CupChinese() {
+    public RewardLeaveForNoSmoke() {
         super(
             ID,
-            Type.REWARD,
+            Type.OPERATION,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
@@ -29,17 +29,23 @@ public class CupChinese extends Command {
             affectToMiddle,
             affectToDown,
             false,
-            true
+            false
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
+        int min = 999;
+        Soldier target = null;
         for (Soldier soldier : soldiers) {
-            soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
-            soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() + 10));
+            if (soldier.getRangeX() * soldier.getRangeY() < min) {
+                min = soldier.getRangeX() * soldier.getRangeY();
+                target = soldier;
+            }
         }
-
+        if (target != null) {
+            target.setSpeed((short) (target.getSpeed() * (min - 1)));
+        }
     }
 
     private static final int cost;
@@ -49,7 +55,7 @@ public class CupChinese extends Command {
     private static final int affectToDown;
 
     static {
-        ID = CupChinese.class.getSimpleName();
+        ID = RewardLeaveForNoSmoke.class.getSimpleName();
     }
 
 }

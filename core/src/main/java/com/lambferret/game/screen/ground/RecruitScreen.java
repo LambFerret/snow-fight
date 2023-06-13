@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.component.PagingTable;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
@@ -29,8 +30,8 @@ public class RecruitScreen implements AbstractGround {
 
     public static final Stage stage = new Stage();
 
-    private final List<Table> testAddTableList = new ArrayList<>();
-    private final List<Table> testDeleteTableList = new ArrayList<>();
+    private final List<PagingTable> testAddTableList = new ArrayList<>();
+    private final List<PagingTable> testDeleteTableList = new ArrayList<>();
     CustomButton label;
     CustomButton guideLabel;
     private Player player;
@@ -54,9 +55,8 @@ public class RecruitScreen implements AbstractGround {
 
         int i = 1;
         for (Table table : testAddTableList) {
-            table.setPosition(200 * i, 500);
+            table.setPosition(GlobalSettings.currWidth / 4F * i++, 500);
             table.setDebug(true, true);
-            i++;
         }
     }
 
@@ -79,9 +79,8 @@ public class RecruitScreen implements AbstractGround {
         setTestDeleteManualTableList();
         int i = 1;
         for (Table table : testDeleteTableList) {
-            table.setPosition(200 * i, 500);
+            table.setPosition(GlobalSettings.currWidth / 4F * i++, 500);
             table.setDebug(true, true);
-            i++;
         }
     }
 
@@ -136,9 +135,7 @@ public class RecruitScreen implements AbstractGround {
     }
 
     private void setTestAddSoldierTableList() {
-        Table soldierCreateTable = new Table();
-        int col = soldiers.size() / 15 + 1;
-        int i = 0;
+        List<CustomButton> list = new ArrayList<>();
         for (String s : soldiers) {
             Soldier soldier = GlobalSettings.getSoldier(s);
             CustomButton button = GlobalUtil.simpleButton("white", soldier.getName());
@@ -151,21 +148,15 @@ public class RecruitScreen implements AbstractGround {
                     )
                 );
             }));
-            soldierCreateTable.add(button).left();
-            i++;
-            if (i == col) {
-                soldierCreateTable.row();
-                i = 0;
-            }
+            list.add(button);
         }
+        PagingTable soldierCreateTable = new PagingTable(list);
         testAddTableList.add(soldierCreateTable);
         stage.addActor(soldierCreateTable);
     }
 
     private void setTestAddCommandTableList() {
-        Table commandCreateTable = new Table();
-        int col = commands.size() / 15 + 1;
-        int i = 0;
+        List<CustomButton> list = new ArrayList<>();
         for (String s : commands) {
             Command command = GlobalSettings.getCommand(s);
             CustomButton button = GlobalUtil.simpleButton("white", command.getName());
@@ -178,21 +169,16 @@ public class RecruitScreen implements AbstractGround {
                     )
                 );
             }));
-            commandCreateTable.add(button).left();
-            i++;
-            if (i == col) {
-                commandCreateTable.row();
-                i = 0;
-            }
+            list.add(button);
         }
+        PagingTable commandCreateTable = new PagingTable(list);
+
         testAddTableList.add(commandCreateTable);
         stage.addActor(commandCreateTable);
     }
 
     private void setTestAddManualTableList() {
-        Table manualCreateTable = new Table();
-        int col = manuals.size() / 15 + 1;
-        int i = 0;
+        List<CustomButton> list = new ArrayList<>();
         for (String s : manuals) {
             Manual manual = GlobalSettings.getManual(s);
             CustomButton button = GlobalUtil.simpleButton("white", manual.getName());
@@ -205,21 +191,17 @@ public class RecruitScreen implements AbstractGround {
                     )
                 );
             }));
-            manualCreateTable.add(button).left();
-            i++;
-            if (i == col) {
-                manualCreateTable.row();
-                i = 0;
-            }
+            list.add(button);
         }
-        testAddTableList.add(manualCreateTable);
-        stage.addActor(manualCreateTable);
+        PagingTable commandCreateTable = new PagingTable(list);
+
+        testAddTableList.add(commandCreateTable);
+        stage.addActor(commandCreateTable);
+
     }
 
     private void setTestDeleteSoldierTableList() {
-        Table soldierDeleteTable = new Table();
-        int col = player.getSoldiers().size() / 15 + 1;
-        int i = 0;
+        List<CustomButton> list = new ArrayList<>();
         for (Soldier soldier : player.getSoldiers()) {
             CustomButton button = GlobalUtil.simpleButton("white", soldier.getName());
             button.addListener(Input.click(() -> {
@@ -232,21 +214,16 @@ public class RecruitScreen implements AbstractGround {
                     )
                 );
             }));
-            soldierDeleteTable.add(button).left();
-            i++;
-            if (i == col) {
-                soldierDeleteTable.row();
-                i = 0;
-            }
+            list.add(button);
+
         }
+        PagingTable soldierDeleteTable = new PagingTable(list);
         testDeleteTableList.add(soldierDeleteTable);
         stage.addActor(soldierDeleteTable);
     }
 
     private void setTestDeleteCommandTableList() {
-        Table CommandDeleteTable = new Table();
-        int col = player.getCommands().size() / 15 + 1;
-        int i = 0;
+        List<CustomButton> list = new ArrayList<>();
         for (Command command : player.getCommands()) {
             CustomButton button = GlobalUtil.simpleButton("white", command.getName());
             button.addListener(Input.click(() -> {
@@ -259,21 +236,15 @@ public class RecruitScreen implements AbstractGround {
                     )
                 );
             }));
-            CommandDeleteTable.add(button).left();
-            i++;
-            if (i == col) {
-                CommandDeleteTable.row();
-                i = 0;
-            }
+            list.add(button);
         }
-        testDeleteTableList.add(CommandDeleteTable);
-        stage.addActor(CommandDeleteTable);
+        PagingTable commandDeleteTable = new PagingTable(list);
+        testDeleteTableList.add(commandDeleteTable);
+        stage.addActor(commandDeleteTable);
     }
 
     private void setTestDeleteManualTableList() {
-        Table ManualDeleteTable = new Table();
-        int col = player.getManuals().size() / 15 + 1;
-        int i = 0;
+        List<CustomButton> list = new ArrayList<>();
         for (Manual manual : player.getManuals()) {
             CustomButton button = GlobalUtil.simpleButton("white", manual.getName());
             button.addListener(Input.click(() -> {
@@ -286,15 +257,11 @@ public class RecruitScreen implements AbstractGround {
                     )
                 );
             }));
-            ManualDeleteTable.add(button).left();
-            i++;
-            if (i == col) {
-                ManualDeleteTable.row();
-                i = 0;
-            }
+            list.add(button);
         }
-        testAddTableList.add(ManualDeleteTable);
-        stage.addActor(ManualDeleteTable);
+        PagingTable manualDeleteTable = new PagingTable(list);
+        testDeleteTableList.add(manualDeleteTable);
+        stage.addActor(manualDeleteTable);
     }
 
     @Override

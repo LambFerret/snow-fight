@@ -15,8 +15,6 @@ import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
 @Getter
 @Setter
 public abstract class Manual implements Comparable<Manual> {
@@ -78,7 +76,7 @@ public abstract class Manual implements Comparable<Manual> {
 
     public Image renderSideCover() {
         Image image = new Image(new TextureRegionDrawable(atlas.findRegion(this.texturePath + "_side")));
-        image.addListener(Input.soundWhenClick(hoverSound));
+        image.addListener(Input.soundWhenHover(hoverSound));
         return image;
     }
 

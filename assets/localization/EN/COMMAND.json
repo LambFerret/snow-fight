@@ -12,24 +12,6 @@
       "effect": "Current remaining snow -20%, reduce upper favor -20",
       "shortDescription": "reduce remaining snow and upper favor"
     },
-    "CupNoodle": {
-      "name": "Cup Noodle",
-      "description": "Cup Noodle. The Devil Flavor.",
-      "effect": "Reinforce Soldier this phase, but increase chance of runaway +10%",
-      "shortDescription": "Reinforce the soldier. increase chance of runaway"
-    },
-    "CupChinese": {
-      "name": "Cup Chinese",
-      "description": "Cup Chinese. The Devil Flavor.",
-      "effect": "Reinforce Soldier this phase, but increase chance of runaway +10%",
-      "shortDescription": "Reinforce the soldier. increase chance of runaway"
-    },
-    "CupRamen": {
-      "name": "Cup Ramen",
-      "description": "Cup Ramen. The Devil Flavor.",
-      "effect": "Reinforce Soldier this phase, but increase chance of runaway +10%",
-      "shortDescription": "Reinforce the soldier. increase chance of runaway"
-    },
     "Snowplow": {
       "name": "Snowplow",
       "description": "Snowplow! Align! Forward!",
@@ -83,6 +65,114 @@
       "description": "Description",
       "effect": "Make the range of weakened soldiers 1 cell and reduce the temptation of strengthened soldiers by -20%",
       "shortDescription": "Reinforce the soldier. Increase chance of runaway"
+    },
+    "CupNoodleXL": {
+      "name": "Cup Noodle Large",
+      "description": "Description",
+      "effect": "Increase X-axis range by +1 for two phases",
+      "shortDescription": ""
+    },
+    "CupNoodle": {
+      "name": "Cup Noodle",
+      "description": "Description",
+      "effect": "Increase X-axis range by +1 for one phase",
+      "shortDescription": ""
+    },
+    "CupRamenXL": {
+      "name": "Fire Chicken Large",
+      "description": "Description",
+      "effect": "At the start of the phase, speed is 300%, then it rapidly decreases to 0%",
+      "shortDescription": ""
+    },
+    "CupRamen": {
+      "name": "Fire Chicken",
+      "description": "Description",
+      "effect": "At the start of the phase, speed is 200%, then it slowly decreases to 0%",
+      "shortDescription": ""
+    },
+    "CupRiceXL": {
+      "name": "Cup Rice Large",
+      "description": "Description",
+      "effect": "Soldier enhancement, speed reduction effects are doubled",
+      "shortDescription": ""
+    },
+    "CupRice": {
+      "name": "Cup Rice",
+      "description": "Description",
+      "effect": "Soldier enhancement, loot probability +10%",
+      "shortDescription": ""
+    },
+    "OffBasePass": {
+      "name": "Off-Base Pass",
+      "description": "Description",
+      "effect": "Speed of enhanced soldiers +20%, weaken the soldier with the most workload in the next phase",
+      "shortDescription": ""
+    },
+    "RewardLeave": {
+      "name": "Reward Leave",
+      "description": "Description",
+      "effect": "All soldier speed +50% for this phase, the soldier with the most workload in the next phase will not participate and other soldiers are weakened",
+      "shortDescription": ""
+    },
+    "RewardLeaveForNoSmoke": {
+      "name": "No-Smoking Reward Leave",
+      "description": "Description",
+      "effect": "All soldier smoke -30% for this phase, the soldier with the most workload in the next phase will not participate and other soldiers are weakened",
+      "shortDescription": ""
+    },
+    "HotChicken": {
+      "name": "Hot Chicken",
+      "description": "Description",
+      "effect": "Weakening is nullified for this stage",
+      "shortDescription": ""
+    },
+    "HotPocket": {
+      "name": "Hot Pocket",
+      "description": "Description",
+      "effect": "Duration of received enhancement +1 phase for this stage",
+      "shortDescription": ""
+    },
+    "Risotto": {
+      "name": "Sea Snail Abalone Porridge",
+      "description": "Every life is ruined",
+      "effect": "50% probability to enhance all soldiers, 50% probability to weaken all soldiers",
+      "shortDescription": ""
+    },
+    "Churu": {
+      "name": "Churu",
+      "description": "Two would eat, one would die unnoticed.",
+      "effect": "For this stage, the number of 'Churu' used enhances the soldiers",
+      "shortDescription": ""
+    },
+    "InsiderTrading": {
+      "name": "Financial Accounting Transaction",
+      "description": "Description",
+      "effect": "200% money when clearing this stage",
+      "shortDescription": ""
+    },
+    "TraffickingInClassifiedInformation": {
+      "name": "Trafficking in Classified Information",
+      "description": "Description",
+      "effect": "The first time a one-time reward is used in this stage, it will not be consumed.",
+      "shortDescription": ""
+    },
+    "SupplyEmbezzlement": {
+      "name": "Supply Embezzlement",
+      "description": "",
+      "effect": "Next operation cost is 0",
+      "shortDescription": ""
+    },
+    "Sabotage": {
+      "name": "Sabotage",
+      "description": "Description",
+      "effect": "Consume all remaining cost to decrease supply by -n*(current phase number)%",
+      "shortDescription": ""
+    },
+    "AvoidSurveillance": {
+      "name": "Avoid Surveillance",
+      "description": "Description",
+      "effect": "",
+      "shortDescription": ""
     }
   }
 }
