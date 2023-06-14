@@ -13,6 +13,7 @@ public class LevelFinder {
     }
 
     public static Level get(int levelNumber) {
+        logger.info("LEVEL : trying to get number " + levelNumber + " and their tier is " + LevelTier.values()[levelNumber]);
         return switch (LevelTier.values()[levelNumber]) {
             case NATION_1 -> new LevelN1();
             case NATION_2 -> new LevelN1();
