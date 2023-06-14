@@ -9,9 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.buff.Buff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
+import com.lambferret.game.nonbuff.CommandNonBuff;
+import com.lambferret.game.nonbuff.NonBuff;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.ShopScreen;
@@ -117,28 +118,20 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         this.scrollPane.setActor(table);
     }
 
-    private int parsingCommandBuff(Buff buff, int initCost) {
-        if (buff.isExpired() || buff.getFigure() != Buff.Figure.NEXT_COMMAND) return initCost;
-        int value = buff.getValue();
-        int result = initCost;
-        switch (buff.getOperation()) {
-            case ADD -> {
-                result = initCost + value;
-            }
-            case SUB -> {
-                result = initCost - value;
-            }
-            case MUL -> {
-                result = initCost * value;
-            }
-            case DIV -> {
-                result = initCost / value;
-            }
+    private int parsingCost(Command command) {
+        int cost = command.getCost();
+        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
+            if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
+            cost = (int) ((CommandNonBuff) tempBuff).resultInt(command);
         }
-        if (result < 0) {
-            result = 0;
+        return cost;
+    }
+
+    private void countDownBuff() {
+        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
+            if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
+            tempBuff.countDown();
         }
-        return result;
     }
 
     private Group renderCommand(Command command) {
@@ -146,19 +139,13 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         CustomButton infoButton = command.renderInfo();
         infoContainer.setActor(infoButton);
 
-        int cost = command.getCost();
-        for (Buff buff : PhaseScreen.buffList) {
-            cost = parsingCommandBuff(buff, cost);
-        }
+        int cost = parsingCost(command);
         commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
-        int finalCost = cost;
         commandButton.addListener(Input.click(() -> {
             if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
-                if (player.getCurrentCost() >= finalCost) {
-                    for (Buff buff : PhaseScreen.buffList) {
-                        if (!buff.effectCountdown()) return;
-                    }
-                    player.useCost(finalCost);
+                if (player.getCurrentCost() >= cost) {
+                    player.useCost(cost);
+                    countDownBuff();
                     PhaseScreen.getCommands().put(command, null);
                     selectedCommands.set(selectedCommands.indexOf(command), null);
                     makeCommandContainer();

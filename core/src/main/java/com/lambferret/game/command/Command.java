@@ -38,7 +38,7 @@ public abstract class Command implements Comparable<Command> {
     /**
      * 이름
      */
-    private final String name;
+    protected final String name;
     /**
      * 텍스쳐 경로
      */

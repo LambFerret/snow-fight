@@ -24,7 +24,7 @@ public class LevelN1 extends Level {
     };
     private static final int minSnowForClear = 250;
     private static final int assignedSnow = 500;
-    public static final int MAX_SOLDIER_CAPACITY = 20;
+    public static final int MAX_SOLDIER_CAPACITY = 2;
 
     @Override
     protected int[][] originAmountInMap() {

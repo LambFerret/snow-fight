@@ -1,6 +1,5 @@
 package com.lambferret.game.command;
 
-import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.soldier.Soldier;
 
@@ -35,10 +34,6 @@ public class CupRamenXL extends Command {
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        for (Soldier soldier : soldiers) {
-            soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
-            soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() + 10));
-        }
 
     }
 

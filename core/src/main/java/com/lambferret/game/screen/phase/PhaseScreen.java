@@ -7,6 +7,7 @@ import com.lambferret.game.command.Command;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.manual.Manual;
+import com.lambferret.game.nonbuff.NonBuff;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.save.Item;
@@ -33,6 +34,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static Level level;
     public static Map<Command, List<Soldier>> commands = new HashMap<>();
     public static List<Buff> buffList = new ArrayList<>();
+    public static List<NonBuff> tempBuffList = new ArrayList<>();
     private static final List<AbstractPhase> phaseScreenList;
     private static final AbstractPhase actionPhaseScreen;
     private static final AbstractPhase readyPhaseScreen;
@@ -61,6 +63,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public PhaseScreen() {
         commands = new LinkedHashMap<>();
         buffList = new ArrayList<>();
+        tempBuffList = new ArrayList<>();
     }
 
     public void onPlayerReady() {
@@ -76,9 +79,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenInitToP() {
         commands.clear();
         buffList.clear();
+        tempBuffList.clear();
 
         setPlayer();
-        setLevel();
         setRandom();
         activateManual(Manual.ManualTiming.START_STAGE);
 
@@ -90,6 +93,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
 
     private static void setPlayer() {
         player = SnowFight.player;
+        setLevel();
         for (AbstractPhase phase : phaseScreenList) {
             phase.onPlayerReady();
             player.addPlayerObserver(phase);
@@ -189,7 +193,10 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public static void addBuff(Buff... buff) {
-        buffList.addAll(Arrays.asList(buff));
+        for (Buff b : buff) {
+            buffList.add(b);
+            b.effect();
+        }
         player.buffChanged();
     }
 

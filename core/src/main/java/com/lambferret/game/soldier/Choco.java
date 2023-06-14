@@ -1,6 +1,7 @@
 package com.lambferret.game.soldier;
 
 import com.lambferret.game.buff.Buff;
+import com.lambferret.game.buff.SoldierStatusBuff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.Rank;
@@ -13,7 +14,6 @@ import com.lambferret.game.text.dto.SoldierInfo;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class Choco extends Soldier {
 
@@ -45,13 +45,14 @@ public class Choco extends Soldier {
     @Override
     public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
         for (Soldier soldier : s) {
-            if (soldier.getBranch() == Branch.ADMINISTRATIVE && !Objects.equals(soldier.getID(), this.getID())) {
-                PhaseScreen.addBuff(
-                    Buff.figure(Buff.Figure.SOLDIER_SPEED).to(List.of(soldier)).turn(1)
-                        .operation(Buff.Operation.MUL).value(2),
-                    Buff.figure(Buff.Figure.SOLDIER_SPEED).to(List.of(soldier)).permanently().turnAfter(1)
-                        .operation(Buff.Operation.DIV).value(5)
-                );
+            if (soldier.getBranch() == Branch.ADMINISTRATIVE && !this.equals(soldier)) {
+                Buff buff1 = new SoldierStatusBuff(INFO.getName(), List.of(soldier),
+                    SoldierStatusBuff.Figure.SPEED, Buff.Operation.MUL, 2, 1);
+                Buff buff2 = new SoldierStatusBuff(INFO.getName(), List.of(soldier),
+                    SoldierStatusBuff.Figure.SPEED, Buff.Operation.MUL, 0.2F, 1);
+                buff2.turnAfter(1);
+                buff2.permanently();
+                PhaseScreen.addBuff(buff1, buff2);
             }
         }
     }

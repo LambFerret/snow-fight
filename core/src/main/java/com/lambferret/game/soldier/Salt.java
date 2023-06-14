@@ -1,6 +1,6 @@
 package com.lambferret.game.soldier;
 
-import com.lambferret.game.buff.Buff;
+import com.lambferret.game.buff.CommandBuff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.Rank;
@@ -51,16 +51,12 @@ public class Salt extends Soldier {
                 }
             }
             case NEUTRAL -> {
-                PhaseScreen.addBuff(
-                    Buff.figure(Buff.Figure.NEXT_COMMAND).to(p).permanently()
-                        .operation(Buff.Operation.SUB).value(1)
-                );
+                CommandBuff buff = new CommandBuff(INFO.getName(), -1, false, 1, 999);
+                PhaseScreen.addBuff(buff);
             }
             case EMPOWERED -> {
-                PhaseScreen.addBuff(
-                    Buff.figure(Buff.Figure.NEXT_COMMAND).to(p).permanently().count(1)
-                        .operation(Buff.Operation.SUB).value(99)
-                );
+                CommandBuff buff = new CommandBuff(INFO.getName(), 0, true, 1, 999);
+                PhaseScreen.addBuff(buff);
             }
         }
     }

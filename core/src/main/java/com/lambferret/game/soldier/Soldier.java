@@ -422,4 +422,8 @@ public abstract class Soldier implements Comparable<Soldier> {
         return this.rank.ordinal() - o.rank.ordinal();
     }
 
+    public boolean equals(Soldier soldier) {
+        return this.ID.equals(soldier.ID);
+    }
+
 }
