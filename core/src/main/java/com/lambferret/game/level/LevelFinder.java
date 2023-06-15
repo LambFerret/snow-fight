@@ -1,6 +1,6 @@
 package com.lambferret.game.level;
 
-import com.lambferret.game.level.nation.LevelN1;
+import com.lambferret.game.level.nation.LevelR1;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,36 +15,36 @@ public class LevelFinder {
     public static Level get(int levelNumber) {
         logger.info("LEVEL : trying to get number " + levelNumber + " and their tier is " + LevelTier.values()[levelNumber]);
         return switch (LevelTier.values()[levelNumber]) {
-            case NATION_1 -> new LevelN1();
-            case NATION_2 -> new LevelN1();
-            case NATION_3 -> new LevelN1();
-            case NATION_4 -> new LevelN1();
-            case NATION_5 -> new LevelN1();
-            case NATION_6 -> new LevelN1();
-            case NATION_7 -> new LevelN1();
-            case NATION_8 -> new LevelN1();
-            case NATION_9 -> new LevelN1();
-            case NATION_10 -> new LevelN1();
-            case RURAL_1 -> new LevelN1();
-            case RURAL_2 -> new LevelN1();
-            case RURAL_3 -> new LevelN1();
-            case RURAL_4 -> new LevelN1();
-            case RURAL_5 -> new LevelN1();
-            case RURAL_6 -> new LevelN1();
-            case RURAL_7 -> new LevelN1();
-            case RURAL_8 -> new LevelN1();
-            case RURAL_9 -> new LevelN1();
-            case RURAL_10 -> new LevelN1();
-            case URBAN_1 -> new LevelN1();
-            case URBAN_2 -> new LevelN1();
-            case URBAN_3 -> new LevelN1();
-            case URBAN_4 -> new LevelN1();
-            case URBAN_5 -> new LevelN1();
-            case URBAN_6 -> new LevelN1();
-            case URBAN_7 -> new LevelN1();
-            case URBAN_8 -> new LevelN1();
-            case URBAN_9 -> new LevelN1();
-            case URBAN_10 -> new LevelN1();
+            case NATION_1 -> new LevelR1();
+            case NATION_2 -> new LevelR1();
+            case NATION_3 -> new LevelR1();
+            case NATION_4 -> new LevelR1();
+            case NATION_5 -> new LevelR1();
+            case NATION_6 -> new LevelR1();
+            case NATION_7 -> new LevelR1();
+            case NATION_8 -> new LevelR1();
+            case NATION_9 -> new LevelR1();
+            case NATION_10 -> new LevelR1();
+            case RURAL_1 -> new LevelR1();
+            case RURAL_2 -> new LevelR1();
+            case RURAL_3 -> new LevelR1();
+            case RURAL_4 -> new LevelR1();
+            case RURAL_5 -> new LevelR1();
+            case RURAL_6 -> new LevelR1();
+            case RURAL_7 -> new LevelR1();
+            case RURAL_8 -> new LevelR1();
+            case RURAL_9 -> new LevelR1();
+            case RURAL_10 -> new LevelR1();
+            case URBAN_1 -> new LevelR1();
+            case URBAN_2 -> new LevelR1();
+            case URBAN_3 -> new LevelR1();
+            case URBAN_4 -> new LevelR1();
+            case URBAN_5 -> new LevelR1();
+            case URBAN_6 -> new LevelR1();
+            case URBAN_7 -> new LevelR1();
+            case URBAN_8 -> new LevelR1();
+            case URBAN_9 -> new LevelR1();
+            case URBAN_10 -> new LevelR1();
         };
     }
 

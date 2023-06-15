@@ -26,6 +26,7 @@ public abstract class Level {
     private static final TextureAtlas tileAtlas = AssetFinder.getAtlas("tile");
     public static final int LEVEL_EACH_SIZE_SMALL = 40;
     public static final int LEVEL_EACH_SIZE_BIG = 100;
+    public static final int MAP_ITERATION_CONSTANT = 1;
     Random random;
 
     private final MapAttribute[][] MAP;
@@ -217,11 +218,7 @@ public abstract class Level {
     }
 
     public short setMaxIteration(Region region) {
-        return switch (region) {
-            case NATION -> (short) 2;
-            case RURAL -> (short) 3;
-            case URBAN -> (short) 4;
-        };
+        return (short) (region.ordinal() + MAP_ITERATION_CONSTANT);
     }
 
     public void initCurrentIteration() {

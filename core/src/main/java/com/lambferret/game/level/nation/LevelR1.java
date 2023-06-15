@@ -3,7 +3,7 @@ package com.lambferret.game.level.nation;
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.level.Level;
 
-public class LevelN1 extends Level {
+public class LevelR1 extends Level {
 
     public static final float SCALED_MULTIPLY = 0.3F;
     private static final short[][] map = {
@@ -31,7 +31,7 @@ public class LevelN1 extends Level {
         return null;
     }
 
-    public LevelN1() {
+    public LevelR1() {
         super(Region.RURAL, map, maxAmountMap, minSnowForClear, assignedSnow, MAX_SOLDIER_CAPACITY);
     }
 
