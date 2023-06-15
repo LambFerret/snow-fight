@@ -226,18 +226,19 @@ public abstract class Command implements Comparable<Command> {
 
     public CustomButton renderInfo() {
         // 이름 자세히설명 종류 코스트 타겟 한마디
-        String sb = this.effectText + "\n" +
-            "cost: " + this.cost + "\n" +
+        StringBuilder sb = GlobalUtil.addNewlines(this.effectText);
+        sb.append("\n");
+        String rest = "cost: " + this.cost + "\n" +
             "target: " + this.target.toString() + "\n" +
             "type: " + this.type.toString() + "\n" +
             this.description;
-
+        sb.append(rest);
         NinePatchDrawable ninePatchDrawable = GlobalUtil.getNinePatchDrawableFromTexture("itemUI_description", 5);
 
         ImageTextButton.ImageTextButtonStyle style = new ImageTextButton.ImageTextButtonStyle();
         style.up = ninePatchDrawable;
         style.font = GlobalSettings.font;
-        return new CustomButton(sb, style);
+        return new CustomButton(sb.toString(), style);
     }
 
     public String getName() {

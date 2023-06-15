@@ -72,8 +72,8 @@ public class ActionPhaseScreen implements AbstractPhase {
         PhaseScreen.activateManual(Manual.ManualTiming.ACTION_START);
         random = PhaseScreen.handRandom;
         setMapTable();
-        executeCommand();
         setMembers();
+        executeCommand();
         executePhase();
         PhaseScreen.activateManual(Manual.ManualTiming.ACTION_END);
     }

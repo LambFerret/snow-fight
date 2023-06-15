@@ -44,8 +44,8 @@
     },
     "Relax": {
       "name": "Relax",
-      "description": "Reduce the y range of the soldier with the widest range by -1, increase speed*n for the reduced area",
-      "effect": "Effect description",
+      "description": "Description",
+      "effect": "Reduce the y range of the soldier with the widest range by -1, increase speed*n for the reduced area",
       "shortDescription": "Reinforce the soldier. Increase chance of runaway"
     },
     "DefendTheArea": {

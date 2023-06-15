@@ -60,8 +60,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         hideButton.setOrigin(Align.center);
 
         // TODO set position this
-        infoContainer.setSize(100, 100);
-        infoContainer.setPosition(100, 100);
+        infoContainer.setPosition((width - infoContainer.getWidth()) / 2, 200);
 
         scrollPane.setScrollingDisabled(true, false);
         scrollPane.setPosition(this.getX(), this.getY());

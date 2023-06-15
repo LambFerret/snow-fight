@@ -27,26 +27,6 @@ public class ReadyPhaseScreen implements AbstractPhase {
 
     public ReadyPhaseScreen() {
         mapContainer = new Container<>();
-    }
-
-    @Override
-    public void onPlayerReady() {
-        this.player = SnowFight.player;
-        this.level = PhaseScreen.level;
-    }
-
-    @Override
-    public void onPlayerUpdate(Item.Type type) {
-
-    }
-
-    @Override
-    public void startPhase() {
-        mapContainer.setDebug(true, true);
-        mapContainer.setActor(level.makeTable(false));
-//        mapContainer.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("yellow")));
-        mapContainer.setSize(LEVEL_EACH_SIZE_BIG * level.COLUMNS, LEVEL_EACH_SIZE_BIG * level.ROWS);
-
         mapContainer.addListener(new DragListener() {
 
             @Override
@@ -77,11 +57,27 @@ public class ReadyPhaseScreen implements AbstractPhase {
                 camera.update();
                 return true;
             }
-
         });
+    }
+
+    @Override
+    public void onPlayerReady() {
+        this.player = SnowFight.player;
+        this.level = PhaseScreen.level;
+    }
+
+    @Override
+    public void onPlayerUpdate(Item.Type type) {
+
+    }
+
+    @Override
+    public void startPhase() {
+        mapContainer.setDebug(true, true);
+        mapContainer.setActor(level.makeTable(false));
+//        mapContainer.setBackground(new TextureRegionDrawable(AssetFinder.getTexture("yellow")));
+        mapContainer.setSize(LEVEL_EACH_SIZE_BIG * level.COLUMNS, LEVEL_EACH_SIZE_BIG * level.ROWS);
         stage.addActor(mapContainer);
-        //각종 플레이어의 덱이나 능력을 확인하거나 일단 작동시킴 즉 transaction 이 일어나기 전 모든 행동들
-        PhaseScreen.buffList.forEach(Buff::effect);
     }
 
     @Override
@@ -89,7 +85,8 @@ public class ReadyPhaseScreen implements AbstractPhase {
         for (Soldier soldier : player.getSoldiers()) {
             soldier.initValue();
         }
-        mapContainer.clear();
+        PhaseScreen.buffList.forEach(Buff::effect);
+        mapContainer.clearChildren();
     }
 
     public static float getTableX() {

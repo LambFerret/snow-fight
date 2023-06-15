@@ -123,4 +123,25 @@ public class GlobalUtil {
         return sb.toString();
     }
 
+    public static StringBuilder addNewlines(String str, int lineLength) {
+        String[] words = str.split(" ");
+        StringBuilder result = new StringBuilder();
+        int wordCount = 0;
+
+        for (String word : words) {
+            result.append(word).append(" ");
+            wordCount++;
+            if (wordCount % lineLength == 0) {
+                result.append("\n");
+            }
+        }
+        return result;
+    }
+
+    public static StringBuilder addNewlines(String str) {
+        StringBuilder result = new StringBuilder();
+        result.append(str.replace(", ", ",\n"));
+        return result;
+    }
+
 }
