@@ -169,17 +169,14 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
         if (PhaseScreen.getCurrentScreen() != PhaseScreen.Screen.ACTION) hide();
         Level level = PhaseScreen.level;
         switch (PhaseScreen.getCurrentScreen()) {
-            case PRE -> {
-                PhaseScreen.screenPtoR();
-            }
-            case READY -> {
-                PhaseScreen.screenRtoA();
-            }
+            case PRE -> PhaseScreen.screenPtoR();
+            case READY -> PhaseScreen.screenRtoA();
             case ACTION -> {
                 PhaseScreen.executeAction();
                 if (level.getMaxIteration() > level.getCurrentIteration()) {
                     PhaseScreen.screenAtoR();
                 } else if (level.getMaxIteration() == level.getCurrentIteration()) {
+                    PhaseScreen.deck.clear();
                     if (player.getSnowAmount() >= level.getMinSnowForClear()) {
                         PhaseScreen.screenAtoD();
                     } else {
@@ -189,12 +186,8 @@ public class ExecuteOverlay extends Group implements AbstractOverlay {
                     throw new RuntimeException("current iter is bigger than max iter");
                 }
             }
-            case VICTORY -> {
-                logger.warn("DEPRECATED VICTORY");
-            }
-            case DEFEAT -> {
-                logger.warn("DEPRECATED DEFEAT");
-            }
+            case VICTORY -> logger.warn("DEPRECATED VICTORY");
+            case DEFEAT -> logger.warn("DEPRECATED DEFEAT");
         }
         Overlay.changePhaseInputProcessor();
     }

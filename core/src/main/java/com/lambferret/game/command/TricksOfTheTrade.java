@@ -10,11 +10,11 @@ public class TricksOfTheTrade extends Command {
     public static final String ID;
 
     static {
-        cost = 8;
-        price = 100;
-        affectToUp = -100;
+        cost = 3;
+        price = 10;
+        affectToUp = 0;
         affectToMiddle = 0;
-        affectToDown = +100;
+        affectToDown = 0;
     }
 
     public TricksOfTheTrade() {
@@ -27,9 +27,7 @@ public class TricksOfTheTrade extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            true,
-            false
+            affectToDown
         );
     }
 

@@ -8,6 +8,7 @@ import java.util.List;
 public class SoldierEmpowerBuff extends Buff {
     private final List<Soldier> soldiers;
     private final EmpowerLevel empowerLevel;
+    private EmpowerLevel empowerCondition;
 
     public SoldierEmpowerBuff(String from, List<Soldier> to, EmpowerLevel empowerLevel, int turn) {
         super(from, Target.SOLDIER, null, 0, turn);
@@ -18,8 +19,18 @@ public class SoldierEmpowerBuff extends Buff {
     @Override
     protected void useEffect() {
         for (Soldier s : soldiers) {
-            s.setEmpowerLevel(empowerLevel);
+            if (empowerCondition != null) {
+                if (s.getEmpowerLevel() == empowerCondition) {
+                    s.setEmpowerLevel(empowerLevel);
+                }
+            } else {
+                s.setEmpowerLevel(empowerLevel);
+            }
         }
+    }
+
+    public void hasCondition(EmpowerLevel empowerCondition) {
+        this.empowerCondition = empowerCondition;
     }
 
     @Override

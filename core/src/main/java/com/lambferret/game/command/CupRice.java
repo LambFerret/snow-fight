@@ -10,11 +10,11 @@ public class CupRice extends Command {
     public static final String ID;
 
     static {
-        cost = 1;
-        price = 12;
-        affectToUp = 1;
-        affectToMiddle = 1;
-        affectToDown = 1;
+        cost = 3;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public CupRice() {
@@ -27,9 +27,7 @@ public class CupRice extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            true
+            affectToDown
         );
     }
 

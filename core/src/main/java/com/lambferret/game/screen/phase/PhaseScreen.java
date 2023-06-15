@@ -3,11 +3,11 @@ package com.lambferret.game.screen.phase;
 import com.badlogic.gdx.math.MathUtils;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.Buff;
+import com.lambferret.game.buff.nonbuff.NonBuff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.level.LevelFinder;
 import com.lambferret.game.manual.Manual;
-import com.lambferret.game.nonbuff.NonBuff;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.save.Item;
@@ -33,6 +33,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static Player player;
     public static Level level;
     public static Map<Command, List<Soldier>> commands = new HashMap<>();
+    public static List<Command> deck = new ArrayList<>();
     public static List<Buff> buffList = new ArrayList<>();
     public static List<NonBuff> tempBuffList = new ArrayList<>();
     private static final List<AbstractPhase> phaseScreenList;
@@ -99,6 +100,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             player.addPlayerObserver(phase);
         }
         player.initAllQuest();
+        deck.addAll(player.getCommands());
     }
 
     private static void setLevel() {

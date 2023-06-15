@@ -1,5 +1,7 @@
 package com.lambferret.game.command;
 
+import com.badlogic.gdx.math.MathUtils;
+import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.soldier.Soldier;
 
@@ -11,33 +13,35 @@ public class Risotto extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public Risotto() {
         super(
             ID,
-            Type.OPERATION,
+            Type.REWARD,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
+        // TODO RANDOM SEED
         for (Soldier s : soldiers) {
-            s.setRunAwayProbability((byte) (s.getRunAwayProbability() * 9 / 10));
-            s.setSpeed((short) (s.getSpeed() * 9 / 10));
+            if (MathUtils.randomBoolean()) {
+                s.setEmpowerLevel(EmpowerLevel.EMPOWERED);
+            } else {
+                s.setEmpowerLevel(EmpowerLevel.WEAKEN);
+            }
         }
     }
 

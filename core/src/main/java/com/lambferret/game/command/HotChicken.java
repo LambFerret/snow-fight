@@ -1,6 +1,9 @@
 package com.lambferret.game.command;
 
+import com.lambferret.game.buff.SoldierEmpowerBuff;
+import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 
 import java.util.List;
@@ -11,35 +14,32 @@ public class HotChicken extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public HotChicken() {
         super(
             ID,
-            Type.OPERATION,
+            Type.REWARD,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        for (Soldier soldier : soldiers) {
-            soldier.setRangeX((byte) (soldier.getRangeX() + 2));
-            soldier.setRangeY((byte) (soldier.getRangeY() - 1));
-        }
-
+        SoldierEmpowerBuff buff = new SoldierEmpowerBuff(name, soldiers, EmpowerLevel.NEUTRAL, 1);
+        buff.permanently();
+        buff.hasCondition(EmpowerLevel.WEAKEN);
+        PhaseScreen.addBuff(buff);
     }
 
     private static final int cost;

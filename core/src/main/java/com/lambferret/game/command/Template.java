@@ -11,10 +11,10 @@ public class Template extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public Template() {
@@ -27,9 +27,7 @@ public class Template extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 

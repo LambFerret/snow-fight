@@ -11,31 +11,36 @@ public class RewardLeave extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public RewardLeave() {
         super(
             ID,
-            Type.OPERATION,
+            Type.REWARD,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-
+        for (Soldier s : soldiers) {
+            int t = (int) (s.getSpeed() * 1.5);
+            if (t > 100) {
+                s.setRunAwayProbability((byte) 100);
+            } else {
+                s.setSpeed((short) t);
+            }
+        }
     }
 
     private static final int cost;

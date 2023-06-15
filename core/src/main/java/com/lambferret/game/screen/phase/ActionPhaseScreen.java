@@ -1,5 +1,6 @@
 package com.lambferret.game.screen.phase;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
@@ -130,27 +131,26 @@ public class ActionPhaseScreen implements AbstractPhase {
 
     private void setMembers() {
         actionMember.clear();
-        actionMember.addAll(regularForEntireGameMember);
-        actionMember.addAll(regularForOnceMember);
-        int capacity = level.getMaxSoldierCapacity() - actionMember.size();
-        actionMember.addAll(getRandomSoldiersFromHand(capacity));
+        int capacity = level.getMaxSoldierCapacity();
+        fillListRandomly(regularForEntireGameMember, capacity, false);
+        fillListRandomly(regularForOnceMember, capacity, false);
+        fillListRandomly(player.getSoldiers(), capacity, true);
         actionPhaseTime = actionMember.size() * ASSIGNED_TIME_FOR_EACH_SOLDIER;
     }
 
-    private List<Soldier> getRandomSoldiersFromHand(int number) {
-        Set<Soldier> soldierSet = new HashSet<>();
-        List<Soldier> hand = player.getSoldiers();
-        List<Soldier> result;
-        if (number > player.getSoldiers().size()) {
-            result = hand;
-        } else {
-            while (soldierSet.size() < number) {
-                int randInt = PhaseScreen.handRandom.random(hand.size());
-                soldierSet.add(hand.get(randInt));
+    private void fillListRandomly(List<Soldier> lists, int capacity, boolean isHand) {
+        int count = 0;
+        while (actionMember.size() < capacity && !lists.isEmpty() && actionMember.size() < lists.size()) {
+            int randInt = PhaseScreen.handRandom.random(lists.size());
+            actionMember.add(lists.get(randInt));
+            if (!isHand) lists.remove(randInt);
+            count++;
+            if (count > 200) {
+                // TODO infinite loop
+                logger.fatal("ActionPhaseScreen.fillListRandomly() : infinite loop");
+                Gdx.app.exit();
             }
-            result = soldierSet.stream().toList();
         }
-        return result;
     }
 
     /**
@@ -160,11 +160,7 @@ public class ActionPhaseScreen implements AbstractPhase {
         this.commandMap = PhaseScreen.getCommands();
         for (Command command : commandMap.keySet()) {
             var value = actionMember;//commandMap.get(command);
-            if (value == null) {
-                command.execute();
-            } else {
-                command.execute(value);
-            }
+            command.execute(value, PhaseScreen.deck, level, player);
         }
     }
 

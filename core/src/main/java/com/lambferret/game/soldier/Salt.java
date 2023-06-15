@@ -51,11 +51,11 @@ public class Salt extends Soldier {
                 }
             }
             case NEUTRAL -> {
-                CommandBuff buff = new CommandBuff(INFO.getName(), -1, false, 1, 999);
+                CommandBuff buff = new CommandBuff(INFO.getName(), CommandBuff.Figure.COST, -1, false, 1, 999);
                 PhaseScreen.addBuff(buff);
             }
             case EMPOWERED -> {
-                CommandBuff buff = new CommandBuff(INFO.getName(), 0, true, 1, 999);
+                CommandBuff buff = new CommandBuff(INFO.getName(), CommandBuff.Figure.COST, 0, true, 1, 999);
                 PhaseScreen.addBuff(buff);
             }
         }

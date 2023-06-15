@@ -1,4 +1,4 @@
-package com.lambferret.game.nonbuff;
+package com.lambferret.game.buff.nonbuff;
 
 public abstract class NonBuff {
     private final Target to;

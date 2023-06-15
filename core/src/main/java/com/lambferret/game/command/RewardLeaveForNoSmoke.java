@@ -11,40 +11,35 @@ public class RewardLeaveForNoSmoke extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public RewardLeaveForNoSmoke() {
         super(
             ID,
-            Type.OPERATION,
+            Type.REWARD,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        int min = 999;
-        Soldier target = null;
-        for (Soldier soldier : soldiers) {
-            if (soldier.getRangeX() * soldier.getRangeY() < min) {
-                min = soldier.getRangeX() * soldier.getRangeY();
-                target = soldier;
+        for (Soldier s : soldiers) {
+            int t = s.getSpeed() - 30;
+            if (t <= 0) {
+                s.setRunAwayProbability((byte) 100);
+            } else {
+                s.setRunAwayProbability((byte) t);
             }
-        }
-        if (target != null) {
-            target.setSpeed((short) (target.getSpeed() * (min - 1)));
         }
     }
 

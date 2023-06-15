@@ -1,6 +1,9 @@
 package com.lambferret.game.command;
 
+import com.lambferret.game.buff.Buff;
+import com.lambferret.game.buff.SoldierEmpowerBuff;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 
 import java.util.List;
@@ -11,41 +14,32 @@ public class HotPocket extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public HotPocket() {
         super(
             ID,
-            Type.OPERATION,
+            Type.REWARD,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        for (Soldier soldier : soldiers) {
-            switch (soldier.getEmpowerLevel()) {
-                case WEAKEN -> {
-                    soldier.setRangeX((byte) 1);
-                    soldier.setRangeY((byte) 1);
-                }
-                case NEUTRAL -> {
-                }
-                case EMPOWERED -> {
-                    soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() * 4 / 10));
-                }
+        var list = PhaseScreen.buffList;
+        for (Buff b : list) {
+            if (b instanceof SoldierEmpowerBuff) {
+                b.controlTurn(+1);
             }
         }
     }

@@ -9,10 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.SnowFight;
+import com.lambferret.game.buff.nonbuff.CommandCostNonBuff;
+import com.lambferret.game.buff.nonbuff.CommandReusableNonBuff;
+import com.lambferret.game.buff.nonbuff.NonBuff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
-import com.lambferret.game.nonbuff.CommandNonBuff;
-import com.lambferret.game.nonbuff.NonBuff;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.ShopScreen;
@@ -95,7 +96,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
 
     private void selectCommand() {
         selectedCommands.clear();
-        List<Command> commands = player.getCommands();
+        List<Command> commands = !Overlay.isPhaseUI ? player.getCommands() : PhaseScreen.deck;
         while (selectedCommands.size() < Math.min(commands.size(), maxCommand)) {
             Command pickedCommand = commands.get(handRandom.random(commands.size()));
             if (!selectedCommands.contains(pickedCommand)) {
@@ -122,7 +123,14 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         int cost = command.getCost();
         for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
             if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
-            cost = (int) ((CommandNonBuff) tempBuff).resultInt(command);
+            List<Command.Type> lists = ((CommandCostNonBuff) tempBuff).getCondition();
+            if (lists != null) {
+                if (lists.contains(command.getType())) {
+                    cost = (int) ((CommandCostNonBuff) tempBuff).resultInt(command);
+                }
+            } else {
+                cost = (int) ((CommandCostNonBuff) tempBuff).resultInt(command);
+            }
         }
         return cost;
     }
@@ -131,6 +139,15 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
             if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
             tempBuff.countDown();
+        }
+    }
+
+    private void parseCommandReusable(Command command) {
+        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
+            if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
+            if (tempBuff instanceof CommandReusableNonBuff) {
+                ((CommandReusableNonBuff) tempBuff).resultBoolean(command);
+            }
         }
     }
 
@@ -146,6 +163,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
                 if (player.getCurrentCost() >= cost) {
                     player.useCost(cost);
                     countDownBuff();
+                    parseCommandReusable(command);
                     PhaseScreen.getCommands().put(command, null);
                     selectedCommands.set(selectedCommands.indexOf(command), null);
                     makeCommandContainer();
@@ -159,9 +177,7 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
                 infoContainer.setVisible(true);
                 infoContainer.setActor(infoButton);
             },
-            () -> {
-                infoContainer.setVisible(false);
-            }
+            () -> infoContainer.setVisible(false)
         ));
 
         return commandButton;

@@ -2,6 +2,7 @@ package com.lambferret.game.command;
 
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.soldier.Soldier;
 
 import java.util.List;
@@ -10,11 +11,11 @@ public class Sabotage extends Command {
     public static final String ID;
 
     static {
-        cost = 8;
-        price = 100;
-        affectToUp = -100;
+        cost = 3;
+        price = 10;
+        affectToUp = 0;
         affectToMiddle = 0;
-        affectToDown = +100;
+        affectToDown = 0;
     }
 
     public Sabotage() {
@@ -27,15 +28,17 @@ public class Sabotage extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            true,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        SnowFight.player.setSnowAmount(SnowFight.player.getSnowAmount() * 4 / 5);
+        Player p = SnowFight.player;
+        int t = p.getCurrentCost();
+        p.setCurrentCost(0);
+        SnowFight.player.setSnowAmount(SnowFight.player.getSnowAmount() + t * 100);
+
     }
 
     private static final int cost;

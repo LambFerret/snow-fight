@@ -1,14 +1,12 @@
 package com.lambferret.game.command;
 
-import com.lambferret.game.buff.Buff;
-import com.lambferret.game.buff.SoldierStatusBuff;
 import com.lambferret.game.constant.Rarity;
-import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 
 import java.util.List;
 
-public class CupNoodle extends Command {
+public class Camouflage extends Command {
+
     public static final String ID;
 
     static {
@@ -19,10 +17,10 @@ public class CupNoodle extends Command {
         affectToDown = 0;
     }
 
-    public CupNoodle() {
+    public Camouflage() {
         super(
             ID,
-            Type.REWARD,
+            Type.OPERATION,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
@@ -35,9 +33,27 @@ public class CupNoodle extends Command {
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        PhaseScreen.addBuff(
-            new SoldierStatusBuff(name, soldiers, SoldierStatusBuff.Figure.X, Buff.Operation.ADD, 1, 1)
-        );
+        int max = -999;
+        Soldier maxTarget = null;
+        for (Soldier soldier : soldiers) {
+            if (soldier.getSpeed() > max) {
+                max = soldier.getSpeed();
+                maxTarget = soldier;
+            }
+        }
+        int min = 999;
+        Soldier minTarget = null;
+        for (Soldier soldier : soldiers) {
+            if (soldier.getSpeed() < min) {
+                min = soldier.getSpeed();
+                minTarget = soldier;
+            }
+        }
+
+        if (maxTarget != null && minTarget != null && !maxTarget.equals(minTarget)) {
+            maxTarget.setSpeed((short) min);
+            minTarget.setSpeed((short) max);
+        }
     }
 
     private static final int cost;
@@ -47,7 +63,7 @@ public class CupNoodle extends Command {
     private static final int affectToDown;
 
     static {
-        ID = CupNoodle.class.getSimpleName();
+        ID = Camouflage.class.getSimpleName();
     }
 
 }

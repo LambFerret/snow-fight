@@ -11,35 +11,29 @@ public class InsiderTrading extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public InsiderTrading() {
         super(
             ID,
-            Type.OPERATION,
+            Type.BETRAYAL,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        for (Soldier s : soldiers) {
-            int t = s.getRangeY() - 1;
-            s.setRangeY((byte) 1);
-            s.setRangeX((byte) (s.getRangeX() + t));
-        }
+        // 클리어시 돈 2배
     }
 
     private static final int cost;

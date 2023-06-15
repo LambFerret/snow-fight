@@ -284,6 +284,9 @@ public abstract class Level {
     }
 
     public void setMaxSoldierCapacity(int maxSoldierCapacity) {
+        if (maxSoldierCapacity < 0) {
+            maxSoldierCapacity = 0;
+        }
         this.maxSoldierCapacity = maxSoldierCapacity;
     }
 

@@ -9,11 +9,11 @@ public class CupRamenXL extends Command {
     public static final String ID;
 
     static {
-        cost = 1;
-        price = 12;
-        affectToUp = 1;
-        affectToMiddle = 1;
-        affectToDown = 1;
+        cost = 3;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public CupRamenXL() {
@@ -26,15 +26,17 @@ public class CupRamenXL extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            true
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-
+        // "페이즈 시작시 속도 300%, 이후 빠르게 0%까지 감소"
+        for (Soldier soldier : soldiers) {
+            var animation = soldier.getAnimation();
+            animation.setFrameDuration(animation.getFrameDuration() * 0.3F);
+        }
     }
 
     private static final int cost;

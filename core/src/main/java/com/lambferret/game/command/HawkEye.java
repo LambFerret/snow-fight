@@ -11,10 +11,10 @@ public class HawkEye extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public HawkEye() {
@@ -27,9 +27,7 @@ public class HawkEye extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
@@ -39,7 +37,6 @@ public class HawkEye extends Command {
             soldier.setRangeX((byte) (soldier.getRangeX() + 2));
             soldier.setRangeY((byte) (soldier.getRangeY() - 1));
         }
-
     }
 
     private static final int cost;

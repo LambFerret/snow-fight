@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.level.Level;
+import com.lambferret.game.player.Player;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
@@ -23,7 +25,6 @@ import com.lambferret.game.util.GlobalUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -88,21 +89,17 @@ public abstract class Command implements Comparable<Command> {
      */
     private int affectToDown;
     /**
-     * 게임내 지속 효과 인지
-     */
-    private boolean isPersistentEffect;
-    /**
      * 재사용 여부
      */
-    private boolean isReusable;
+    private boolean isReusable = true;
 
-    private int initialCost;
-    private int initialPrice;
-    private int initialAffectToUp;
-    private int initialAffectToMiddle;
-    private int initialAffectToDown;
 
-    private int itemCount = 0;
+    private final int initialCost;
+    private final int initialPrice;
+    private final int initialAffectToUp;
+    private final int initialAffectToMiddle;
+    private final int initialAffectToDown;
+
     TextureAtlas atlas;
 
     // TODO 여기 호감도 시스템 어케할건지 확인요함
@@ -115,9 +112,7 @@ public abstract class Command implements Comparable<Command> {
         int price,
         int affectToUp,
         int affectToMiddle,
-        int affectToDown,
-        boolean isPersistentEffect,
-        boolean isReusable
+        int affectToDown
     ) {
         this.ID = ID;
         // TODO debug as vanilla
@@ -128,6 +123,9 @@ public abstract class Command implements Comparable<Command> {
         this.effectText = INFO.getEffect();
         this.shortDescription = INFO.getShortDescription();
         this.type = type;
+        if (this.type == Type.REWARD) {
+            this.isReusable = false;
+        }
         this.cost = cost;
         this.target = target;
         this.rarity = rarity;
@@ -136,8 +134,6 @@ public abstract class Command implements Comparable<Command> {
         this.affectToUp = affectToUp;
         this.affectToMiddle = affectToMiddle;
         this.affectToDown = affectToDown;
-        this.isPersistentEffect = isPersistentEffect;
-        this.isReusable = isReusable;
 
         this.initialCost = cost;
         this.initialPrice = price;
@@ -158,9 +154,26 @@ public abstract class Command implements Comparable<Command> {
 
     public abstract void execute(List<Soldier> soldiers);
 
-    public void execute() {
+    public void execute(List<Soldier> s, List<Command> d, Level l, Player p) {
         logger.info("Command : execute - " + this.ID);
-        execute(new ArrayList<>());
+        switch (target) {
+            case PLAYER -> execute(s);
+            case SOLDIER -> execute(s);
+            case UI -> execute(s);
+            case ENEMY -> execute(s);
+        }
+        if (this.type == Type.REWARD) {
+            if (this.isReusable) {
+                this.isReusable = false;
+            } else {
+                d.remove(this);
+            }
+        } else {
+            if (!this.isReusable) {
+                d.remove(this);
+                this.isReusable = true;
+            }
+        }
     }
 
     public TextureRegionDrawable renderIcon() {
@@ -241,6 +254,14 @@ public abstract class Command implements Comparable<Command> {
 
     public int getPrice() {
         return price;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setReusable(boolean reusable) {
+        isReusable = reusable;
     }
 
     @Override

@@ -61,6 +61,10 @@ public abstract class Buff {
         return this.turn <= 0;
     }
 
+    public void controlTurn(int i) {
+        if (this.turn > 1) this.turn += i;
+    }
+
     public void setEnable() {
         isDisable = false;
     }
@@ -106,12 +110,10 @@ public abstract class Buff {
     public enum Operation {
         ADD,
         MUL,
-        ;
     }
 
     public enum Result {
         INCREASE, DECREASE, NEUTRAL,
-        ;
     }
 
     public enum Target {
@@ -121,7 +123,6 @@ public abstract class Buff {
         COMMAND,
         MANUAL,
         SYSTEM,
-        ;
     }
 
 }

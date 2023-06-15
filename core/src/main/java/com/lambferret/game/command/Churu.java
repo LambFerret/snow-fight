@@ -1,8 +1,13 @@
 package com.lambferret.game.command;
 
+import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rarity;
+import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.soldier.Soldier;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 public class Churu extends Command {
@@ -11,40 +16,48 @@ public class Churu extends Command {
 
     static {
         cost = 3;
-        price = 20;
-        affectToUp = -20;
-        affectToMiddle = +20;
-        affectToDown = +20;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public Churu() {
         super(
             ID,
-            Type.OPERATION,
+            Type.REWARD,
             cost,
             Target.SOLDIER,
             Rarity.COMMON,
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            false
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
-        int max = -999;
-        Soldier target = null;
-        for (Soldier soldier : soldiers) {
-            if (soldier.getRangeX() * soldier.getRangeY() > max) {
-                max = soldier.getRangeX() * soldier.getRangeY();
-                target = soldier;
+        int count = 0;
+        List<Command> deck = PhaseScreen.deck;
+        Iterator<Command> iterator = deck.iterator();
+        while (iterator.hasNext()) {
+            Command c = iterator.next();
+            if (c instanceof Churu) {
+                count++;
+                iterator.remove();
             }
         }
-        if (target != null) {
-            target.setSpeed((short) (target.getSpeed() * target.getRangeY()));
+        if (count > soldiers.size()) {
+            for (Soldier s : soldiers) {
+                s.setEmpowerLevel(EmpowerLevel.EMPOWERED);
+            }
+            return;
+        }
+        List<Soldier> temp = new ArrayList<>(soldiers);
+        Collections.shuffle(temp);
+        for (Soldier s : temp.subList(0, count)) {
+            s.setEmpowerLevel(EmpowerLevel.EMPOWERED);
         }
     }
 

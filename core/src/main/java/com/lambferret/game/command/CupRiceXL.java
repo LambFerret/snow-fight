@@ -10,11 +10,11 @@ public class CupRiceXL extends Command {
     public static final String ID;
 
     static {
-        cost = 1;
-        price = 12;
-        affectToUp = 1;
-        affectToMiddle = 1;
-        affectToDown = 1;
+        cost = 3;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public CupRiceXL() {
@@ -27,9 +27,7 @@ public class CupRiceXL extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            true
+            affectToDown
         );
     }
 
@@ -37,7 +35,11 @@ public class CupRiceXL extends Command {
     public void execute(List<Soldier> soldiers) {
         for (Soldier soldier : soldiers) {
             soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
-            soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() + 10));
+            if (soldier.getRunAwayProbability() <= 50) {
+                soldier.setRunAwayProbability((byte) 50);
+            } else {
+                soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() + 10));
+            }
         }
 
     }

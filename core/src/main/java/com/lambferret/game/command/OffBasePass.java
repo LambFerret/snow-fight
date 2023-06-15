@@ -10,11 +10,11 @@ public class OffBasePass extends Command {
     public static final String ID;
 
     static {
-        cost = 1;
-        price = 12;
-        affectToUp = 1;
-        affectToMiddle = 1;
-        affectToDown = 1;
+        cost = 3;
+        price = 10;
+        affectToUp = 0;
+        affectToMiddle = 0;
+        affectToDown = 0;
     }
 
     public OffBasePass() {
@@ -27,19 +27,19 @@ public class OffBasePass extends Command {
             price,
             affectToUp,
             affectToMiddle,
-            affectToDown,
-            false,
-            true
+            affectToDown
         );
     }
 
     @Override
     public void execute(List<Soldier> soldiers) {
         for (Soldier soldier : soldiers) {
-            soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
-            soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() + 10));
+            switch (soldier.getEmpowerLevel()) {
+                case WEAKEN -> soldier.setEmpowerLevel(EmpowerLevel.NEUTRAL);
+                case NEUTRAL -> soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
+                case EMPOWERED -> soldier.setRunAwayProbability((byte) 100);
+            }
         }
-
     }
 
     private static final int cost;
