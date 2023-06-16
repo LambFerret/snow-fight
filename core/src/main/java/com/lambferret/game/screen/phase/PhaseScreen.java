@@ -13,13 +13,13 @@ import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
-import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
@@ -32,7 +32,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static Screen currentScreen;
     public static Player player;
     public static Level level;
-    public static Map<Command, List<Soldier>> commands = new HashMap<>();
     public static List<Command> deck = new ArrayList<>();
     public static List<Buff> buffList = new ArrayList<>();
     public static List<NonBuff> tempBuffList = new ArrayList<>();
@@ -62,7 +61,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public PhaseScreen() {
-        commands = new LinkedHashMap<>();
         buffList = new ArrayList<>();
         tempBuffList = new ArrayList<>();
     }
@@ -78,7 +76,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     }
 
     public static void screenInitToP() {
-        commands.clear();
         buffList.clear();
         tempBuffList.clear();
 
@@ -148,7 +145,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         player.setCurrentCost(player.getMaxCost());
         Overlay.getInstance().nextPhase();
         level.toNextIteration();
-        commands.clear();
         buffList.forEach(Buff::setEnable);
         buffList.removeIf(Buff::isExpired);
         player.buffChanged();
@@ -189,10 +185,6 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             case DEFEAT -> defeatScreen.render();
         }
         overlay.render();
-    }
-
-    public static Map<Command, List<Soldier>> getCommands() {
-        return commands;
     }
 
     public static void addBuff(Buff... buff) {

@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
-import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.EmpowerLevel;
@@ -30,7 +29,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class Soldier implements Comparable<Soldier> {
     private static final Logger logger = LogManager.getLogger(Soldier.class.getName());
@@ -329,7 +327,7 @@ public abstract class Soldier implements Comparable<Soldier> {
         }
     }
 
-    public abstract void talent(List<Soldier> soldiers, Map<Command, List<Soldier>> commands, Level level, Player player);
+    public abstract void talent(List<Soldier> soldiers, Level level, Player player);
 
     protected abstract void empowered();
 

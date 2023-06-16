@@ -1,6 +1,5 @@
 package com.lambferret.game.soldier;
 
-import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.EmpowerLevel;
 import com.lambferret.game.constant.Rank;
@@ -13,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 
 public class Vanilla extends Soldier {
     private static final Logger logger = LogManager.getLogger(Vanilla.class.getName());
@@ -44,7 +42,7 @@ public class Vanilla extends Soldier {
     }
 
     @Override
-    public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
+    public void talent(List<Soldier> s, Level l, Player p) {
         for (Soldier soldier : s) {
             soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
 //            soldier.setEmpowerLevel(EmpowerLevel.WEAKEN);

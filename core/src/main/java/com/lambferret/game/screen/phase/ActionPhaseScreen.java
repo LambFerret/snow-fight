@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Timer;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.command.Command;
 import com.lambferret.game.component.AnimationImage;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.level.Level;
@@ -29,7 +28,10 @@ import com.lambferret.game.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 import static com.lambferret.game.level.Level.LEVEL_EACH_SIZE_BIG;
 import static com.lambferret.game.screen.ui.AbstractOverlay.SNOW_BAR_HEIGHT;
@@ -49,7 +51,6 @@ public class ActionPhaseScreen implements AbstractPhase {
     List<Soldier> regularForEntireGameMember = new ArrayList<>();
     List<Soldier> regularForOnceMember = new ArrayList<>();
     List<Soldier> actionMember = new ArrayList<>();
-    Map<Command, List<Soldier>> commandMap;
     Random random;
 
     public ActionPhaseScreen() {
@@ -73,7 +74,6 @@ public class ActionPhaseScreen implements AbstractPhase {
         random = PhaseScreen.handRandom;
         setMapTable();
         setMembers();
-        executeCommand();
         executePhase();
         PhaseScreen.activateManual(Manual.ManualTiming.ACTION_END);
     }
@@ -83,7 +83,7 @@ public class ActionPhaseScreen implements AbstractPhase {
         logger.info(" Action : Today's Victim! " + GlobalUtil.listToString(actionMember));
         for (Soldier soldier : actionMember) {
             logger.info(" Action : talent activated! " + soldier.getID());
-            soldier.talent(actionMember, commandMap, level, player);
+            soldier.talent(actionMember, level, player);
         }
 
         Queue<Soldier> soldierQueue = new LinkedList<>(actionMember);
@@ -150,17 +150,6 @@ public class ActionPhaseScreen implements AbstractPhase {
                 logger.fatal("ActionPhaseScreen.fillListRandomly() : infinite loop");
                 Gdx.app.exit();
             }
-        }
-    }
-
-    /**
-     * 로드된 작전 사용
-     */
-    private void executeCommand() {
-        this.commandMap = PhaseScreen.getCommands();
-        for (Command command : commandMap.keySet()) {
-            var value = actionMember;//commandMap.get(command);
-            command.execute(value, PhaseScreen.deck, level, player);
         }
     }
 

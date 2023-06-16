@@ -1,6 +1,5 @@
 package com.lambferret.game.soldier;
 
-import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.Rank;
 import com.lambferret.game.constant.Terrain;
@@ -11,7 +10,6 @@ import com.lambferret.game.text.dto.SoldierInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Chili extends Soldier {
 
@@ -41,7 +39,7 @@ public class Chili extends Soldier {
     }
 
     @Override
-    public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
+    public void talent(List<Soldier> s, Level l, Player p) {
         List<Soldier> temp = new ArrayList<>();
         for (Soldier soldier : s) {
             if (soldier.compareTo(this) == 0) {

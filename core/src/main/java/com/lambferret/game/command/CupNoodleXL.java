@@ -31,6 +31,7 @@ public class CupNoodleXL extends Command {
             affectToMiddle,
             affectToDown
         );
+        setTargetCount(4);
     }
 
     @Override

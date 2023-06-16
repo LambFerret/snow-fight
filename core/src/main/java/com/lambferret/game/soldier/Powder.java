@@ -1,6 +1,5 @@
 package com.lambferret.game.soldier;
 
-import com.lambferret.game.command.Command;
 import com.lambferret.game.constant.Branch;
 import com.lambferret.game.constant.Rank;
 import com.lambferret.game.constant.Terrain;
@@ -10,7 +9,6 @@ import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.SoldierInfo;
 
 import java.util.List;
-import java.util.Map;
 
 public class Powder extends Soldier {
 
@@ -40,7 +38,7 @@ public class Powder extends Soldier {
     }
 
     @Override
-    public void talent(List<Soldier> s, Map<Command, List<Soldier>> c, Level l, Player p) {
+    public void talent(List<Soldier> s, Level l, Player p) {
         for (Soldier soldier : s) {
             // 자기보다 높으면 무시 즉 양수면 자기보다 높다는 뜻입니다
             if (soldier.compareTo(this) > 0) continue;

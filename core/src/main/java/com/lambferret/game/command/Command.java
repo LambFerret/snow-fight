@@ -92,7 +92,14 @@ public abstract class Command implements Comparable<Command> {
      * 재사용 여부
      */
     private boolean isReusable = true;
-
+    /**
+     * 현 스테이지에서 몇번 사용되었는지
+     */
+    private int usedCount = 0;
+    /**
+     * 대상이 몇명인지
+     */
+    private int targetCount;
 
     private final int initialCost;
     private final int initialPrice;
@@ -174,6 +181,7 @@ public abstract class Command implements Comparable<Command> {
                 this.isReusable = true;
             }
         }
+        usedCount++;
     }
 
     public TextureRegionDrawable renderIcon() {
@@ -259,6 +267,22 @@ public abstract class Command implements Comparable<Command> {
 
     public Type getType() {
         return type;
+    }
+
+    public int getUsedCount() {
+        return usedCount;
+    }
+
+    protected void setTargetCount(int targetCount) {
+        this.targetCount = targetCount;
+    }
+
+    public int getTargetCount() {
+        return targetCount;
+    }
+
+    public boolean hasTargetCount() {
+        return targetCount != 0;
     }
 
     public void setReusable(boolean reusable) {

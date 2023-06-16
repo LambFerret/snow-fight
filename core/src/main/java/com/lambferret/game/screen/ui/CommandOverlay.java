@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.SnowFight;
 import com.lambferret.game.buff.nonbuff.CommandCostNonBuff;
-import com.lambferret.game.buff.nonbuff.CommandReusableNonBuff;
 import com.lambferret.game.buff.nonbuff.NonBuff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
@@ -18,6 +17,7 @@ import com.lambferret.game.player.Player;
 import com.lambferret.game.save.Item;
 import com.lambferret.game.screen.ground.ShopScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
+import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandOverlay extends Container<ScrollPane> implements AbstractOverlay {
+public class CommandOverlay extends Container<ScrollPane> implements AbstractOverlay, SoldierSelectionListener {
     private static final Logger logger = LogManager.getLogger(CommandOverlay.class.getName());
 
     private final Stage stage;
@@ -39,11 +39,13 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     private int maxCommand;
     private boolean isHide = false;
     private static Random handRandom;
+    private final SoldierWindow soldierWindow;
 
 
     public CommandOverlay(Stage stage) {
         this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
+        soldierWindow = new SoldierWindow(stage, this);
         hideButton = GlobalUtil.simpleButton("hideButton");
 
         infoContainer.setVisible(false);
@@ -141,33 +143,22 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         }
     }
 
-    private void parseCommandReusable(Command command) {
-        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
-            if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
-            if (tempBuff instanceof CommandReusableNonBuff) {
-                ((CommandReusableNonBuff) tempBuff).resultBoolean(command);
-            }
-        }
-    }
-
     private Group renderCommand(Command command) {
         Group commandButton = command.renderSimple();
         CustomButton infoButton = command.renderInfo();
         infoContainer.setActor(infoButton);
 
-        int cost = parsingCost(command);
         commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
         commandButton.addListener(Input.click(() -> {
             if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
-                if (player.getCurrentCost() >= cost) {
-                    player.useCost(cost);
-                    countDownBuff();
-                    parseCommandReusable(command);
-                    PhaseScreen.getCommands().put(command, null);
-                    selectedCommands.set(selectedCommands.indexOf(command), null);
-                    makeCommandContainer();
+                if (command.hasTargetCount()) {
+                    soldierWindow.show(command);
                 } else {
-                    commandButton.addAction(ShopScreen.rejectAction());
+                    if (player.getCurrentCost() >= parsingCost(command)) {
+                        executeCommand(command);
+                    } else {
+                        commandButton.addAction(ShopScreen.rejectAction());
+                    }
                 }
             }
         }));
@@ -210,6 +201,20 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
             Actions.rotateBy(180, COMMAND_HIDE_ANIMATION_DURATION * 2)
         );
         isHide = false;
+    }
+
+    @Override
+    public void onSoldierSelected(List<Soldier> soldiers, Command command) {
+        executeCommand(command);
+    }
+
+    private void executeCommand(Command command) {
+        int cost = parsingCost(command);
+        player.useCost(cost);
+        countDownBuff();
+        command.execute(player.getSoldiers());
+        selectedCommands.set(selectedCommands.indexOf(command), null);
+        makeCommandContainer();
     }
 
     @Override
