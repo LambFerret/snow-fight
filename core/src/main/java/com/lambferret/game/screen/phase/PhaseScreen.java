@@ -99,6 +99,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             phase.onPlayerReady();
             player.addPlayerObserver(phase);
         }
+        player.setCurrentCost(player.getMaxCost());
         player.initAllQuest();
         deck.addAll(player.getCommands());
     }

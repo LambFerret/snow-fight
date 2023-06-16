@@ -11,7 +11,7 @@ public class SoldierEmpowerBuff extends Buff {
     private EmpowerLevel empowerCondition;
 
     public SoldierEmpowerBuff(String from, List<Soldier> to, EmpowerLevel empowerLevel, int turn) {
-        super(from, Target.SOLDIER, null, 0, turn);
+        super(from, Target.SOLDIER, null, empowerLevel.ordinal(), turn);
         this.soldiers = to;
         this.empowerLevel = empowerLevel;
     }
@@ -35,10 +35,11 @@ public class SoldierEmpowerBuff extends Buff {
 
     @Override
     protected Result isIncreased() {
-        return switch (empowerLevel) {
-            case EMPOWERED -> Result.INCREASE;
-            case NEUTRAL -> Result.NEUTRAL;
-            case WEAKEN -> Result.DECREASE;
+        return switch ((int) value) {
+            case 0 -> Result.DECREASE;
+            case 1 -> Result.NEUTRAL;
+            case 2 -> Result.INCREASE;
+            default -> throw new IllegalStateException("Unexpected value: " + value);
         };
     }
 

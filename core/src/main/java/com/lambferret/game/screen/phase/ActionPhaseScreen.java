@@ -165,6 +165,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     }
 
     private void happyWorking(Soldier soldier) {
+        logger.info(GlobalUtil.strPad(" ├ run away") + " : " + soldier.getRunAwayProbability() + "%");
         if (random.randomBoolean(soldier.getRunAwayProbability())) {
             String a = MathUtils.random.nextBoolean() ? "runaway_1" : "runaway_2";
             CustomButton runAwayImage = GlobalUtil.simpleButton(a);
@@ -177,7 +178,6 @@ public class ActionPhaseScreen implements AbstractPhase {
                 Actions.delay(ASSIGNED_TIME_FOR_EACH_SOLDIER / 2F),
                 Actions.removeActor()
             ));
-            logger.info(GlobalUtil.strPad(" ├ run away") + " : " + soldier.getRunAwayProbability() + "%");
             return;
         }
 

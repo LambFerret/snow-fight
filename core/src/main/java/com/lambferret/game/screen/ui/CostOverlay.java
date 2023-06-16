@@ -36,12 +36,13 @@ public class CostOverlay extends ImageTextButton implements AbstractOverlay {
     @Override
     public void onPlayerReady() {
         player = SnowFight.player;
-        setText(player.getCurrentCost() + " / " + player.getMaxCost() + " / " + PhaseScreen.level.getMaxSoldierCapacity());
+        setText(player.getCurrentCost() + " / " + player.getMaxCost() + " \n Capacity of the map : " + PhaseScreen.level.getMaxSoldierCapacity());
     }
 
     @Override
     public void onPlayerUpdate(Item.Type type) {
-        setText(player.getCurrentCost() + " / " + player.getMaxCost());
+        player = SnowFight.player;
+        setText(player.getCurrentCost() + " / " + player.getMaxCost() + " \n Capacity of the map : " + PhaseScreen.level.getMaxSoldierCapacity());
     }
 
 

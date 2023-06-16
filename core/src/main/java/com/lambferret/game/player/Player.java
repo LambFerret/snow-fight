@@ -309,8 +309,8 @@ public class Player {
     }
 
     public void setCurrentCost(int currentCost) {
-        playerUpdate(Item.Type.EVENT);
         this.currentCost = currentCost;
+        playerUpdate(Item.Type.EVENT);
         logger.info(" Player Current Cost : " + currentCost);
     }
 

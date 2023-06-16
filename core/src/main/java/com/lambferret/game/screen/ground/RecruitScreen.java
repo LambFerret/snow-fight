@@ -32,10 +32,11 @@ public class RecruitScreen implements AbstractGround {
 
     private final List<PagingTable> testAddTableList = new ArrayList<>();
     private final List<PagingTable> testDeleteTableList = new ArrayList<>();
+    private final List<CustomButton> deleteAllButtonList = new ArrayList<>();
     CustomButton label;
     CustomButton guideLabel;
     private Player player;
-    private boolean isDelete = false;
+    private boolean isAdd = false;
     List<String> soldiers;
     List<String> commands;
     List<String> manuals;
@@ -44,6 +45,7 @@ public class RecruitScreen implements AbstractGround {
         setBackground();
         setInformationLabel();
         switchTable();
+        deleteAllList();
 
         soldiers = new ArrayList<>(LocalizeConfig.soldierText.getID().keySet());
         commands = new ArrayList<>(LocalizeConfig.commandText.getID().keySet());
@@ -95,6 +97,43 @@ public class RecruitScreen implements AbstractGround {
         stage.addActor(background);
     }
 
+    private void deleteAllList() {
+        deleteAllButtonList.add(deleteAllButton("soldier"));
+        deleteAllButtonList.add(deleteAllButton("command"));
+        deleteAllButtonList.add(deleteAllButton("manual"));
+        for (CustomButton button : deleteAllButtonList) {
+            stage.addActor(button);
+        }
+    }
+
+    private CustomButton deleteAllButton(String type) {
+        CustomButton button = GlobalUtil.simpleButton("white", "delete " + type + " all");
+        button.setSize(100, 100);
+        button.setY(200);
+        switch (type) {
+            case "soldier" -> button.setX(GlobalSettings.currWidth / 4F);
+            case "command" -> button.setX(GlobalSettings.currWidth / 4F * 2);
+            case "manual" -> button.setX(GlobalSettings.currWidth / 4F * 3);
+        }
+        button.addListener(Input.click(() -> {
+            switch (type) {
+                case "soldier" -> {
+                    player.getSoldiers().clear();
+                    if (!isAdd) onPlayerUpdate(Item.Type.SOLDIER);
+                }
+                case "command" -> {
+                    player.getCommands().clear();
+                    if (!isAdd) onPlayerUpdate(Item.Type.COMMAND);
+                }
+                case "manual" -> {
+                    player.getManuals().clear();
+                    if (!isAdd) onPlayerUpdate(Item.Type.MANUAL);
+                }
+            }
+        }));
+        return button;
+    }
+
     private void setInformationLabel() {
         label = GlobalUtil.simpleButton("white", "recruit");
         label.setSize(400, label.getLabel().getHeight() * 2);
@@ -112,7 +151,7 @@ public class RecruitScreen implements AbstractGround {
     }
 
     private void switchTable() {
-        if (isDelete) {
+        if (isAdd) {
             label.setText("this deletes the item");
             this.onPlayerUpdate(Item.Type.EVENT);
             for (Table table : testDeleteTableList) {
@@ -121,7 +160,7 @@ public class RecruitScreen implements AbstractGround {
             for (Table table : testAddTableList) {
                 table.setVisible(false);
             }
-            isDelete = false;
+            isAdd = false;
         } else {
             label.setText("this adds you a item");
             for (Table table : testAddTableList) {
@@ -130,7 +169,7 @@ public class RecruitScreen implements AbstractGround {
             for (Table table : testDeleteTableList) {
                 table.setVisible(false);
             }
-            isDelete = true;
+            isAdd = true;
         }
     }
 
