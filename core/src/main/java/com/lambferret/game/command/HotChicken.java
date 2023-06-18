@@ -35,7 +35,7 @@ public class HotChicken extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         SoldierEmpowerBuff buff = new SoldierEmpowerBuff(name, soldiers, EmpowerLevel.NEUTRAL, 1);
         buff.permanently();
         buff.hasCondition(EmpowerLevel.WEAKEN);

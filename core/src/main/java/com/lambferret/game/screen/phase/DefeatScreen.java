@@ -69,6 +69,7 @@ public class DefeatScreen extends Window implements AbstractPhase {
         // 불이익 감수
         var button = GlobalUtil.simpleButton("info", "Accept Disadvantage and Continue");
         button.addListener(Input.click(() -> {
+                PhaseScreen.end();
                 SnowFight.player.setDownAffinityBy(-30);
                 SnowFight.player.setUpperAffinityBy(-30);
                 SnowFight.player.setMiddleAffinityBy(-30);

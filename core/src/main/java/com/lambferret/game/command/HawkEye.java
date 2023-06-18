@@ -32,7 +32,7 @@ public class HawkEye extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier soldier : soldiers) {
             soldier.setRangeX((byte) (soldier.getRangeX() + 2));
             soldier.setRangeY((byte) (soldier.getRangeY() - 1));

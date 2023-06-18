@@ -32,7 +32,7 @@ public class CupRamen extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier soldier : soldiers) {
             soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
             soldier.setRunAwayProbability((byte) (soldier.getRunAwayProbability() + 10));

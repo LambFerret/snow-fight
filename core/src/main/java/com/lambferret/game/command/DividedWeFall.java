@@ -36,7 +36,7 @@ public class DividedWeFall extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         Branch minBranch = getMinBranch(soldiers);
         List<Soldier> minBranchSoldiers = new ArrayList<>();
         int count = 0;

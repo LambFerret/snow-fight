@@ -32,7 +32,7 @@ public class DefendTheArea extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
 
     }
 

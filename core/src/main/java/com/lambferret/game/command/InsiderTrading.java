@@ -32,7 +32,7 @@ public class InsiderTrading extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         // 클리어시 돈 2배
     }
 

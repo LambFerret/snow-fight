@@ -58,19 +58,6 @@ public class ScreenConfig {
 
     public static void screenChanger(AddedScreen screen) {
         logger.info(" SYSTEM : main screen changed from " + currentScreen + " to " + screen);
-        if (currentScreen != null) {
-            switch (currentScreen) {
-                case TITLE_SCREEN -> {
-                    titleScreen.end();
-                }
-                case GROUND_SCREEN -> {
-                    groundScreen.end();
-                }
-                case PHASE_SCREEN -> {
-                    phaseScreen.end();
-                }
-            }
-        }
 
         switch (screen) {
             case TITLE_SCREEN -> {

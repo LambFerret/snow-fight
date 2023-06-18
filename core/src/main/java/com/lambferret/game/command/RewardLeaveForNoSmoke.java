@@ -32,7 +32,7 @@ public class RewardLeaveForNoSmoke extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier s : soldiers) {
             int t = s.getSpeed() - 30;
             if (t <= 0) {

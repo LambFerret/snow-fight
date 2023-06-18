@@ -70,10 +70,6 @@ public class GroundScreen extends AbstractScreen implements PlayerObserver {
     }
 
     @Override
-    public void end() {
-    }
-
-    @Override
     public void render(float delta) {
         super.render(delta);
         switch (currentScreen) {

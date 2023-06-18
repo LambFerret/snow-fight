@@ -33,7 +33,7 @@ public class Sabotage extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         Player p = SnowFight.player;
         int t = p.getCurrentCost();
         p.setCurrentCost(0);

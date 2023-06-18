@@ -67,6 +67,7 @@ public class VictoryScreen extends Window implements AbstractPhase {
     }
 
     private void confirm() {
+        PhaseScreen.end();
         SnowFight.player.setDay(SnowFight.player.getDay() + 1);
         ScreenConfig.changeScreen = ScreenConfig.AddedScreen.GROUND_SCREEN;
         executePhase();

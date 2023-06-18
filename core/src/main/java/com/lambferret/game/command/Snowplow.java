@@ -32,7 +32,7 @@ public class Snowplow extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier s : soldiers) {
             int t = s.getRangeY() - 1;
             s.setRangeY((byte) 1);

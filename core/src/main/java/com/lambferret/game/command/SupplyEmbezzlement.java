@@ -34,7 +34,7 @@ public class SupplyEmbezzlement extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         CommandBuff buff = new CommandBuff(name, CommandBuff.Figure.COST, 0, true, 1, 1);
         buff.permanently();
         buff.hasCondition(List.of(Type.OPERATION));

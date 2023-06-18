@@ -35,7 +35,7 @@ public class ThreeShift extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         Buff buff1 = new LevelBuff(this.name, LevelBuff.Figure.CAPACITY, PhaseScreen.level, Buff.Operation.MUL, 2, 1);
         Buff buff2 = new LevelBuff(this.name, LevelBuff.Figure.CAPACITY, PhaseScreen.level, Buff.Operation.MUL, 0.5F, 1);
         buff2.permanently();

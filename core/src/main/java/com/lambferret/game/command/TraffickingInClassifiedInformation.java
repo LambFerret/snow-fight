@@ -33,7 +33,7 @@ public class TraffickingInClassifiedInformation extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         CommandBuff commandBuff = new CommandBuff(name, CommandBuff.Figure.REUSABLE, 0, true, 1, 1);
         commandBuff.permanently();
         commandBuff.hasCondition(List.of(Type.REWARD));

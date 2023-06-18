@@ -31,7 +31,7 @@ public class CupRamenXL extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         // "페이즈 시작시 속도 300%, 이후 빠르게 0%까지 감소"
         for (Soldier soldier : soldiers) {
             var animation = soldier.getAnimation();

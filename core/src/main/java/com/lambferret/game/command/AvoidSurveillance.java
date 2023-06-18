@@ -32,7 +32,7 @@ public class AvoidSurveillance extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
     }
 
     private static final int cost;

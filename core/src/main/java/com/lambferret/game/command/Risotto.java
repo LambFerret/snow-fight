@@ -34,7 +34,7 @@ public class Risotto extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         // TODO RANDOM SEED
         for (Soldier s : soldiers) {
             if (MathUtils.randomBoolean()) {

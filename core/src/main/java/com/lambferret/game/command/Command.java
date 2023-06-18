@@ -11,10 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.lambferret.game.buff.nonbuff.CommandCostNonBuff;
+import com.lambferret.game.buff.nonbuff.CommandReusableNonBuff;
+import com.lambferret.game.buff.nonbuff.NonBuff;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.constant.Rarity;
 import com.lambferret.game.level.Level;
 import com.lambferret.game.player.Player;
+import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.setting.GlobalSettings;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
@@ -159,9 +163,9 @@ public abstract class Command implements Comparable<Command> {
         this.affectToDown = this.initialAffectToDown;
     }
 
-    public abstract void execute(List<Soldier> soldiers);
+    protected abstract void execute(List<Soldier> soldiers);
 
-    public void execute(List<Soldier> s, List<Command> d, Level l, Player p) {
+    public void execute(List<Soldier> s, Level l, Player p) {
         logger.info("Command : execute - " + this.ID);
         switch (target) {
             case PLAYER -> execute(s);
@@ -169,19 +173,33 @@ public abstract class Command implements Comparable<Command> {
             case UI -> execute(s);
             case ENEMY -> execute(s);
         }
-        if (this.type == Type.REWARD) {
-            if (this.isReusable) {
-                this.isReusable = false;
+        parsingReusable();
+        p.useCost(parsingCost());
+
+        usedCount++;
+    }
+
+    public int parsingCost() {
+        int cost = this.getCost();
+        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
+            if (!(tempBuff instanceof CommandCostNonBuff buff) || tempBuff.isDisabled()) continue;
+            List<Command.Type> lists = buff.getCondition();
+            if (lists != null) {
+                if (lists.contains(this.getType())) {
+                    cost = (int) buff.resultInt(this);
+                }
             } else {
-                d.remove(this);
-            }
-        } else {
-            if (!this.isReusable) {
-                d.remove(this);
-                this.isReusable = true;
+                cost = (int) buff.resultInt(this);
             }
         }
-        usedCount++;
+        return cost;
+    }
+
+    public void parsingReusable() {
+        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
+            if (!(tempBuff instanceof CommandReusableNonBuff buff) || tempBuff.isDisabled()) continue;
+            buff.resultBoolean(this);
+        }
     }
 
     public TextureRegionDrawable renderIcon() {

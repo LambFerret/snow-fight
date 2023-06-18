@@ -32,7 +32,7 @@ public class FocusedAttack extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         int min = 999;
         Soldier target = null;
         for (Soldier soldier : soldiers) {

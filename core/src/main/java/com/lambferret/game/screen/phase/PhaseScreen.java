@@ -169,8 +169,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         currentScreen = Screen.VICTORY;
     }
 
-    @Override
-    public void end() {
+    public static void end() {
+        player.setDeck(PhaseScreen.deck);
         player.setShopItems(new ArrayList<>());
     }
 
@@ -193,6 +193,13 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
             b.effect();
         }
         player.buffChanged();
+    }
+
+    public static void countDownBuff() {
+        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
+            if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
+            tempBuff.countDown();
+        }
     }
 
     public static Screen getCurrentScreen() {

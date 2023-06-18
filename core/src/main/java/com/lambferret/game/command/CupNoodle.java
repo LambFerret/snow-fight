@@ -35,7 +35,7 @@ public class CupNoodle extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         PhaseScreen.addBuff(
             new SoldierStatusBuff(name, soldiers, SoldierStatusBuff.Figure.X, Buff.Operation.ADD, 1, 1)
         );

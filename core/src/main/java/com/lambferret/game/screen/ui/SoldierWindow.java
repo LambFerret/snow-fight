@@ -63,20 +63,7 @@ public class SoldierWindow extends Window {
     }
 
     private void setAll(Command command) {
-        this.command = command;
-        int targetCount = command.getTargetCount();
-        this.player = SnowFight.player;
-        List<Soldier> list = player.getSoldiers();
-        int count = 0;
-        for (Soldier s : list) {
-            button(s, targetCount);
-            count++;
-            if (count == 6) {
-                searchedSoldierTable.row();
-                count = 0;
-            }
-        }
-        scrollPane.setActor(searchedSoldierTable);
+
     }
 
     private void button(Soldier s, int targetCount) {
@@ -96,27 +83,33 @@ public class SoldierWindow extends Window {
 
 
     public void show(Command command) {
+        searchedSoldierTable.clear();
+        pickedSoldiers.clear();
+        scrollPane.clear();
+
+        this.command = command;
+        this.player = SnowFight.player;
+
+        int count = 0;
+        for (Soldier s : player.getSoldiers()) {
+            button(s, command.getTargetCount());
+            count++;
+            if (count == 6) {
+                searchedSoldierTable.row();
+                count = 0;
+            }
+        }
+        scrollPane.setActor(searchedSoldierTable);
         this.setVisible(true);
-        initAll();
-        this.setAll(command);
     }
 
     private void confirm() {
         this.setVisible(false);
         listener.onSoldierSelected(pickedSoldiers, command);
-        initAll();
     }
 
     private void cancel() {
         this.setVisible(false);
-        initAll();
-    }
-
-    private void initAll() {
-        this.command = null;
-        searchedSoldierTable.clear();
-        pickedSoldiers.clear();
-        scrollPane.clear();
     }
 
     @Override

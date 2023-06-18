@@ -32,7 +32,7 @@ public class OffBasePass extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier soldier : soldiers) {
             switch (soldier.getEmpowerLevel()) {
                 case WEAKEN -> soldier.setEmpowerLevel(EmpowerLevel.NEUTRAL);

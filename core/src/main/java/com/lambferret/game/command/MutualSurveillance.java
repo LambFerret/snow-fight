@@ -32,7 +32,7 @@ public class MutualSurveillance extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier s : soldiers) {
             s.setRunAwayProbability((byte) (s.getRunAwayProbability() - 10));
             s.setSpeed((short) (s.getSpeed() * 9 / 10));

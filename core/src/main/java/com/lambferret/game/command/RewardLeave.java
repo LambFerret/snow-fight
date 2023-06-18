@@ -32,7 +32,7 @@ public class RewardLeave extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier s : soldiers) {
             int t = (int) (s.getSpeed() * 1.5);
             if (t > 100) {

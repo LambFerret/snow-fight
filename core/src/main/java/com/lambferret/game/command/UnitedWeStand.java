@@ -36,7 +36,7 @@ public class UnitedWeStand extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         Branch mostBranch = getBranchCount(soldiers);
         List<Soldier> mostBranchSoldiers = new ArrayList<>();
         int count = 0;

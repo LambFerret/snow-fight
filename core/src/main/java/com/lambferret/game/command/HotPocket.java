@@ -35,7 +35,7 @@ public class HotPocket extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         var list = PhaseScreen.buffList;
         for (Buff b : list) {
             if (b instanceof SoldierEmpowerBuff) {

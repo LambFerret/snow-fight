@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.buff.nonbuff.CommandCostNonBuff;
-import com.lambferret.game.buff.nonbuff.NonBuff;
 import com.lambferret.game.command.Command;
 import com.lambferret.game.component.CustomButton;
 import com.lambferret.game.player.Player;
@@ -31,7 +29,6 @@ import java.util.List;
 public class CommandOverlay extends Container<ScrollPane> implements AbstractOverlay, SoldierSelectionListener {
     private static final Logger logger = LogManager.getLogger(CommandOverlay.class.getName());
 
-    private final Stage stage;
     private final ScrollPane scrollPane;
     private final CustomButton hideButton;
     private final Container<CustomButton> infoContainer = new Container<>();
@@ -40,10 +37,9 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     private boolean isHide = false;
     private static Random handRandom;
     private final SoldierWindow soldierWindow;
-
+    List<Command> selectedCommands = new ArrayList<>();
 
     public CommandOverlay(Stage stage) {
-        this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
         soldierWindow = new SoldierWindow(stage, this);
         hideButton = GlobalUtil.simpleButton("hideButton");
@@ -51,9 +47,9 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         infoContainer.setVisible(false);
 
         this.setActor(this.scrollPane);
-        this.stage.addActor(hideButton);
-        this.stage.addActor(infoContainer);
-        this.stage.addActor(this);
+        stage.addActor(hideButton);
+        stage.addActor(infoContainer);
+        stage.addActor(this);
         this.setPosition(COMMAND_X, COMMAND_Y);
         this.setSize(COMMAND_WIDTH, COMMAND_HEIGHT);
 
@@ -84,14 +80,17 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         scrollPane.addListener(Input.setScrollFocusWhenHover(stage, scrollPane));
     }
 
-    List<Command> selectedCommands = new ArrayList<>();
-
     @Override
     public void onPlayerReady() {
         this.player = SnowFight.player;
         this.maxCommand = player.getMaxCommandInHand();
         handRandom = new Random();
         selectCommand();
+        makeCommandContainer();
+    }
+
+    @Override
+    public void onPlayerUpdate(Item.Type type) {
         makeCommandContainer();
     }
 
@@ -120,57 +119,43 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         this.scrollPane.setActor(table);
     }
 
-    private int parsingCost(Command command) {
-        int cost = command.getCost();
-        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
-            if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
-            List<Command.Type> lists = ((CommandCostNonBuff) tempBuff).getCondition();
-            if (lists != null) {
-                if (lists.contains(command.getType())) {
-                    cost = (int) ((CommandCostNonBuff) tempBuff).resultInt(command);
-                }
-            } else {
-                cost = (int) ((CommandCostNonBuff) tempBuff).resultInt(command);
-            }
-        }
-        return cost;
-    }
-
-    private void countDownBuff() {
-        for (NonBuff tempBuff : PhaseScreen.tempBuffList) {
-            if (tempBuff.getTarget() != NonBuff.Target.COMMAND || tempBuff.isDisabled()) continue;
-            tempBuff.countDown();
-        }
-    }
-
     private Group renderCommand(Command command) {
         Group commandButton = command.renderSimple();
-        CustomButton infoButton = command.renderInfo();
-        infoContainer.setActor(infoButton);
-
         commandButton.setSize(COMMAND_EACH_WIDTH, COMMAND_EACH_HEIGHT);
         commandButton.addListener(Input.click(() -> {
             if (PhaseScreen.getCurrentScreen() == PhaseScreen.Screen.READY) {
-                if (command.hasTargetCount()) {
-                    soldierWindow.show(command);
-                } else {
-                    if (player.getCurrentCost() >= parsingCost(command)) {
-                        executeCommand(command);
+                if (player.canAfford(command)) {
+                    if (command.hasTargetCount()) {
+                        soldierWindow.show(command);
                     } else {
-                        commandButton.addAction(ShopScreen.rejectAction());
+                        useCommand(player.getSoldiers(), command);
                     }
+                } else {
+                    commandButton.addAction(ShopScreen.rejectAction());
                 }
             }
         }));
         commandButton.addListener(Input.hover(
             () -> {
                 infoContainer.setVisible(true);
-                infoContainer.setActor(infoButton);
+                infoContainer.setActor(command.renderInfo());
             },
             () -> infoContainer.setVisible(false)
         ));
-
         return commandButton;
+    }
+
+    @Override
+    public void onSoldierSelected(List<Soldier> soldiers, Command command) {
+        useCommand(soldiers, command);
+    }
+
+    private void useCommand(List<Soldier> soldiers, Command command) {
+        command.execute(soldiers, PhaseScreen.level, player);
+        PhaseScreen.countDownBuff();
+        selectedCommands.set(selectedCommands.indexOf(command), null);
+        PhaseScreen.deck.remove(command);
+        makeCommandContainer();
     }
 
     private CustomButton emptyCommand() {
@@ -204,28 +189,9 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
     }
 
     @Override
-    public void onSoldierSelected(List<Soldier> soldiers, Command command) {
-        executeCommand(command);
-    }
-
-    private void executeCommand(Command command) {
-        int cost = parsingCost(command);
-        player.useCost(cost);
-        countDownBuff();
-        command.execute(player.getSoldiers());
-        selectedCommands.set(selectedCommands.indexOf(command), null);
-        makeCommandContainer();
-    }
-
-    @Override
     public void setVisible(boolean visible) {
         this.hideButton.setVisible(visible);
         super.setVisible(visible);
-    }
-
-    @Override
-    public void onPlayerUpdate(Item.Type type) {
-        makeCommandContainer();
     }
 
 }

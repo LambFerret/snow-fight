@@ -333,6 +333,15 @@ public class Player {
         playerUpdate(Item.Type.EVENT);
     }
 
+    public boolean canAfford(Command command) {
+        int parsedCost = command.parsingCost();
+        return currentCost >= parsedCost;
+    }
+
+    public void setDeck(List<Command> commands) {
+        this.commands = commands;
+    }
+
     public StoryWindow getPlayerMainEvent() {
         if (clearedMainQuestNumber >= MainEvent.values().length) {
             logger.info(" Player : no more main event " + clearedMainQuestNumber);

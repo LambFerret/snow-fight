@@ -32,7 +32,7 @@ public class CupRiceXL extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         for (Soldier soldier : soldiers) {
             soldier.setEmpowerLevel(EmpowerLevel.EMPOWERED);
             if (soldier.getRunAwayProbability() <= 50) {

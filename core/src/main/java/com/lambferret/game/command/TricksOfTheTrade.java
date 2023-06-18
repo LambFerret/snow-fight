@@ -32,7 +32,7 @@ public class TricksOfTheTrade extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         SnowFight.player.setSnowAmount(SnowFight.player.getSnowAmount() * 4 / 5);
     }
 

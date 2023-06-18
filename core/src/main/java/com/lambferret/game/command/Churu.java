@@ -37,7 +37,7 @@ public class Churu extends Command {
     }
 
     @Override
-    public void execute(List<Soldier> soldiers) {
+    protected void execute(List<Soldier> soldiers) {
         int count = 0;
         List<Command> deck = PhaseScreen.deck;
         Iterator<Command> iterator = deck.iterator();
