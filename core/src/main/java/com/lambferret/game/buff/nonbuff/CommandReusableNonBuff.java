@@ -5,30 +5,30 @@ import com.lambferret.game.command.Command;
 import java.util.List;
 
 public class CommandReusableNonBuff extends NonBuff {
-    private final boolean isReusable;
-    private List<Command.Type> condition;
+    private final boolean setReusable;
+    private final List<Command.Type> conditions;
 
 
-    public CommandReusableNonBuff(int count, boolean isReusable) {
+    public CommandReusableNonBuff(int count, List<Command.Type> conditions, boolean setReusable) {
         super(Target.COMMAND, count);
-        this.isReusable = isReusable;
+        this.setReusable = setReusable;
+        this.conditions = conditions;
     }
 
     public void resultBoolean(Command command) {
-        if (condition == null) {
-            command.setReusable(isReusable);
+        if (conditions == null) {
+            command.setReusable(setReusable);
         } else {
-            for (Command.Type type : condition) {
+            for (Command.Type type : conditions) {
                 if (command.getType() == type) {
-                    command.setReusable(isReusable);
+                    command.setReusable(setReusable);
                 }
             }
         }
     }
 
-    public void hasCondition(List<Command.Type> condition) {
-        this.condition = condition;
+    public List<Command.Type> getConditions() {
+        return conditions;
     }
-
 
 }

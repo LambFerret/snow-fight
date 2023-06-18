@@ -32,10 +32,7 @@ public class CommandBuff extends Buff {
                 PhaseScreen.tempBuffList.add(commandCostNonBuff);
             }
             case REUSABLE -> {
-                CommandReusableNonBuff commandReusableNonBuff = new CommandReusableNonBuff(count, isSetTo);
-                if (this.condition != null) {
-                    commandReusableNonBuff.hasCondition(this.condition);
-                }
+                CommandReusableNonBuff commandReusableNonBuff = new CommandReusableNonBuff(count, this.condition, isSetTo);
                 PhaseScreen.tempBuffList.add(commandReusableNonBuff);
             }
             case PRICE -> {
