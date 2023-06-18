@@ -43,7 +43,7 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
         this.scrollPane = new ScrollPane(new Table());
         this.background(new TextureRegionDrawable(AssetFinder.getTexture("ui/inventory")));
         soldierButton = new PolygonButton(text.getSoldierOverlayName(), getHideButtonStyle(), INVENTORY_HIDE_BUTTON_VERTICES);
-        commandButton = new PolygonButton(text.getSoldierOverlayName(), getHideButtonStyle(), INVENTORY_HIDE_BUTTON_VERTICES);
+        commandButton = new PolygonButton(text.getCommandOverlayName(), getHideButtonStyle(), INVENTORY_HIDE_BUTTON_VERTICES);
 
         this.setPosition(INVENTORY_X, INVENTORY_Y);
         this.setSize(INVENTORY_WIDTH, INVENTORY_HEIGHT);

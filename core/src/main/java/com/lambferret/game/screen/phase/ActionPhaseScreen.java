@@ -81,6 +81,22 @@ public class ActionPhaseScreen implements AbstractPhase {
     @Override
     public void executePhase() {
         logger.info(" Action : Today's Victim! " + GlobalUtil.listToString(actionMember));
+        // sort soldier member by rank, branch, then speed. if those three properties are same, log fatal.
+        actionMember.sort((dto1, dto2) -> {
+            int compareEnumA = dto1.getRank().ordinal() - dto2.getRank().ordinal();
+            int compareEnumB = dto1.getBranch().ordinal() - dto2.getBranch().ordinal();
+            int compareSpeedAtLast = dto1.getSpeed() - dto2.getSpeed();
+
+            if (compareEnumA != 0) return compareEnumA;
+            else if (compareEnumB != 0) return compareEnumB;
+            else if (compareSpeedAtLast != 0) return compareSpeedAtLast;
+            else {
+                logger.warn(dto1.getID() + " and " + dto2.getID() + " has same rank, branch, and speed");
+                return 0;
+            }
+        });
+
+        // active talent
         for (Soldier soldier : actionMember) {
             logger.info(" Action : talent activated! " + soldier.getID());
             soldier.talent(actionMember, level, player);
@@ -154,21 +170,7 @@ public class ActionPhaseScreen implements AbstractPhase {
     }
 
     private void happyWorking(Soldier soldier) {
-        logger.info(GlobalUtil.strPad(" ├ run away") + " : " + soldier.getRunAwayProbability() + "%");
-        if (random.randomBoolean(soldier.getRunAwayProbability())) {
-            String a = MathUtils.random.nextBoolean() ? "runaway_1" : "runaway_2";
-            CustomButton runAwayImage = GlobalUtil.simpleButton(a);
-            runAwayImage.setSize(300, 200);
-            runAwayImage.setPosition(-runAwayImage.getWidth(), SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50);
-            runAwayImage.setText(soldier.getName() + " run away!");
-            Overlay.uiSpriteBatch.addActor(runAwayImage);
-            runAwayImage.addAction(Actions.sequence(
-                Actions.moveTo(50, SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50, ASSIGNED_TIME_FOR_EACH_SOLDIER / 5F, Interpolation.fastSlow),
-                Actions.delay(ASSIGNED_TIME_FOR_EACH_SOLDIER / 2F),
-                Actions.removeActor()
-            ));
-            return;
-        }
+        if (calculateRunaway(soldier)) return;
 
         int rows = level.ROWS;
         int cols = level.COLUMNS;
@@ -226,6 +228,25 @@ public class ActionPhaseScreen implements AbstractPhase {
         ));
 
         player.setSnowAmount(player.getSnowAmount() - usedSnowAmount);
+    }
+
+    private boolean calculateRunaway(Soldier soldier) {
+        logger.info(GlobalUtil.strPad(" ├ run away") + " : " + soldier.getRunAwayProbability() + "%");
+        if (random.randomBoolean(soldier.getRunAwayProbability())) {
+            String a = MathUtils.random.nextBoolean() ? "runaway_1" : "runaway_2";
+            CustomButton runAwayImage = GlobalUtil.simpleButton(a);
+            runAwayImage.setSize(300, 200);
+            runAwayImage.setPosition(-runAwayImage.getWidth(), SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50);
+            runAwayImage.setText(soldier.getName() + " run away!");
+            Overlay.uiSpriteBatch.addActor(runAwayImage);
+            runAwayImage.addAction(Actions.sequence(
+                Actions.moveTo(50, SNOW_BAR_HEIGHT + SNOW_BAR_Y + 50, ASSIGNED_TIME_FOR_EACH_SOLDIER / 5F, Interpolation.fastSlow),
+                Actions.delay(ASSIGNED_TIME_FOR_EACH_SOLDIER / 2F),
+                Actions.removeActor()
+            ));
+            return true;
+        }
+        return false;
     }
 
     public void render() {

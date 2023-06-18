@@ -17,8 +17,8 @@
     "saveData": "SAVE",
     "newData": "NEW",
     "emptyData": "EMPTY",
-    "confirm" : "CONFIRM",
-    "cancel" : "CANCEL",
+    "confirm": "CONFIRM",
+    "cancel": "CANCEL",
     "restartToChange": "Restart to apply change",
     "fullscreen": "FULLSCREEN",
     "language": "LANGUAGE",
@@ -28,8 +28,9 @@
   },
   "overlayText": {
     "soldierOverlayName": "Soldier \n List",
+    "commandOverlayName": "Command \n List",
     "executeOverlayName": "execute phase!",
-    "snowOverlayDescription" : "snow to clear"
+    "snowOverlayDescription": "snow to clear"
   },
   "groundText": {
     "recruit": "RECRUIT",
