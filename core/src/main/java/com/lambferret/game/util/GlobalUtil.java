@@ -111,6 +111,10 @@ public class GlobalUtil {
         return simpleButton(texturePath, "");
     }
 
+    public static CustomButton simpleButton() {
+        return simpleButton(new TextureRegionDrawable(AssetFinder.transparentTexture()), "");
+    }
+
     public static String strPad(String str) {
         return String.format("%-15s", str);
     }

@@ -1,4 +1,4 @@
-package com.lambferret.game.level.nation;
+package com.lambferret.game.level.rural;
 
 import com.lambferret.game.constant.Region;
 import com.lambferret.game.level.Level;
@@ -24,7 +24,7 @@ public class LevelR1 extends Level {
     };
     private static final int minSnowForClear = 250;
     private static final int assignedSnow = 500;
-    public static final int MAX_SOLDIER_CAPACITY = 2;
+    public static final int MAX_SOLDIER_CAPACITY = 5;
 
     @Override
     protected int[][] originAmountInMap() {

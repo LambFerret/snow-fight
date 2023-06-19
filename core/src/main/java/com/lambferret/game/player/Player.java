@@ -405,7 +405,7 @@ public class Player {
     public int getAffinity(Affinity affinity) {
         return switch (affinity) {
             case UPPER -> upperAffinity;
-            case BOSS -> middleAffinity;
+            case MIDDLE -> middleAffinity;
             case DOWN -> downAffinity;
         };
     }
@@ -419,7 +419,7 @@ public class Player {
     }
 
     public enum Affinity {
-        UPPER, BOSS, DOWN
+        UPPER, MIDDLE, DOWN
     }
 
 }

@@ -1,6 +1,6 @@
 package com.lambferret.game.level;
 
-import com.lambferret.game.level.nation.LevelR1;
+import com.lambferret.game.level.rural.LevelR1;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -33,14 +33,19 @@ public class TitleScreen extends AbstractScreen {
     public static final int TITLE_X = 300;
     public static final int TITLE_Y = 300;
 
-    private final SelectSaveWindow selectSaveWindow;
-    private final SelectLoadWindow selectLoadWindow;
-    private final OptionWindow optionWindow;
-    private final Stage stage;
+    private SelectSaveWindow selectSaveWindow;
+    private SelectLoadWindow selectLoadWindow;
+    private OptionWindow optionWindow;
+    private static final Stage stage = new Stage();
     BitmapFont font;
 
     public TitleScreen() {
-        stage = new Stage();
+        font = GlobalSettings.font;
+    }
+
+    @Override
+    public void create() {
+        stage.clear();
         stage.addActor(backGroundImage());
 
         selectSaveWindow = new SelectSaveWindow(stage);
@@ -50,15 +55,9 @@ public class TitleScreen extends AbstractScreen {
         stage.addActor(selectSaveWindow);
         stage.addActor(selectLoadWindow);
 
-        font = GlobalSettings.font;
-
         selectLoadWindow.setVisible(false);
         selectSaveWindow.setVisible(false);
         optionWindow.setVisible(false);
-    }
-
-    @Override
-    public void create() {
         setTable();
     }
 
@@ -139,12 +138,8 @@ public class TitleScreen extends AbstractScreen {
                 selectLoadWindow.toFront();
                 selectLoadWindow.create();
             }
-            case OPTION -> {
-                optionWindow.open();
-            }
-            case EXIT -> {
-                Gdx.app.exit();
-            }
+            case OPTION -> optionWindow.open();
+            case EXIT -> Gdx.app.exit();
         }
     }
 

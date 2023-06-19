@@ -11,6 +11,7 @@ import com.lambferret.game.manual.Manual;
 import com.lambferret.game.player.Player;
 import com.lambferret.game.player.PlayerObserver;
 import com.lambferret.game.save.Item;
+import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.screen.AbstractScreen;
 import com.lambferret.game.screen.ui.Overlay;
 import com.lambferret.game.util.GlobalUtil;
@@ -19,7 +20,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     private static final Logger logger = LogManager.getLogger(PhaseScreen.class.getName());
@@ -44,6 +47,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     //    PhaseText text;
     public static long mapRandomSeed;
     public static Random handRandom;
+    public static Map<String, Integer> bonusMoney = new HashMap<>();
+    public static List<AffinityBonus> affinityBonuses = new ArrayList<>();
 
     static {
         prePhaseScreen = new PrePhaseScreen();
@@ -78,6 +83,8 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void screenInitToP() {
         buffList.clear();
         tempBuffList.clear();
+        bonusMoney.clear();
+        affinityBonuses.clear();
 
         setPlayer();
         setRandom();
@@ -172,6 +179,7 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
     public static void end() {
         player.setDeck(PhaseScreen.deck);
         player.setShopItems(new ArrayList<>());
+        SaveLoader.save();
     }
 
     @Override
@@ -212,6 +220,9 @@ public class PhaseScreen extends AbstractScreen implements PlayerObserver {
         ACTION,
         VICTORY,
         DEFEAT,
+    }
+
+    public record AffinityBonus(Player.Affinity affinity, String byWhom, int bonus) {
     }
 
 }

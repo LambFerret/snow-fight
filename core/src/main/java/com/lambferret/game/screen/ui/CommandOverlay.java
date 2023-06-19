@@ -154,8 +154,27 @@ public class CommandOverlay extends Container<ScrollPane> implements AbstractOve
         command.execute(soldiers, PhaseScreen.level, player);
         PhaseScreen.countDownBuff();
         selectedCommands.set(selectedCommands.indexOf(command), null);
+        mapAffinities(command);
         PhaseScreen.deck.remove(command);
         makeCommandContainer();
+    }
+
+    private void mapAffinities(Command command) {
+        if (command.getAffinity(Player.Affinity.UPPER) != 0) {
+            PhaseScreen.affinityBonuses.add(
+                new PhaseScreen.AffinityBonus(Player.Affinity.UPPER, this.getName(), command.getAffinity(Player.Affinity.UPPER))
+            );
+        }
+        if (command.getAffinity(Player.Affinity.MIDDLE) != 0) {
+            PhaseScreen.affinityBonuses.add(
+                new PhaseScreen.AffinityBonus(Player.Affinity.MIDDLE, this.getName(), command.getAffinity(Player.Affinity.MIDDLE))
+            );
+        }
+        if (command.getAffinity(Player.Affinity.DOWN) != 0) {
+            PhaseScreen.affinityBonuses.add(
+                new PhaseScreen.AffinityBonus(Player.Affinity.DOWN, this.getName(), command.getAffinity(Player.Affinity.DOWN))
+            );
+        }
     }
 
     private CustomButton emptyCommand() {

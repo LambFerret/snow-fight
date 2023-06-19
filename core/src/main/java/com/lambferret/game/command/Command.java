@@ -307,6 +307,14 @@ public abstract class Command implements Comparable<Command> {
         isReusable = reusable;
     }
 
+    public int getAffinity(Player.Affinity affinity) {
+        return switch (affinity) {
+            case UPPER -> affectToUp;
+            case MIDDLE -> affectToMiddle;
+            case DOWN -> affectToDown;
+        };
+    }
+
     @Override
     public int compareTo(Command o) {
         return this.ID.compareTo(o.ID);
