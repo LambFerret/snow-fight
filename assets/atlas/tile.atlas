@@ -1,124 +1,152 @@
 
 ../texture/tile.png
-size: 2048, 512
+size: 2048, 1024
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 forest
   rotate: false
-  xy: 2, 248
-  size: 257, 257
-  orig: 257, 257
+  xy: 2, 762
+  size: 256, 256
+  orig: 256, 256
   offset: 0, 0
-  index: 0
+  index: 7
 forest
   rotate: false
-  xy: 261, 249
+  xy: 2, 504
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 4
 forest
   rotate: false
-  xy: 519, 249
+  xy: 260, 762
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 9
+forest
+  rotate: false
+  xy: 2, 246
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 1
 forest
   rotate: false
-  xy: 1035, 249
+  xy: 260, 504
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 6
+forest
+  rotate: false
+  xy: 260, 246
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 3
 forest
   rotate: false
-  xy: 1293, 249
+  xy: 518, 504
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 8
+forest
+  rotate: false
+  xy: 776, 762
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: 0
+forest
+  rotate: false
+  xy: 518, 246
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 5
 forest
   rotate: false
-  xy: 1551, 249
+  xy: 776, 504
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 2
 lake
   rotate: false
-  xy: 1809, 280
-  size: 237, 225
-  orig: 237, 225
-  offset: 0, 0
-  index: 1
-lake
-  rotate: false
-  xy: 2, 4
+  xy: 2, 2
   size: 229, 242
   orig: 229, 242
   offset: 0, 0
   index: 0
 lake
   rotate: false
-  xy: 233, 2
+  xy: 1034, 774
   size: 227, 244
   orig: 227, 244
   offset: 0, 0
   index: 2
+lake
+  rotate: false
+  xy: 776, 277
+  size: 237, 225
+  orig: 237, 225
+  offset: 0, 0
+  index: 1
 mountain
   rotate: false
-  xy: 462, 32
+  xy: 233, 29
   size: 214, 215
   orig: 214, 215
   offset: 0, 0
   index: 2
 mountain
   rotate: false
-  xy: 678, 51
+  xy: 1263, 822
   size: 229, 196
   orig: 229, 196
   offset: 0, 0
   index: 1
 mountain
   rotate: false
-  xy: 909, 89
+  xy: 449, 86
   size: 232, 158
   orig: 232, 158
   offset: 0, 0
   index: 3
 mountain
   rotate: false
-  xy: 1143, 91
+  xy: 1034, 616
   size: 227, 156
   orig: 227, 156
   offset: 0, 0
   index: 0
 mountain
   rotate: false
-  xy: 1615, 102
+  xy: 1263, 675
   size: 195, 145
   orig: 195, 145
   offset: 0, 0
   index: 4
 town
   rotate: false
-  xy: 777, 249
+  xy: 518, 762
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
   index: 0
 town
   rotate: false
-  xy: 1372, 117
+  xy: 1494, 888
   size: 241, 130
   orig: 241, 130
   offset: 0, 0
   index: 1
 town
   rotate: false
-  xy: 1812, 138
+  xy: 1737, 878
   size: 191, 140
   orig: 191, 140
   offset: 0, 0

@@ -88,38 +88,42 @@ public abstract class Level {
         MapAttribute[][] MAP = new MapAttribute[ROWS][COLUMNS];
         var a = originAmountInMap();
         var b = a == null;
-        var c = new short[ROWS][COLUMNS];
+        var new_arr = new short[ROWS][COLUMNS];
 
         try {
             for (int i = 0; i < ROWS; i++) {
                 for (int j = 0; j < COLUMNS; j++) {
-                    // -=-=-=-=-=--=-=-=-
                     if (mapTerrain[i][j] == 0) {
-                        int left = j - 1 >= 0 ? mapTerrain[i][j - 1] : 1;
-                        int right = j + 1 < COLUMNS ? mapTerrain[i][j + 1] : 1;
-                        int top = i - 1 >= 0 ? mapTerrain[i - 1][j] : 1;
-                        int bottom = i + 1 < ROWS ? mapTerrain[i + 1][j] : 1;
+                        boolean left = (j > 0) && (mapTerrain[i][j - 1] == 0);
+                        boolean right = (j < COLUMNS - 1) && (mapTerrain[i][j + 1] == 0);
+                        boolean top = (i > 0) && (mapTerrain[i - 1][j] == 0);
+                        boolean bottom = (i < ROWS - 1) && (mapTerrain[i + 1][j] == 0);
 
-                        if (top != 0 && bottom != 0 && left != 0 && right != 0) {
-                            c[i][j] = 5;  // "#"
-                        } else if (left != 0 && right == 0) {
-                            c[i][j] = 6;  // "["
-                        } else if (left == 0 && right != 0) {
-                            c[i][j] = 7;  // "]"
-                        } else if (top != 0 && bottom == 0) {
-                            c[i][j] = 8;  // "ㅜ"
-                        } else if (top == 0 && bottom != 0) {
-                            c[i][j] = 9;  // "ㅗ"
-                        } else if (top == 0 && left == 0) {
-                            c[i][j] = 0;  // "*"
-                        }
+                        if (left && right && top && bottom) {
+                            new_arr[i][j] = 15;
+                        } else if (!left && right && top && bottom) {
+                            new_arr[i][j] = 14;
+                        } else if (left && !right && top && bottom) {
+                            new_arr[i][j] = 16;
+                        } else if (left && right && !top && bottom) {
+                            new_arr[i][j] = 12;
+                        } else if (left && right && top && !bottom) {
+                            new_arr[i][j] = 18;
+                        } else if (!left && right && !top && bottom) {
+                            new_arr[i][j] = 11;
+                        } else if (!left && right && top && !bottom) {
+                            new_arr[i][j] = 17;
+                        } else if (left && !right && !top && bottom) {
+                            new_arr[i][j] = 13;
+                        } else if (left && !right && top && !bottom) {
+                            new_arr[i][j] = 19;
+                        } else new_arr[i][j] = 10;  // Alone
                     } else {
-                        c[i][j] = mapTerrain[i][j];
+                        new_arr[i][j] = mapTerrain[i][j];
                     }
-                    // -=-=-=-=-=--=-=-=-
 
                     MAP[i][j] = MapAttribute.builder()
-                        .terrain(setTerrain(c[i][j]))
+                        .terrain(setTerrain(new_arr[i][j]))
                         .maxAmount(maxAmountMap[i][j])
                         .currentAmount(b ? 0 : a[i][j])
                         .currentlyWorkingList(new ArrayList<>())
@@ -152,11 +156,15 @@ public abstract class Level {
         switch (attr.getTerrain()) {
             case SEA -> element = GlobalUtil.simpleButton("sea");
             case FOREST0 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(0), "");
-            case FOREST_LEFT -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(1), "");
-            case FOREST_RIGHT -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(3), "");
-            case FOREST_UP -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(2), "");
-            case FOREST_DOWN -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(4), "");
-            case FOREST_ALONE -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(5), "");
+            case FOREST1 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(1), "");
+            case FOREST2 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(2), "");
+            case FOREST3 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(3), "");
+            case FOREST4 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(4), "");
+            case FOREST5 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(5), "");
+            case FOREST6 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(6), "");
+            case FOREST7 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(7), "");
+            case FOREST8 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(8), "");
+            case FOREST9 -> element = GlobalUtil.simpleButton(tileAtlas.findRegions("forest").get(9), "");
             default -> {
                 var regions = tileAtlas.findRegions(attr.getTerrain().name().toLowerCase());
                 if (regions.size == 0) {
@@ -293,16 +301,21 @@ public abstract class Level {
 
     private Terrain setTerrain(short i) {
         return switch (i) {
-            case 0 -> Terrain.FOREST0;
             case 1 -> Terrain.SEA;
             case 2 -> Terrain.LAKE;
             case 3 -> Terrain.TOWN;
             case 4 -> Terrain.MOUNTAIN;
-            case 5 -> Terrain.FOREST_ALONE;
-            case 6 -> Terrain.FOREST_LEFT;
-            case 7 -> Terrain.FOREST_RIGHT;
-            case 8 -> Terrain.FOREST_UP;
-            case 9 -> Terrain.FOREST_DOWN;
+            case 5 -> Terrain.PLAIN;
+            case 10 -> Terrain.FOREST0;
+            case 11 -> Terrain.FOREST1;
+            case 12 -> Terrain.FOREST2;
+            case 13 -> Terrain.FOREST3;
+            case 14 -> Terrain.FOREST4;
+            case 15 -> Terrain.FOREST5;
+            case 16 -> Terrain.FOREST6;
+            case 17 -> Terrain.FOREST7;
+            case 18 -> Terrain.FOREST8;
+            case 19 -> Terrain.FOREST9;
             default -> throw new IllegalStateException("Unexpected value: " + i);
         };
     }

@@ -5,7 +5,7 @@ public enum Rank {
     /**
      * 훈련병
      */
-    RECRUIT(30),
+    RECRUIT(20),
     /**
      * 이등병
      */
@@ -25,43 +25,43 @@ public enum Rank {
     /**
      * 하사
      */
-    STAFF_SERGEANT(150),
+    STAFF_SERGEANT(120),
     /**
      * 중사
      */
-    SERGEANT_FIRST_CLASS(160),
+    SERGEANT_FIRST_CLASS(140),
     /**
      * 상사
      */
-    FIRST_SERGEANT(170),
+    FIRST_SERGEANT(160),
     /**
      * 원사
      */
-    SERGENT_MAJOR(180),
+    SERGENT_MAJOR(Integer.MAX_VALUE),
     /**
      * 주임원사
      */
-    COMMAND_SERGEANT_MAJOR(185),
+    COMMAND_SERGEANT_MAJOR(Integer.MAX_VALUE),
     /**
      * 육군주임원사
      */
-    SERGEANT_MAJOR_OF_THE_ARMY(200),
+    SERGEANT_MAJOR_OF_THE_ARMY(Integer.MAX_VALUE),
     /**
      * 준위
      */
-    MASTER_WARRANT_OFFICER(300),
+    MASTER_WARRANT_OFFICER(Integer.MAX_VALUE),
     /**
      * 소위
      */
-    SECOND_LIEUTENANT(340),
+    SECOND_LIEUTENANT(Integer.MAX_VALUE),
     /**
      * 중위
      */
-    FIRST_LIEUTENANT(380),
+    FIRST_LIEUTENANT(Integer.MAX_VALUE),
     /**
      * 대위
      */
-    CAPTAIN(500),
+    CAPTAIN(Integer.MAX_VALUE),
     /**
      * 소령
      */

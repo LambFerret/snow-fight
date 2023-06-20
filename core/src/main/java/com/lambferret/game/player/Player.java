@@ -1,10 +1,8 @@
 package com.lambferret.game.player;
 
 import com.lambferret.game.command.Command;
-import com.lambferret.game.command.ThreeShift;
 import com.lambferret.game.constant.MainEvent;
 import com.lambferret.game.constant.StoryType;
-import com.lambferret.game.manual.ColdWeatherTraining;
 import com.lambferret.game.manual.Manual;
 import com.lambferret.game.quest.Quest;
 import com.lambferret.game.save.Item;
@@ -16,6 +14,7 @@ import com.lambferret.game.screen.event.main.StoryWindow;
 import com.lambferret.game.screen.event.main.Tutorial;
 import com.lambferret.game.screen.ui.*;
 import com.lambferret.game.setting.GlobalSettings;
+import com.lambferret.game.soldier.Chili;
 import com.lambferret.game.soldier.Choco;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.soldier.Vanilla;
@@ -91,8 +90,7 @@ public class Player {
         //=-=-=-=-=-=--=-=//
         soldiers.add(new Vanilla());
         soldiers.add(new Choco());
-        commands.add(new ThreeShift());
-        manuals.add(new ColdWeatherTraining());
+        soldiers.add(new Chili());
         //=-=-=-=-=-=--=-=//
 
     }

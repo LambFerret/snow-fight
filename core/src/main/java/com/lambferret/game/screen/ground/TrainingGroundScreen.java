@@ -73,6 +73,7 @@ public class TrainingGroundScreen implements AbstractGround {
         soldiers.sort(Comparator.comparing(s -> s.getRank().ordinal()));
         soldierIndex = new int[soldiers.size()];
         for (Image snow : snowInStage) {
+            snow.clearListeners();
             addSnowClick(snow);
         }
     }
@@ -101,6 +102,14 @@ public class TrainingGroundScreen implements AbstractGround {
         stage.addActor(image);
     }
 
+    private Image makePlatform() {
+        Image platform = new Image(atlas.findRegions("platform").get(snowLevel - 1));
+        float centerX = (stage.getWidth() - platform.getWidth()) / 2;
+        float centerY = (stage.getHeight() - platform.getHeight() / 2) / 2;
+        platform.setPosition(centerX, centerY - 40);
+        return platform;
+    }
+
     private void makeSnow() {
         for (Image image : snowInStage) {
             image.remove();
@@ -114,25 +123,14 @@ public class TrainingGroundScreen implements AbstractGround {
     }
 
     private void setSnowLevel() {
-        //-=-=-=-=-=-//
-        int amount = MathUtils.random(300);
-        //-=-=-=-=-=-//
-
-        if (amount < 100) {
+        int amount = player.getSnowAmount();
+        if (amount < 1000) {
             snowLevel = 1;
-        } else if (amount < 200) {
+        } else if (amount < 2000) {
             snowLevel = 2;
         } else {
             snowLevel = 3;
         }
-    }
-
-    private Image makePlatform() {
-        Image platform = new Image(atlas.findRegions("platform").get(snowLevel - 1));
-        float centerX = (stage.getWidth() - platform.getWidth()) / 2;
-        float centerY = (stage.getHeight() - platform.getHeight() / 2) / 2;
-        platform.setPosition(centerX, centerY - 40);
-        return platform;
     }
 
     private Image snowDraft() {

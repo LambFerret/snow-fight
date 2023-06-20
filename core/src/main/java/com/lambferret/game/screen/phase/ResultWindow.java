@@ -51,6 +51,7 @@ public abstract class ResultWindow extends Window implements AbstractPhase {
 
     @Override
     public void startPhase() {
+        this.clearChildren();
 
         this.add(moneyTable());
         this.add(affinityTable());
