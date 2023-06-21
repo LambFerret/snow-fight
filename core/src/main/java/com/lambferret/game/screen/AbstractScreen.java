@@ -3,7 +3,7 @@ package com.lambferret.game.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.lambferret.game.SnowFight;
-import com.lambferret.game.setting.ScreenConfig;
+import com.lambferret.game.util.SoundUtil;
 import de.eskalon.commons.screen.ManagedScreen;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,12 +36,12 @@ public abstract class AbstractScreen extends ManagedScreen {
 
     @Override
     public void pause() {
-        ScreenConfig.pauseBGM();
+        SoundUtil.pauseBGM();
     }
 
     @Override
     public void resume() {
-        ScreenConfig.resumeBGM();
+        SoundUtil.resumeBGM();
     }
 
 }

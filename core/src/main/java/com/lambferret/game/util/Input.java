@@ -1,6 +1,5 @@
 package com.lambferret.game.util;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -34,24 +33,14 @@ public class Input {
         );
     }
 
-    public static InputListener soundWhenHover(Sound sound) {
-        return new InputListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (pointer == -1) sound.play();
-                super.enter(event, x, y, pointer, fromActor);
-            }
-        };
+    public static InputListener soundWhenHover(String soundName) {
+        return hover(() -> SoundUtil.playEffect(soundName),
+            () -> {
+            });
     }
 
-    public static InputListener soundWhenClick(Sound sound) {
-        return new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                sound.play();
-                super.clicked(event, x, y);
-            }
-        };
+    public static InputListener soundWhenClick(String soundName) {
+        return click(() -> SoundUtil.playEffect(soundName));
     }
 
     public static InputListener setScrollFocusWhenHover(Stage stage, Actor actor) {

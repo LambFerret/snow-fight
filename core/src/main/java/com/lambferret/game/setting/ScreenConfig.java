@@ -1,13 +1,12 @@
 package com.lambferret.game.setting;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.lambferret.game.screen.ground.GroundScreen;
 import com.lambferret.game.screen.phase.PhaseScreen;
 import com.lambferret.game.screen.title.TitleScreen;
 import com.lambferret.game.screen.ui.Overlay;
-import com.lambferret.game.util.AssetFinder;
+import com.lambferret.game.util.SoundUtil;
 import de.eskalon.commons.screen.ManagedScreen;
 import de.eskalon.commons.screen.ScreenManager;
 import de.eskalon.commons.screen.transition.ScreenTransition;
@@ -24,8 +23,6 @@ public class ScreenConfig {
     private static TitleScreen titleScreen;
     private static GroundScreen groundScreen;
     private static PhaseScreen phaseScreen;
-    private static Sound bgm;
-    static long bgmID;
 
     public static void init(ScreenManager<ManagedScreen, ScreenTransition> screenManager) {
         ScreenConfig.screenManager = screenManager;
@@ -43,7 +40,7 @@ public class ScreenConfig {
 
         addTransition();
 
-        setBGM(AddedScreen.TITLE_SCREEN);
+        SoundUtil.setBGM(AddedScreen.TITLE_SCREEN);
         var endTime = String.format("%.3f", (System.currentTimeMillis() - startTime) / 1000F);
         logger.info(" ├ ScreenConfig   : " + endTime + " s │");
     }
@@ -82,7 +79,7 @@ public class ScreenConfig {
         }
 
         screenManager.pushScreen(screen.name(), BLENDING);
-        setBGM(screen);
+        SoundUtil.setBGM(screen);
 
         // 여기서 생명주기를 관리한다 / 이전 스크린을 정상적으로 종료 후, 다음 스크린의 init 호출
         switch (screen) {
@@ -105,29 +102,6 @@ public class ScreenConfig {
         currentScreen = screen;
     }
 
-    private static void setBGM(AddedScreen screen) {
-        if (bgm != null) bgm.stop();
-        switch (screen) {
-            case TITLE_SCREEN -> bgm = AssetFinder.getSound("appassionata");
-            case GROUND_SCREEN -> bgm = AssetFinder.getSound("appassionata");
-            case PHASE_SCREEN -> bgm = AssetFinder.getSound("appassionata");
-        }
-        bgmID = bgm.loop(GlobalSettings.bgmVolume);
-    }
-
-    public static void setBgmVolume() {
-        float value = (GlobalSettings.bgmVolume / 100F) * (GlobalSettings.masterVolume / 100F);
-        if (bgm != null) bgm.setVolume(bgmID, value);
-    }
-
-    public static void pauseBGM() {
-        if (bgm != null) bgm.pause();
-    }
-
-    public static void resumeBGM() {
-        if (bgm != null) bgm.resume();
-    }
-
     /**
      * Register transition
      * config transition 자세한 설정은 나중에 할것 투두
@@ -143,7 +117,6 @@ public class ScreenConfig {
         TITLE_SCREEN,
         GROUND_SCREEN,
         PHASE_SCREEN,
-        ;
     }
 
 }

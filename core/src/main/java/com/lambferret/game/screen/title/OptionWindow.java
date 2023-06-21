@@ -236,12 +236,11 @@ public class OptionWindow extends Window {
         style.up = new TextureRegionDrawable(AssetFinder.transparentTexture());
         style.down = new TextureRegionDrawable(AssetFinder.getTexture("dojang"));
         CustomButton button = new CustomButton("", style);
-        button.addListener(Input.hover(() -> {
-                AssetFinder.getSound("button_click").play(GlobalSettings.effectVolume);
-                button.getLabel().setColor(Color.GOLD);
-            },
+        button.addListener(Input.hover(
+            () -> button.getLabel().setColor(Color.GOLD),
             () -> button.getLabel().setColor(Color.WHITE)
         ));
+        button.addListener(Input.soundWhenHover("button_click"));
         return button;
     }
 

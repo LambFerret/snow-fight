@@ -26,6 +26,7 @@ import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.GlobalUtil;
 import com.lambferret.game.util.Input;
+import com.lambferret.game.util.SoundUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -159,6 +160,8 @@ public class TrainingGroundScreen implements AbstractGround {
                 AnimationImage soldierAnimation = soldierDiggingAnimation(snow, victim);
                 stage.addActor(soldierAnimation);
 
+                int a = MathUtils.random(1, 4);
+                SoundUtil.playEffect("snow" + a);
                 soldierAnimation.addAction(Actions.sequence(
                     Actions.run(() -> {
                         if (!checkSoldierIndex()) snow.setTouchable(Touchable.disabled);

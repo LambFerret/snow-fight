@@ -22,6 +22,7 @@ import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.text.dto.OverlayText;
 import com.lambferret.game.util.AssetFinder;
 import com.lambferret.game.util.Input;
+import com.lambferret.game.util.SoundUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,7 +30,6 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
     private static final Logger logger = LogManager.getLogger(InventoryOverlay.class.getName());
     private static final OverlayText text;
     public static final int INVENTORY_MAX_ITEM_PER_ROW = 6;
-    private final Stage stage;
     private final ScrollPane scrollPane;
     private Table soldierTable = new Table();
     private Table commandTable = new Table();
@@ -39,7 +39,6 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
     private boolean isHide = true;
 
     public InventoryOverlay(Stage stage) {
-        this.stage = stage;
         this.scrollPane = new ScrollPane(new Table());
         this.background(new TextureRegionDrawable(AssetFinder.getTexture("ui/inventory")));
         soldierButton = new PolygonButton(text.getSoldierOverlayName(), getHideButtonStyle(), INVENTORY_HIDE_BUTTON_VERTICES);
@@ -179,6 +178,8 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
     }
 
     private void hide() {
+        SoundUtil.playEffect("cabinetClose");
+
         this.addAction(
             Actions.moveBy(-soldierButton.getX(), 0, INVENTORY_HIDE_ANIMATION_DURATION)
         );
@@ -191,6 +192,7 @@ public class InventoryOverlay extends Container<ScrollPane> implements AbstractO
     }
 
     private void show() {
+        SoundUtil.playEffect("cabinetOpen");
         setScrollActor(Type.INVENTORY);
         this.addAction(
             Actions.moveBy(INVENTORY_WIDTH - soldierButton.getX(), 0, INVENTORY_HIDE_ANIMATION_DURATION)

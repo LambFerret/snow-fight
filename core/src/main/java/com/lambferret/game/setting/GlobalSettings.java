@@ -12,6 +12,7 @@ import com.lambferret.game.save.SaveLoader;
 import com.lambferret.game.soldier.Soldier;
 import com.lambferret.game.text.LocalizeConfig;
 import com.lambferret.game.util.GsonDateFormatAdapter;
+import com.lambferret.game.util.SoundUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -401,7 +402,7 @@ public class GlobalSettings {
 
     public static void setBgmVolume(int bgmVolume) {
         GlobalSettings.bgmVolume = bgmVolume;
-        ScreenConfig.setBgmVolume();
+        SoundUtil.setBgmVolume();
     }
 
     public static void setEffectVolume(int effectVolume) {
@@ -410,7 +411,7 @@ public class GlobalSettings {
 
     public static void setMasterVolume(int masterVolume) {
         GlobalSettings.masterVolume = masterVolume;
-        ScreenConfig.setBgmVolume();
+        SoundUtil.setBgmVolume();
     }
 
 }

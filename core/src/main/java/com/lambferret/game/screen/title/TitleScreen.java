@@ -111,12 +111,11 @@ public class TitleScreen extends AbstractScreen {
         };
         CustomButton button = new CustomButton(label, style);
         button.addListener(Input.click(() -> setAction(action)));
-        button.addListener(Input.hover(() -> {
-                AssetFinder.getSound("button_click").play(GlobalSettings.effectVolume);
-                button.getLabel().setColor(Color.GOLD);
-            },
+        button.addListener(Input.hover(
+            () -> button.getLabel().setColor(Color.GOLD),
             () -> button.getLabel().setColor(Color.WHITE)
         ));
+        button.addListener(Input.soundWhenHover("button_click"));
         return button;
     }
 
